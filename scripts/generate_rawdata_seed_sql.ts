@@ -440,18 +440,20 @@ class SqlBuilder {
     source: SourceArticle;
     workId: string;
     releaseFormat: string;
+    catalogNumber: string | null;
     releaseDate: string | null;
     description: string | null;
     notes: string | null;
     distributorId: string | null;
   }): string {
     const releaseId = stableUuid("release", params.source.name);
-    this.line("INSERT INTO release (id, work_id, format, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id)");
+    this.line("INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id)");
     this.line(
-      `VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.releaseFormat)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)})`,
+      `VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.releaseFormat)}, ${sqlText(params.catalogNumber)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)})`,
     );
     this.line("ON CONFLICT (id) DO UPDATE");
     this.line("SET format = EXCLUDED.format,");
+    this.line("    catalog_number = EXCLUDED.catalog_number,");
     this.line("    release_date = EXCLUDED.release_date,");
     this.line("    description = EXCLUDED.description,");
     this.line("    notes = EXCLUDED.notes,");
@@ -484,6 +486,7 @@ class SqlBuilder {
     source: SourceArticle;
     projectId: string;
     venueId: string;
+    eventName: string | null;
     eventDate: string;
     startTime: string | null;
     doorsOpenTime: string | null;
@@ -491,12 +494,13 @@ class SqlBuilder {
     notes: string | null;
   }): string {
     const eventId = stableUuid("event", params.source.name);
-    this.line("INSERT INTO event (id, project_id, venue_id, event_date, start_time, end_time, doors_open_time, ticket_price, description, notes)");
+    this.line("INSERT INTO event (id, project_id, venue_id, event_name, event_date, start_time, end_time, doors_open_time, ticket_price, description, notes)");
     this.line(
-      `VALUES (${sqlText(eventId)}, ${sqlText(params.projectId)}, ${sqlText(params.venueId)}, ${sqlText(params.eventDate)}, ${sqlText(params.startTime)}, NULL, ${sqlText(params.doorsOpenTime)}, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)})`,
+      `VALUES (${sqlText(eventId)}, ${sqlText(params.projectId)}, ${sqlText(params.venueId)}, ${sqlText(params.eventName)}, ${sqlText(params.eventDate)}, ${sqlText(params.startTime)}, NULL, ${sqlText(params.doorsOpenTime)}, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)})`,
     );
     this.line("ON CONFLICT (id) DO UPDATE");
-    this.line("SET start_time = EXCLUDED.start_time,");
+    this.line("SET event_name = EXCLUDED.event_name,");
+    this.line("    start_time = EXCLUDED.start_time,");
     this.line("    doors_open_time = EXCLUDED.doors_open_time,");
     this.line("    description = EXCLUDED.description,");
     this.line("    notes = EXCLUDED.notes;");
@@ -546,10 +550,10 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
     source,
     workId,
     releaseFormat: basic["形態"] ?? "unknown",
+    catalogNumber: basic["品番"] ?? null,
     releaseDate,
     description: summarize(sections["その他"] || source.body),
     notes: compactNotes(source, {
-      catalog_number: basic["品番"],
       distribution_method: basic["流通方法"],
       price: basic["定価"],
     }),
@@ -583,12 +587,12 @@ function emitLive(builder: SqlBuilder, source: SourceArticle): void {
     source,
     projectId,
     venueId,
+    eventName: basic["イベント名"] ?? null,
     eventDate,
     startTime,
     doorsOpenTime,
     description: summarize(sections["その他"] || sections["セットリスト"] || source.body),
     notes: compactNotes(source, {
-      event_name: basic["イベント名"],
       detail_url: basic["詳細"] ?? basic["公演詳細"],
     }),
   });

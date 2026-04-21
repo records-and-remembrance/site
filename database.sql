@@ -137,6 +137,7 @@ CREATE TABLE release (
     id UUID PRIMARY KEY,
     work_id UUID NOT NULL REFERENCES work(id),
     format TEXT NOT NULL,
+    catalog_number TEXT,
     release_date DATE,
     release_date_precision TEXT,
     recorded_from DATE,
@@ -224,6 +225,7 @@ CREATE TABLE event (
     id UUID PRIMARY KEY,
     project_id UUID NOT NULL REFERENCES project(id),
     venue_id UUID NOT NULL REFERENCES venue(id),
+    event_name TEXT,
     event_date DATE NOT NULL,
     start_time TIME,
     end_time TIME,
@@ -353,4 +355,3 @@ CREATE TABLE article_mention_person (
     notes TEXT,
     UNIQUE (article_id, person_id, mention_type)
 );
-
