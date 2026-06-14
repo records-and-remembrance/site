@@ -1,11 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "UNKOWN"
+canonical_title: "UNKNOWN"
 status: reviewed
 composition_id: null
 group_key: "unkown"
 aliases:
-  - "UNKOWN"
+  - "UNKNOWN"
   - "ビビ (UNKNOWN)"
 sources:
   -
@@ -45,6 +45,7 @@ sources:
     position: 3
     raw_title: "ビビ (UNKNOWN)"
 ---
+
 
 
 

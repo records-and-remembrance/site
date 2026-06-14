@@ -176,11 +176,21 @@ bun run scripts/generate_rawdata_seed_sql.ts \
 
 ### Composition / Recording / Track
 
+レビュー済みの `drafts/compositions/*.md` から `composition` を生成します。
+対象は `status: reviewed` のみです。
+
+```bash
+bun run scripts/generate_composition_seed_sql.ts \
+  --output sql/composition_seed.sql
+```
+
 release 記事の `## 収録曲` または `## 曲リスト` から `composition` / `recording` / `track` を生成します。
+`track.recording_id -> recording.composition_id` は、レビュー済み draft の `sources.raw_title` を使って正規化済み `composition` に紐づけます。
 
 ```bash
 bun run scripts/generate_work_seed_sql.ts \
   --source-dir rawData/articles_by_category/release \
+  --composition-draft-dir drafts/compositions \
   --output sql/release_tracks_seed.sql
 ```
 
@@ -192,13 +202,15 @@ bun run scripts/generate_work_seed_sql.ts \
 
 ```text
 1. sql/release_seed.sql
-2. sql/release_tracks_seed.sql
+2. sql/composition_seed.sql
+3. sql/release_tracks_seed.sql
 ```
 
 Docker Compose で起動した PostgreSQL に投入する例:
 
 ```bash
 docker compose exec -T postgres psql -U monden -d monden < sql/release_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/composition_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/release_tracks_seed.sql
 ```
 

@@ -24,15 +24,23 @@ type TrackSource = {
 type ParsedArgs = {
   output: string;
   sourceDir: string;
+  compositionDraftDir: string;
   files: string[] | null;
 };
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const DEFAULT_SOURCE_DIR = join(ROOT, "rawData", "articles");
+const DEFAULT_COMPOSITION_DRAFT_DIR = join(ROOT, "drafts", "compositions");
+
+type CompositionRef = {
+  id: string;
+  title: string;
+};
 
 function parseArgs(argv: string[]): ParsedArgs {
   let output: string | null = null;
   let sourceDir = DEFAULT_SOURCE_DIR;
+  let compositionDraftDir = DEFAULT_COMPOSITION_DRAFT_DIR;
   let files: string[] | null = null;
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -43,6 +51,10 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--source-dir") {
       sourceDir = resolve(argv[++i] ?? DEFAULT_SOURCE_DIR);
+      continue;
+    }
+    if (arg === "--composition-draft-dir") {
+      compositionDraftDir = resolve(argv[++i] ?? DEFAULT_COMPOSITION_DRAFT_DIR);
       continue;
     }
     if (arg === "--files") {
@@ -63,6 +75,7 @@ function parseArgs(argv: string[]): ParsedArgs {
   return {
     output: resolve(output),
     sourceDir,
+    compositionDraftDir,
     files,
   };
 }
@@ -140,6 +153,105 @@ async function loadSources(sourceDir: string): Promise<SourceArticle[]> {
     });
   }
   return sources;
+}
+
+function parseDraftFrontMatter(markdown: string): string {
+  const match = markdown.match(/^---\n([\s\S]*?)\n---\n?/);
+  if (!match) throw new Error("missing front matter");
+  return match[1];
+}
+
+function parseYamlScalar(value: string): string | null {
+  const trimmed = value.trim();
+  if (trimmed === "null" || trimmed === "~" || trimmed === "") return null;
+  if (
+    trimmed.length >= 2 &&
+    ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'")))
+  ) {
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      return trimmed.slice(1, -1);
+    }
+  }
+  return trimmed;
+}
+
+function extractDraftField(frontMatter: string, key: string): string | null {
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = frontMatter.match(new RegExp(`^${escaped}:\\s*(.*)$`, "m"));
+  return match ? parseYamlScalar(match[1]) : null;
+}
+
+function extractDraftBlock(frontMatter: string, key: string): string {
+  const lines = frontMatter.split(/\r?\n/);
+  const start = lines.findIndex((line) => line.trim() === `${key}:`);
+  if (start < 0) return "";
+
+  const block: string[] = [];
+  for (const line of lines.slice(start + 1)) {
+    if (/^[A-Za-z_][A-Za-z0-9_]*:/.test(line)) break;
+    block.push(line);
+  }
+
+  return block.join("\n").replace(/\s+$/u, "");
+}
+
+function sourceEntries(sourcesYaml: string): string[] {
+  const entries: string[] = [];
+  let current: string[] = [];
+
+  for (const line of sourcesYaml.split(/\r?\n/)) {
+    if (/^\s*-\s*$/.test(line)) {
+      if (current.length > 0) entries.push(current.join("\n"));
+      current = [line];
+      continue;
+    }
+    if (current.length > 0) current.push(line);
+  }
+
+  if (current.length > 0) entries.push(current.join("\n"));
+  return entries;
+}
+
+function extractSourceField(sourceEntry: string, key: string): string | null {
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = sourceEntry.match(new RegExp(`^\\s*${escaped}:\\s*(.*)$`, "m"));
+  return match ? parseYamlScalar(match[1]) : null;
+}
+
+function compositionKey(file: string, rawTitle: string): string {
+  return `${file}\u0000${normalizeTrackTitle(rawTitle)}`;
+}
+
+async function loadCompositionLookup(draftDir: string): Promise<Map<string, CompositionRef | null>> {
+  const entries = await readdir(draftDir, { withFileTypes: true });
+  const lookup = new Map<string, CompositionRef | null>();
+
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith(".md") || entry.name === "README.md") continue;
+
+    const markdown = await readFile(join(draftDir, entry.name), "utf8");
+    const frontMatter = parseDraftFrontMatter(markdown);
+    const status = extractDraftField(frontMatter, "status") ?? "draft";
+    const canonicalTitle = extractDraftField(frontMatter, "canonical_title") ?? basename(entry.name, extname(entry.name));
+    const compositionId = extractDraftField(frontMatter, "composition_id") ?? stableUuid("composition", canonicalTitle);
+    const ref = status === "reviewed" ? { id: compositionId, title: canonicalTitle } : null;
+
+    for (const sourceEntry of sourceEntries(extractDraftBlock(frontMatter, "sources"))) {
+      if (extractSourceField(sourceEntry, "type") !== "release") continue;
+      const file = extractSourceField(sourceEntry, "file");
+      const rawTitle = extractSourceField(sourceEntry, "raw_title");
+      if (!file || !rawTitle) continue;
+
+      const key = compositionKey(file, rawTitle);
+      if (ref || !lookup.has(key)) {
+        lookup.set(key, ref);
+      }
+    }
+  }
+
+  return lookup;
 }
 
 function stableUuid(namespace: string, value: string): string {
@@ -314,7 +426,11 @@ function isReleaseSource(source: SourceArticle): boolean {
   return source.tags[0] === "Release";
 }
 
-function emitSource(builder: SqlBuilder, source: SourceArticle): boolean {
+function emitSource(
+  builder: SqlBuilder,
+  source: SourceArticle,
+  compositionLookup: Map<string, CompositionRef | null>,
+): boolean {
   const sections = parseSections(source.body);
   const trackSection = sections["収録曲"] ?? sections["曲リスト"];
   if (!trackSection) return false;
@@ -327,7 +443,16 @@ function emitSource(builder: SqlBuilder, source: SourceArticle): boolean {
   builder.line();
 
   for (const track of tracks) {
-    const compositionId = builder.compositionUpsert(track.title, null);
+    const compositionRef = compositionLookup.get(compositionKey(source.name, track.title));
+    if (compositionRef === null) {
+      builder.line(`-- skipped ignored/split track: ${source.name} #${track.number} ${track.title}`);
+      builder.line();
+      continue;
+    }
+
+    const compositionId = compositionRef
+      ? compositionRef.id
+      : builder.compositionUpsert(track.title, `fallback_source_file=${source.name}`);
     const recordingId = builder.recordingUpsert({ source, compositionId, track });
     builder.trackUpsert({ source, releaseId, recordingId, track });
   }
@@ -335,7 +460,7 @@ function emitSource(builder: SqlBuilder, source: SourceArticle): boolean {
   return true;
 }
 
-function renderSql(sources: SourceArticle[]): string {
+function renderSql(sources: SourceArticle[], compositionLookup: Map<string, CompositionRef | null>): string {
   const builder = new SqlBuilder();
   const skipped: string[] = [];
 
@@ -349,7 +474,7 @@ function renderSql(sources: SourceArticle[]): string {
       skipped.push(source.name);
       continue;
     }
-    if (!emitSource(builder, source)) {
+    if (!emitSource(builder, source, compositionLookup)) {
       skipped.push(source.name);
     }
   }
@@ -370,12 +495,13 @@ function renderSql(sources: SourceArticle[]): string {
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   let sources = await loadSources(args.sourceDir);
+  const compositionLookup = await loadCompositionLookup(args.compositionDraftDir);
   if (args.files && args.files.length > 0) {
     const wanted = new Set(args.files);
     sources = sources.filter((source) => wanted.has(source.name));
   }
 
-  const sql = renderSql(sources);
+  const sql = renderSql(sources, compositionLookup);
   await mkdir(dirname(args.output), { recursive: true });
   await writeFile(args.output, sql, "utf8");
 }
