@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Normal Abnormal"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "normal abnormal"
 aliases:
   - "Normal Abnormal"
+  - "Normal Abnormal (symphony)"
 sources:
   -
     type: release
@@ -124,10 +125,25 @@ sources:
     section: "セットリスト"
     position: 12
     raw_title: "Normal Abnormal"
+  -
+    type: release
+    file: "2004-07-21-000000.md"
+    title: "BURGER NUDS - BEST"
+    date: "2004-07-21"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 13
+    raw_title: "Normal Abnormal (symphony)"
 ---
+
+
 
 # Normal Abnormal
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:35:28.865Z: merged sources from Normal_Abnormal_(symphony)-4a3061aa.md

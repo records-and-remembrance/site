@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "バネのいかれたベットの上で (I Don't Wanna Grow Up)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "バネのいかれたベットの上で (i don't wanna grow up)"
 aliases:
@@ -14,6 +14,8 @@ aliases:
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [with 弦楽四重奏]"
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [Lost Verse(s) ver.]"
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up)"
+  - "バネのいかれたベッドの上で (I Don’t Wanna Grow Up)"
+  - "バネのいかれたベットの上で (I don't wonna grow up)"
 sources:
   -
     type: live
@@ -285,7 +287,28 @@ sources:
     section: "セットリスト"
     position: 12
     raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up)"
+  -
+    type: live
+    file: "2018-02-18-000000.md"
+    title: "2018-02-18: Poet-type.M with 楢原英介 - Pocketful of stardust -1 at 神楽坂・神楽音"
+    date: "2018-02-18"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 13
+    raw_title: "バネのいかれたベッドの上で (I Don’t Wanna Grow Up)"
+  -
+    type: live
+    file: "2015-04-01-000001.md"
+    title: "2015-04-01: Poet-type.M - D&D release&PtM 2nd Anniversary!! 『Gentry liar from D&D』 独演会Acoustic ver. at 原宿ストロボカフェ"
+    date: "2015-04-01"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 3
+    raw_title: "バネのいかれたベットの上で (I don't wonna grow up)<br>"
 ---
+
+
+
 
 
 
@@ -327,3 +350,11 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:24:36.985Z: merged sources from バネのいかれたベッドの上で_(I_Don't_Wanna_Grow_Up)-685cac4d.md
+
+## Merge Notes
+
+- 2026-06-14T11:54:46.825Z: merged sources from バネのいかれたベッドの上で_(I_Don’t_Wanna_Grow_Up)-4b371f81.md
+
+## Merge Notes
+
+- 2026-06-14T11:54:52.225Z: merged sources from バネのいかれたベットの上で_(I_don't_wonna_grow_up)-834a88bb.md

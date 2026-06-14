@@ -1,12 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ミナソコ (acoustic version)"
-status: draft
+status: merged
 composition_id: null
 group_key: "ミナソコ (acoustic version)"
 aliases:
   - "ミナソコ (acoustic version)"
-  - "ミナソコ (Acoustic Version)"
 sources:
   -
     type: release
@@ -109,8 +108,13 @@ sources:
     raw_title: "ミナソコ (acoustic version)"
 ---
 
+
 # ミナソコ (acoustic version)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:56:05.861Z: merged into ミナソコ-2cd41d50.md

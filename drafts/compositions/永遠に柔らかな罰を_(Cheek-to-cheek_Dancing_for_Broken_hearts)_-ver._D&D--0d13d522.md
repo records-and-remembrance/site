@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "永遠に柔らかな罰を (Cheek-to-cheek Dancing for Broken hearts) -ver. D&D-"
-status: draft
+status: merged
 composition_id: null
 group_key: "永遠に柔らかな罰を (cheek-to-cheek dancing for broken hearts) -ver. d&d-"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "永遠に柔らかな罰を (Cheek-to-cheek Dancing for Broken hearts) -ver. D&D-"
 ---
 
+
 # 永遠に柔らかな罰を (Cheek-to-cheek Dancing for Broken hearts) -ver. D&D-
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:58:13.218Z: merged into 永遠に柔らかな罰を_(Cheek-to-cheek_Dancing_for_Broken_hearts)-bb96b866.md

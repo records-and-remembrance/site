@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Perfect nervous [弾き語り]"
-status: draft
+status: merged
 composition_id: null
 group_key: "perfect nervous [弾き語り]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Perfect nervous [弾き語り]"
 ---
 
+
 # Perfect nervous [弾き語り]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:35:59.420Z: merged into Perfect_nervous-043d2010.md

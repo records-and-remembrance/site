@@ -1,11 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "プリズム encore break"
-status: draft
+canonical_title: "プリズム"
+status: merged
 composition_id: null
 group_key: "プリズム encore break"
 aliases:
-  - "プリズム encore break"
+  - "プリズム"
 sources:
   -
     type: live
@@ -18,8 +18,14 @@ sources:
     raw_title: "プリズム<br>encore break"
 ---
 
+
+
 # プリズム encore break
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:55:35.230Z: merged into プリズム-0162d094.md

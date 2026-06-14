@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "何もかも越えて、吐き気がする (Down To Heaven) [Lost Verse(s) ver.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "何もかも越えて、吐き気がする (down to heaven) [lost verse(s) ver.]"
 aliases:
@@ -54,8 +54,13 @@ sources:
     raw_title: "何もかも越えて、吐き気がする (Down To Heaven) [Lost Verse(s) ver.]"
 ---
 
+
 # 何もかも越えて、吐き気がする (Down To Heaven) [Lost Verse(s) ver.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:58:46.232Z: merged into 何もかも越えて、吐き気がする_(Down_to_heaven)-575c6765.md

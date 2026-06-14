@@ -10,6 +10,7 @@ aliases:
   - "(HOMESICK ?) [内田Vo.Gt.]"
   - "HOMESICK [内田Vo./A.Gt]"
   - "HOME SICK [内田Vo./アコースティック編成]"
+  - "ホームシック"
 sources:
   -
     type: live
@@ -56,7 +57,17 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "HOME SICK [内田Vo./アコースティック編成]"
+  -
+    type: live
+    file: "2008-05-16-000000.md"
+    title: "2008-05-16: 内田武瑠 - ふじたたくみ presents ワクパラ！ at 下北沢GARAGE"
+    date: "2008-05-16"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 1
+    raw_title: "ホームシック"
 ---
+
 
 
 
@@ -85,3 +96,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:06:16.777Z: merged sources from HOME_SICK_[内田Vo._アコースティック編成]-3bfbf15d.md
+
+## Merge Notes
+
+- 2026-06-14T11:55:46.092Z: merged sources from ホームシック-e82d3232.md

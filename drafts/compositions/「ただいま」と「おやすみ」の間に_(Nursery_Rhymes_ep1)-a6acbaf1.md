@@ -9,6 +9,7 @@ aliases:
   - "「ただいま」と「おやすみ」の間に (Nursery Rhymes ep1) [Lost Verse(s) ver.]"
   - "「ただいま」と「おやすみ」の間に (pajamas)"
   - "「ただいま」と「おやすみ」の間に (pajamas) ◇"
+  - "Pajamas"
 sources:
   -
     type: release
@@ -109,7 +110,17 @@ sources:
     section: "セットリスト"
     position: 8
     raw_title: "「ただいま」と「おやすみ」の間に (pajamas) ◇"
+  -
+    type: release
+    file: "2019-07-10-000000.md"
+    title: "Poet-type.M - Lost Verse(s)"
+    date: "2019-07-10"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 4
+    raw_title: "Pajamas"
 ---
+
 
 
 
@@ -132,3 +143,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:15:05.156Z: merged sources from 「ただいま」と「おやすみ」の間に_(pajamas)_◇-4246f71e.md
+
+## Merge Notes
+
+- 2026-06-14T11:35:45.454Z: merged sources from Pajamas-f409df10.md

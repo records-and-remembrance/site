@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Twice Birds' Singing [2018 remix]"
-status: draft
+status: merged
 composition_id: null
 group_key: "twice birds' singing [2018 remix]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Twice Birds' Singing [2018 remix]"
 ---
 
+
 # Twice Birds' Singing [2018 remix]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:38:19.782Z: merged into Twice_birds'_singing-7121408d.md

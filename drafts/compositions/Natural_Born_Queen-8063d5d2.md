@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Natural Born Queen"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "natural born queen"
 aliases:
   - "Natural Born Queen"
+  - "Natural Boon Queen"
+  - "Natural Born Queen (w/内田, 韮沢)"
 sources:
   -
     type: live
@@ -133,10 +135,48 @@ sources:
     section: "セットリスト"
     position: 12
     raw_title: "Natural Born Queen"
+  -
+    type: live
+    file: "2007-09-21-000000.md"
+    title: "2007-09-21: Good Dog Happy Men - Selfishness of Queen vol.1 at 京都MOJO"
+    date: "2007-09-21"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 4
+    raw_title: "Natural Boon Queen"
+  -
+    type: live
+    file: "2007-09-22-000000.md"
+    title: "2007-09-22: Good Dog Happy Men - Selfishness of Queen vol.1 at 神戸VARIT"
+    date: "2007-09-22"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "Natural Boon Queen"
+  -
+    type: live
+    file: "2010-04-25-000000.md"
+    title: "2010-04-25: 門田匡陽 and His Funny Friends - 門田匡陽 and GARAGE presents \\\"Don't Trust Over 30\\\"  at 下北沢GARAGE"
+    date: "2010-04-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 9
+    raw_title: "Natural Born Queen (w/内田, 韮沢)"
 ---
+
+
+
 
 # Natural Born Queen
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:34:22.718Z: merged sources from Natural_Boon_Queen-6dd65ec6.md
+
+## Merge Notes
+
+- 2026-06-14T11:34:34.150Z: merged sources from Natural_Born_Queen_(w_内田,_韮沢)-ce54c275.md

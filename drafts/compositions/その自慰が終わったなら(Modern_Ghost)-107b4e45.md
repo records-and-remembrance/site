@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "その自慰が終わったなら(Modern Ghost)"
-status: draft
+status: merged
 composition_id: null
 group_key: "その自慰が終わったなら(modern ghost)"
 aliases:
@@ -40,6 +40,7 @@ sources:
 
 
 
+
 # その自慰が終わったなら(Modern Ghost)
 
 ## Review Notes
@@ -53,3 +54,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:01:20.404Z: merged sources from その自慰が終わったなら(Modern_Ghost)_[with_楢原]-e8c991d7.md
+
+## Merge Notes
+
+- 2026-06-14T11:52:23.402Z: merged into その自慰が終わったなら_(Modern_Ghost)-8455d8a2.md

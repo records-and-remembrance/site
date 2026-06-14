@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "エコー (kageokuri)"
-status: draft
+status: merged
 composition_id: null
 group_key: "エコー (kageokuri)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "エコー ([kageokuri](http://monden-info.hatenablog.com/entry/2002/08/21/000000_1))"
 ---
 
+
 # エコー (kageokuri)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:49:53.264Z: merged into エコー_(BURGER_NUDS)-78a4055e.md

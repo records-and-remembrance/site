@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ユートピア"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "ユートピア"
 aliases:
   - "ユートピア"
+  - "ユートピア [w/伊藤]"
 sources:
   -
     type: release
@@ -673,10 +674,34 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "ユートピア"
+  -
+    type: live
+    file: "2010-02-19-000000.md"
+    title: "2010-02-19: Good Dog Happy Men - The Light TOUR at 大阪MUSE"
+    date: "2010-02-19"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 18
+    raw_title: "ユートピア [w/伊藤]"
+  -
+    type: live
+    file: "2010-02-28-000000.md"
+    title: "2010-02-28: Good Dog Happy Men - The Light TOUR at 渋谷O-WEST"
+    date: "2010-02-28"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 19
+    raw_title: "ユートピア [w/伊藤]"
 ---
+
+
 
 # ユートピア
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:56:52.288Z: merged sources from ユートピア_[w_伊藤]-26a58f20.md

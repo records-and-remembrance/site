@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ミナソコ (短縮版) [門田弾き語り]"
-status: draft
+status: merged
 composition_id: null
 group_key: "ミナソコ (短縮版) [門田弾き語り]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ミナソコ (短縮版) [門田弾き語り]"
 ---
 
+
 # ミナソコ (短縮版) [門田弾き語り]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:56:18.057Z: merged into ミナソコ-2cd41d50.md

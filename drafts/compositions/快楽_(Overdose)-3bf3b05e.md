@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "快楽 (Overdose)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "快楽 (overdose)"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "快楽 (Overdose)"
 ---
 
+
 # 快楽 (Overdose)
 
 ## Review Notes
 
-- 
+-

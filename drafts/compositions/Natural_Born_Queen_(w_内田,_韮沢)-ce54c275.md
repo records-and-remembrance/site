@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Natural Born Queen (w/内田, 韮沢)"
-status: draft
+status: merged
 composition_id: null
 group_key: "natural born queen (w/内田, 韮沢)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Natural Born Queen (w/内田, 韮沢)"
 ---
 
+
 # Natural Born Queen (w/内田, 韮沢)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:34:34.150Z: merged into Natural_Born_Queen-8063d5d2.md

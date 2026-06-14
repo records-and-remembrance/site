@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "エコー (with Gt.楢原)"
-status: draft
+status: merged
 composition_id: null
 group_key: "エコー (with gt.楢原)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "エコー (with Gt.楢原)"
 ---
 
+
 # エコー (with Gt.楢原)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:49:57.656Z: merged into エコー_(BURGER_NUDS)-78a4055e.md

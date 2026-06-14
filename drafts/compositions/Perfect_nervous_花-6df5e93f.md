@@ -1,12 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Perfect nervous_花"
-status: draft
+status: merged
 composition_id: null
 group_key: "perfect nervous_花"
 aliases:
   - "Perfect nervous_花"
-  - "Perfect Nervous_花"
 sources:
   -
     type: release
@@ -37,8 +36,13 @@ sources:
     raw_title: "Perfect Nervous_花"
 ---
 
+
 # Perfect nervous_花
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:36:03.905Z: merged into Perfect_nervous-043d2010.md

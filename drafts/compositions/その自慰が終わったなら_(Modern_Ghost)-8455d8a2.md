@@ -1,11 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "その自慰が終わったなら (Modern Ghost)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "その自慰が終わったなら (modern ghost)"
 aliases:
   - "その自慰が終わったなら (Modern Ghost)"
+  - "その自慰が終わったなら(Modern Ghost)"
+  - "〜 その自慰が終わったなら(Modern Ghost)"
+  - "その自慰が終わったなら(Modern Ghost) [with 楢原]"
+  - "その自慰が終わったら"
 sources:
   -
     type: release
@@ -142,10 +146,72 @@ sources:
     section: "セットリスト"
     position: 4
     raw_title: "その自慰が終わったなら (Modern Ghost)"
+  -
+    type: live
+    file: "2015-10-03-000000.md"
+    title: "2015-10-03: festival M.O.N -美学の勝利- at 心斎橋MUSIC CLUB JANUS"
+    date: "2015-10-03"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 12
+    raw_title: "その自慰が終わったなら (Modern Ghost) ((オフィシャルサイトにはここに「窮屈、退屈、卑屈 (A-halo)」の記載もあるが、実際には演奏されていない。))"
+  -
+    type: live
+    file: "2020-11-27-000000.md"
+    title: "2020-11-27: MASAAKI_MONDEN_ - ethic(s) at 下北沢GARAGE"
+    date: "2020-11-27"
+    project: "単独ライブ"
+    section: "セットリスト"
+    position: 3
+    raw_title: "その自慰が終わったなら(Modern Ghost)"
+  -
+    type: live
+    file: "2020-12-26-000000.md"
+    title: "2020-12-26: 門田匡陽 - Live kalminrot 写真展「NITTY-GRITTY」 at 原宿LUCKAND"
+    date: "2020-12-26"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "〜 その自慰が終わったなら(Modern Ghost)"
+  -
+    type: live
+    file: "2019-02-04-000000.md"
+    title: "2019-02-04: Poet-type.M - 独演会「Pocketful of stardust」 at 渋谷La.mama"
+    date: "2019-02-04"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 4
+    raw_title: "その自慰が終わったなら(Modern Ghost) [with 楢原]"
+  -
+    type: live
+    file: "2023-04-11-000000.md"
+    title: "2023-04-11: 門田匡陽 - \\\"Spring Weather Report 2023\\\" at 新代田LIVE HOUSE FEVER"
+    date: "2023-04-11"
+    project: "予定"
+    section: "セットリスト"
+    position: 6
+    raw_title: "その自慰が終わったら"
 ---
+
+
+
+
+
 
 # その自慰が終わったなら (Modern Ghost)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:52:08.569Z: merged sources from その自慰が終わったなら_(Modern_Ghost)_((オフィシャルサイトにはここに「窮屈、退屈、卑屈_(A-halo)」の記載もあるが、実際には演奏されてい-faeaa1d6.md
+
+## Merge Notes
+
+- 2026-06-14T11:52:23.402Z: merged sources from その自慰が終わったなら(Modern_Ghost)-107b4e45.md
+
+## Merge Notes
+
+- 2026-06-14T11:52:28.098Z: merged sources from その自慰が終わったら-784ccfad.md

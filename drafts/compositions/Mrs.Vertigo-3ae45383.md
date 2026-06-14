@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Mrs.Vertigo"
-status: draft
+status: merged
 composition_id: null
 group_key: "mrs.vertigo"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Mrs.Vertigo"
 ---
 
+
 # Mrs.Vertigo
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:32:55.665Z: merged into Mrs._Vertigo-056446f7.md

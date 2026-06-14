@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Twice bird's singing"
-status: draft
+status: merged
 composition_id: null
 group_key: "twice bird's singing"
 aliases:
@@ -18,8 +18,14 @@ sources:
     raw_title: "Twice bird's singing"
 ---
 
+
+
 # Twice bird's singing
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:37:57.272Z: merged into Twice_birds'_singing-7121408d.md

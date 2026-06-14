@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Opening: GOLDENBELLCITYのテーマ"
-status: draft
+status: ignore
 composition_id: null
 group_key: "opening: goldenbellcityのテーマ"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Opening: GOLDENBELLCITYのテーマ"
 ---
 
+
 # Opening: GOLDENBELLCITYのテーマ
 
 ## Review Notes
 
-- 
+-

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "コミュニティー (with Gt.楢原)"
-status: draft
+status: merged
 composition_id: null
 group_key: "コミュニティー (with gt.楢原)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "コミュニティー (with Gt.楢原)"
 ---
 
+
 # コミュニティー (with Gt.楢原)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:51:30.722Z: merged into コミュニティー-b3c13467.md

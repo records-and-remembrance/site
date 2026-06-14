@@ -1,12 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Twice birds' singing"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "twice birds' singing"
 aliases:
   - "Twice birds' singing"
-  - "Twice Birds' Singing"
+  - "Twice bird's singing"
+  - "Twice Bird's Singing (弾き語り)"
+  - "Twice Birds’ Singing"
+  - "Twice Birds' Singing [2018 remix]"
 sources:
   -
     type: release
@@ -215,10 +218,67 @@ sources:
     section: "セットリスト"
     position: 7
     raw_title: "Twice Birds' Singing<br>"
+  -
+    type: live
+    file: "2015-11-29-000000.md"
+    title: "2015-11-29: 門田匡陽 - ヒトトナリ at 名古屋sunset BLUE"
+    date: "2015-11-29"
+    project: "Poet-type.M"
+    section: "セットリスト (([ライブレポート](http://ptm-net.com/report/2015/11/29)より))"
+    position: 8
+    raw_title: "Twice bird's singing"
+  -
+    type: live
+    file: "2015-04-01-000001.md"
+    title: "2015-04-01: Poet-type.M - D&D release&PtM 2nd Anniversary!! 『Gentry liar from D&D』 独演会Acoustic ver. at 原宿ストロボカフェ"
+    date: "2015-04-01"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 9
+    raw_title: "Twice Bird's Singing (弾き語り)"
+  -
+    type: live
+    file: "2018-11-23-170000.md"
+    title: "2018-11-23: 門田匡陽 - 新栄夕刊倶楽部 sunset BLUE 3rd Anniversary at 名古屋sunset BLUE"
+    date: "2018-11-23"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "Twice Birds’ Singing"
+  -
+    type: live
+    file: "2019-02-04-000000.md"
+    title: "2019-02-04: Poet-type.M - 独演会「Pocketful of stardust」 at 渋谷La.mama"
+    date: "2019-02-04"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 13
+    raw_title: "Twice Birds' Singing [2018 remix]"
 ---
+
+
+
+
+
 
 # Twice birds' singing
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:37:57.272Z: merged sources from Twice_bird's_singing-69eb6749.md
+
+## Merge Notes
+
+- 2026-06-14T11:38:07.045Z: merged sources from Twice_Bird's_Singing_(弾き語り)-6eec12c1.md
+
+## Merge Notes
+
+- 2026-06-14T11:38:13.739Z: merged sources from Twice_Birds’_Singing-607bcdee.md
+
+## Merge Notes
+
+- 2026-06-14T11:38:19.782Z: merged sources from Twice_Birds'_Singing_[2018_remix]-d72cfcaa.md

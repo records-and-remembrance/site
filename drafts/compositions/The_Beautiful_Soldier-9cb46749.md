@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "The Beautiful Soldier"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "the beautiful soldier"
 aliases:
@@ -45,8 +45,9 @@ sources:
     raw_title: "The Beautiful Soldier"
 ---
 
+
 # The Beautiful Soldier
 
 ## Review Notes
 
-- 
+-

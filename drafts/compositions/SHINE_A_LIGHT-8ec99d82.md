@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "SHINE A LIGHT"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "shine a light"
 aliases:
@@ -36,8 +36,9 @@ sources:
     raw_title: "SHINE A LIGHT"
 ---
 
+
 # SHINE A LIGHT
 
 ## Review Notes
 
-- 
+-

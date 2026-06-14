@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "永遠の終わりまで、「YES」を (A Place, Dark & Dark) [with 弦楽四重奏]"
-status: draft
+status: merged
 composition_id: null
 group_key: "永遠の終わりまで、「yes」を (a place, dark & dark) [with 弦楽四重奏]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "永遠の終わりまで、「YES」を (A Place, Dark & Dark) [with 弦楽四重奏]"
 ---
 
+
 # 永遠の終わりまで、「YES」を (A Place, Dark & Dark) [with 弦楽四重奏]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:58:04.562Z: merged into 永遠_(_とわ_)_の終わりまで、「YES」を_(A_Place,_Dark_&_Dark)-e66f3bab.md

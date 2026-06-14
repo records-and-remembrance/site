@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "コミュニティー (新曲未発表DEMO音源) / BURGER NUDS"
-status: draft
+status: merged
 composition_id: null
 group_key: "コミュニティー (新曲未発表demo音源)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "コミュニティー (新曲未発表DEMO音源) / BURGER NUDS"
 ---
 
+
 # コミュニティー (新曲未発表DEMO音源) / BURGER NUDS
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:51:34.936Z: merged into コミュニティー-b3c13467.md

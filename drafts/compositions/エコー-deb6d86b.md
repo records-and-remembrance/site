@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "エコー"
-status: draft
+status: merged
 composition_id: null
 group_key: "エコー"
 aliases:
   - "エコー"
+  - "エコ－"
 sources:
   -
     type: release
@@ -403,10 +404,30 @@ sources:
     section: "セットリスト"
     position: 4
     raw_title: "エコー"
+  -
+    type: live
+    file: "2002-08-23-000000.md"
+    title: "2002-08-23: BURGER NUDS - B.O.C presents \\\"BAUXiTE page1\\\" at 高知BAY5 SQUARE"
+    date: "2002-08-23"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "エコ－"
 ---
+
+
+
 
 # エコー
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:49:34.546Z: merged sources from エコ－-94cb983a.md
+
+## Merge Notes
+
+- 2026-06-14T11:49:40.706Z: merged into エコー_(BURGER_NUDS)-78a4055e.md

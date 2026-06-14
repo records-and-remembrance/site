@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "narrow silhouette"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "narrow silhouette"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "narrow silhouette"
 ---
 
+
 # narrow silhouette
 
 ## Review Notes
 
-- 
+-

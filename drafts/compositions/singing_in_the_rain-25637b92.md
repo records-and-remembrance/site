@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "singing in the rain"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "singing in the rain"
 aliases:
@@ -99,8 +99,9 @@ sources:
     raw_title: "singing in the rain<br>"
 ---
 
+
 # singing in the rain
 
 ## Review Notes
 
-- 
+-

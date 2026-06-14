@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "STEP [a・chi-a・chi (魔神英雄伝ワタルOP) cover]"
-status: draft
+canonical_title: "STEP [a・chi-a・chi cover]"
+status: reviewed
 composition_id: null
 group_key: "step [a・chi-a・chi (魔神英雄伝ワタルop) cover]"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "STEP [a・chi-a・chi (魔神英雄伝ワタルOP) cover]"
 ---
 
+
 # STEP [a・chi-a・chi (魔神英雄伝ワタルOP) cover]
 
 ## Review Notes
 
-- 
+-

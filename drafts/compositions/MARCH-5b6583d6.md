@@ -8,6 +8,7 @@ aliases:
   - "MARCH"
   - "MARCH (線)"
   - "MARCH LIVE Ver."
+  - "マーチ"
 sources:
   -
     type: release
@@ -495,7 +496,17 @@ sources:
     section: "収録曲"
     position: 13
     raw_title: "MARCH LIVE Ver.<br/>"
+  -
+    type: live
+    file: "2000-11-08-000000.md"
+    title: "2000-11-08: BURGER NUDS - Live at 新宿JAM"
+    date: "2000-11-08"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 2
+    raw_title: "マーチ"
 ---
+
 
 
 
@@ -513,3 +524,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:26:48.941Z: merged sources from MARCH_LIVE_Ver.-2f6fd11f.md
+
+## Merge Notes
+
+- 2026-06-14T11:55:53.485Z: merged sources from マーチ-b5640a9a.md

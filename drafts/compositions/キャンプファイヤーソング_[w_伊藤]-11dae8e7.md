@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "キャンプファイヤーソング [w/伊藤]"
-status: draft
+status: merged
 composition_id: null
 group_key: "キャンプファイヤーソング [w/伊藤]"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "キャンプファイヤーソング [w/伊藤]"
 ---
 
+
 # キャンプファイヤーソング [w/伊藤]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:50:35.504Z: merged into キャンプファイヤーソング-de061923.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "VIVACE -TiTs-【1940】"
-status: draft
+status: merged
 composition_id: null
 group_key: "vivace -tits-【1940】"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "VIVACE -TiTs-【1940】"
 ---
 
+
 # VIVACE -TiTs-【1940】
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:49:05.469Z: merged into VIVACE_-TiTs--e5445951.md

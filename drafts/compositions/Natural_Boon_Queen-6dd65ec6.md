@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Natural Boon Queen"
-status: draft
+status: merged
 composition_id: null
 group_key: "natural boon queen"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "Natural Boon Queen"
 ---
 
+
 # Natural Boon Queen
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:34:22.718Z: merged into Natural_Born_Queen-8063d5d2.md

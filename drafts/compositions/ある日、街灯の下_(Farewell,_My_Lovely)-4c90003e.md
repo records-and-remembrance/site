@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ある日、街灯の下 (Farewell, My Lovely)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "ある日、街灯の下 (farewell, my lovely)"
 aliases:
@@ -45,8 +45,9 @@ sources:
     raw_title: "ある日、街灯の下 (Farewell, My Lovely)"
 ---
 
+
 # ある日、街灯の下 (Farewell, My Lovely)
 
 ## Review Notes
 
-- 
+-

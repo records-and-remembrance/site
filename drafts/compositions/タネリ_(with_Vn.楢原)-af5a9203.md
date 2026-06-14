@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "タネリ (with Vn.楢原)"
-status: draft
+status: merged
 composition_id: null
 group_key: "タネリ (with vn.楢原)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "タネリ (with Vn.楢原)"
 ---
 
+
 # タネリ (with Vn.楢原)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:53:18.485Z: merged into タネリ-df940b08.md

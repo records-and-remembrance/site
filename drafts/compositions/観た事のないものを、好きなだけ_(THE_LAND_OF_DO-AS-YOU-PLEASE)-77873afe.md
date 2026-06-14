@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "観た事のないものを、好きなだけ (THE LAND OF DO-AS-YOU-PLEASE)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "観た事のないものを、好きなだけ (the land of do-as-you-please)"
 aliases:
@@ -63,8 +63,9 @@ sources:
     raw_title: "観た事のないものを、好きなだけ (THE LAND OF DO-AS-YOU-PLEASE)"
 ---
 
+
 # 観た事のないものを、好きなだけ (THE LAND OF DO-AS-YOU-PLEASE)
 
 ## Review Notes
 
-- 
+-

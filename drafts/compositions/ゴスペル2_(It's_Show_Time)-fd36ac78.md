@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ゴスペル2 (It's Show Time)"
-status: draft
+status: merged
 composition_id: null
 group_key: "ゴスペル2 (it's show time)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ゴスペル2 (It's Show Time)<br>"
 ---
 
+
 # ゴスペル2 (It's Show Time)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:51:07.283Z: merged into 祈り_(It's_show_time)-dd27f941.md

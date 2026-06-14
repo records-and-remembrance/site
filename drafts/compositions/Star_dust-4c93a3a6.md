@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Star dust"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "star dust"
 aliases:
@@ -45,6 +45,7 @@ sources:
     position: 7
     raw_title: "〜Star dust〜"
 ---
+
 
 
 # Star dust

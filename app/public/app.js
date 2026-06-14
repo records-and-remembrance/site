@@ -167,6 +167,11 @@ $("search").addEventListener("input", renderList);
 $("statusFilter").addEventListener("change", renderList);
 $("save").addEventListener("click", save);
 $("merge").addEventListener("click", mergeCurrent);
+$("markIgnore").addEventListener("click", () => {
+  $("status").value = "ignore";
+  state.dirty = true;
+  save();
+});
 $("markReviewed").addEventListener("click", () => {
   $("status").value = "reviewed";
   state.dirty = true;

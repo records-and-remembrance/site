@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "POPCORN (with 河相[Gt.])"
-status: draft
+status: merged
 composition_id: null
 group_key: "popcorn (with 河相[gt.])"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "POPCORN (with 河相[Gt.])"
 ---
 
+
 # POPCORN (with 河相[Gt.])
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:36:15.020Z: merged into POPCORN-9299b2a6.md

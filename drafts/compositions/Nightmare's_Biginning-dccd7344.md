@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Nightmare's Biginning"
-status: draft
+status: merged
 composition_id: null
 group_key: "nightmare's biginning"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "Nightmare's Biginning"
 ---
 
+
 # Nightmare's Biginning
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:35:17.092Z: merged into Nightmare's_Beginning-0db59066.md

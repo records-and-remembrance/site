@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Sweet heart of moon"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "sweet heart of moon"
 aliases:
   - "Sweet heart of moon"
+  - "Sweet heart of moon (Good Dog Happy Men)"
 sources:
   -
     type: release
@@ -556,10 +557,25 @@ sources:
     section: "セットリスト"
     position: 4
     raw_title: "Sweet heart of moon"
+  -
+    type: live
+    file: "2023-02-10-220000.md"
+    title: "2023-02-10: 門田匡陽 Instagram Live"
+    date: "2023-02-10"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "Sweet heart of moon (Good Dog Happy Men)"
 ---
+
+
 
 # Sweet heart of moon
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:37:29.831Z: merged sources from Sweet_heart_of_moon_(Good_Dog_Happy_Men)-31329506.md

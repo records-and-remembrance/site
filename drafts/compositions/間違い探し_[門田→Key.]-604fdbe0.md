@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "間違い探し [門田→Key.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "間違い探し [門田→key.]"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "間違い探し [門田→Key.]"
 ---
 
+
 # 間違い探し [門田→Key.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T12:00:13.370Z: merged into 間違い探し-29ad052d.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "もう、夢の無い夢の終わり (From Here to Eternity) (Poet-type.M)"
-status: draft
+status: merged
 composition_id: null
 group_key: "もう、夢の無い夢の終わり (from here to eternity) (poet-type.m)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "もう、夢の無い夢の終わり (From Here to Eternity) (Poet-type.M)"
 ---
 
+
 # もう、夢の無い夢の終わり (From Here to Eternity) (Poet-type.M)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:56:33.810Z: merged into もう、夢の無い夢の終わり_(From_Here_to_Eternity)-6309eb1b.md

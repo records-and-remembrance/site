@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ドーナツ (w/伊藤, 河相, 菅原)"
-status: draft
+status: merged
 composition_id: null
 group_key: "ドーナツ (w/伊藤, 河相, 菅原)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ドーナツ (w/伊藤, 河相, 菅原)"
 ---
 
+
 # ドーナツ (w/伊藤, 河相, 菅原)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:54:02.498Z: merged into ドーナツ-972da701.md

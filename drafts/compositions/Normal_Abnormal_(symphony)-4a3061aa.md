@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Normal Abnormal (symphony)"
-status: draft
+status: merged
 composition_id: null
 group_key: "normal abnormal (symphony)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Normal Abnormal (symphony)"
 ---
 
+
 # Normal Abnormal (symphony)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:35:28.865Z: merged into Normal_Abnormal-90b8a3c5.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Song for lover's"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "song for lover's"
 aliases:
@@ -108,8 +108,9 @@ sources:
     raw_title: "Song for lover's"
 ---
 
+
 # Song for lover's
 
 ## Review Notes
 
-- 
+-

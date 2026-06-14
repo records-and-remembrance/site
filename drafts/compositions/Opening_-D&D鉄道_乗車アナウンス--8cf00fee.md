@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Opening -D&D鉄道 乗車アナウンス-"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "opening -d&d鉄道 乗車アナウンス-"
 aliases:
@@ -27,8 +27,9 @@ sources:
     raw_title: "[Opening -D&D鉄道 乗車アナウンス-](http://monden-info.hatenablog.com/entry/2015/01/31/000002)"
 ---
 
+
 # Opening -D&D鉄道 乗車アナウンス-
 
 ## Review Notes
 
-- 
+-

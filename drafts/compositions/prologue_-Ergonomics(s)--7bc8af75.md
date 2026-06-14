@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "prologue -Ergonomics(s)-"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "prologue -ergonomics(s)-"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "prologue -Ergonomics(s)-"
 ---
 
+
 # prologue -Ergonomics(s)-
 
 ## Review Notes
 
-- 
+-

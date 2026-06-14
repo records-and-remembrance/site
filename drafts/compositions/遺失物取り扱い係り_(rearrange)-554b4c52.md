@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "遺失物取り扱い係り (rearrange)"
-status: draft
+status: merged
 composition_id: null
 group_key: "遺失物取り扱い係り (rearrange)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "遺失物取り扱い係り (rearrange)"
 ---
 
+
 # 遺失物取り扱い係り (rearrange)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:57:38.443Z: merged into 遺失物取り扱い係り-e2809b3e.md

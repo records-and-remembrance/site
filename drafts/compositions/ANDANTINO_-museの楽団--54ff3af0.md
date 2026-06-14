@@ -11,6 +11,7 @@ aliases:
   - "ANDANTINO -museの楽団- (弾き語り)"
   - "ANDANTINO -museの楽団- [with 吹奏楽部]"
   - "ANDANTINO −museの楽団−"
+  - "museの楽団"
 sources:
   -
     type: release
@@ -201,7 +202,17 @@ sources:
     section: "セットリスト"
     position: 1
     raw_title: "ANDANTINO −museの楽団−"
+  -
+    type: live
+    file: "2006-05-04-000000.md"
+    title: "2006-05-04: 門田匡陽 - MUSIC DAY in SHIMOKITAZAWA at 下北沢HIGHLINE RECORDS"
+    date: "2006-05-04"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 1
+    raw_title: "museの楽団"
 ---
+
 
 
 
@@ -234,3 +245,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:17:36.553Z: merged sources from ANDANTINO_−museの楽団−-bb7b8596.md
+
+## Merge Notes
+
+- 2026-06-14T11:33:01.383Z: merged sources from museの楽団-eed8d89b.md

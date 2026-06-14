@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "supple / ACONITES SUN"
-status: draft
+status: ignore
 composition_id: null
 group_key: "supple"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "supple / ACONITES SUN"
 ---
 
+
 # supple / ACONITES SUN
 
 ## Review Notes
 
-- 
+-

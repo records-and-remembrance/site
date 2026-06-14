@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "POPCORN (w/伊藤, 河相, 菅原)"
-status: draft
+status: merged
 composition_id: null
 group_key: "popcorn (w/伊藤, 河相, 菅原)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "POPCORN (w/伊藤, 河相, 菅原)"
 ---
 
+
 # POPCORN (w/伊藤, 河相, 菅原)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:36:10.972Z: merged into POPCORN-9299b2a6.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "瓦礫のオルフェオ (Ombra mai fù) [with 楢原]"
-status: draft
+status: merged
 composition_id: null
 group_key: "瓦礫のオルフェオ (ombra mai fù) [with 楢原]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "瓦礫のオルフェオ (Ombra mai fù) [with 楢原]"
 ---
 
+
 # 瓦礫のオルフェオ (Ombra mai fù) [with 楢原]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T12:00:00.036Z: merged into 瓦礫のオルフェオ_(Ombra_mai_fù)-8deb38e2.md

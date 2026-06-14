@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ただ美しく (Grace)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "ただ美しく (grace)"
 aliases:
@@ -72,6 +72,7 @@ sources:
     position: 4
     raw_title: "Grace"
 ---
+
 
 
 # ただ美しく (Grace)

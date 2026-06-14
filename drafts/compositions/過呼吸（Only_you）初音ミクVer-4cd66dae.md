@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "過呼吸（Only you）初音ミクVer"
-status: draft
+status: merged
 composition_id: null
 group_key: "過呼吸（only you）初音ミクver"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "[過呼吸（Only you）初音ミクVer](https://www.youtube.com/watch?v=vsWU3kO56aM)"
 ---
 
+
 # 過呼吸（Only you）初音ミクVer
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:59:41.434Z: merged into 過呼吸_(Only_you)-718a9aa3.md

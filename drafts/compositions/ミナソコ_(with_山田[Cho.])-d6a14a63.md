@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ミナソコ (with 山田[Cho.])"
-status: draft
+status: merged
 composition_id: null
 group_key: "ミナソコ (with 山田[cho.])"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ミナソコ (with 山田[Cho.])"
 ---
 
+
 # ミナソコ (with 山田[Cho.])
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:56:13.601Z: merged into ミナソコ-2cd41d50.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ダイヤモンドは傷つかない (In Memory Of Louis) [楢原→Pf.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "ダイヤモンドは傷つかない (in memory of louis) [楢原→pf.]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ダイヤモンドは傷つかない (In Memory Of Louis) [楢原→Pf.]<br>"
 ---
 
+
 # ダイヤモンドは傷つかない (In Memory Of Louis) [楢原→Pf.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:52:37.053Z: merged into ダイヤモンドは傷つかない_(In_Memory_Of_Louis)-690a3277.md

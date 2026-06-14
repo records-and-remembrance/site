@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "この生温くうっとおしい心を"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "この生温くうっとおしい心を"
 aliases:
@@ -90,8 +90,9 @@ sources:
     raw_title: "この生温くうっとおしい心を"
 ---
 
+
 # この生温くうっとおしい心を
 
 ## Review Notes
 
-- 
+-

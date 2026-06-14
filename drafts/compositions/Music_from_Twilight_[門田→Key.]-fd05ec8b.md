@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Music from Twilight [門田→Key.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "music from twilight [門田→key.]"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "Music from Twilight [門田→Key.]"
 ---
 
+
 # Music from Twilight [門田→Key.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:33:07.730Z: merged into Music_From_Twilight-9cd68a97.md

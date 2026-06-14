@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "プリンスとプリンセス (Nursery Rhymes ep4)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "プリンスとプリンセス (nursery rhymes ep4)"
 aliases:
@@ -144,8 +144,9 @@ sources:
     raw_title: "プリンスとプリンセス (Nursery Rhymes ep4)"
 ---
 
+
 # プリンスとプリンセス (Nursery Rhymes ep4)
 
 ## Review Notes
 
-- 
+-

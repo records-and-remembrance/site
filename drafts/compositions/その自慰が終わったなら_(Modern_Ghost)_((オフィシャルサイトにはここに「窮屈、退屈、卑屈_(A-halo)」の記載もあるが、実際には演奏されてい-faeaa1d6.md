@@ -1,10 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "その自慰が終わったなら (Modern Ghost) ((オフィシャルサイトにはここに「窮屈、退屈、卑屈 (A-halo)」の記載もあるが、実際には演奏されていない。))"
-status: draft
+canonical_title: "その自慰が終わったなら (Modern Ghost)"
+status: merged
 composition_id: null
 group_key: "その自慰が終わったなら (modern ghost) ((オフィシャルサイトにはここに「窮屈、退屈、卑屈 (a-halo)」の記載もあるが、実際には演奏されていない。))"
 aliases:
+  - "その自慰が終わったなら (Modern Ghost)"
   - "その自慰が終わったなら (Modern Ghost) ((オフィシャルサイトにはここに「窮屈、退屈、卑屈 (A-halo)」の記載もあるが、実際には演奏されていない。))"
 sources:
   -
@@ -18,8 +19,14 @@ sources:
     raw_title: "その自慰が終わったなら (Modern Ghost) ((オフィシャルサイトにはここに「窮屈、退屈、卑屈 (A-halo)」の記載もあるが、実際には演奏されていない。))"
 ---
 
+
+
 # その自慰が終わったなら (Modern Ghost) ((オフィシャルサイトにはここに「窮屈、退屈、卑屈 (A-halo)」の記載もあるが、実際には演奏されていない。))
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:52:08.569Z: merged into その自慰が終わったなら_(Modern_Ghost)-8455d8a2.md

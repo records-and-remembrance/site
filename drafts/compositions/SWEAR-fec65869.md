@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "SWEAR"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "swear"
 aliases:
@@ -36,8 +36,9 @@ sources:
     raw_title: "SWEAR"
 ---
 
+
 # SWEAR
 
 ## Review Notes
 
-- 
+-

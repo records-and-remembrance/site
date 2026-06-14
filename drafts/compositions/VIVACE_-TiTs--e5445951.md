@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "VIVACE -TiTs-"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "vivace -tits-"
 aliases:
   - "VIVACE -TiTs-"
+  - "VIVACE -TiTs-【1940】"
 sources:
   -
     type: live
@@ -34,10 +35,25 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "VIVACE -TiTs-"
+  -
+    type: release
+    file: "2007-11-28-000000.md"
+    title: "Good Dog Happy Men - the GOLDENBELLCITY"
+    date: "2007-11-28"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 9
+    raw_title: "VIVACE -TiTs-【1940】"
 ---
+
+
 
 # VIVACE -TiTs-
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:49:05.469Z: merged sources from VIVACE_-TiTs-【1940】-63d76d98.md

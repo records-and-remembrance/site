@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "黄金の鐘 (encore)"
-status: draft
+status: merged
 composition_id: null
 group_key: "黄金の鐘 (encore)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "黄金の鐘 (encore)"
 ---
 
+
 # 黄金の鐘 (encore)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:58:29.851Z: merged into 黄金の鐘-0a99405f.md

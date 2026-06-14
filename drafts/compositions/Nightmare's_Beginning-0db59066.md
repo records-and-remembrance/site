@@ -1,11 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Nightmare's Beginning"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "nightmare's beginning"
 aliases:
   - "Nightmare's Beginning"
+  - "Nightmare's Begining"
+  - "Nightmare's Beginning (Acoustic ver.)"
+  - "Nightmare's Biginning"
+  - "Nightmares Beginning"
 sources:
   -
     type: release
@@ -511,10 +515,85 @@ sources:
     section: "セットリスト"
     position: 24
     raw_title: "Nightmare's Beginning"
+  -
+    type: live
+    file: "2008-05-06-000000.md"
+    title: "2008-05-06: Good Dog Happy Men - THE JETZEJOHNSON \\\"Discoveries\\\" TOUR at 広島並木ジャンクション"
+    date: "2008-05-06"
+    project: "_incomplete"
+    section: "セットリスト"
+    position: 3
+    raw_title: "Nightmare's Begining"
+  -
+    type: release
+    file: "2008-03-08-000000.md"
+    title: "Good Dog Happy Men - Memory of the GOLDENBELLCITY CD-R "
+    date: "2008-03-08"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 2
+    raw_title: "Nightmare's Beginning (Acoustic ver.)"
+  -
+    type: live
+    file: "2007-10-29-000000.md"
+    title: "2007-10-29: Good Dog Happy Men - 京都ミューズの激情ホイール!! ～MINAMI WHEEL EDITION～ at 京都MUSE"
+    date: "2007-10-29"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 4
+    raw_title: "Nightmare's Biginning"
+  -
+    type: live
+    file: "2007-12-04-000000.md"
+    title: "2007-12-04: Good Dog Happy Men - TRIPLE SCRATCH TOUR 07 EXTR@NAGOYA at 名古屋Heartland Studio"
+    date: "2007-12-04"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 4
+    raw_title: "Nightmare's Biginning"
+  -
+    type: live
+    file: "2008-02-15-000000.md"
+    title: "2008-02-15: Good Dog Happy Men - Memory of the GOLDENBELLCITY at 名古屋CLUB QUATTRO"
+    date: "2008-02-15"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 15
+    raw_title: "Nightmares Beginning"
+  -
+    type: live
+    file: "2008-02-16-000000.md"
+    title: "2008-02-16: Good Dog Happy Men - Memory of the GOLDENBELLCITY at 心斎橋CLUB QUATTRO"
+    date: "2008-02-16"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 15
+    raw_title: "Nightmares Beginning"
 ---
+
+
+
+
+
 
 # Nightmare's Beginning
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:35:01.116Z: merged sources from Nightmare's_Begining-970df0db.md
+
+## Merge Notes
+
+- 2026-06-14T11:35:12.215Z: merged sources from Nightmare's_Beginning_(Acoustic_ver.)-ec84b546.md
+
+## Merge Notes
+
+- 2026-06-14T11:35:17.092Z: merged sources from Nightmare's_Biginning-dccd7344.md
+
+## Merge Notes
+
+- 2026-06-14T11:35:21.292Z: merged sources from Nightmares_Beginning-edd341c7.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "黄金の鐘 (2005年自主録音 オリジナルバージョン) / Good Dog Happy Men"
-status: draft
+status: merged
 composition_id: null
 group_key: "黄金の鐘 (2005年自主録音 オリジナルバージョン)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "黄金の鐘 (2005年自主録音 オリジナルバージョン) / Good Dog Happy Men"
 ---
 
+
 # 黄金の鐘 (2005年自主録音 オリジナルバージョン) / Good Dog Happy Men
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:58:24.855Z: merged into 黄金の鐘-0a99405f.md

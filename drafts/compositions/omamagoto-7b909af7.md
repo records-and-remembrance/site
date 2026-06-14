@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "omamagoto"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "omamagoto"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "omamagoto"
 ---
 
+
 # omamagoto
 
 ## Review Notes
 
-- 
+-

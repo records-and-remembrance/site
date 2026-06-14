@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "だが、ワインは赫 (Deep Red Wine)"
-status: draft
+status: merged
 composition_id: null
 group_key: "だが、ワインは赫 (deep red wine)"
 aliases:
@@ -63,8 +63,13 @@ sources:
     raw_title: "だが、ワインは赫 (Deep Red Wine)"
 ---
 
+
 # だが、ワインは赫 (Deep Red Wine)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:53:03.260Z: merged into だが、ワインは_赫_(_あか_)_(Deep_Red_Wine)-765ff3ff.md

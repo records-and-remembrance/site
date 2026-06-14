@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "My Voice My Life / messer schmitt Jr."
-status: draft
+status: ignore
 composition_id: null
 group_key: "my voice my life"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "My Voice My Life / messer schmitt Jr."
 ---
 
+
 # My Voice My Life / messer schmitt Jr.
 
 ## Review Notes
 
-- 
+-

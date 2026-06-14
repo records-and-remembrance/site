@@ -1,11 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Perfect nervous"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "perfect nervous"
 aliases:
   - "Perfect nervous"
+  - "Perfect nervous [Poet-type.M ver]"
+  - "Perfect nervous [弾き語り]"
+  - "Perfect nervous_花"
 sources:
   -
     type: release
@@ -331,10 +334,71 @@ sources:
     section: "セットリスト"
     position: 7
     raw_title: "Perfect nervous"
+  -
+    type: live
+    file: "2020-11-27-000000.md"
+    title: "2020-11-27: MASAAKI_MONDEN_ - ethic(s) at 下北沢GARAGE"
+    date: "2020-11-27"
+    project: "単独ライブ"
+    section: "セットリスト"
+    position: 11
+    raw_title: "Perfect nervous [Poet-type.M ver]"
+  -
+    type: live
+    file: "2015-07-05-000000.md"
+    title: "2015-07-05: Poet-type.M - D&D release Party 『Gentry liar from D&D』 Vol.2 独演会Acoustic ver. at 原宿ストロボカフェ"
+    date: "2015-07-05"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 10
+    raw_title: "Perfect nervous [弾き語り]"
+  -
+    type: release
+    file: "2022-12-18-000000.md"
+    title: "公開されたデモ音源リスト"
+    date: "2022-12-18"
+    project: "Album"
+    section: "曲リスト"
+    position: 6
+    raw_title: "[Perfect Nervous_花](https://www.youtube.com/watch?v=phAVTM8zBuo)"
+  -
+    type: live
+    file: "2023-04-28-000000.md"
+    title: "2023-04-28: 門田匡陽 Instagram Live \\\"Room GIG.0428\\\""
+    date: "2023-04-28"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 6
+    raw_title: "Perfect nervous_花"
+  -
+    type: live
+    file: "2023-06-09-000000.md"
+    title: " 2023-06-09: 門田匡陽 - \\\"PERFECT MOMENT\\\" performing by MONDEN MASAAKI (BAND SET) at 新代田LIVE HOUSE FEVER"
+    date: "2023-06-09"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 16
+    raw_title: "Perfect Nervous_花"
 ---
+
+
+
+
 
 # Perfect nervous
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:35:56.050Z: merged sources from Perfect_nervous_[Poet-type.M_ver]-e84c5810.md
+
+## Merge Notes
+
+- 2026-06-14T11:35:59.420Z: merged sources from Perfect_nervous_[弾き語り]-0148ad26.md
+
+## Merge Notes
+
+- 2026-06-14T11:36:03.905Z: merged sources from Perfect_nervous_花-6df5e93f.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Say Good-bye / messer schmitt Jr."
-status: draft
+status: ignore
 composition_id: null
 group_key: "say good-bye"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Say Good-bye / messer schmitt Jr."
 ---
 
+
 # Say Good-bye / messer schmitt Jr.
 
 ## Review Notes
 
-- 
+-

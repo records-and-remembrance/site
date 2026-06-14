@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "バネのいかれたベットの上で (I don't wonna grow up)"
-status: draft
+status: merged
 composition_id: null
 group_key: "バネのいかれたベットの上で (i don't wonna grow up)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "バネのいかれたベットの上で (I don't wonna grow up)<br>"
 ---
 
+
 # バネのいかれたベットの上で (I don't wonna grow up)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:54:52.225Z: merged into バネのいかれたベットの上で_(I_Don't_Wanna_Grow_Up)-eb5e76f0.md

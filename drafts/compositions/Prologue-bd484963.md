@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Prologue"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "prologue"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Prologue"
 ---
 
+
 # Prologue
 
 ## Review Notes
 
-- 
+-

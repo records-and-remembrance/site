@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "カナリヤ"
-status: draft
+status: merged
 composition_id: null
 group_key: "カナリヤ"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "カナリヤ"
 ---
 
+
 # カナリヤ
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:50:17.563Z: merged into カナリア-2a48f361.md

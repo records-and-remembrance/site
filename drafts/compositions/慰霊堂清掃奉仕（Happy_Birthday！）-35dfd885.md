@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "慰霊堂清掃奉仕（Happy Birthday！）"
-status: draft
+status: merged
 composition_id: null
 group_key: "慰霊堂清掃奉仕（happy birthday！）"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "慰霊堂清掃奉仕（Happy Birthday！）"
 ---
 
+
 # 慰霊堂清掃奉仕（Happy Birthday！）
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:57:22.516Z: merged into 慰霊堂清掃奉仕_(Happy_Birthday!)-c91e7f64.md

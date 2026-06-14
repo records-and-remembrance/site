@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "POPCORN"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "popcorn"
 aliases:
   - "POPCORN"
+  - "POPCORN (w/伊藤, 河相, 菅原)"
+  - "POPCORN (with 河相[Gt.])"
 sources:
   -
     type: release
@@ -79,10 +81,39 @@ sources:
     section: "セットリスト"
     position: 5
     raw_title: "POPCORN"
+  -
+    type: live
+    file: "2010-04-25-000000.md"
+    title: "2010-04-25: 門田匡陽 and His Funny Friends - 門田匡陽 and GARAGE presents \\\"Don't Trust Over 30\\\"  at 下北沢GARAGE"
+    date: "2010-04-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 12
+    raw_title: "POPCORN (w/伊藤, 河相, 菅原)"
+  -
+    type: live
+    file: "2012-04-14-000000.md"
+    title: "2012-04-14: 門田匡陽 - CalmCalm vol.2 at IID 世田谷ものづくり学校"
+    date: "2012-04-14"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "POPCORN (with 河相[Gt.])"
 ---
+
+
+
 
 # POPCORN
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:36:10.972Z: merged sources from POPCORN_(w_伊藤,_河相,_菅原)-bb73f42f.md
+
+## Merge Notes
+
+- 2026-06-14T11:36:15.020Z: merged sources from POPCORN_(with_河相[Gt.])-be546a7e.md

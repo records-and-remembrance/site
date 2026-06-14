@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Mrs. Vertigo [w/伊藤]"
-status: draft
+status: merged
 composition_id: null
 group_key: "mrs. vertigo [w/伊藤]"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "Mrs. Vertigo [w/伊藤]"
 ---
 
+
 # Mrs. Vertigo [w/伊藤]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:32:52.201Z: merged into Mrs._Vertigo-056446f7.md

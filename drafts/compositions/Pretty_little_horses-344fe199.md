@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Pretty little horses"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "pretty little horses"
 aliases:
   - "Pretty little horses"
+  - "Pretty little horses [w/伊藤]"
 sources:
   -
     type: release
@@ -385,10 +386,25 @@ sources:
     section: "セットリスト"
     position: 27
     raw_title: "Pretty little horses<br>"
+  -
+    type: live
+    file: "2010-02-28-000000.md"
+    title: "2010-02-28: Good Dog Happy Men - The Light TOUR at 渋谷O-WEST"
+    date: "2010-02-28"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 14
+    raw_title: "Pretty little horses [w/伊藤]"
 ---
+
+
 
 # Pretty little horses
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:36:23.031Z: merged sources from Pretty_little_horses_[w_伊藤]-a18b5e6d.md

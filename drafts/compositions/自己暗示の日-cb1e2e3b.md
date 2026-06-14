@@ -6,6 +6,7 @@ composition_id: null
 group_key: "自己暗示の日"
 aliases:
   - "自己暗示の日"
+  - "フラウ (自己暗示の日)"
 sources:
   -
     type: release
@@ -286,10 +287,60 @@ sources:
     section: "セットリスト"
     position: 3
     raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2001-08-16-000000.md"
+    title: "2001-08-16: BURGER NUDS - 百人一首企画 ～仏恥義理★ナイト～ at 下北沢SHELTER"
+    date: "2001-08-16"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "フラウ (自己暗示の日)"
+  -
+    type: live
+    file: "2001-10-16-000000.md"
+    title: "2001-10-16: BURGER NUDS - LOFT presents Get a chance! VOL.4 at 新宿LOFT"
+    date: "2001-10-16"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "フラウ (自己暗示の日)"
+  -
+    type: live
+    file: "2001-11-03-000000.md"
+    title: "2001-11-03: BURGER NUDS - LOCAL at 下北沢GARAGE"
+    date: "2001-11-03"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "フラウ (自己暗示の日)"
+  -
+    type: live
+    file: "2001-11-19-000000.md"
+    title: "2001-11-19: BURGER NUDS - au presents LIVE RECOMMEND LOFT POWER PUSH \\\"ROOTS\\\" at 新宿LOFT"
+    date: "2001-11-19"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 4
+    raw_title: "フラウ (自己暗示の日)"
+  -
+    type: live
+    file: "2001-11-25-000000.md"
+    title: "2001-11-25: BURGER NUDS - CLUB DI:GA 1500 at 新宿LOFT"
+    date: "2001-11-25"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 1
+    raw_title: "フラウ (自己暗示の日)"
 ---
+
 
 # 自己暗示の日
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:55:22.586Z: merged sources from フラウ_(自己暗示の日)-3330af57.md

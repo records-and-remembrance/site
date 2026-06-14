@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "祈り (It's show time)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "祈り (it's show time)"
 aliases:
   - "祈り (It's show time)"
+  - "ゴスペル2 (It's Show Time)"
 sources:
   -
     type: release
@@ -52,10 +53,25 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "祈り (It's show time)"
+  -
+    type: live
+    file: "2013-05-07-000000.md"
+    title: "2013-05-07: Poet-type.M - FEVER 4th ANNIVERSARY WANDER for WELL at 新代田FEVER"
+    date: "2013-05-07"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "ゴスペル2 (It's Show Time)<br>"
 ---
+
+
 
 # 祈り (It's show time)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:51:07.283Z: merged sources from ゴスペル2_(It's_Show_Time)-fd36ac78.md
