@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "長い序章の終わりで (Law Name)"
-status: draft
+status: merged
 composition_id: null
 group_key: "長い序章の終わりで (law name)"
 aliases:
@@ -45,8 +45,13 @@ sources:
     raw_title: "長い序章の終わりで (Law Name)"
 ---
 
+
 # 長い序章の終わりで (Law Name)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:03:41.424Z: merged into 長い序章の終わり_(Law_Name)-6396936f.md

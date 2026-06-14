@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "名も無き景色の中で (I Will Say Goodbye)"
-status: draft
+status: merged
 composition_id: null
 group_key: "名も無き景色の中で (i will say goodbye)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "名も無き景色の中で (I Will Say Goodbye)"
 ---
 
+
 # 名も無き景色の中で (I Will Say Goodbye)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:08:06.790Z: merged into 名も無い景色の中で_(I_Will_Say_Good_Bye)-b2cc464c.md

@@ -7,6 +7,9 @@ group_key: "sweet heart of moon"
 aliases:
   - "Sweet heart of moon"
   - "Sweet heart of moon (Good Dog Happy Men)"
+  - "蝙蝠橋警備隊_春"
+  - "蝙蝠橋警備隊_春 (\"Sweet heart of moon\" rearrange)"
+  - "蝙蝠警備隊 (\"Sweet heart of moon\" rearrange)"
 sources:
   -
     type: release
@@ -566,7 +569,37 @@ sources:
     section: "セットリスト"
     position: 1
     raw_title: "Sweet heart of moon (Good Dog Happy Men)"
+  -
+    type: release
+    file: "2022-12-18-000000.md"
+    title: "公開されたデモ音源リスト"
+    date: "2022-12-18"
+    project: "Album"
+    section: "曲リスト"
+    position: 8
+    raw_title: "[蝙蝠橋警備隊_春](https://www.youtube.com/watch?v=IAaKE0jijf8)"
+  -
+    type: live
+    file: "2023-06-09-000000.md"
+    title: " 2023-06-09: 門田匡陽 - \\\"PERFECT MOMENT\\\" performing by MONDEN MASAAKI (BAND SET) at 新代田LIVE HOUSE FEVER"
+    date: "2023-06-09"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 8
+    raw_title: "蝙蝠橋警備隊_春 (\"Sweet heart of moon\" rearrange)"
+  -
+    type: live
+    file: "2023-04-11-000000.md"
+    title: "2023-04-11: 門田匡陽 - \\\"Spring Weather Report 2023\\\" at 新代田LIVE HOUSE FEVER"
+    date: "2023-04-11"
+    project: "予定"
+    section: "セットリスト"
+    position: 2
+    raw_title: "蝙蝠警備隊 (\"Sweet heart of moon\" rearrange)"
 ---
+
+
+
 
 
 
@@ -579,3 +612,15 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:37:29.831Z: merged sources from Sweet_heart_of_moon_(Good_Dog_Happy_Men)-31329506.md
+
+## Merge Notes
+
+- 2026-06-14T14:11:26.047Z: merged sources from 蝙蝠橋警備隊_春-5762d4cb.md
+
+## Merge Notes
+
+- 2026-06-14T14:11:32.677Z: merged sources from 蝙蝠橋警備隊_春_(_Sweet_heart_of_moon__rearrange)-a87a80b6.md
+
+## Merge Notes
+
+- 2026-06-14T14:11:37.225Z: merged sources from 蝙蝠警備隊_(_Sweet_heart_of_moon__rearrange)-8993e4e2.md

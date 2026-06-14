@@ -1,11 +1,16 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "調律するかのように (Over The Rainbow)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "調律するかのように (over the rainbow)"
 aliases:
   - "調律するかのように (Over The Rainbow)"
+  - "調律するかのように"
+  - "調律するかのように (Over The Rainbow) (Poet-type.M)"
+  - "調律するかのように (Over The Rainbow) (セットリストに記載なし)"
+  - "調律するかのように (Over The Rainbow) [リクエスト]"
+  - "調律するかの様に (Over The Rainbow)"
 sources:
   -
     type: release
@@ -205,10 +210,81 @@ sources:
     section: "セットリスト"
     position: 2
     raw_title: "調律するかのように (Over The Rainbow)"
+  -
+    type: live
+    file: "2013-05-07-000000.md"
+    title: "2013-05-07: Poet-type.M - FEVER 4th ANNIVERSARY WANDER for WELL at 新代田FEVER"
+    date: "2013-05-07"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 4
+    raw_title: "調律するかのように"
+  -
+    type: live
+    file: "2023-02-10-220000.md"
+    title: "2023-02-10: 門田匡陽 Instagram Live"
+    date: "2023-02-10"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "調律するかのように (Over The Rainbow) (Poet-type.M)"
+  -
+    type: live
+    file: "2013-10-09-000000.md"
+    title: "2013-10-09: Poet-type.M - インストアライブ at diskunion 下北沢店"
+    date: "2013-10-09"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 5
+    raw_title: "調律するかのように (Over The Rainbow) (セットリストに記載なし)"
+  -
+    type: live
+    file: "2017-06-17-000000.md"
+    title: "2017-06-17: 門田匡陽 - \\\"BT Live #01\\\" at 原宿 LUCKAND -Gallery Cafe&Bar-"
+    date: "2017-06-17"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 12
+    raw_title: "調律するかのように (Over The Rainbow) [リクエスト]"
+  -
+    type: live
+    file: "2023-11-19-000000.md"
+    title: "2023-11-19: 門田匡陽 + Nao Yanagawa - \\\"パンと音楽とアンティーク 2023\\\" at 東京オーヴァル京王閣"
+    date: "2023-11-19"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "調律するかの様に (Over The Rainbow)"
 ---
+
+
+
+
+
+
 
 # 調律するかのように (Over The Rainbow)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:02:53.200Z: merged sources from 調律するかのように-88ae2970.md
+
+## Merge Notes
+
+- 2026-06-14T14:02:58.733Z: merged sources from 調律するかのように_(Over_The_Rainbow)_(Poet-type.M)-f45e350f.md
+
+## Merge Notes
+
+- 2026-06-14T14:03:02.965Z: merged sources from 調律するかのように_(Over_The_Rainbow)_(セットリストに記載なし)-b8d6d2c6.md
+
+## Merge Notes
+
+- 2026-06-14T14:03:06.943Z: merged sources from 調律するかのように_(Over_The_Rainbow)_[リクエスト]-82a78753.md
+
+## Merge Notes
+
+- 2026-06-14T14:03:17.661Z: merged sources from 調律するかの様に_(Over_The_Rainbow)-9a220cc8.md

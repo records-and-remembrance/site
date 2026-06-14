@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "草の花 (Reboot ver.)"
-status: draft
+status: merged
 composition_id: null
 group_key: "草の花 (reboot ver.)"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "草の花 (Reboot ver.)"
 ---
 
+
 # 草の花 (Reboot ver.)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:02:05.860Z: merged into 草の花-f43fde90.md

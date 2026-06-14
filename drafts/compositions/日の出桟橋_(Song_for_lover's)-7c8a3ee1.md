@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "日の出桟橋 (Song for lover's)"
-status: draft
+status: merged
 composition_id: null
 group_key: "日の出桟橋 (song for lover's)"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "日の出桟橋 (Song for lover's)"
 ---
 
+
 # 日の出桟橋 (Song for lover's)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:05:06.749Z: merged into Song_for_lover's-b1fdceb8.md

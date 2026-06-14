@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "痛いな、この光 (Ticket To Nowhere)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "痛いな、この光 (ticket to nowhere)"
 aliases:
@@ -54,8 +54,9 @@ sources:
     raw_title: "痛いな、この光 (Ticket To Nowhere)"
 ---
 
+
 # 痛いな、この光 (Ticket To Nowhere)
 
 ## Review Notes
 
-- 
+-

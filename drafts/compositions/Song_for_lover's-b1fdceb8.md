@@ -6,6 +6,7 @@ composition_id: null
 group_key: "song for lover's"
 aliases:
   - "Song for lover's"
+  - "日の出桟橋 (Song for lover's)"
 sources:
   -
     type: release
@@ -106,7 +107,26 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "Song for lover's"
+  -
+    type: live
+    file: "2008-10-03-000000.md"
+    title: "2008-10-03: 門田匡陽 - EdBUS + GARAGE presents EdBUS 最新作「The Night of Me & My Friends」発売記念ライブ ナイト オブ ユー アンド ミー at 下北沢GARAGE"
+    date: "2008-10-03"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "日の出桟橋 (Song for lover's)"
+  -
+    type: live
+    file: "2008-10-23-000000.md"
+    title: "2008-10-23: 門田匡陽&内田武瑠 - YOU REALLY GOT ME! VOL.22 ～I'M VERY SING A SONG～ at 下北沢BASEMENT BAR"
+    date: "2008-10-23"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "日の出桟橋 (Song for lover's)"
 ---
+
 
 
 # Song for lover's
@@ -114,3 +134,7 @@ sources:
 ## Review Notes
 
 -
+
+## Merge Notes
+
+- 2026-06-14T14:05:06.749Z: merged sources from 日の出桟橋_(Song_for_lover's)-7c8a3ee1.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "氷の皿 (Ave Maria)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "氷の皿 (ave maria)"
 aliases:
@@ -81,8 +81,9 @@ sources:
     raw_title: "氷の皿 (Ave Maria)"
 ---
 
+
 # 氷の皿 (Ave Maria)
 
 ## Review Notes
 
-- 
+-

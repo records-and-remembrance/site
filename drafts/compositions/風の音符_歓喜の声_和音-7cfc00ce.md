@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "風の音符 歓喜の声 和音"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "風の音符 歓喜の声 和音"
 aliases:
   - "風の音符 歓喜の声 和音"
+  - "風の音符 歓喜の声 和音 (バージョン違い)"
+  - "風の音符 歓喜の声 和音 (門田ソロ)"
 sources:
   -
     type: release
@@ -205,10 +207,39 @@ sources:
     section: "セットリスト"
     position: 1
     raw_title: "風の音符 歓喜の声 和音"
+  -
+    type: live
+    file: "2005-05-07-000000.md"
+    title: "2005-05-07: Good Dog Happy Men - Moon light Medicine Vol.2 \\\"4人のゴブリン大いに躍る夜\\\" at 下北沢GARAGE"
+    date: "2005-05-07"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 1
+    raw_title: "風の音符 歓喜の声 和音 (バージョン違い)"
+  -
+    type: live
+    file: "2023-08-27-000000.md"
+    title: " 2023-08-27: 門田匡陽 × NAO YANAGAWA - hmc studio live \\\"CORE\\\"  at 梅ヶ丘hmc coffee & sake"
+    date: "2023-08-27"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 9
+    raw_title: "風の音符 歓喜の声 和音 (門田ソロ)"
 ---
+
+
+
 
 # 風の音符 歓喜の声 和音
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:06:56.882Z: merged sources from 風の音符_歓喜の声_和音_(バージョン違い)-8e43fdb2.md
+
+## Merge Notes
+
+- 2026-06-14T14:07:01.191Z: merged sources from 風の音符_歓喜の声_和音_(門田ソロ)-0e89ba21.md

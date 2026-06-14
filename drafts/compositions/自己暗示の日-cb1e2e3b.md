@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "自己暗示の日"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "自己暗示の日"
 aliases:
@@ -333,6 +333,7 @@ sources:
     position: 1
     raw_title: "フラウ (自己暗示の日)"
 ---
+
 
 
 # 自己暗示の日

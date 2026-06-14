@@ -1,12 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "光の粒子 埃の中で (Departures)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "光の粒子 埃の中で (departures)"
 aliases:
   - "光の粒子 埃の中で (Departures)"
   - "Departures"
+  - "光の粒子 埃の中で (Departures) (Poet-type.M)"
+  - "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
 sources:
   -
     type: release
@@ -269,7 +271,55 @@ sources:
     section: "収録曲"
     position: 1
     raw_title: "Departures"
+  -
+    type: live
+    file: "2023-02-10-220000.md"
+    title: "2023-02-10: 門田匡陽 Instagram Live"
+    date: "2023-02-10"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "光の粒子 埃の中で (Departures) (Poet-type.M)"
+  -
+    type: live
+    file: "2019-05-06-000000.md"
+    title: "2019-05-06: Poet-type.M - GARAGE 25th Anniversary at 下北沢GARAGE"
+    date: "2019-05-06"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
+  -
+    type: live
+    file: "2019-07-11-000000.md"
+    title: "2019-07-11: Poet-type.M - UNDEAD FLOWER at 下北沢CLUB Que"
+    date: "2019-07-11"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 2
+    raw_title: "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
+  -
+    type: live
+    file: "2019-10-08-000000.md"
+    title: "2019-10-08: Poet-type.M - Ergonomic(s) at 渋谷La.mama"
+    date: "2019-10-08"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 4
+    raw_title: "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
+  -
+    type: live
+    file: "2020-02-23-000000.md"
+    title: "2020-02-23: Poet-type.M - Black and Blue vol.2 at 下北沢CLUB Que"
+    date: "2020-02-23"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 3
+    raw_title: "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
 ---
+
+
+
 
 
 # 光の粒子 埃の中で (Departures)
@@ -281,3 +331,11 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:21:05.466Z: merged sources from Departures-361356da.md
+
+## Merge Notes
+
+- 2026-06-14T13:57:57.719Z: merged sources from 光の粒子_埃の中で_(Departures)_(Poet-type.M)-97dc5a0a.md
+
+## Merge Notes
+
+- 2026-06-14T13:58:02.172Z: merged sources from 光の粒子_埃の中で_(Departures)_[Lost_Verse(s)_ver.]-cf615874.md

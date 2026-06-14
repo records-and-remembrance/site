@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "性器を無くしたアンドロイド (Dystopia) ◇"
-status: draft
+status: merged
 composition_id: null
 group_key: "性器を無くしたアンドロイド (dystopia) ◇"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "性器を無くしたアンドロイド (Dystopia) ◇"
 ---
 
+
 # 性器を無くしたアンドロイド (Dystopia) ◇
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:01:21.726Z: merged into 性器を無くしたアンドロイド_(Dystopia)-ae00cce9.md

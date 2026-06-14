@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "光の粒子 埃の中で (departures) [lost verse(s) ver.]"
 aliases:
@@ -45,8 +45,13 @@ sources:
     raw_title: "光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]"
 ---
 
+
 # 光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:58:02.172Z: merged into 光の粒子_埃の中で_(Departures)-bc418f05.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "接続されたままで (I can not Dance)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "接続されたままで (i can not dance)"
 aliases:
@@ -54,8 +54,9 @@ sources:
     raw_title: "接続されたままで (I can not Dance)"
 ---
 
+
 # 接続されたままで (I can not Dance)
 
 ## Review Notes
 
-- 
+-

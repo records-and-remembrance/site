@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "主よ、人の望みを喜びよ (Guitar insturmental)"
-status: draft
+status: merged
 composition_id: null
 group_key: "主よ、人の望みを喜びよ (guitar insturmental)"
 aliases:
@@ -54,8 +54,13 @@ sources:
     raw_title: "主よ、人の望みを喜びよ (Guitar insturmental)"
 ---
 
+
 # 主よ、人の望みを喜びよ (Guitar insturmental)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:00:06.930Z: merged into 主よ、人の望みの喜びよ-5d47603a.md

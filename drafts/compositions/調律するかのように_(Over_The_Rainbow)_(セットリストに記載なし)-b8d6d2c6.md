@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "調律するかのように (Over The Rainbow) (セットリストに記載なし)"
-status: draft
+status: merged
 composition_id: null
 group_key: "調律するかのように (over the rainbow) (セットリストに記載なし)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "調律するかのように (Over The Rainbow) (セットリストに記載なし)"
 ---
 
+
 # 調律するかのように (Over The Rainbow) (セットリストに記載なし)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:03:02.965Z: merged into 調律するかのように_(Over_The_Rainbow)-392e8d5e.md

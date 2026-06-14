@@ -1,11 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "唱えよ、春 静か (XIII)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "唱えよ、春 静か (xiii)"
 aliases:
   - "唱えよ、春 静か (XIII)"
+  - "唱えよ、春 静か (XIII) [楢原→Vn.]"
+  - "唱えよ、春 静か (XIII) ◆"
+  - "唱えよ、春静か (XIII)"
 sources:
   -
     type: release
@@ -106,10 +109,53 @@ sources:
     section: "セットリスト"
     position: 4
     raw_title: "唱えよ、春 静か (XIII)"
+  -
+    type: live
+    file: "2015-04-01-000001.md"
+    title: "2015-04-01: Poet-type.M - D&D release&PtM 2nd Anniversary!! 『Gentry liar from D&D』 独演会Acoustic ver. at 原宿ストロボカフェ"
+    date: "2015-04-01"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 8
+    raw_title: "唱えよ、春 静か (XIII) [楢原→Vn.]<br>"
+  -
+    type: live
+    file: "2015-01-31-000001.md"
+    title: "2015-01-31: Poet-type.M - A Place, Dark & Dark -prologue- at 県民共済みらいホール"
+    date: "2015-01-31"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 19
+    raw_title: "唱えよ、春 静か (XIII) ◆"
+  -
+    type: live
+    file: "2015-10-03-000000.md"
+    title: "2015-10-03: festival M.O.N -美学の勝利- at 心斎橋MUSIC CLUB JANUS"
+    date: "2015-10-03"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 15
+    raw_title: "唱えよ、春静か (XIII)"
 ---
+
+
+
+
 
 # 唱えよ、春 静か (XIII)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:00:37.055Z: merged sources from 唱えよ、春_静か_(XIII)_[楢原→Vn.]-a050eb56.md
+
+## Merge Notes
+
+- 2026-06-14T14:00:41.058Z: merged sources from 唱えよ、春_静か_(XIII)_◆-4c62a503.md
+
+## Merge Notes
+
+- 2026-06-14T14:00:44.704Z: merged sources from 唱えよ、春静か_(XIII)-adaef8f0.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "天使さん (忌井三弦 with 門田[Cho.])"
-status: draft
+status: ignore
 composition_id: null
 group_key: "天使さん (忌井三弦 with 門田[cho.])"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "天使さん (忌井三弦 with 門田[Cho.])"
 ---
 
+
 # 天使さん (忌井三弦 with 門田[Cho.])
 
 ## Review Notes
 
-- 
+-

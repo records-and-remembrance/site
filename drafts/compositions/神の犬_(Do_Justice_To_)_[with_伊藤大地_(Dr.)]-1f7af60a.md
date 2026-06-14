@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]"
-status: draft
+status: merged
 composition_id: null
 group_key: "神の犬 (do justice to?) [with 伊藤大地 (dr.)]"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]"
 ---
 
+
 # 神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:00:54.321Z: merged into 神の犬_(Do_Justice_To_)-99826f99.md

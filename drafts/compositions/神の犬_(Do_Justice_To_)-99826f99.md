@@ -1,11 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "神の犬 (Do Justice To?)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "神の犬 (do justice to?)"
 aliases:
   - "神の犬 (Do Justice To?)"
+  - "神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]"
+  - "神の犬 (Do Justice To?) [門田→Vo.のみ、楢原→Pf.]"
+  - "神の犬 (Do Justice To?) ◇"
 sources:
   -
     type: release
@@ -133,10 +136,71 @@ sources:
     section: "セットリスト"
     position: 9
     raw_title: "神の犬 (Do Justice To?)"
+  -
+    type: live
+    file: "2015-09-26-000000.md"
+    title: "2015-09-26: festival M.O.N -美学の勝利- at 名古屋アポロベイス"
+    date: "2015-09-26"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 18
+    raw_title: "神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]"
+  -
+    type: live
+    file: "2015-10-03-000000.md"
+    title: "2015-10-03: festival M.O.N -美学の勝利- at 心斎橋MUSIC CLUB JANUS"
+    date: "2015-10-03"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 18
+    raw_title: "神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]"
+  -
+    type: live
+    file: "2015-10-24-000000.md"
+    title: "2015-10-24: festival M.O.N -美学の勝利- at 恵比寿LIQUIDROOM"
+    date: "2015-10-24"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 20
+    raw_title: "神の犬 (Do Justice To?) [with 伊藤大地 (Dr.)]"
+  -
+    type: live
+    file: "2015-07-05-000000.md"
+    title: "2015-07-05: Poet-type.M - D&D release Party 『Gentry liar from D&D』 Vol.2 独演会Acoustic ver. at 原宿ストロボカフェ"
+    date: "2015-07-05"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 5
+    raw_title: "神の犬 (Do Justice To?) [門田→Vo.のみ、楢原→Pf.]"
+  -
+    type: live
+    file: "2015-01-31-000001.md"
+    title: "2015-01-31: Poet-type.M - A Place, Dark & Dark -prologue- at 県民共済みらいホール"
+    date: "2015-01-31"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "神の犬 (Do Justice To?) ◇"
 ---
+
+
+
+
 
 # 神の犬 (Do Justice To?)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:00:54.321Z: merged sources from 神の犬_(Do_Justice_To_)_[with_伊藤大地_(Dr.)]-1f7af60a.md
+
+## Merge Notes
+
+- 2026-06-14T14:00:57.827Z: merged sources from 神の犬_(Do_Justice_To_)_[門田→Vo.のみ、楢原→Pf.]-85ed87f8.md
+
+## Merge Notes
+
+- 2026-06-14T14:01:01.386Z: merged sources from 神の犬_(Do_Justice_To_)_◇-c1c589f9.md

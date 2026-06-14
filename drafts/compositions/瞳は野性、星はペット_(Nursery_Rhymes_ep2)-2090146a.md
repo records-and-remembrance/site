@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "瞳は野性、星はペット (Nursery Rhymes ep2)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "瞳は野性、星はペット (nursery rhymes ep2)"
 aliases:
@@ -45,8 +45,9 @@ sources:
     raw_title: "瞳は野性、星はペット (Nursery Rhymes ep2)"
 ---
 
+
 # 瞳は野性、星はペット (Nursery Rhymes ep2)
 
 ## Review Notes
 
-- 
+-

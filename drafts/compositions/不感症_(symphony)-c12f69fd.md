@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "不感症 (symphony)"
-status: draft
+status: merged
 composition_id: null
 group_key: "不感症 (symphony)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "不感症 ([symphony](http://monden-info.hatenablog.com/entry/2003/08/27/000000))"
 ---
 
+
 # 不感症 (symphony)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:06:49.219Z: merged into 不感症-ee234080.md

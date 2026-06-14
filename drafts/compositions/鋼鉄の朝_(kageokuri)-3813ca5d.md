@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "鋼鉄の朝 (kageokuri)"
-status: draft
+status: merged
 composition_id: null
 group_key: "鋼鉄の朝 (kageokuri)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "鋼鉄の朝 (kageokuri)"
 ---
 
+
 # 鋼鉄の朝 (kageokuri)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:58:09.402Z: merged into 鋼鉄の朝-9107e4c1.md

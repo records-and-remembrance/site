@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "疾れ！DOMINO! (Guitar insturmental)"
-status: draft
+status: merged
 composition_id: null
 group_key: "疾れ！domino! (guitar insturmental)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "疾れ！DOMINO! (Guitar insturmental)"
 ---
 
+
 # 疾れ！DOMINO! (Guitar insturmental)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:59:51.624Z: merged into 疾れ!_DOMINO!_(Guitar_insturmental)-ffb9ca7a.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "前夜祭"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "前夜祭"
 aliases:
@@ -531,8 +531,9 @@ sources:
     raw_title: "前夜祭<br>"
 ---
 
+
 # 前夜祭
 
 ## Review Notes
 
-- 
+-

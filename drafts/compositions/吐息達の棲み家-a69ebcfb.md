@@ -1,11 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "吐息達の棲み家"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "吐息達の棲み家"
 aliases:
   - "吐息達の棲み家"
+  - "吐息達の棲み家 (w/伊藤)"
+  - "吐息達の棲み家 (弾き語り with 伊藤)"
+  - "吐息達の棲み家 (弾き語り)"
 sources:
   -
     type: release
@@ -115,10 +118,53 @@ sources:
     section: "セットリスト"
     position: 5
     raw_title: "吐息達の棲み家"
+  -
+    type: live
+    file: "2010-04-25-000000.md"
+    title: "2010-04-25: 門田匡陽 and His Funny Friends - 門田匡陽 and GARAGE presents \\\"Don't Trust Over 30\\\"  at 下北沢GARAGE"
+    date: "2010-04-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 11
+    raw_title: "吐息達の棲み家 (w/伊藤)"
+  -
+    type: live
+    file: "2010-10-23-000000.md"
+    title: "2010-10-23: 門田匡陽 -His Band- - Don't Trust Over 30 ～episode3～ at 下北沢GARAGE"
+    date: "2010-10-23"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 12
+    raw_title: "吐息達の棲み家 (弾き語り with 伊藤)"
+  -
+    type: live
+    file: "2012-01-29-000000.md"
+    title: "2012-01-29:  門田匡陽 with miss shama - CalmCalm Vol.1 at IID 世田谷ものづくり学校"
+    date: "2012-01-29"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "吐息達の棲み家 (弾き語り)"
 ---
+
+
+
+
 
 # 吐息達の棲み家
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:04:35.006Z: merged sources from 吐息達の棲み家_(w_伊藤)-2e2b0ef2.md
+
+## Merge Notes
+
+- 2026-06-14T14:04:40.034Z: merged sources from 吐息達の棲み家_(弾き語り_with_伊藤)-3b789d69.md
+
+## Merge Notes
+
+- 2026-06-14T14:04:43.741Z: merged sources from 吐息達の棲み家_(弾き語り)-9150f9ab.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "飛行記録 (w/内田, 韮沢)"
-status: draft
+status: merged
 composition_id: null
 group_key: "飛行記録 (w/内田, 韮沢)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "飛行記録 (w/内田, 韮沢)"
 ---
 
+
 # 飛行記録 (w/内田, 韮沢)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:05:39.033Z: merged into 飛行記録_(フライトレコード)-e9ad03c4.md

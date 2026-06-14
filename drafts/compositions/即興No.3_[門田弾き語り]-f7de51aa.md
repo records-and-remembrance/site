@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "即興No.3 [門田弾き語り]"
-status: draft
+canonical_title: "即興No.3"
+status: reviewed
 composition_id: null
 group_key: "即興no.3 [門田弾き語り]"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "即興No.3 [門田弾き語り]<br>"
 ---
 
+
 # 即興No.3 [門田弾き語り]
 
 ## Review Notes
 
-- 
+-

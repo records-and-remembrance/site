@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "宅録セッション Off Shot"
-status: draft
+status: ignore
 composition_id: null
 group_key: "宅録セッション off shot"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "宅録セッション Off Shot"
 ---
 
+
 # 宅録セッション Off Shot
 
 ## Review Notes
 
-- 
+-

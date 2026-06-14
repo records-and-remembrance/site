@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "誇りの響き 光の中へ (White White White) (セットリストに記載なし)"
-status: draft
+status: merged
 composition_id: null
 group_key: "誇りの響き 光の中へ (white white white) (セットリストに記載なし)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "誇りの響き 光の中へ (White White White) (セットリストに記載なし)"
 ---
 
+
 # 誇りの響き 光の中へ (White White White) (セットリストに記載なし)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:55:13.036Z: merged into 誇りの響き_光の中へ_(White_White_White)-f92e523e.md

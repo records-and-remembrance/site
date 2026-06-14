@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "神の犬 (Do Justice To?) ◇"
-status: draft
+status: merged
 composition_id: null
 group_key: "神の犬 (do justice to?) ◇"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "神の犬 (Do Justice To?) ◇"
 ---
 
+
 # 神の犬 (Do Justice To?) ◇
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:01:01.386Z: merged into 神の犬_(Do_Justice_To_)-99826f99.md

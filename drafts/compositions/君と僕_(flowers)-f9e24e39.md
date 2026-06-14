@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "君と僕 (flowers)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "君と僕 (flowers)"
 aliases:
@@ -172,8 +172,9 @@ sources:
     raw_title: "君と僕 (flowers)"
 ---
 
+
 # 君と僕 (flowers)
 
 ## Review Notes
 
-- 
+-

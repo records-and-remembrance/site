@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "窮屈な退屈で卑屈な天使 (Stiff, Tedium, Obsequious)"
-status: draft
+status: merged
 composition_id: null
 group_key: "窮屈な退屈で卑屈な天使 (stiff, tedium, obsequious)"
 aliases:
@@ -54,8 +54,13 @@ sources:
     raw_title: "窮屈な退屈で卑屈な天使 (Stiff, Tedium, Obsequious)<br>"
 ---
 
+
 # 窮屈な退屈で卑屈な天使 (Stiff, Tedium, Obsequious)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:54:30.448Z: merged into 窮屈、退屈、卑屈_(A-halo)-d8520c8c.md

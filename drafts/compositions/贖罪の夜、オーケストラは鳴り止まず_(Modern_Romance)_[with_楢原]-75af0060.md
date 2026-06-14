@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "贖罪の夜、オーケストラは鳴り止まず (Modern Romance) [with 楢原]"
-status: draft
+status: merged
 composition_id: null
 group_key: "贖罪の夜、オーケストラは鳴り止まず (modern romance) [with 楢原]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "贖罪の夜、オーケストラは鳴り止まず (Modern Romance) [with 楢原]"
 ---
 
+
 # 贖罪の夜、オーケストラは鳴り止まず (Modern Romance) [with 楢原]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:11:46.225Z: merged into 贖罪の夜、オーケストラは鳴り止まず_(Modern_Romance)-e8e688da.md

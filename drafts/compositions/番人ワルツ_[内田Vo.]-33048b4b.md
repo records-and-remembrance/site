@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "番人ワルツ [内田Vo.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "番人ワルツ [内田vo.]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "番人ワルツ [内田Vo.]"
 ---
 
+
 # 番人ワルツ [内田Vo.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:05:32.835Z: merged into 番人ワルツ-4667ac57.md

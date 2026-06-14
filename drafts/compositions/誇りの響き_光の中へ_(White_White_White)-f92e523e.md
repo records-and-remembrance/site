@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "誇りの響き 光の中へ (White White White)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "誇りの響き 光の中へ (white white white)"
 aliases:
   - "誇りの響き 光の中へ (White White White)"
+  - "誇りの響き 光の中へ (White White White) (セットリストに記載なし)"
+  - "誇りの響き 光の中へ (White White White) [ギターのみ]"
 sources:
   -
     type: release
@@ -169,10 +171,39 @@ sources:
     section: "セットリスト"
     position: 9
     raw_title: "誇りの響き 光の中へ (White White White)"
+  -
+    type: live
+    file: "2013-10-12-000000.md"
+    title: "2013-10-12: Poet-type.M - インストアライブ at TOWER RECORDS 新宿店"
+    date: "2013-10-12"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 6
+    raw_title: "誇りの響き 光の中へ (White White White) (セットリストに記載なし)"
+  -
+    type: live
+    file: "2015-11-02-000000.md"
+    title: "2015-11-02: Poet-type.M - インストアライブ at TOWER RECORDS 渋谷店"
+    date: "2015-11-02"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 6
+    raw_title: "誇りの響き 光の中へ (White White White) [ギターのみ]<br>"
 ---
+
+
+
 
 # 誇りの響き 光の中へ (White White White)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:55:13.036Z: merged sources from 誇りの響き_光の中へ_(White_White_White)_(セットリストに記載なし)-b70a3450.md
+
+## Merge Notes
+
+- 2026-06-14T13:55:16.497Z: merged sources from 誇りの響き_光の中へ_(White_White_White)_[ギターのみ]-8f2af731.md

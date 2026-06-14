@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "唱えよ、春 静か (XIII) [楢原→Vn.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "唱えよ、春 静か (xiii) [楢原→vn.]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "唱えよ、春 静か (XIII) [楢原→Vn.]<br>"
 ---
 
+
 # 唱えよ、春 静か (XIII) [楢原→Vn.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:00:37.055Z: merged into 唱えよ、春_静か_(XIII)-ff2a4d7d.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "草の花 [2019 remix]"
-status: draft
+status: merged
 composition_id: null
 group_key: "草の花 [2019 remix]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "草の花 [2019 remix]"
 ---
 
+
 # 草の花 [2019 remix]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:02:13.175Z: merged into 草の花-f43fde90.md

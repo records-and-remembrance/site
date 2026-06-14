@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "救えない。心から。(V.I.C.T.O.R.Y)"
-status: draft
+status: merged
 composition_id: null
 group_key: "救えない。心から。(v.i.c.t.o.r.y)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "救えない。心から。(V.I.C.T.O.R.Y)"
 ---
 
+
 # 救えない。心から。(V.I.C.T.O.R.Y)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T13:54:12.720Z: merged into 救えない。心から。_(V.I.C.T.O.R.Y.)-31c28eb7.md

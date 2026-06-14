@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "光の言語 (Absolute Blue)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "光の言語 (absolute blue)"
 aliases:
@@ -27,8 +27,9 @@ sources:
     raw_title: "光の言語 (Absolute Blue)"
 ---
 
+
 # 光の言語 (Absolute Blue)
 
 ## Review Notes
 
-- 
+-

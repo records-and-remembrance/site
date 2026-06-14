@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "薔薇とノンフィクション [PSY・S cover]"
-status: draft
+status: merged
 composition_id: null
 group_key: "薔薇とノンフィクション [psy・s cover]"
 aliases:
@@ -45,8 +45,13 @@ sources:
     raw_title: "薔薇とノンフィクション [PSY・S cover]"
 ---
 
+
 # 薔薇とノンフィクション [PSY・S cover]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:11:16.235Z: merged into 薔薇とノンフィクション_(PSY・S)-cd34d7e8.md

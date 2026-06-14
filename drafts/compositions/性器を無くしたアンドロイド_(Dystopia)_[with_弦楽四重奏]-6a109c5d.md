@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "性器を無くしたアンドロイド (Dystopia) [with 弦楽四重奏]"
-status: draft
+status: merged
 composition_id: null
 group_key: "性器を無くしたアンドロイド (dystopia) [with 弦楽四重奏]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "性器を無くしたアンドロイド (Dystopia) [with 弦楽四重奏]"
 ---
 
+
 # 性器を無くしたアンドロイド (Dystopia) [with 弦楽四重奏]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:01:16.971Z: merged into 性器を無くしたアンドロイド_(Dystopia)-ae00cce9.md

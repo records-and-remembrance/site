@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "言葉と心"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "言葉と心"
 aliases:
@@ -99,8 +99,9 @@ sources:
     raw_title: "言葉と心"
 ---
 
+
 # 言葉と心
 
 ## Review Notes
 
-- 
+-

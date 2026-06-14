@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "泥棒猫のかく語りき (Nursery Rhymes ep3)"
-status: draft
+status: merged
 composition_id: null
 group_key: "泥棒猫のかく語りき (nursery rhymes ep3)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "泥棒猫のかく語りき (Nursery Rhymes ep3)"
 ---
 
+
 # 泥棒猫のかく語りき (Nursery Rhymes ep3)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T14:04:16.329Z: merged into 泥棒猫かく語りき_(Nursery_Rhymes_ep3)-8602e85c.md
