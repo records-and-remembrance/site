@@ -186,6 +186,8 @@ function stripMarkdown(text: string): string {
     .replace(/`([^`]*)`/g, "$1")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
     .replace(/\[\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/~~([^~]+)~~/g, "$1")
+    .replace(/\*([^*]+)\*/g, "$1")
     .replace(/<[^>]+>/g, " ")
     .replace(/\(\([^)]+\)\)/g, " ")
     .replace(/^\s*[-*]\s*/gm, "")
@@ -212,7 +214,8 @@ function parseTrackList(section: string, source: SourceArticle): TrackSource[] {
   for (const rawLine of section.split(/\r?\n/)) {
     const line = rawLine.trimEnd();
     const trackMatch = line.match(/^\s*(\d+)[.)]\s+(.+)$/);
-    if (trackMatch) {
+    const bulletMatch = line.match(/^([-*])\s+(.+)$/);
+    if (trackMatch || bulletMatch) {
       if (current) {
         tracks.push({
           number: current.number,
@@ -222,7 +225,7 @@ function parseTrackList(section: string, source: SourceArticle): TrackSource[] {
       }
       current = {
         number: tracks.length + 1,
-        title: trackMatch[2].trim(),
+        title: (trackMatch?.[2] ?? bulletMatch?.[2] ?? "").trim(),
         noteLines: [],
       };
       continue;
@@ -313,7 +316,7 @@ function isReleaseSource(source: SourceArticle): boolean {
 
 function emitSource(builder: SqlBuilder, source: SourceArticle): boolean {
   const sections = parseSections(source.body);
-  const trackSection = sections["収録曲"];
+  const trackSection = sections["収録曲"] ?? sections["曲リスト"];
   if (!trackSection) return false;
 
   const tracks = parseTrackList(trackSection, source);

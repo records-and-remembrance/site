@@ -1,0 +1,124 @@
+---
+# generated_by: scripts/generate_composition_drafts.ts
+canonical_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+status: draft
+composition_id: null
+group_key: "双子座のミステリー、孤児のシンパシー (gps)"
+aliases:
+  - "双子座のミステリー、孤児のシンパシー (GPS)"
+sources:
+  -
+    type: release
+    file: "2015-09-26-000002.md"
+    title: "Poet-type.M - A Place, Dark & Dark -prologue- LIVE at Kenmin kyosai Mirai Hall_Jan 31, 2015"
+    date: "2015-09-26"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 5
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: release
+    file: "2016-04-17-000001.md"
+    title: "festival M.O.N. -勝利の美学- 2015.10.24 at LIQUIDROOM ebisu (Live DVD)"
+    date: "2016-04-17"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 18
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2015-10-24-000000.md"
+    title: "2015-10-24: festival M.O.N -美学の勝利- at 恵比寿LIQUIDROOM"
+    date: "2015-10-24"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 18
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2015-11-02-000000.md"
+    title: "2015-11-02: Poet-type.M - インストアライブ at TOWER RECORDS 渋谷店"
+    date: "2015-11-02"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 3
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2015-11-29-000000.md"
+    title: "2015-11-29: 門田匡陽 - ヒトトナリ at 名古屋sunset BLUE"
+    date: "2015-11-29"
+    project: "Poet-type.M"
+    section: "セットリスト (([ライブレポート](http://ptm-net.com/report/2015/11/29)より))"
+    position: 7
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2016-03-20-000000.md"
+    title: "2016-03-20: 門田匡陽 - ハ・ル・ウ・ラ・ラ at 名古屋sunset BLUE"
+    date: "2016-03-20"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト (([ライブレポート](http://ptm-net.com/report/2016/03/20/3649)より))"
+    position: 1
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2016-04-17-000000.md"
+    title: "2016-04-17: Poet-type.M - A Place, Dark & Dark Public Performance 「God Bless, Dark & Dark」 at Mt.RAINIER HALL SHIBUYA PLEASURE PLEASURE"
+    date: "2016-04-17"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2016-05-03-000000.md"
+    title: "2016-05-03: 門田匡陽 - 弾き語る。 at 下北沢GARAGE"
+    date: "2016-05-03"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2017-02-02-000000.md"
+    title: "2017-02-02: 門田匡陽 - CLOW『DEAR FRAME』リリースイベント「KBKK」 at 下北沢GARAGE"
+    date: "2017-02-02"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2018-04-01-000000.md"
+    title: "2018-04-01: Poet-type.M - Pocketful of stardust ±0 at 新代田FEVER"
+    date: "2018-04-01"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 8
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2020-02-11-000000.md"
+    title: "2020-02-11: 門田匡陽 - 新代田で会おうよ。 at 新代田Live bar crossing"
+    date: "2020-02-11"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 3
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+  -
+    type: live
+    file: "2020-12-26-000000.md"
+    title: "2020-12-26: 門田匡陽 - Live kalminrot 写真展「NITTY-GRITTY」 at 原宿LUCKAND"
+    date: "2020-12-26"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 3
+    raw_title: "双子座のミステリー、孤児のシンパシー (GPS)"
+---
+
+# 双子座のミステリー、孤児のシンパシー (GPS)
+
+## Review Notes
+
+- 
