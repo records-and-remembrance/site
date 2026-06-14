@@ -1,12 +1,16 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "Analyze"
-status: draft
+canonical_title: "ANALYZE"
+status: reviewed
 composition_id: null
 group_key: "analyze"
 aliases:
   - "Analyze"
-  - "ANALYZE"
+  - "ANALYNE [2018 remix]"
+  - "ANALYZE (線) 作詞: BURGER NUDS"
+  - "ANALYZE [2018 remix]"
+  - "ANALYZE [Lost Verse(s) ver.]"
+  - "ANALYZEE [2018 remix]"
 sources:
   -
     type: release
@@ -530,10 +534,108 @@ sources:
     section: "セットリスト"
     position: 15
     raw_title: "ANALYZE"
+  -
+    type: live
+    file: "2019-02-04-000000.md"
+    title: "2019-02-04: Poet-type.M - 独演会「Pocketful of stardust」 at 渋谷La.mama"
+    date: "2019-02-04"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 14
+    raw_title: "ANALYNE [2018 remix]"
+  -
+    type: live
+    file: "2019-03-14-180000.md"
+    title: "2019-03-14: Poet-type.M - AD再騰就任シリーズ5days \\\"Why? Why? TODAY.\\\" at 下北沢GARAGE"
+    date: "2019-03-14"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "ANALYNE [2018 remix]"
+  -
+    type: live
+    file: "2020-11-27-000000.md"
+    title: "2020-11-27: MASAAKI_MONDEN_ - ethic(s) at 下北沢GARAGE"
+    date: "2020-11-27"
+    project: "単独ライブ"
+    section: "セットリスト"
+    position: 10
+    raw_title: "ANALYNE [2018 remix]"
+  -
+    type: release
+    file: "2004-07-21-000000.md"
+    title: "BURGER NUDS - BEST"
+    date: "2004-07-21"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 4
+    raw_title: "ANALYZE (線)<br/>作詞: BURGER NUDS"
+  -
+    type: live
+    file: "2019-06-05-000000.md"
+    title: "2019-06-05: Poet-type.M - FEVER 10th ANNIVERSARY \\\"Another KNNN Chill Beats\\\" at 新代田FEVER"
+    date: "2019-06-05"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "ANALYZE [2018 remix]"
+  -
+    type: live
+    file: "2019-07-11-000000.md"
+    title: "2019-07-11: Poet-type.M - UNDEAD FLOWER at 下北沢CLUB Que"
+    date: "2019-07-11"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 6
+    raw_title: "ANALYZE [Lost Verse(s) ver.]"
+  -
+    type: live
+    file: "2019-10-08-000000.md"
+    title: "2019-10-08: Poet-type.M - Ergonomic(s) at 渋谷La.mama"
+    date: "2019-10-08"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 12
+    raw_title: "ANALYZE [Lost Verse(s) ver.]"
+  -
+    type: live
+    file: "2018-11-23-170000.md"
+    title: "2018-11-23: 門田匡陽 - 新栄夕刊倶楽部 sunset BLUE 3rd Anniversary at 名古屋sunset BLUE"
+    date: "2018-11-23"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 6
+    raw_title: "ANALYZEE [2018 remix]"
 ---
+
+
+
+
+
+
 
 # Analyze
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:16:42.269Z: merged sources from ANALYNE_[2018_remix]-8e441201.md
+
+## Merge Notes
+
+- 2026-06-14T11:16:53.146Z: merged sources from ANALYZE_(線)_作詞__BURGER_NUDS-bb68a955.md
+
+## Merge Notes
+
+- 2026-06-14T11:16:55.736Z: merged sources from ANALYZE_[2018_remix]-99efe5d1.md
+
+## Merge Notes
+
+- 2026-06-14T11:16:58.319Z: merged sources from ANALYZE_[Lost_Verse(s)_ver.]-42d55b79.md
+
+## Merge Notes
+
+- 2026-06-14T11:17:02.805Z: merged sources from ANALYZEE_[2018_remix]-d6040d94.md

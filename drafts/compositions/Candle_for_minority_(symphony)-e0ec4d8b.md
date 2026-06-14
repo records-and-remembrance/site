@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Candle for minority (symphony)"
-status: draft
+status: merged
 composition_id: null
 group_key: "candle for minority (symphony)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Candle for minority (symphony)"
 ---
 
+
 # Candle for minority (symphony)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:05.626Z: merged into candle_for_minority-759a4609.md

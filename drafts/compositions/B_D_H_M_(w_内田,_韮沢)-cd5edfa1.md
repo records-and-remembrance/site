@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "B D H M (w/内田, 韮沢)"
-status: draft
+status: merged
 composition_id: null
 group_key: "b d h m (w/内田, 韮沢)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "B D H M (w/内田, 韮沢)"
 ---
 
+
 # B D H M (w/内田, 韮沢)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:18:08.449Z: merged into B_D_H_M-683eb1e3.md

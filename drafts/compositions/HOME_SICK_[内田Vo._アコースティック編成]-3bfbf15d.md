@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "HOME SICK [内田Vo./アコースティック編成]"
-status: draft
+status: merged
 composition_id: null
 group_key: "home sick [内田vo./アコースティック編成]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "HOME SICK [内田Vo./アコースティック編成]"
 ---
 
+
 # HOME SICK [内田Vo./アコースティック編成]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:06:16.777Z: merged into HOME_SICK_[内田Vo.]-88c9ba4c.md

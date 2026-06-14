@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Groria Streetから愛を込めて #3 −嬉しくて哀しい事−"
-status: draft
+status: merged
 composition_id: null
 group_key: "groria streetから愛を込めて #3 −嬉しくて哀しい事−"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Groria Streetから愛を込めて #3 −嬉しくて哀しい事−"
 ---
 
+
 # Groria Streetから愛を込めて #3 −嬉しくて哀しい事−
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:22:54.503Z: merged into Groria_Streetから愛を込めて_#3_-嬉しくて哀しい事--2d54a1f4.md

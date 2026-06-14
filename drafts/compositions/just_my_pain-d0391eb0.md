@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "just my pain"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "just my pain"
 aliases:
@@ -45,8 +45,9 @@ sources:
     raw_title: "just my pain"
 ---
 
+
 # just my pain
 
 ## Review Notes
 
-- 
+-

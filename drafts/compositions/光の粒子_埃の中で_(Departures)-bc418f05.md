@@ -6,6 +6,7 @@ composition_id: null
 group_key: "光の粒子 埃の中で (departures)"
 aliases:
   - "光の粒子 埃の中で (Departures)"
+  - "Departures"
 sources:
   -
     type: release
@@ -259,10 +260,24 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "光の粒子 埃の中で (Departures)"
+  -
+    type: release
+    file: "2019-07-10-000000.md"
+    title: "Poet-type.M - Lost Verse(s)"
+    date: "2019-07-10"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 1
+    raw_title: "Departures"
 ---
+
 
 # 光の粒子 埃の中で (Departures)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:21:05.466Z: merged sources from Departures-361356da.md

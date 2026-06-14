@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "I love you, You love me / messer schmitt Jr."
-status: draft
+status: ignore
 composition_id: null
 group_key: "i love you, you love me"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "I love you, You love me / messer schmitt Jr."
 ---
 
+
 # I love you, You love me / messer schmitt Jr.
 
 ## Review Notes
 
-- 
+-

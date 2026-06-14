@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "(can you feel?) ～Most beautful in the world～"
-status: draft
+status: merged
 composition_id: null
 group_key: "(can you feel?)～most beautful in the world～"
 aliases:
@@ -45,8 +45,13 @@ sources:
     raw_title: "(can you feel?) ～Most beautful in the world～"
 ---
 
+
 # (can you feel?) ～Most beautful in the world～
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:03:31.540Z: merged into (can_you_feel_)～Most_beautiful_in_the_world～-4a1ec090.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Dear My Teacher (w/伊藤, 河相, 菅原)"
-status: draft
+status: merged
 composition_id: null
 group_key: "dear my teacher (w/伊藤, 河相, 菅原)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Dear My Teacher (w/伊藤, 河相, 菅原)"
 ---
 
+
 # Dear My Teacher (w/伊藤, 河相, 菅原)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:52.116Z: merged into Dear_my_teacher-f5159fc3.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "city pop (初披露)"
-status: draft
+status: merged
 composition_id: null
 group_key: "city pop (初披露)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "city pop (初披露)"
 ---
 
+
 # city pop (初披露)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:28.938Z: merged into City_Pop-3a0d2503.md

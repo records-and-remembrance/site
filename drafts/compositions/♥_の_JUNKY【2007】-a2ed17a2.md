@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "♥ の JUNKY【2007】"
-status: draft
+status: merged
 composition_id: null
 group_key: "♥ の junky【2007】"
 aliases:
@@ -18,8 +18,14 @@ sources:
     raw_title: "♥ の JUNKY【2007】"
 ---
 
+
+
 # ♥ の JUNKY【2007】
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:15:25.515Z: merged into ♥のJUNKY-48603067.md

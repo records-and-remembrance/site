@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Bule Moon Shadow"
-status: draft
+status: merged
 composition_id: null
 group_key: "bule moon shadow"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Bule Moon Shadow"
 ---
 
+
 # Bule Moon Shadow
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:19:20.492Z: merged into Blue_moon_shadow-fd62ef3c.md

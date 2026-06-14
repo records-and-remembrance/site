@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Blue moom shadow"
-status: draft
+status: merged
 composition_id: null
 group_key: "blue moom shadow"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Blue moom shadow"
 ---
 
+
 # Blue moom shadow
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:18:45.859Z: merged into Blue_moon_shadow-fd62ef3c.md

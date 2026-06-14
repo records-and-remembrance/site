@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Methods Of Dance"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "methods of dance"
 aliases:
@@ -90,8 +90,9 @@ sources:
     raw_title: "Methods Of Dance"
 ---
 
+
 # Methods Of Dance
 
 ## Review Notes
 
-- 
+-

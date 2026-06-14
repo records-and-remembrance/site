@@ -1,16 +1,20 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "(can you feel?)～Most beautiful in the world～"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "(can you feel?)～most beautiful in the world～"
 aliases:
-  - "(can you feel?) ～most beautiful in the world～"
-  - "(can you feel?) ～Most beautiful in the world～"
-  - "(Can you feel?) ～most beautiful in the world～"
-  - "(Can you feel?) ～Most beautiful in the world～"
   - "(can you feel?)～Most beautiful in the world～"
-  - "(Can you feel?)～Most beautiful in the world～"
+  - "(can you feel?) ～most beautiful in the world～"
+  - "(can you feel?) ～Most beautiful in the world～ (Acoustic ver.)"
+  - "(can you feel?) ～Most beautiful in the world～ (セットリストには記載がない)"
+  - "(can you feel?) ～Most beautiful in the world～ (全員)"
+  - "(can you feel?) ～Most beautiful in the world～ (弾き語り)"
+  - "(Can you feel?) ～Most beautiful in the world～ [w/伊藤]"
+  - "(can you feel?) ～Most beautiful in the world～ [with 吹奏楽部]"
+  - "(can you feel?)～Most bautiful in the world～"
+  - "(can you feel?) ～Most beautful in the world～"
 sources:
   -
     type: release
@@ -921,10 +925,159 @@ sources:
     section: "セットリスト"
     position: 34
     raw_title: "(Can you feel?) ～Most beautiful in the world～"
+  -
+    type: release
+    file: "2008-03-08-000000.md"
+    title: "Good Dog Happy Men - Memory of the GOLDENBELLCITY CD-R "
+    date: "2008-03-08"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 3
+    raw_title: "(can you feel?) ～Most beautiful in the world～ (Acoustic ver.)"
+  -
+    type: live
+    file: "2013-09-28-000000.md"
+    title: "2013-09-28: Poet-type.M - Poet-type.M presents 『A Whole New World ～知らない星と、知らない夜と～』 at 北とぴあ"
+    date: "2013-09-28"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 13
+    raw_title: "(can you feel?) ～Most beautiful in the world～ (セットリストには記載がない)"
+  -
+    type: live
+    file: "2010-04-25-000000.md"
+    title: "2010-04-25: 門田匡陽 and His Funny Friends - 門田匡陽 and GARAGE presents \\\"Don't Trust Over 30\\\"  at 下北沢GARAGE"
+    date: "2010-04-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 17
+    raw_title: "(can you feel?) ～Most beautiful in the world～ (全員)"
+  -
+    type: live
+    file: "2010-07-25-000000.md"
+    title: "2010-07-25: 門田匡陽 -His Band- - Don't Trust Over 30 ～episode2～ at 下北沢GARAGE"
+    date: "2010-07-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 18
+    raw_title: "(can you feel?) ～Most beautiful in the world～ (弾き語り)"
+  -
+    type: live
+    file: "2010-02-19-000000.md"
+    title: "2010-02-19: Good Dog Happy Men - The Light TOUR at 大阪MUSE"
+    date: "2010-02-19"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 15
+    raw_title: "(Can you feel?) ～Most beautiful in the world～ [w/伊藤]<br>"
+  -
+    type: live
+    file: "2010-02-28-000000.md"
+    title: "2010-02-28: Good Dog Happy Men - The Light TOUR at 渋谷O-WEST"
+    date: "2010-02-28"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 16
+    raw_title: "(Can you feel?) ～Most beautiful in the world～ [w/伊藤]<br>"
+  -
+    type: live
+    file: "2008-11-14-000000.md"
+    title: "2008-11-14: Good Dog Happy Men - 大阪府箕面市立第六中学校 授業"
+    date: "2008-11-14"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 5
+    raw_title: "(can you feel?) ～Most beautiful in the world～ [with 吹奏楽部]"
+  -
+    type: live
+    file: "2007-09-15-000000.md"
+    title: "2007-09-15: Good Dog Happy Men - インストアライブ at TOWER RECORDS 新宿店"
+    date: "2007-09-15"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "(can you feel?)～Most bautiful in the world～"
+  -
+    type: live
+    file: "2009-04-24-000000.md"
+    title: "2009-04-24: Good Dog Happy Men - 2009 Good Dog Happy Men TOUR 「4人のゴブリン大いに躍る」 at 名古屋APOLLO THEATER"
+    date: "2009-04-24"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 19
+    raw_title: "(can you feel?) ～Most beautful in the world～"
+  -
+    type: live
+    file: "2009-04-25-000000.md"
+    title: "2009-04-25: Good Dog Happy Men - 2009 Good Dog Happy Men TOUR 「4人のゴブリン大いに躍る」 at 梅田シャングリラ"
+    date: "2009-04-25"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 19
+    raw_title: "(can you feel?) ～Most beautful in the world～"
+  -
+    type: live
+    file: "2009-04-30-000001.md"
+    title: "2009-04-30: Good Dog Happy Men - 2009 Good Dog Happy Men TOUR 「4人のゴブリン大いに躍る」 at 新宿LOFT"
+    date: "2009-04-30"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 19
+    raw_title: "(can you feel?) ～Most beautful in the world～"
+  -
+    type: live
+    file: "2010-11-03-000000.md"
+    title: "2010-11-03: 門田匡陽 - shimokita round up3 at 下北沢GARAGE"
+    date: "2010-11-03"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 8
+    raw_title: "(can you feel?) ～Most beautful in the world～"
 ---
+
+
+
+
+
+
+
+
+
 
 # (can you feel?)～Most beautiful in the world～
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:02:22.103Z: merged sources from (can_you_feel_)_～Most_beautiful_in_the_world～_(Acoustic_ver.)-f8ca34cf.md
+
+## Merge Notes
+
+- 2026-06-14T11:02:30.489Z: merged sources from (can_you_feel_)_～Most_beautiful_in_the_world～_(セットリストには記載がない)-e3a1115a.md
+
+## Merge Notes
+
+- 2026-06-14T11:02:36.545Z: merged sources from (can_you_feel_)_～Most_beautiful_in_the_world～_(全員)-bb61df10.md
+
+## Merge Notes
+
+- 2026-06-14T11:02:43.711Z: merged sources from (can_you_feel_)_～Most_beautiful_in_the_world～_(弾き語り)-23dfdfec.md
+
+## Merge Notes
+
+- 2026-06-14T11:02:48.673Z: merged sources from (Can_you_feel_)_～Most_beautiful_in_the_world～_[w_伊藤]-b45d367b.md
+
+## Merge Notes
+
+- 2026-06-14T11:02:56.753Z: merged sources from (can_you_feel_)_～Most_beautiful_in_the_world～_[with_吹奏楽部]-77c16a0e.md
+
+## Merge Notes
+
+- 2026-06-14T11:03:14.436Z: merged sources from (can_you_feel_)～Most_bautiful_in_the_world～-bf08c634.md
+
+## Merge Notes
+
+- 2026-06-14T11:03:31.540Z: merged sources from (can_you_feel_)_～Most_beautful_in_the_world～-1c3cf34a.md

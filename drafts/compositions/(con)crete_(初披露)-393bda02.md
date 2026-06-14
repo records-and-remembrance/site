@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "(con)crete (初披露)"
-status: draft
+status: merged
 composition_id: null
 group_key: "(con)crete (初披露)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "(con)crete (初披露)"
 ---
 
+
 # (con)crete (初披露)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:03:41.149Z: merged into (con)crete-2b6e187c.md

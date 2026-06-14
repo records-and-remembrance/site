@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Groria Streetから愛を込めて #3 -嬉しくて哀しい事-"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "groria streetから愛を込めて #3 -嬉しくて哀しい事-"
 aliases:
   - "Groria Streetから愛を込めて #3 -嬉しくて哀しい事-"
+  - "Groria Streetから愛を込めて #3 −嬉しくて哀しい事−"
+  - "Groria Street から愛を込めて#3 -嬉しくて哀しい事-【1981】"
 sources:
   -
     type: release
@@ -169,10 +171,39 @@ sources:
     section: "セットリスト"
     position: 17
     raw_title: "Groria Streetから愛を込めて #3 -嬉しくて哀しい事-"
+  -
+    type: live
+    file: "2007-12-23-000000.md"
+    title: "2007-12-23: Good Dog Happy Men - インストアライブ at TOWER RECORDS 近鉄パッセ店"
+    date: "2007-12-23"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 5
+    raw_title: "Groria Streetから愛を込めて #3 −嬉しくて哀しい事−"
+  -
+    type: release
+    file: "2007-11-28-000000.md"
+    title: "Good Dog Happy Men - the GOLDENBELLCITY"
+    date: "2007-11-28"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 4
+    raw_title: "Groria Street から愛を込めて#3 -嬉しくて哀しい事-【1981】"
 ---
+
+
+
 
 # Groria Streetから愛を込めて #3 -嬉しくて哀しい事-
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:22:54.503Z: merged sources from Groria_Streetから愛を込めて_#3_−嬉しくて哀しい事−-c898cc77.md
+
+## Merge Notes
+
+- 2026-06-14T11:22:59.230Z: merged sources from Groria_Street_から愛を込めて#3_-嬉しくて哀しい事-【1981】-0afde7fa.md

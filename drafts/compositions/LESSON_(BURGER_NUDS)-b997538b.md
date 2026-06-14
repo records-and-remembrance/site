@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "LESSON (BURGER NUDS)"
-status: draft
+status: merged
 composition_id: null
 group_key: "lesson (burger nuds)"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "LESSON (BURGER NUDS)"
 ---
 
+
 # LESSON (BURGER NUDS)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:26:32.562Z: merged into Lesson-b11449a3.md

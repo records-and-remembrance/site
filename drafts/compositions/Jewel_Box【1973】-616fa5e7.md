@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "Jewel Box【1973】"
-status: draft
+canonical_title: "Jewel Box"
+status: reviewed
 composition_id: null
 group_key: "jewel box【1973】"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Jewel Box【1973】"
 ---
 
+
 # Jewel Box【1973】
 
 ## Review Notes
 
-- 
+-

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "COLD BURN (TELESCOPE COMPILATION 01)"
-status: draft
+status: merged
 composition_id: null
 group_key: "cold burn (telescope compilation 01)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "COLD BURN ([TELESCOPE COMPILATION 01](http://monden-info.hatenablog.com/entry/2001/04/14/000000))"
 ---
 
+
 # COLD BURN (TELESCOPE COMPILATION 01)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:42.724Z: merged into cold_burn-3780f98f.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Candle for minority (BURGER NUDS)"
-status: draft
+status: merged
 composition_id: null
 group_key: "candle for minority (burger nuds)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Candle for minority (BURGER NUDS)"
 ---
 
+
 # Candle for minority (BURGER NUDS)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:02.313Z: merged into candle_for_minority-759a4609.md

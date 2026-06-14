@@ -1,12 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "judgement"
-status: draft
+status: merged
 composition_id: null
 group_key: "judgement"
 aliases:
   - "judgement"
-  - "Judgement"
 sources:
   -
     type: live
@@ -28,8 +27,13 @@ sources:
     raw_title: "Judgement"
 ---
 
+
 # judgement
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:25:41.336Z: merged into judgement;-08de8eb4.md

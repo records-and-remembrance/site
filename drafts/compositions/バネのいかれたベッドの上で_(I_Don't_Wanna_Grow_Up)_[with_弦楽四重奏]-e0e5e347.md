@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [with 弦楽四重奏]"
-status: draft
+status: merged
 composition_id: null
 group_key: "バネのいかれたベッドの上で (i don't wanna grow up) [with 弦楽四重奏]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [with 弦楽四重奏]<br>"
 ---
 
+
 # バネのいかれたベッドの上で (I Don't Wanna Grow Up) [with 弦楽四重奏]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:24:25.388Z: merged into バネのいかれたベットの上で_(I_Don't_Wanna_Grow_Up)-eb5e76f0.md

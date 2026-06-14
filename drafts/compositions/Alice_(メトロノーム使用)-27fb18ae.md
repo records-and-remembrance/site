@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Alice (メトロノーム使用)"
-status: draft
+status: merged
 composition_id: null
 group_key: "alice (メトロノーム使用)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Alice (メトロノーム使用)"
 ---
 
+
 # Alice (メトロノーム使用)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:16:02.145Z: merged into Alice-522b276a.md

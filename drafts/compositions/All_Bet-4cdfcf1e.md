@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "All Bet"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "all bet"
 aliases:
@@ -117,8 +117,9 @@ sources:
     raw_title: "All Bet"
 ---
 
+
 # All Bet
 
 ## Review Notes
 
-- 
+-

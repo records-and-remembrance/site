@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "「ただいま」と「おやすみ」の間に (pajamas) ◇"
-status: draft
+status: merged
 composition_id: null
 group_key: "「ただいま」と「おやすみ」の間に (pajamas) ◇"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "「ただいま」と「おやすみ」の間に (pajamas) ◇"
 ---
 
+
 # 「ただいま」と「おやすみ」の間に (pajamas) ◇
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:15:05.156Z: merged into 「ただいま」と「おやすみ」の間に_(Nursery_Rhymes_ep1)-a6acbaf1.md

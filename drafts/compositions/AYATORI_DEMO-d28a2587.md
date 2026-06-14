@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "AYATORI DEMO"
-status: draft
+canonical_title: "AYATORI"
+status: reviewed
 composition_id: null
 group_key: "ayatori"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "[AYATORI DEMO](https://www.youtube.com/watch?v=XOE_W02g_zU)"
 ---
 
+
 # AYATORI DEMO
 
 ## Review Notes
 
-- 
+-

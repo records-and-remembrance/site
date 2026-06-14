@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Apple star storyS【2007】"
-status: draft
+status: merged
 composition_id: null
 group_key: "apple star storys【2007】"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Apple star storyS【2007】"
 ---
 
+
 # Apple star storyS【2007】
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:17:50.444Z: merged into Apple_star_storyS-8c4142ac.md

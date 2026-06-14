@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Calling You [Jevetta Steele cover]"
-status: draft
+status: merged
 composition_id: null
 group_key: "calling you [jevetta steele cover]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Calling You [Jevetta Steele cover]"
 ---
 
+
 # Calling You [Jevetta Steele cover]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:19:35.134Z: merged into Calling_You_[Jevette_Steele_cover]-ad9235d1.md

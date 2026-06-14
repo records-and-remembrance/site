@@ -1,12 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Blue moon shadow"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "blue moon shadow"
 aliases:
   - "Blue moon shadow"
-  - "Blue Moon Shadow"
+  - "Blue moom shadow"
+  - "Blue Moon Shadow (with 山田[鍵盤ハーモニカ/Cho.]&河相[Gt./Cho.])"
+  - "Bule Moon Shadow"
 sources:
   -
     type: release
@@ -251,10 +253,53 @@ sources:
     section: "セットリスト"
     position: 8
     raw_title: "Blue Moon Shadow"
+  -
+    type: live
+    file: "2010-10-23-000000.md"
+    title: "2010-10-23: 門田匡陽 -His Band- - Don't Trust Over 30 ～episode3～ at 下北沢GARAGE"
+    date: "2010-10-23"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "Blue moom shadow"
+  -
+    type: live
+    file: "2012-04-14-000000.md"
+    title: "2012-04-14: 門田匡陽 - CalmCalm vol.2 at IID 世田谷ものづくり学校"
+    date: "2012-04-14"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 11
+    raw_title: "Blue Moon Shadow (with 山田[鍵盤ハーモニカ/Cho.]&河相[Gt./Cho.])"
+  -
+    type: live
+    file: "2013-12-08-000000.md"
+    title: "2013-12-08: Poet-type.M - White White White TOUR at 新代田FEVER"
+    date: "2013-12-08"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 6
+    raw_title: "Bule Moon Shadow"
 ---
+
+
+
+
 
 # Blue moon shadow
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:18:45.859Z: merged sources from Blue_moom_shadow-8fed48ed.md
+
+## Merge Notes
+
+- 2026-06-14T11:18:53.986Z: merged sources from Blue_Moon_Shadow_(with_山田[鍵盤ハーモニカ_Cho.]&河相[Gt._Cho.])-8f6c91f7.md
+
+## Merge Notes
+
+- 2026-06-14T11:19:20.492Z: merged sources from Bule_Moon_Shadow-9ceea839.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Apple star storyS 【Most beautiful in the world Tour 2006 FINAL / at_shinjuku LOFT（7/25)】 [全国版のみ]"
-status: draft
+status: merged
 composition_id: null
 group_key: "apple star storys 【most beautiful in the world tour 2006 final / at_shinjuku loft（7/25)】 [全国版のみ]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Apple star storyS 【[Most beautiful in the world Tour 2006 FINAL / at_shinjuku LOFT（7/25)](http://monden-info.hatenablog.com/entry/2006/07/25/000000)】 [全国版のみ]"
 ---
 
+
 # Apple star storyS 【Most beautiful in the world Tour 2006 FINAL / at_shinjuku LOFT（7/25)】 [全国版のみ]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:17:45.130Z: merged into Apple_star_storyS-8c4142ac.md

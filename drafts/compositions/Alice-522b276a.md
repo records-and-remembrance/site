@@ -1,11 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Alice"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "alice"
 aliases:
   - "Alice"
+  - "Alice -ver. D&D-"
+  - "Alice (w/河相, メトロノーム)"
+  - "Alice (w/河相)"
+  - "Alice (メトロノーム使用)"
 sources:
   -
     type: release
@@ -178,10 +182,76 @@ sources:
     section: "セットリスト"
     position: 1
     raw_title: "Alice"
+  -
+    type: release
+    file: "2015-09-26-000002.md"
+    title: "Poet-type.M - A Place, Dark & Dark -prologue- LIVE at Kenmin kyosai Mirai Hall_Jan 31, 2015"
+    date: "2015-09-26"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 11
+    raw_title: "Alice -ver. D&D-"
+  -
+    type: live
+    file: "2015-01-31-000001.md"
+    title: "2015-01-31: Poet-type.M - A Place, Dark & Dark -prologue- at 県民共済みらいホール"
+    date: "2015-01-31"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 11
+    raw_title: "Alice -ver. D&D-"
+  -
+    type: live
+    file: "2011-02-02-000000.md"
+    title: "2011-02-02: 門田匡陽 - 朝露は夜の口惜しさ at 下北沢CLUB Que"
+    date: "2011-02-02"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 3
+    raw_title: "Alice (w/河相, メトロノーム)"
+  -
+    type: live
+    file: "2011-12-03-000000.md"
+    title: "2011-12-03: 門田匡陽 - 線の上の子供たち at 心斎橋club☆jungle"
+    date: "2011-12-03"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "Alice (w/河相)"
+  -
+    type: live
+    file: "2011-04-13-000000.md"
+    title: "2011-04-13: 門田匡陽 - Beat Happening! ～7th編第四章～ at 渋谷7th Floor"
+    date: "2011-04-13"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "Alice (メトロノーム使用)"
 ---
+
+
+
+
+
 
 # Alice
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:15:50.504Z: merged sources from Alice_-ver._D&D--b0f7ec08.md
+
+## Merge Notes
+
+- 2026-06-14T11:15:54.192Z: merged sources from Alice_(w_河相,_メトロノーム)-23b964ff.md
+
+## Merge Notes
+
+- 2026-06-14T11:15:58.451Z: merged sources from Alice_(w_河相)-0ba4ece0.md
+
+## Merge Notes
+
+- 2026-06-14T11:16:02.145Z: merged sources from Alice_(メトロノーム使用)-27fb18ae.md

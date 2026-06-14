@@ -1,12 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "I Love You"
-status: draft
+canonical_title: "I LOVE YOU"
+status: reviewed
 composition_id: null
 group_key: "i love you"
 aliases:
-  - "I Love You"
   - "I LOVE YOU"
+  - "I LOVE YOU (w/河相, メトロノーム)"
+  - "I LOVE YOU (w/河相)"
+  - "I LOVE YOU (メトロノーム使用)"
 sources:
   -
     type: release
@@ -134,10 +136,54 @@ sources:
     section: "セットリスト"
     position: 3
     raw_title: "I LOVE YOU"
+  -
+    type: live
+    file: "2011-02-02-000000.md"
+    title: "2011-02-02: 門田匡陽 - 朝露は夜の口惜しさ at 下北沢CLUB Que"
+    date: "2011-02-02"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "I LOVE YOU (w/河相, メトロノーム)"
+  -
+    type: live
+    file: "2011-12-03-000000.md"
+    title: "2011-12-03: 門田匡陽 - 線の上の子供たち at 心斎橋club☆jungle"
+    date: "2011-12-03"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "I LOVE YOU (w/河相)"
+  -
+    type: live
+    file: "2011-04-13-000000.md"
+    title: "2011-04-13: 門田匡陽 - Beat Happening! ～7th編第四章～ at 渋谷7th Floor"
+    date: "2011-04-13"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "I LOVE YOU (メトロノーム使用)"
 ---
+
+
+
+
+
 
 # I Love You
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:24:45.579Z: merged sources from I_LOVE_YOU_(w_河相,_メトロノーム)-7f414b1e.md
+
+## Merge Notes
+
+- 2026-06-14T11:24:48.955Z: merged sources from I_LOVE_YOU_(w_河相)-0a258bb7.md
+
+## Merge Notes
+
+- 2026-06-14T11:24:56.709Z: merged sources from I_LOVE_YOU_(メトロノーム使用)-01568467.md

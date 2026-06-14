@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "B D H M"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "b d h m"
 aliases:
   - "B D H M"
+  - "B D H M (w/内田, 韮沢)"
+  - "B D H M【1975】"
 sources:
   -
     type: release
@@ -142,10 +144,39 @@ sources:
     section: "セットリスト"
     position: 24
     raw_title: "B D H M"
+  -
+    type: live
+    file: "2010-04-25-000000.md"
+    title: "2010-04-25: 門田匡陽 and His Funny Friends - 門田匡陽 and GARAGE presents \\\"Don't Trust Over 30\\\"  at 下北沢GARAGE"
+    date: "2010-04-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 10
+    raw_title: "B D H M (w/内田, 韮沢)"
+  -
+    type: release
+    file: "2007-11-28-000000.md"
+    title: "Good Dog Happy Men - the GOLDENBELLCITY"
+    date: "2007-11-28"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 8
+    raw_title: "B D H M【1975】"
 ---
+
+
+
 
 # B D H M
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:18:08.449Z: merged sources from B_D_H_M_(w_内田,_韮沢)-cd5edfa1.md
+
+## Merge Notes
+
+- 2026-06-14T11:18:13.018Z: merged sources from B_D_H_M【1975】-173368ce.md

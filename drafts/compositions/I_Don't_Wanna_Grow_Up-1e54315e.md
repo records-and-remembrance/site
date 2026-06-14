@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "I Don't Wanna Grow Up"
-status: draft
+status: merged
 composition_id: null
 group_key: "i don't wanna grow up"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "I Don't Wanna Grow Up"
 ---
 
+
 # I Don't Wanna Grow Up
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:23:46.149Z: merged into バネのイカれたベッドの上_(I_Don't_Wanna_Grow_Up)-176bec0b.md

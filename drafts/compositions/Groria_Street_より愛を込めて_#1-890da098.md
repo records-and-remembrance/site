@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Groria Street より愛を込めて #1"
-status: draft
+status: merged
 composition_id: null
 group_key: "groria street より愛を込めて #1"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Groria Street より愛を込めて #1"
 ---
 
+
 # Groria Street より愛を込めて #1
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:22:36.444Z: merged into Groria_Streetから愛を込めて_#1-d239cddf.md

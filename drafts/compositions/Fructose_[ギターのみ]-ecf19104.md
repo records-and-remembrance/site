@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Fructose [ギターのみ]"
-status: draft
+status: merged
 composition_id: null
 group_key: "fructose [ギターのみ]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Fructose [ギターのみ]"
 ---
 
+
 # Fructose [ギターのみ]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:21:46.941Z: merged into fructose-2cdb8961.md

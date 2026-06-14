@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "[Sweet heart of moon ?]"
-status: draft
+status: ignore
 composition_id: null
 group_key: "[sweet heart of moon ?]"
 aliases:
@@ -27,8 +27,9 @@ sources:
     raw_title: "[Sweet heart of moon ?]"
 ---
 
+
 # [Sweet heart of moon ?]
 
 ## Review Notes
 
-- 
+-

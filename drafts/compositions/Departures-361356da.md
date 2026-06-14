@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Departures"
-status: draft
+status: merged
 composition_id: null
 group_key: "departures"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Departures"
 ---
 
+
 # Departures
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:21:05.466Z: merged into 光の粒子_埃の中で_(Departures)-bc418f05.md

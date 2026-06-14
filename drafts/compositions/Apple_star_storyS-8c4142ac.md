@@ -1,12 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Apple star storyS"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "apple star storys"
 aliases:
   - "Apple star storyS"
-  - "Apple Star StoryS"
+  - "Apple star storyS 【Most beautiful in the world Tour 2006 FINAL / at_shinjuku LOFT（7/25)】 [全国版のみ]"
+  - "Apple star storyS【2007】"
 sources:
   -
     type: release
@@ -530,10 +531,39 @@ sources:
     section: "セットリスト"
     position: 1
     raw_title: "Apple star storyS"
+  -
+    type: release
+    file: "2006-04-26-000000.md"
+    title: "Good Dog Happy Men - Most beautiful in the world"
+    date: "2006-04-26"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 8
+    raw_title: "Apple star storyS 【[Most beautiful in the world Tour 2006 FINAL / at_shinjuku LOFT（7/25)](http://monden-info.hatenablog.com/entry/2006/07/25/000000)】 [全国版のみ]"
+  -
+    type: release
+    file: "2007-11-28-000000.md"
+    title: "Good Dog Happy Men - the GOLDENBELLCITY"
+    date: "2007-11-28"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 3
+    raw_title: "Apple star storyS【2007】"
 ---
+
+
+
 
 # Apple star storyS
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:17:45.130Z: merged sources from Apple_star_storyS_【Most_beautiful_in_the_world_Tour_2006_FINAL___at_shinjuku_LOF-43c78ec5.md
+
+## Merge Notes
+
+- 2026-06-14T11:17:50.444Z: merged sources from Apple_star_storyS【2007】-ea6a2609.md

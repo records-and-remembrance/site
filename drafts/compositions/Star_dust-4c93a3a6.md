@@ -6,6 +6,7 @@ composition_id: null
 group_key: "star dust"
 aliases:
   - "Star dust"
+  - "〜Star dust〜"
 sources:
   -
     type: release
@@ -34,10 +35,24 @@ sources:
     section: "セットリスト"
     position: 1
     raw_title: "Star dust"
+  -
+    type: live
+    file: "2019-07-11-000000.md"
+    title: "2019-07-11: Poet-type.M - UNDEAD FLOWER at 下北沢CLUB Que"
+    date: "2019-07-11"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 7
+    raw_title: "〜Star dust〜"
 ---
+
 
 # Star dust
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:01:43.881Z: merged sources from 〜Star_dust〜-e7fa157f.md

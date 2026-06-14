@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
-status: draft
+status: merged
 composition_id: null
 group_key: "kireigoto (\"あのキラキラした綺麗事を (again)\" rearrange)"
 aliases:
@@ -45,8 +45,13 @@ sources:
     raw_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
 ---
 
+
 # Kireigoto ("あのキラキラした綺麗事を (AGAIN)" rearrange)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:26:05.605Z: merged into あのキラキラした綺麗事を_(AGAIN)-92c32b8e.md

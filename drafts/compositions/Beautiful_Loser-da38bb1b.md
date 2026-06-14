@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Beautiful Loser"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "beautiful loser"
 aliases:
@@ -45,8 +45,9 @@ sources:
     raw_title: "Beautiful Loser"
 ---
 
+
 # Beautiful Loser
 
 ## Review Notes
 
-- 
+-

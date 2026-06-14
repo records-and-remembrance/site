@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "D.O.M"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "d.o.m"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "D.O.M"
 ---
 
+
 # D.O.M
 
 ## Review Notes
 
-- 
+-

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "BRAVE GIRL IN HEL"
-status: draft
+status: merged
 composition_id: null
 group_key: "brave girl in hel"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "BRAVE GIRL IN HEL"
 ---
 
+
 # BRAVE GIRL IN HEL
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:19:05.314Z: merged into BRAVE_GIRL_IN_HELL-2fb7cfc0.md

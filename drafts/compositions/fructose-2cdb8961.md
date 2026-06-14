@@ -1,12 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "fructose"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "fructose"
 aliases:
   - "fructose"
-  - "Fructose"
+  - "fructose (w/河相)"
+  - "fructose (with 河相[Gt.])"
+  - "Fructose (未発表DEMO音源) / Poet-type.M"
+  - "Fructose [ギターのみ]"
 sources:
   -
     type: release
@@ -125,10 +128,67 @@ sources:
     section: "セットリスト"
     position: 3
     raw_title: "Fructose"
+  -
+    type: live
+    file: "2011-12-03-000000.md"
+    title: "2011-12-03: 門田匡陽 - 線の上の子供たち at 心斎橋club☆jungle"
+    date: "2011-12-03"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "fructose (w/河相)"
+  -
+    type: live
+    file: "2012-04-14-000000.md"
+    title: "2012-04-14: 門田匡陽 - CalmCalm vol.2 at IID 世田谷ものづくり学校"
+    date: "2012-04-14"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "fructose (with 河相[Gt.])"
+  -
+    type: release
+    file: "2015-09-26-000000_1.md"
+    title: "VA - 3 Way Spirit festival M.O.N -美学の勝利-"
+    date: "2015-09-26"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 3
+    raw_title: "Fructose (未発表DEMO音源) / Poet-type.M"
+  -
+    type: live
+    file: "2015-11-02-000000.md"
+    title: "2015-11-02: Poet-type.M - インストアライブ at TOWER RECORDS 渋谷店"
+    date: "2015-11-02"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 8
+    raw_title: "Fructose [ギターのみ]"
 ---
+
+
+
+
+
 
 # fructose
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:21:33.919Z: merged sources from fructose_(w_河相)-70c33e60.md
+
+## Merge Notes
+
+- 2026-06-14T11:21:38.689Z: merged sources from fructose_(with_河相[Gt.])-5292ed43.md
+
+## Merge Notes
+
+- 2026-06-14T11:21:43.233Z: merged sources from Fructose_(未発表DEMO音源)___Poet-type.M-02b64e4f.md
+
+## Merge Notes
+
+- 2026-06-14T11:21:46.941Z: merged sources from Fructose_[ギターのみ]-ecf19104.md

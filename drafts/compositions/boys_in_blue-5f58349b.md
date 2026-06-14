@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "boys in blue"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "boys in blue"
 aliases:
@@ -73,8 +73,9 @@ sources:
     raw_title: "boys in blue"
 ---
 
+
 # boys in blue
 
 ## Review Notes
 
-- 
+-

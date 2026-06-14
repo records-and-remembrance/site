@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "MARCH LIVE Ver."
-status: draft
+status: merged
 composition_id: null
 group_key: "march live ver."
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "MARCH LIVE Ver.<br/>"
 ---
 
+
 # MARCH LIVE Ver.
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:26:48.941Z: merged into MARCH-5b6583d6.md

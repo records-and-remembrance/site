@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ANDANTINO -museの楽団- (弾き語り)"
-status: draft
+status: merged
 composition_id: null
 group_key: "andantino -museの楽団- (弾き語り)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ANDANTINO -museの楽団- (弾き語り)"
 ---
 
+
 # ANDANTINO -museの楽団- (弾き語り)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:17:27.525Z: merged into ANDANTINO_-museの楽団--54ff3af0.md

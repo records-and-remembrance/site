@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "MARCH (線)"
-status: draft
+status: merged
 composition_id: null
 group_key: "march (線)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "MARCH (線)"
 ---
 
+
 # MARCH (線)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:26:44.115Z: merged into MARCH-5b6583d6.md

@@ -1,11 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "あのキラキラした綺麗事を (AGAIN)"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "あのキラキラした綺麗事を (again)"
 aliases:
   - "あのキラキラした綺麗事を (AGAIN)"
+  - "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
+  - "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" アコースティックバージョン)"
+  - "あのキラキラした綺麗事 (AGAIN)"
 sources:
   -
     type: release
@@ -205,10 +208,80 @@ sources:
     section: "セットリスト"
     position: 7
     raw_title: "あのキラキラした綺麗事を (AGAIN)"
+  -
+    type: live
+    file: "2023-04-11-000000.md"
+    title: "2023-04-11: 門田匡陽 - \\\"Spring Weather Report 2023\\\" at 新代田LIVE HOUSE FEVER"
+    date: "2023-04-11"
+    project: "予定"
+    section: "セットリスト"
+    position: 3
+    raw_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
+  -
+    type: live
+    file: "2023-06-09-000000.md"
+    title: " 2023-06-09: 門田匡陽 - \\\"PERFECT MOMENT\\\" performing by MONDEN MASAAKI (BAND SET) at 新代田LIVE HOUSE FEVER"
+    date: "2023-06-09"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
+  -
+    type: live
+    file: "2023-08-27-000000.md"
+    title: " 2023-08-27: 門田匡陽 × NAO YANAGAWA - hmc studio live \\\"CORE\\\"  at 梅ヶ丘hmc coffee & sake"
+    date: "2023-08-27"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
+  -
+    type: live
+    file: "2023-11-19-000000.md"
+    title: "2023-11-19: 門田匡陽 + Nao Yanagawa - \\\"パンと音楽とアンティーク 2023\\\" at 東京オーヴァル京王閣"
+    date: "2023-11-19"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
+  -
+    type: live
+    file: "2021-12-15-000000.md"
+    title: "2021-12-15: Monden Masaaki - ethics 2021 at 羽田空港TIAT SKY HALL"
+    date: "2021-12-15"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 5
+    raw_title: "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" アコースティックバージョン)"
+  -
+    type: live
+    file: "2015-07-04-000000.md"
+    title: "2015-07-04: Poet-type.M - インストアライブ at TOWER RECORDS 新宿店"
+    date: "2015-07-04"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 4
+    raw_title: "あのキラキラした綺麗事 (AGAIN)"
 ---
+
+
+
+
 
 # あのキラキラした綺麗事を (AGAIN)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:26:05.605Z: merged sources from Kireigoto_(_あのキラキラした綺麗事を_(AGAIN)__rearrange)-ca2bf22c.md
+
+## Merge Notes
+
+- 2026-06-14T11:26:11.564Z: merged sources from Kireigoto_(_あのキラキラした綺麗事を_(AGAIN)__アコースティックバージョン)-61f20016.md
+
+## Merge Notes
+
+- 2026-06-14T11:26:15.371Z: merged sources from あのキラキラした綺麗事_(AGAIN)-56716310.md

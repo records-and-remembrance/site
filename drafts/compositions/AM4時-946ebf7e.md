@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "AM4時"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "am4時"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "AM4時"
 ---
 
+
 # AM4時
 
 ## Review Notes
 
-- 
+-

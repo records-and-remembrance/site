@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Cocaine Blues [Ramblin' Jack Elliot cover]"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "cocaine blues [ramblin' jack elliot cover]"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Cocaine Blues [Ramblin' Jack Elliot cover]"
 ---
 
+
 # Cocaine Blues [Ramblin' Jack Elliot cover]
 
 ## Review Notes
 
-- 
+-

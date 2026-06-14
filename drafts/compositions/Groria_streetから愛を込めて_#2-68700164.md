@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "Groria streetから愛を込めて #2"
-status: draft
+canonical_title: "Groria Streetから愛を込めて #2"
+status: reviewed
 composition_id: null
 group_key: "groria streetから愛を込めて #2"
 aliases:
@@ -36,8 +36,9 @@ sources:
     raw_title: "Groria streetから愛を込めて #2"
 ---
 
+
 # Groria streetから愛を込めて #2
 
 ## Review Notes
 
-- 
+-

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ないよなにも [内田Vo.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "ないよなにも [内田vo.]"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "ないよなにも [内田Vo.]"
 ---
 
+
 # ないよなにも [内田Vo.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:06:35.134Z: merged into ないよなにも-0ebf34b1.md

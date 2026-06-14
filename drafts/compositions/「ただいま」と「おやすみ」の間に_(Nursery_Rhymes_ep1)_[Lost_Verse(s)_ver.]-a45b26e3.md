@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "「ただいま」と「おやすみ」の間に (Nursery Rhymes ep1) [Lost Verse(s) ver.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "「ただいま」と「おやすみ」の間に (nursery rhymes ep1) [lost verse(s) ver.]"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "「ただいま」と「おやすみ」の間に (Nursery Rhymes ep1) [Lost Verse(s) ver.]"
 ---
 
+
 # 「ただいま」と「おやすみ」の間に (Nursery Rhymes ep1) [Lost Verse(s) ver.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:14:49.092Z: merged into 「ただいま」と「おやすみ」の間に_(Nursery_Rhymes_ep1)-a6acbaf1.md

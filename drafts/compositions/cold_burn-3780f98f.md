@@ -1,13 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "cold burn"
-status: draft
+canonical_title: "COLD BURN"
+status: reviewed
 composition_id: null
 group_key: "cold burn"
 aliases:
-  - "cold burn"
   - "COLD BURN"
   - "COLD BURN / BURGER NUDS"
+  - "COLD BURN (TELESCOPE COMPILATION 01)"
 sources:
   -
     type: release
@@ -387,10 +387,25 @@ sources:
     section: "セットリスト"
     position: 13
     raw_title: "COLD BURN"
+  -
+    type: release
+    file: "2004-07-21-000000.md"
+    title: "BURGER NUDS - BEST"
+    date: "2004-07-21"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 1
+    raw_title: "COLD BURN ([TELESCOPE COMPILATION 01](http://monden-info.hatenablog.com/entry/2001/04/14/000000))"
 ---
+
+
 
 # cold burn
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:42.724Z: merged sources from COLD_BURN_(TELESCOPE_COMPILATION_01)-9b117607.md

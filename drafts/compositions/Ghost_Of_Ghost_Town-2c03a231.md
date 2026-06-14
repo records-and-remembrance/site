@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Ghost Of Ghost Town"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "ghost of ghost town"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Ghost Of Ghost Town"
 ---
 
+
 # Ghost Of Ghost Town
 
 ## Review Notes
 
-- 
+-

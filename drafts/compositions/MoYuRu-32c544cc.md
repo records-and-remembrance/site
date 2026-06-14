@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "MoYuRu"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "moyuru"
 aliases:
   - "MoYuRu"
+  - "MoYuRu [初披露]"
 sources:
   -
     type: release
@@ -88,10 +89,25 @@ sources:
     section: "セットリスト"
     position: 11
     raw_title: "MoYuRu"
+  -
+    type: live
+    file: "2018-02-18-000000.md"
+    title: "2018-02-18: Poet-type.M with 楢原英介 - Pocketful of stardust -1 at 神楽坂・神楽音"
+    date: "2018-02-18"
+    project: "Poet-type.M"
+    section: "セットリスト"
+    position: 15
+    raw_title: "MoYuRu [初披露]"
 ---
+
+
 
 # MoYuRu
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:27:01.315Z: merged sources from MoYuRu_[初披露]-eb362164.md

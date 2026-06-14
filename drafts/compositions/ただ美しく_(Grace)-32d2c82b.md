@@ -6,6 +6,7 @@ composition_id: null
 group_key: "ただ美しく (grace)"
 aliases:
   - "ただ美しく (Grace)"
+  - "Grace"
 sources:
   -
     type: release
@@ -61,10 +62,24 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "ただ美しく (Grace)"
+  -
+    type: release
+    file: "2013-10-02-000000_1.md"
+    title: "Poet-type.M - The Lunch2 / The Night2 (CD-R)"
+    date: "2013-10-02"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 4
+    raw_title: "Grace"
 ---
+
 
 # ただ美しく (Grace)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:22:06.727Z: merged sources from Grace-fd1cf5e2.md

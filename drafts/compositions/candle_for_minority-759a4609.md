@@ -1,12 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "candle for minority"
-status: draft
+canonical_title: "Candle for minority"
+status: reviewed
 composition_id: null
 group_key: "candle for minority"
 aliases:
-  - "candle for minority"
   - "Candle for minority"
+  - "Candle for minority (BURGER NUDS)"
+  - "Candle for minority (symphony)"
+  - "Candle for minority (with 山田[Cho.])"
+  - "Candle for minority (弾き語り)"
 sources:
   -
     type: release
@@ -413,10 +416,67 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "candle for minority"
+  -
+    type: live
+    file: "2023-02-10-220000.md"
+    title: "2023-02-10: 門田匡陽 Instagram Live"
+    date: "2023-02-10"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 8
+    raw_title: "Candle for minority (BURGER NUDS)"
+  -
+    type: release
+    file: "2004-07-21-000000.md"
+    title: "BURGER NUDS - BEST"
+    date: "2004-07-21"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 11
+    raw_title: "Candle for minority (symphony)"
+  -
+    type: live
+    file: "2012-04-14-000000.md"
+    title: "2012-04-14: 門田匡陽 - CalmCalm vol.2 at IID 世田谷ものづくり学校"
+    date: "2012-04-14"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "Candle for minority (with 山田[Cho.])"
+  -
+    type: live
+    file: "2010-04-25-000000.md"
+    title: "2010-04-25: 門田匡陽 and His Funny Friends - 門田匡陽 and GARAGE presents \\\"Don't Trust Over 30\\\"  at 下北沢GARAGE"
+    date: "2010-04-25"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "Candle for minority (弾き語り)"
 ---
+
+
+
+
+
 
 # candle for minority
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:20:02.313Z: merged sources from Candle_for_minority_(BURGER_NUDS)-16a55255.md
+
+## Merge Notes
+
+- 2026-06-14T11:20:05.626Z: merged sources from Candle_for_minority_(symphony)-e0ec4d8b.md
+
+## Merge Notes
+
+- 2026-06-14T11:20:10.144Z: merged sources from Candle_for_minority_(with_山田[Cho.])-84a8dc3f.md
+
+## Merge Notes
+
+- 2026-06-14T11:20:14.178Z: merged sources from Candle_for_minority_(弾き語り)-fca08891.md

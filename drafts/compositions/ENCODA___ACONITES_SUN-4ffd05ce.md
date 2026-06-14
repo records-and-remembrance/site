@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ENCODA / ACONITES SUN"
-status: draft
+status: ignore
 composition_id: null
 group_key: "encoda"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "ENCODA / ACONITES SUN"
 ---
 
+
 # ENCODA / ACONITES SUN
 
 ## Review Notes
 
-- 
+-

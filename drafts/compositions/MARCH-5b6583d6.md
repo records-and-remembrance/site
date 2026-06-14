@@ -1,11 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "MARCH"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "march"
 aliases:
   - "MARCH"
+  - "MARCH (線)"
+  - "MARCH LIVE Ver."
 sources:
   -
     type: release
@@ -475,10 +477,39 @@ sources:
     section: "セットリスト"
     position: 12
     raw_title: "MARCH"
+  -
+    type: release
+    file: "2004-07-21-000000.md"
+    title: "BURGER NUDS - BEST"
+    date: "2004-07-21"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 5
+    raw_title: "MARCH (線)"
+  -
+    type: release
+    file: "2014-04-02-000000_2.md"
+    title: "BURGER NUDS - BURGER NUDS 3 symphony"
+    date: "2014-04-02"
+    project: "BURGER NUDS"
+    section: "収録曲"
+    position: 13
+    raw_title: "MARCH LIVE Ver.<br/>"
 ---
+
+
+
 
 # MARCH
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:26:44.115Z: merged sources from MARCH_(線)-ce02a7b0.md
+
+## Merge Notes
+
+- 2026-06-14T11:26:48.941Z: merged sources from MARCH_LIVE_Ver.-2f6fd11f.md

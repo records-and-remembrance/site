@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Trick or Treat (弾き語り with 伊藤)"
-status: draft
+status: merged
 composition_id: null
 group_key: "trick or treat (弾き語り with 伊藤)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Trick or Treat (弾き語り with 伊藤)"
 ---
 
+
 # Trick or Treat (弾き語り with 伊藤)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:27:23.339Z: merged into trick_or_treat-871df97a.md

@@ -1,11 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "BRAVE GIRL IN HELL"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "brave girl in hell"
 aliases:
   - "BRAVE GIRL IN HELL"
+  - "BRAVE GIRL IN HEL"
 sources:
   -
     type: release
@@ -331,10 +332,25 @@ sources:
     section: "セットリスト"
     position: 2
     raw_title: "BRAVE GIRL IN HELL"
+  -
+    type: live
+    file: "2001-05-06-000000.md"
+    title: "2001-05-06: BURGER NUDS - Live at 代々木公園 (路上ライブ)"
+    date: "2001-05-06"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 11
+    raw_title: "BRAVE GIRL IN HEL"
 ---
+
+
 
 # BRAVE GIRL IN HELL
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:19:05.314Z: merged sources from BRAVE_GIRL_IN_HEL-6b168111.md

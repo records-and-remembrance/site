@@ -1,12 +1,13 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "(con)crete"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "(con)crete"
 aliases:
   - "(con)crete"
   - "(con)crete DEMO"
+  - "(con)crete (初披露)"
 sources:
   -
     type: release
@@ -44,10 +45,25 @@ sources:
     section: "セットリスト"
     position: 5
     raw_title: "(con)crete"
+  -
+    type: live
+    file: "2020-11-27-000000.md"
+    title: "2020-11-27: MASAAKI_MONDEN_ - ethic(s) at 下北沢GARAGE"
+    date: "2020-11-27"
+    project: "単独ライブ"
+    section: "セットリスト"
+    position: 6
+    raw_title: "(con)crete (初披露)"
 ---
+
+
 
 # (con)crete
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:03:41.149Z: merged sources from (con)crete_(初披露)-393bda02.md

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "I Can't Help Falling Love [Elvis Presley cover]"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "i can't help falling love [elvis presley cover]"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "I Can't Help Falling Love [Elvis Presley cover]"
 ---
 
+
 # I Can't Help Falling Love [Elvis Presley cover]
 
 ## Review Notes
 
-- 
+-

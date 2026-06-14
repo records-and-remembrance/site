@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Grace"
-status: draft
+status: merged
 composition_id: null
 group_key: "grace"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Grace"
 ---
 
+
 # Grace
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:22:06.727Z: merged into ただ美しく_(Grace)-32d2c82b.md

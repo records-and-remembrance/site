@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "_trick or treat_"
-status: draft
+canonical_title: "trick or treat"
+status: reviewed
 composition_id: null
 group_key: "_trick or treat_"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "_trick or treat_"
 ---
 
+
 # _trick or treat_
 
 ## Review Notes
 
-- 
+-

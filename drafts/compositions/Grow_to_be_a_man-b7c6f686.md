@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Grow to be a man"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "grow to be a man"
 aliases:
@@ -37,8 +37,9 @@ sources:
     raw_title: "GROW TO BE A MAN"
 ---
 
+
 # Grow to be a man
 
 ## Review Notes
 
-- 
+-

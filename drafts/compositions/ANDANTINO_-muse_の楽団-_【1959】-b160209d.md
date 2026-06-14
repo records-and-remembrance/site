@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ANDANTINO -muse の楽団- 【1959】"
-status: draft
+status: merged
 composition_id: null
 group_key: "andantino -muse の楽団- 【1959】"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ANDANTINO -muse の楽団- 【1959】"
 ---
 
+
 # ANDANTINO -muse の楽団- 【1959】
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:17:19.020Z: merged into ANDANTINO_-museの楽団--54ff3af0.md

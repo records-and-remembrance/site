@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [Lost Verse(s) ver.]"
-status: draft
+status: merged
 composition_id: null
 group_key: "バネのいかれたベッドの上で (i don't wanna grow up) [lost verse(s) ver.]"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [Lost Verse(s) ver.]"
 ---
 
+
 # バネのいかれたベッドの上で (I Don't Wanna Grow Up) [Lost Verse(s) ver.]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:24:28.642Z: merged into バネのいかれたベットの上で_(I_Don't_Wanna_Grow_Up)-eb5e76f0.md

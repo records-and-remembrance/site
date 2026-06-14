@@ -6,7 +6,7 @@ composition_id: null
 group_key: "何もかも越えて、吐き気がする (down to heaven)"
 aliases:
   - "何もかも越えて、吐き気がする (Down to heaven)"
-  - "何もかも越えて、吐き気がする (Down To Heaven)"
+  - "Down To Heaven"
 sources:
   -
     type: release
@@ -152,10 +152,24 @@ sources:
     section: "セットリスト"
     position: 2
     raw_title: "何もかも越えて、吐き気がする (Down to heaven)"
+  -
+    type: release
+    file: "2019-07-10-000000.md"
+    title: "Poet-type.M - Lost Verse(s)"
+    date: "2019-07-10"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 3
+    raw_title: "Down To Heaven"
 ---
+
 
 # 何もかも越えて、吐き気がする (Down to heaven)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:21:10.027Z: merged sources from Down_To_Heaven-057fb5a1.md

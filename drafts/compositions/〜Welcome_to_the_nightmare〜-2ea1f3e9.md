@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "〜Welcome to the nightmare〜"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "〜welcome to the nightmare〜"
 aliases:
@@ -45,8 +45,9 @@ sources:
     raw_title: "〜Welcome to the nightmare〜"
 ---
 
+
 # 〜Welcome to the nightmare〜
 
 ## Review Notes
 
-- 
+-

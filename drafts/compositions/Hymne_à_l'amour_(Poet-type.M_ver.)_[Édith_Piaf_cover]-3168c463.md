@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Hymne à l'amour (Poet-type.M ver.) [Édith Piaf cover]"
-status: draft
+status: merged
 composition_id: null
 group_key: "hymne à l'amour (poet-type.m ver.) [édith piaf cover]"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "Hymne à l'amour (Poet-type.M ver.) [Édith Piaf cover]<br>"
 ---
 
+
 # Hymne à l'amour (Poet-type.M ver.) [Édith Piaf cover]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:23:33.729Z: merged into Hymne_à_l'amour_(Poet-type.M_ver.)­-e207ebb3.md

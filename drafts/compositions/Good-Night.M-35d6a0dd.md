@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Good-Night.M"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "good-night.m"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Good-Night.M"
 ---
 
+
 # Good-Night.M
 
 ## Review Notes
 
-- 
+-

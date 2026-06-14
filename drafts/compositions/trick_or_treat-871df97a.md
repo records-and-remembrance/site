@@ -1,12 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "trick or treat"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "trick or treat"
 aliases:
   - "trick or treat"
-  - "Trick or treat"
+  - "Trick or Treat (弾き語り with 伊藤)"
 sources:
   -
     type: release
@@ -134,10 +134,25 @@ sources:
     section: "セットリスト"
     position: 5
     raw_title: "trick or treat"
+  -
+    type: live
+    file: "2010-10-23-000000.md"
+    title: "2010-10-23: 門田匡陽 -His Band- - Don't Trust Over 30 ～episode3～ at 下北沢GARAGE"
+    date: "2010-10-23"
+    project: "門田匡陽 (ソロ名義/2010)"
+    section: "セットリスト"
+    position: 19
+    raw_title: "Trick or Treat (弾き語り with 伊藤)"
 ---
+
+
 
 # trick or treat
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:27:23.339Z: merged sources from Trick_or_Treat_(弾き語り_with_伊藤)-3dd5e65b.md

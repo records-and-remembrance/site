@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Introduction-"
-status: draft
+status: merged
 composition_id: null
 group_key: "introduction-"
 aliases:
@@ -36,8 +36,13 @@ sources:
     raw_title: "-Introduction-"
 ---
 
+
 # Introduction-
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:25:27.778Z: merged into Introduction-26aca794.md

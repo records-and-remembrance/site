@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "ないよなにも [内田Vo.] (HOME SICKと順番逆?)"
-status: draft
+status: merged
 composition_id: null
 group_key: "ないよなにも [内田vo.] (home sickと順番逆?)"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "ないよなにも [内田Vo.] (HOME SICKと順番逆?)"
 ---
 
+
 # ないよなにも [内田Vo.] (HOME SICKと順番逆?)
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:06:28.045Z: merged into ないよなにも-0ebf34b1.md

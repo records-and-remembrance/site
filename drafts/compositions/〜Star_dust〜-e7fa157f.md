@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "〜Star dust〜"
-status: draft
+status: merged
 composition_id: null
 group_key: "〜star dust〜"
 aliases:
@@ -18,8 +18,13 @@ sources:
     raw_title: "〜Star dust〜"
 ---
 
+
 # 〜Star dust〜
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:01:43.881Z: merged into Star_dust-4c93a3a6.md

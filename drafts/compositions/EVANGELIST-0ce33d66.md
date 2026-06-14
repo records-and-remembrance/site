@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "EVANGELIST"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "evangelist"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "EVANGELIST"
 ---
 
+
 # EVANGELIST
 
 ## Review Notes
 
-- 
+-

@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Intro (即興セッション)"
-status: draft
+status: ignore
 composition_id: null
 group_key: "intro (即興セッション)"
 aliases:
@@ -18,8 +18,9 @@ sources:
     raw_title: "Intro (即興セッション)"
 ---
 
+
 # Intro (即興セッション)
 
 ## Review Notes
 
-- 
+-

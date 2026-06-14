@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Bit by bit"
-status: draft
+status: reviewed
 composition_id: null
 group_key: "bit by bit"
 aliases:
@@ -667,8 +667,9 @@ sources:
     raw_title: "Bit by Bit"
 ---
 
+
 # Bit by bit
 
 ## Review Notes
 
-- 
+-

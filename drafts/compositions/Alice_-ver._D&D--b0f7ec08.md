@@ -1,7 +1,7 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Alice -ver. D&D-"
-status: draft
+status: merged
 composition_id: null
 group_key: "alice -ver. d&d-"
 aliases:
@@ -27,8 +27,13 @@ sources:
     raw_title: "Alice -ver. D&D-"
 ---
 
+
 # Alice -ver. D&D-
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:15:50.504Z: merged into Alice-522b276a.md

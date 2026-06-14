@@ -1,12 +1,11 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
 canonical_title: "Blue moon [Richard Rodgers cover]"
-status: draft
+status: merged
 composition_id: null
 group_key: "blue moon [richard rodgers cover]"
 aliases:
   - "Blue moon [Richard Rodgers cover]"
-  - "Blue Moon [Richard Rodgers cover]"
 sources:
   -
     type: live
@@ -28,8 +27,13 @@ sources:
     raw_title: "Blue moon [Richard Rodgers cover]"
 ---
 
+
 # Blue moon [Richard Rodgers cover]
 
 ## Review Notes
 
-- 
+-
+
+## Merge Notes
+
+- 2026-06-14T11:18:34.248Z: merged into Blue_Moon-5dff0b09.md
