@@ -40,6 +40,26 @@ function renderList() {
   }
 }
 
+function renderMergeTargets() {
+  const datalist = $("mergeTargets");
+  datalist.innerHTML = "";
+  for (const draft of state.drafts) {
+    if (draft.file === state.current?.file || draft.status === "merged") continue;
+    const option = document.createElement("option");
+    option.value = draft.file;
+    option.label = `${draft.canonicalTitle} (${draft.sourceCount} sources)`;
+    datalist.append(option);
+  }
+}
+
+function findMergeTarget(value) {
+  const query = value.trim().toLowerCase();
+  if (!query) return null;
+  return state.drafts.find((draft) => {
+    return draft.file.toLowerCase() === query || draft.canonicalTitle.toLowerCase() === query;
+  }) || null;
+}
+
 function setMessage(value) {
   $("message").textContent = value;
 }
@@ -70,8 +90,10 @@ async function loadDraft(file) {
   $("aliases").value = draft.aliases.join("\n");
   $("body").value = draft.body;
   $("sources").textContent = draft.sourcesYaml;
+  $("mergeTarget").value = "";
   setMessage("");
   renderList();
+  renderMergeTargets();
 }
 
 async function save() {
@@ -96,9 +118,45 @@ async function save() {
   }
 }
 
+async function mergeCurrent() {
+  if (!state.current) return;
+  if (state.dirty && !confirm("You have unsaved changes. Merge without saving them?")) return;
+
+  const target = findMergeTarget($("mergeTarget").value);
+  if (!target) {
+    setMessage("Select a valid target draft.");
+    return;
+  }
+  if (target.file === state.current.file) {
+    setMessage("Target must be different from current draft.");
+    return;
+  }
+  // if (!confirm(`Merge "${state.current.canonicalTitle}" into "${target.canonicalTitle}"?`)) return;
+
+  $("merge").disabled = true;
+  setMessage("Merging...");
+  try {
+    const result = await api(`/api/drafts/${encodeURIComponent(state.current.file)}/merge`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ targetFile: target.file }),
+    });
+    state.current = result.target;
+    state.dirty = false;
+    setMessage(`Merged into ${result.target.file}`);
+    await loadList(result.target.file);
+    await loadDraft(result.target.file);
+  } catch (error) {
+    setMessage(error.message);
+  } finally {
+    $("merge").disabled = false;
+  }
+}
+
 async function loadList(preselectFile) {
   state.drafts = await api("/api/drafts");
   renderList();
+  renderMergeTargets();
   if (preselectFile) {
     state.current = { ...state.current, file: preselectFile };
     renderList();
@@ -108,6 +166,7 @@ async function loadList(preselectFile) {
 $("search").addEventListener("input", renderList);
 $("statusFilter").addEventListener("change", renderList);
 $("save").addEventListener("click", save);
+$("merge").addEventListener("click", mergeCurrent);
 $("markReviewed").addEventListener("click", () => {
   $("status").value = "reviewed";
   state.dirty = true;

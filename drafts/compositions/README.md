@@ -15,6 +15,8 @@ release / live の Markdown に登場する曲名候補を、機械的に正規�
 5. 他の draft と同一曲だったら、片方に `sources` / `aliases` を寄せて、不要側は `status: merged` にする。
 6. DB に入れてよい状態になったら `status: reviewed` にする。
 
+Review UI の merge 操作を使うと、current draft の `sources` / `aliases` が target draft に追加され、current draft は `status: merged` になります。
+
 ## Status
 
 | status | meaning |

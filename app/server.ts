@@ -4,7 +4,14 @@ import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
-import { listDrafts, readDraft, saveDraft, validateSavePayload } from "./lib/compositionDrafts";
+import {
+  listDrafts,
+  mergeDraft,
+  readDraft,
+  saveDraft,
+  validateMergePayload,
+  validateSavePayload,
+} from "./lib/compositionDrafts";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const PUBLIC_DIR = join(ROOT, "app", "public");
@@ -35,6 +42,11 @@ app.get("/api/drafts/:file", async (c) => {
 app.put("/api/drafts/:file", async (c) => {
   const payload = validateSavePayload(await c.req.json());
   return c.json(await saveDraft(c.req.param("file"), payload));
+});
+
+app.post("/api/drafts/:file/merge", async (c) => {
+  const payload = validateMergePayload(await c.req.json());
+  return c.json(await mergeDraft(c.req.param("file"), payload));
 });
 
 app.notFound((c) => c.json({ error: "not found" }, 404));

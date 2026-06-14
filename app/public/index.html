@@ -186,6 +186,20 @@
       border-top: 1px solid var(--line);
       padding-top: 18px;
     }
+    .merge-box {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.42);
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .merge-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
     .message {
       margin-right: auto;
       color: var(--muted);
@@ -264,6 +278,17 @@
             <span>sources - readonly</span>
             <div class="sources" id="sources"></div>
           </label>
+          <div class="merge-box">
+            <label>
+              <span>merge into target draft</span>
+              <div class="merge-row">
+                <input id="mergeTarget" list="mergeTargets" placeholder="Select target file or canonical title">
+                <button class="secondary" id="merge" type="button">Merge</button>
+              </div>
+            </label>
+            <datalist id="mergeTargets"></datalist>
+            <div class="stats">Current draft sources are appended to the target. Current status becomes merged.</div>
+          </div>
           <div class="actions">
             <span class="message" id="message"></span>
             <button class="secondary" id="markReviewed" type="button">Mark reviewed</button>

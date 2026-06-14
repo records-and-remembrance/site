@@ -157,9 +157,11 @@ http://localhost:3000
 - `aliases` を1行1件で編集する
 - review note 本文を編集する
 - `sources` を読み取り専用で確認する
+- current draft を target draft に merge する
 
 保存すると該当の `drafts/compositions/*.md` が更新されます。
 `sources` は出典情報なのでUIからは編集しません。
+merge では current 側の `sources` / `aliases` が target 側へ追加され、current 側は `status: merged` になります。
 
 ### Release
 
