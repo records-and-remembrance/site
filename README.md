@@ -196,6 +196,27 @@ bun run scripts/generate_work_seed_sql.ts \
 
 この SQL は `track.release_id` が `release.id` を参照するため、先に `sql/release_seed.sql` を投入する必要があります。
 
+### Live / Event Performance
+
+live 記事から `project` / `venue` / `event` を生成します。
+
+```bash
+bun run scripts/generate_rawdata_seed_sql.ts \
+  --source-dir rawData/articles_by_category/Live \
+  --types live \
+  --output sql/live_seed.sql
+```
+
+live 記事の `## セットリスト` から `event_performance` を生成します。
+`event_performance.composition_id` は、レビュー済み draft の `sources.raw_title` を使って正規化済み `composition` に紐づけます。
+
+```bash
+bun run scripts/generate_live_performance_seed_sql.ts \
+  --source-dir rawData/articles_by_category/Live \
+  --composition-draft-dir drafts/compositions \
+  --output sql/live_performances_seed.sql
+```
+
 ## Import
 
 投入順:
@@ -204,6 +225,8 @@ bun run scripts/generate_work_seed_sql.ts \
 1. sql/release_seed.sql
 2. sql/composition_seed.sql
 3. sql/release_tracks_seed.sql
+4. sql/live_seed.sql
+5. sql/live_performances_seed.sql
 ```
 
 Docker Compose で起動した PostgreSQL に投入する例:
@@ -212,6 +235,8 @@ Docker Compose で起動した PostgreSQL に投入する例:
 docker compose exec -T postgres psql -U monden -d monden < sql/release_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/composition_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/release_tracks_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/live_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/live_performances_seed.sql
 ```
 
 ## Notes

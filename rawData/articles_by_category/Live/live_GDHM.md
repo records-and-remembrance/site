@@ -55,7 +55,7 @@ tags:
 [2006-02-27](http://monden-info.hatenablog.com/entry/2006/02/27/000000) | | 名古屋APOLLO THEATER | 
 2006-03-26 | BONTAGE! VIVA!! | 新宿LOFT | 
 2006-03-27 | GSGP PROJECT supported by glico | 大阪福島2nd LINE | 
-[2006-04-14](http://monden-info.hatenablog.com/entry/2006/04/14/000000) | HEAVEN'S ROCK VJ-1 PRESENTS  | 熊谷HEVEN'S ROCK kumagaya VJ-1 | 
+[2006-04-14](http://monden-info.hatenablog.com/entry/2006/04/14/000000) | HEAVEN'S ROCK VJ-1 PRESENTS  | 熊谷HEAVEN'S ROCK kumagaya VJ-1 | 
 [2006-04-25](http://monden-info.hatenablog.com/entry/2006/04/25/000000) | Moon Light Medicine ～Most beautiful in the world～ (Vol.4) | 下北沢GARAGE | 単独ライブ
 [2006-05-04](http://monden-info.hatenablog.com/entry/2006/05/04/000000) | MUSIC DAY in SHIMOKITAZAWA | 下北沢HIGHLINE RECORDS | 弾き語り
 2006-05-21 |  | 柏ZAX (Thumb Up) | 15:00～。弾き語り
@@ -116,8 +116,8 @@ tags:
 [2007-07-06](http://monden-info.hatenablog.com/entry/2007/07/06/000000) | Shinjuku Loft presents The Star Festival | 新宿LOFT | 
 [2007-07-15](http://monden-info.hatenablog.com/entry/2007/07/15/000000) | インストアライブ | TOWER RECORDS 梅田大阪マルビル店 | 
 [2007-07-16](http://monden-info.hatenablog.com/entry/2007/07/16/000000) | インストアライブ | TOWER RECORDS 新宿店 | 
-[2007-08-03](http://monden-info.hatenablog.com/entry/2007/08/03/000000) | ROCK IN JAPAN FESTIVAL 2007 | 国営ひたち海浜公園 (WING TENT) | 
-[2007-08-12](http://monden-info.hatenablog.com/entry/2007/08/12/000000) | SUMMER SONIC 2007 | 幕張メッセ (Sonic Stage [Opening Act]) | 
+[2007-08-03](http://monden-info.hatenablog.com/entry/2007/08/03/000000) | ROCK IN JAPAN FESTIVAL 2007 | 国営ひたち海浜公園 | 
+[2007-08-12](http://monden-info.hatenablog.com/entry/2007/08/12/000000) | SUMMER SONIC 2007 | 幕張メッセ | 
 [2007-09-02](http://monden-info.hatenablog.com/entry/2007/09/02/135500) | RUSH BALL 2007 | 泉大津フェニックス (ATMC Stage) | 
 [2007-09-15](http://monden-info.hatenablog.com/entry/2007/09/15/000000) | インストアライブ | TOWER RECORDS 新宿店 | アコースティック編成
 [2007-09-17](http://monden-info.hatenablog.com/entry/2007/09/17/000000) | Selfishness of Queen vol.1 | 名古屋APOLLO THEATER | 
@@ -130,7 +130,7 @@ tags:
 [2007-12-04](http://monden-info.hatenablog.com/entry/2007/12/04/000000) | TRIPLE SCRATCH TOUR 07 EXTR@NAGOYA | 名古屋Heartland Studio | 
 [2007-12-08](http://monden-info.hatenablog.com/entry/2007/12/08/000000) | インストアライブ | TOWER RECORDS 新宿店 | アコースティック編成
 [2007-12-09](http://monden-info.hatenablog.com/entry/2007/12/09/000000) | インストアライブ | TOWER RECORDS 福岡店 | ソロ弾き語り
-[2007-12-15](http://monden-info.hatenablog.com/entry/2007/12/15/000000) | museの楽団と渋谷の音楽塔 | TOWER RECORDS 渋谷店 STAGE ONE | 通常編成
+[2007-12-15](http://monden-info.hatenablog.com/entry/2007/12/15/000000) | museの楽団と渋谷の音楽塔 | TOWER RECORDS 渋谷店 B1 STAGE ONE | 通常編成
 [2007-12-21](http://monden-info.hatenablog.com/entry/2007/12/21/000000) | インストアライブ | 下北沢HIGHLINE RECORDS | アコースティック編成
 [2007-12-23](http://monden-info.hatenablog.com/entry/2007/12/23/000000) | インストアライブ | TOWER RECORDS 近鉄パッセ店 | アコースティック編成
 [2007-12-29](http://monden-info.hatenablog.com/entry/2007/12/29/000000) | COUNTDOWN JAPAN 07/08 | 幕張メッセ | 
@@ -163,7 +163,7 @@ tags:
 2008-10-18 | 堀江音楽祭2008 | [12:00] 湊町リバープレイスライブ at リバープレイスPLAZA 2 [17:00] HORIE SOUND CRUISING at knave | 2ステージ出演 伊藤不参加
 [2008-10-23](http://monden-info.hatenablog.com/entry/2008/10/23/000000) | YOU REALLY GOT ME! VOL.22 ～I'M VERY SING A SONG～ | 下北沢BASEMENT BAR | 「門田匡陽&内田武瑠」名義
 [2008-11-03](http://monden-info.hatenablog.com/entry/2008/11/03/000000) | shimokita round up | 下北沢440 | 伊藤不参加
-[2008-11-14](http://monden-info.hatenablog.com/entry/2008/11/14/000000) | 大阪府箕面市立第六中学校 授業 | 箕面市立第六中学校体育館 | 吹奏楽部とGDHM楽曲を合奏
+[2008-11-14](http://monden-info.hatenablog.com/entry/2008/11/14/000000) | 大阪箕面市立第六中学校 授業 | 箕面市立第六中学校体育館 | 吹奏楽部とGDHM楽曲を合奏
 [2008-11-16](http://monden-info.hatenablog.com/entry/2008/11/16/000000) | Good Dog Happy Men presents "Good Time Rolls Vol.3" | 大阪福島2nd LINE | 
 [2008-11-24](http://monden-info.hatenablog.com/entry/2008/11/24/000000) | Good Dog Happy Men presents "Good Time Rolls Vol.3" | 下北沢GARAGE | 
 [2008-11-27](http://monden-info.hatenablog.com/entry/2008/11/27/000000) | ART-SCHOOL ILLMATIC BABY TOUR2008 | 水戸LIGHT HOUSE | 
@@ -200,7 +200,7 @@ tags:
 2010-05-07 | <20100507>～139.703 35.695～ | 新宿LOFT (BarTheLOFT) | 弾き語り
 [2010-05-29](http://monden-info.hatenablog.com/entry/2010/05/29/000000) | hooligan's disco vol.2 | 下北沢CLUB Que | 初DJ
 [2010-06-19](http://monden-info.hatenablog.com/entry/2010/06/19/000000) |  | 水戸LIGHT HOUSE | 
-[2010-06-24](http://monden-info.hatenablog.com/entry/2010/06/24/000000) | viBirth × CINRA presents 『exPoP!!!!! volume39』 | 渋谷O-Nest | 
+[2010-06-24](http://monden-info.hatenablog.com/entry/2010/06/24/000000) | viBirth × CINRA presents 『exPoP!!!!! volume39』 | 渋谷O-NEST | 
 [2010-06-28](http://monden-info.hatenablog.com/entry/2010/06/28/000000) | Thank you! 5th ANNIVERSARY ピーターパン・シンドローム | 名古屋CLUB UPSET | 
 [2010-06-29](http://monden-info.hatenablog.com/entry/2010/06/29/000000) | Rock On Enough | 大阪MUSE | 活動休止前ラストライブ
 -|-|-|-
