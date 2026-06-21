@@ -44,6 +44,27 @@ const LOCATION_HINTS = new Set([
   "埼玉",
   "千葉",
 ]);
+const NON_PROJECT_TAGS = new Set([
+  "Release",
+  "Live",
+  "参加バンド",
+  "Biography",
+  "Album",
+  "Mini-Al",
+  "Single",
+  "Sg",
+  "EP",
+  "DVD",
+  "Live DVD",
+  "CD-R",
+  "Demo",
+  "memo",
+  "予定",
+  "単独ライブ",
+  "フェス",
+  "イベント",
+  "_incomplete",
+]);
 
 function parseArgs(argv: string[]): ParsedArgs {
   let output: string | null = null;
@@ -363,9 +384,18 @@ function releaseWorkTitle(source: SourceArticle): string {
 }
 
 function projectNameForSource(source: SourceArticle): string {
-  if (source.tags.length >= 2) return normalizeName(source.tags[1]);
+  const taggedProject = source.tags
+    .slice(1)
+    .map(normalizeName)
+    .find((tag) => tag && !NON_PROJECT_TAGS.has(tag) && !tag.startsWith("_"));
+  if (taggedProject) return taggedProject;
+
   const parts = source.title.split(" - ");
-  return normalizeName(parts.length > 1 ? parts[0] : source.title);
+  if (parts.length > 1) {
+    return normalizeName(parts[0].replace(/^\d{4}-\d{2}-\d{2}:\s*/, ""));
+  }
+
+  return normalizeName(source.title.replace(/^\d{4}-\d{2}-\d{2}:\s*/, ""));
 }
 
 class SqlBuilder {
@@ -409,7 +439,8 @@ class SqlBuilder {
       `VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)})`,
     );
     this.line("ON CONFLICT (id) DO UPDATE");
-    this.line("SET title = EXCLUDED.title,");
+    this.line("SET project_id = EXCLUDED.project_id,");
+    this.line("    title = EXCLUDED.title,");
     this.line("    description = COALESCE(work.description, EXCLUDED.description),");
     this.line("    released_date = COALESCE(work.released_date, EXCLUDED.released_date);");
     this.line();
@@ -452,7 +483,8 @@ class SqlBuilder {
       `VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.releaseFormat)}, ${sqlText(params.catalogNumber)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)})`,
     );
     this.line("ON CONFLICT (id) DO UPDATE");
-    this.line("SET format = EXCLUDED.format,");
+    this.line("SET work_id = EXCLUDED.work_id,");
+    this.line("    format = EXCLUDED.format,");
     this.line("    catalog_number = EXCLUDED.catalog_number,");
     this.line("    release_date = EXCLUDED.release_date,");
     this.line("    description = EXCLUDED.description,");
@@ -499,7 +531,10 @@ class SqlBuilder {
       `VALUES (${sqlText(eventId)}, ${sqlText(params.projectId)}, ${sqlText(params.venueId)}, ${sqlText(params.eventName)}, ${sqlText(params.eventDate)}, ${sqlText(params.startTime)}, NULL, ${sqlText(params.doorsOpenTime)}, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)})`,
     );
     this.line("ON CONFLICT (id) DO UPDATE");
-    this.line("SET event_name = EXCLUDED.event_name,");
+    this.line("SET project_id = EXCLUDED.project_id,");
+    this.line("    venue_id = EXCLUDED.venue_id,");
+    this.line("    event_date = EXCLUDED.event_date,");
+    this.line("    event_name = EXCLUDED.event_name,");
     this.line("    start_time = EXCLUDED.start_time,");
     this.line("    doors_open_time = EXCLUDED.doors_open_time,");
     this.line("    description = EXCLUDED.description,");
@@ -518,6 +553,12 @@ function compactNotes(source: SourceArticle, extra: Record<string, string | null
 }
 
 function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
+  if (isReleaseIndexSource(source)) {
+    builder.line(`-- skipped release index: ${source.path}`);
+    builder.line();
+    return;
+  }
+
   const sections = parseSections(source.body);
   const basic = parseBasicInfo(sections["基本情報"] ?? "");
   const projectName = projectNameForSource(source);
@@ -562,6 +603,10 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
   if (labelId) {
     builder.labelRelationUpsert(releaseId, labelId);
   }
+}
+
+function isReleaseIndexSource(source: SourceArticle): boolean {
+  return source.name === "2022-12-18-000000.md" || source.title.includes("デモ音源リスト");
 }
 
 function emitLive(builder: SqlBuilder, source: SourceArticle): void {

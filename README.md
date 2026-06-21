@@ -217,6 +217,17 @@ bun run scripts/generate_live_performance_seed_sql.ts \
   --output sql/live_performances_seed.sql
 ```
 
+### People / Membership
+
+person 記事と biography 記事の `## メンバー` から `person` / `role` / `instrument` / `membership` / `membership_role` を生成します。
+
+```bash
+bun run scripts/generate_people_seed_sql.ts \
+  --person-dir rawData/articles_by_category/person \
+  --biography-dir rawData/articles_by_category/biography \
+  --output sql/people_seed.sql
+```
+
 ## Import
 
 投入順:
@@ -227,6 +238,7 @@ bun run scripts/generate_live_performance_seed_sql.ts \
 3. sql/release_tracks_seed.sql
 4. sql/live_seed.sql
 5. sql/live_performances_seed.sql
+6. sql/people_seed.sql
 ```
 
 Docker Compose で起動した PostgreSQL に投入する例:
@@ -237,6 +249,7 @@ docker compose exec -T postgres psql -U monden -d monden < sql/composition_seed.
 docker compose exec -T postgres psql -U monden -d monden < sql/release_tracks_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/live_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/live_performances_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/people_seed.sql
 ```
 
 ## Notes

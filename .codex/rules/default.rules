@@ -1,11 +1,10 @@
 prefix_rule(
-    pattern = ["docker", "compose", "exec", "-T", "postgres", "psql"],
+    pattern = ["docker", "compose", "exec", "-T", "postgres", "psql", "-U", "monden", "-d", "monden"],
     decision = "allow",
     justification = "Allow project-local PostgreSQL access through Docker Compose.",
     match = [
-        "docker compose exec -T postgres psql",
-        "docker compose exec -T postgres psql --version",
-        "docker compose exec -T postgres psql -U postgres",
+        "docker compose exec -T postgres psql -U monden -d monden --version",
+        "docker compose exec -T postgres psql -U monden -d monden",
     ],
     not_match = [
         "docker compose exec postgres psql",
