@@ -231,4 +231,4 @@ If Docker socket access fails, rerun with escalation.
 
 - Do not revert user changes unless explicitly asked.
 - The worktree may contain user-created files outside the current task.
-- `.serena/`, `.codex/`, and `AGENTS.md` may appear as local agent/tooling files. Do not edit them unless the user asks.
+- `.codex/`, and `AGENTS.md` may appear as local agent/tooling files. Do not edit them unless the user asks.
