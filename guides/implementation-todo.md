@@ -10,35 +10,38 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
 
 ## High Priority
 
-- [ ] Decide `media` / `article` ingestion policy.
+- [x] Decide `media` / `article` ingestion policy.
   - Classify the 12 files in `rawData/articles_by_category/media/`.
   - Decide how to model one-off articles, radio programs, and broadcast episode lists.
   - Reconfirm responsibilities for `publication`, `publication_issue`, and `article`.
 
-- [ ] Add `scripts/generate_media_seed_sql.ts`.
+- [x] Add `scripts/generate_media_seed_sql.ts`.
   - Generate `publication`.
   - Generate `publication_issue`.
   - Generate `article`.
   - Start without `article_mention_*` rows so media source files can be represented in DB first.
 
-- [ ] Design `article_mention_*` generation rules.
+- [x] Design `article_mention_*` generation rules.
   - Cover `article_mention_work`.
   - Cover `article_mention_event`.
   - Cover `article_mention_person`.
   - Decide whether to trust Markdown links, tags, known title/person matching, or a review-draft flow.
+  - Initial policy: use deterministic internal links and explicit release/person evidence only; use review drafts for broader matching.
 
-- [ ] Decide `contribution` ingestion policy.
+- [~] Decide `contribution` ingestion policy.
   - Cover release credits.
   - Cover recording credits.
   - Cover live/event support members.
   - Define how staff, producer, guest performer, lyricist, composer, and arranger credits should map to `role` / `instrument`.
+  - Initial investigation found release `## クレジット`, track performer matrices, and Live `サポートメンバー` as the primary sources.
 
-- [ ] Add `scripts/generate_contribution_seed_sql.ts`.
+- [~] Add `scripts/generate_contribution_seed_sql.ts`.
   - Generate `person_id`.
   - Generate `role_id`.
   - Generate optional `instrument_id`.
   - Set exactly one of `recording_id`, `release_id`, or `event_id`.
   - Preserve `source_file=...` in `notes`.
+  - Current implementation covers Live `サポートメンバー` -> `event_id`; release and recording credits remain.
 
 ## Medium Priority
 
@@ -75,16 +78,16 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
 
 ## Documentation
 
-- [ ] Update `README.md`.
+- [~] Update `README.md`.
   - Add new seed-generation commands.
   - Update import order.
   - Document any review step required for media or contribution data.
 
-- [ ] Update `guides/project-overview-for-agents.md`.
+- [x] Update `guides/project-overview-for-agents.md`.
   - Add new flow sections once generators exist.
   - Keep the currently supported table list accurate.
 
-- [ ] Update `guides/data-structure.md`.
+- [~] Update `guides/data-structure.md`.
   - Replace future-use notes after media/article ingestion is implemented.
   - Replace future-use notes after contribution ingestion is implemented.
   - Document any new tables or columns if schema changes are needed.
@@ -93,10 +96,6 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
 
 Tables with schema but no seed-generation script as of this TODO:
 
-- `contribution`
-- `publication`
-- `publication_issue`
-- `article`
 - `article_mention_work`
 - `article_mention_event`
 - `article_mention_person`
@@ -120,6 +119,10 @@ Tables already covered by at least one script:
 - `venue`
 - `event`
 - `event_performance`
+- `publication`
+- `publication_issue`
+- `article`
+- `contribution`
 
 Raw data category counts observed while creating this TODO:
 

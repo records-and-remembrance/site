@@ -55,6 +55,10 @@ Main entities currently used:
 - `venue`
 - `event`
 - `event_performance`
+- `publication`
+- `publication_issue`
+- `article`
+- `contribution`
 
 ## Current Seed Generation Flow
 
@@ -124,6 +128,30 @@ bun run scripts/generate_people_seed_sql.ts \
   --output sql/people_seed.sql
 ```
 
+### Media / Article
+
+Generate media/article data:
+
+```bash
+bun run scripts/generate_media_seed_sql.ts \
+  --source-dir rawData/articles_by_category/media \
+  --output sql/media_seed.sql
+```
+
+This represents each media Markdown source file as one `article` row, with `publication` as the durable program/index container and `publication_issue` as the broadcast date, publication date, or synthetic index issue. `article_mention_*` rows are intentionally not generated yet.
+
+### Contribution
+
+Generate live support contribution data:
+
+```bash
+bun run scripts/generate_contribution_seed_sql.ts \
+  --live-dir rawData/articles_by_category/Live \
+  --output sql/contribution_seed.sql
+```
+
+Current scope is `Live` support members only. The script emits `person`, `role`, `instrument`, and `contribution` rows, with every generated contribution targeting exactly one `event_id`.
+
 ## Import Order
 
 Use this order for a populated local DB:
@@ -135,6 +163,8 @@ docker compose exec -T postgres psql -U monden -d monden < sql/release_tracks_se
 docker compose exec -T postgres psql -U monden -d monden < sql/live_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/live_performances_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/people_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/contribution_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/media_seed.sql
 ```
 
 ## Review UI

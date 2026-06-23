@@ -228,6 +228,41 @@ bun run scripts/generate_people_seed_sql.ts \
   --output sql/people_seed.sql
 ```
 
+### Media / Article
+
+media 記事から `publication` / `publication_issue` / `article` を生成します。
+現時点では `article_mention_*` は生成せず、Markdown ソースファイルをまず DB に表現するための seed です。
+
+```bash
+bun run scripts/generate_media_seed_sql.ts \
+  --source-dir rawData/articles_by_category/media \
+  --output sql/media_seed.sql
+```
+
+方針:
+
+- `publication`: 番組、TV 特番、Web掲載索引、ラジオ出演索引などの媒体コンテナ
+- `publication_issue`: 放送回、掲載日、または索引用の synthetic issue
+- `article`: 原則として media Markdown 1ファイルにつき1行
+
+### Contribution
+
+Live 記事の `サポートメンバー` から `contribution` を生成します。
+初期スコープは event support credits のみで、release / recording credits は未対応です。
+
+```bash
+bun run scripts/generate_contribution_seed_sql.ts \
+  --live-dir rawData/articles_by_category/Live \
+  --output sql/contribution_seed.sql
+```
+
+生成内容:
+
+- `person`: contribution で参照する人物が未作成の場合の補完
+- `role`: `support_performer`
+- `instrument`: support member 表記から正規化した楽器
+- `contribution`: `event_id` のみを持つ live support contribution
+
 ## Import
 
 投入順:
@@ -239,6 +274,8 @@ bun run scripts/generate_people_seed_sql.ts \
 4. sql/live_seed.sql
 5. sql/live_performances_seed.sql
 6. sql/people_seed.sql
+7. sql/contribution_seed.sql
+8. sql/media_seed.sql
 ```
 
 Docker Compose で起動した PostgreSQL に投入する例:
@@ -250,6 +287,8 @@ docker compose exec -T postgres psql -U monden -d monden < sql/release_tracks_se
 docker compose exec -T postgres psql -U monden -d monden < sql/live_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/live_performances_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/people_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/contribution_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/media_seed.sql
 ```
 
 ## Notes
