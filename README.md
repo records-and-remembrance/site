@@ -36,13 +36,41 @@ Drizzle Kit config is defined in:
 drizzle.config.ts
 ```
 
-For now, `database.sql` remains the database bootstrap source. Use Drizzle as the typed access layer and schema mirror first; do not run `drizzle-kit push` against the local database unless intentionally migrating schema ownership from `database.sql` to Drizzle.
+Generated Drizzle migrations live in:
+
+```text
+drizzle/
+```
+
+For now, `database.sql` remains the Docker bootstrap source. Use Drizzle as the typed access layer and schema mirror first. The checked-in Drizzle migrations are for future Drizzle-managed databases; do not run `db:migrate` against a database that was already initialized from `database.sql`.
+
+PostgreSQL comments are mirrored in `app/db/schema.ts` as TSDoc comments, but Drizzle Kit does not generate `COMMENT ON ...` statements from TSDoc. Keep comment DDL in custom migrations.
 
 Type-check the Drizzle schema:
 
 ```bash
 bun run typecheck
 ```
+
+Check migration metadata:
+
+```bash
+bun run db:check
+```
+
+Generate a migration after changing `app/db/schema.ts`:
+
+```bash
+bun run db:generate
+```
+
+Apply migrations only to a fresh Drizzle-managed database:
+
+```bash
+DRIZZLE_DATABASE_URL=postgres://... bun run db:migrate
+```
+
+`db:migrate` intentionally requires `DRIZZLE_DATABASE_URL` so it is not accidentally run against the Docker database that was initialized from `database.sql`.
 
 The default connection URL is:
 

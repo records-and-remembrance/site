@@ -1,5 +1,9 @@
 {
   "scripts": {
+    "db:check": "drizzle-kit check",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "if [ -z \"$DRIZZLE_DATABASE_URL\" ]; then echo \"Set DRIZZLE_DATABASE_URL to a fresh Drizzle-managed database before migrating\"; exit 1; fi; DATABASE_URL=\"$DRIZZLE_DATABASE_URL\" drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
     "review:compositions": "bun run app/server.ts",
     "typecheck": "tsc --noEmit"
   },

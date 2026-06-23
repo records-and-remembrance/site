@@ -16,25 +16,34 @@ const dateString = (name: string) => date(name, { mode: "string" });
 const timeString = (name: string) => time(name);
 const timestampString = (name: string) => timestamp(name, { mode: "string" });
 
+/** 個人（ミュージシャン、スタッフなど） */
 export const person = pgTable(
   "person",
   {
     id: uuid("id").primaryKey(),
+    /** 表示名 */
     name: text("name").notNull(),
+    /** 人物の説明 */
     description: text("description"),
+    /** 生年月日 */
     birthDate: dateString("birth_date"),
+    /** 死亡日 */
     deathDate: dateString("death_date"),
+    /** 活動開始時期 */
     activeFrom: dateString("active_from"),
+    /** 活動終了時期 */
     activeTo: dateString("active_to"),
   },
   (table) => [unique("person_name_unique").on(table.name)],
 );
 
+/** 活動単位（バンド、ソロ、ユニット） */
 export const project = pgTable(
   "project",
   {
     id: uuid("id").primaryKey(),
     name: text("name").notNull(),
+    /** 活動形態（band / solo 等） */
     type: text("type").notNull(),
     description: text("description"),
     startDate: dateString("start_date"),
@@ -46,6 +55,7 @@ export const project = pgTable(
   ],
 );
 
+/** プロジェクトへの参加期間 */
 export const membership = pgTable(
   "membership",
   {
@@ -68,6 +78,7 @@ export const membership = pgTable(
   ],
 );
 
+/** 役割（performer, producer など） */
 export const role = pgTable(
   "role",
   {
@@ -79,6 +90,7 @@ export const role = pgTable(
   (table) => [unique("role_name_unique").on(table.name)],
 );
 
+/** 楽器 */
 export const instrument = pgTable(
   "instrument",
   {
@@ -89,6 +101,7 @@ export const instrument = pgTable(
   (table) => [unique("instrument_name_unique").on(table.name)],
 );
 
+/** 参加期間中の役割 */
 export const membershipRole = pgTable(
   "membership_role",
   {
@@ -104,6 +117,7 @@ export const membershipRole = pgTable(
   (table) => [unique("membership_role_unique").on(table.membershipId, table.roleId, table.instrumentId)],
 );
 
+/** 抽象作品（アルバム単位） */
 export const work = pgTable(
   "work",
   {
@@ -129,6 +143,7 @@ export const distributor = pgTable(
   (table) => [unique("distributor_name_unique").on(table.name)],
 );
 
+/** 具体リリース（CD, 配信など） */
 export const release = pgTable(
   "release",
   {
@@ -176,6 +191,7 @@ export const labelRelation = pgTable(
   (table) => [unique("label_relation_release_label_unique").on(table.releaseId, table.labelId)],
 );
 
+/** 楽曲（抽象） */
 export const composition = pgTable(
   "composition",
   {
@@ -186,6 +202,7 @@ export const composition = pgTable(
   (table) => [unique("composition_title_unique").on(table.title)],
 );
 
+/** 録音単位（アレンジ・バージョン） */
 export const recording = pgTable(
   "recording",
   {
@@ -206,6 +223,7 @@ export const recording = pgTable(
   ],
 );
 
+/** リリース内の曲順 */
 export const track = pgTable(
   "track",
   {
@@ -237,6 +255,7 @@ export const venue = pgTable(
   (table) => [unique("venue_name_location_unique").on(table.name, table.location)],
 );
 
+/** ライブ・公演 */
 export const event = pgTable(
   "event",
   {
@@ -259,6 +278,7 @@ export const event = pgTable(
   (table) => [unique("event_project_venue_event_date_unique").on(table.projectId, table.venueId, table.eventDate)],
 );
 
+/** セットリスト */
 export const eventPerformance = pgTable(
   "event_performance",
   {
@@ -280,6 +300,7 @@ export const eventPerformance = pgTable(
   ],
 );
 
+/** 関与（誰が何にどの役割で関与したか） */
 export const contribution = pgTable(
   "contribution",
   {
@@ -304,6 +325,7 @@ export const contribution = pgTable(
   ],
 );
 
+/** 媒体（雑誌、ウェブサイト） */
 export const publication = pgTable(
   "publication",
   {
@@ -316,6 +338,7 @@ export const publication = pgTable(
   (table) => [unique("publication_name_unique").on(table.name)],
 );
 
+/** 雑誌の号・巻 */
 export const publicationIssue = pgTable("publication_issue", {
   id: uuid("id").primaryKey(),
   publicationId: uuid("publication_id")
@@ -327,6 +350,7 @@ export const publicationIssue = pgTable("publication_issue", {
   description: text("description"),
 });
 
+/** 記事（雑誌記事・Web記事） */
 export const article = pgTable("article", {
   id: uuid("id").primaryKey(),
   publicationIssueId: uuid("publication_issue_id").references(() => publicationIssue.id),

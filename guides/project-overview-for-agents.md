@@ -40,11 +40,16 @@ The current pipeline is intentionally incremental:
 - `drizzle.config.ts`
   Drizzle Kit configuration. The schema path is `app/db/schema.ts`.
 
+- `drizzle/`
+  Drizzle Kit migrations and metadata generated from `app/db/schema.ts`.
+
 ## Core Schema
 
 Defined in `database.sql`.
 
-`app/db/schema.ts` mirrors the current PostgreSQL schema for typed Drizzle access. At this stage, `database.sql` remains the database bootstrap source; Drizzle migrations should not be pushed unless schema ownership is intentionally moved.
+`app/db/schema.ts` mirrors the current PostgreSQL schema for typed Drizzle access. `drizzle/` contains generated migrations for future Drizzle-managed databases. At this stage, `database.sql` remains the Docker bootstrap source; do not run Drizzle migrations against a database already initialized from `database.sql`.
+
+PostgreSQL comments are mirrored in `app/db/schema.ts` as TSDoc comments. Drizzle Kit does not consume those comments, so comment DDL must remain in custom migrations.
 
 Main entities currently used:
 
@@ -259,6 +264,14 @@ bun run typecheck
 ```
 
 The Drizzle schema is covered by `bun run typecheck`.
+
+Drizzle Kit metadata can be checked with:
+
+```bash
+bun run db:check
+```
+
+`bun run db:migrate` intentionally requires `DRIZZLE_DATABASE_URL`; do not point it at the Docker database initialized from `database.sql`.
 
 ## Docker Notes
 
