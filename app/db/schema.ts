@@ -1,0 +1,397 @@
+import { sql } from "drizzle-orm";
+import {
+  boolean,
+  check,
+  date,
+  integer,
+  pgTable,
+  text,
+  time,
+  timestamp,
+  unique,
+  uuid,
+} from "drizzle-orm/pg-core";
+
+const dateString = (name: string) => date(name, { mode: "string" });
+const timeString = (name: string) => time(name);
+const timestampString = (name: string) => timestamp(name, { mode: "string" });
+
+export const person = pgTable(
+  "person",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+    birthDate: dateString("birth_date"),
+    deathDate: dateString("death_date"),
+    activeFrom: dateString("active_from"),
+    activeTo: dateString("active_to"),
+  },
+  (table) => [unique("person_name_unique").on(table.name)],
+);
+
+export const project = pgTable(
+  "project",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    type: text("type").notNull(),
+    description: text("description"),
+    startDate: dateString("start_date"),
+    endDate: dateString("end_date"),
+  },
+  (table) => [
+    unique("project_name_unique").on(table.name),
+    check("project_end_date_check", sql`${table.endDate} IS NULL OR ${table.endDate} >= ${table.startDate}`),
+  ],
+);
+
+export const membership = pgTable(
+  "membership",
+  {
+    id: uuid("id").primaryKey(),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => person.id),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id),
+    fromDate: dateString("from_date").notNull(),
+    toDate: dateString("to_date"),
+    fromDatePrecision: text("from_date_precision"),
+    toDatePrecision: text("to_date_precision"),
+    note: text("note"),
+  },
+  (table) => [
+    unique("membership_person_project_from_date_unique").on(table.personId, table.projectId, table.fromDate),
+    check("membership_to_date_check", sql`${table.toDate} IS NULL OR ${table.toDate} >= ${table.fromDate}`),
+  ],
+);
+
+export const role = pgTable(
+  "role",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    category: text("category").notNull(),
+    description: text("description"),
+  },
+  (table) => [unique("role_name_unique").on(table.name)],
+);
+
+export const instrument = pgTable(
+  "instrument",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+  },
+  (table) => [unique("instrument_name_unique").on(table.name)],
+);
+
+export const membershipRole = pgTable(
+  "membership_role",
+  {
+    id: uuid("id").primaryKey(),
+    membershipId: uuid("membership_id")
+      .notNull()
+      .references(() => membership.id, { onDelete: "cascade" }),
+    roleId: uuid("role_id")
+      .notNull()
+      .references(() => role.id),
+    instrumentId: uuid("instrument_id").references(() => instrument.id),
+  },
+  (table) => [unique("membership_role_unique").on(table.membershipId, table.roleId, table.instrumentId)],
+);
+
+export const work = pgTable(
+  "work",
+  {
+    id: uuid("id").primaryKey(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id),
+    title: text("title").notNull(),
+    description: text("description"),
+    createdDate: dateString("created_date"),
+    releasedDate: dateString("released_date"),
+  },
+  (table) => [unique("work_project_title_unique").on(table.projectId, table.title)],
+);
+
+export const distributor = pgTable(
+  "distributor",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+  },
+  (table) => [unique("distributor_name_unique").on(table.name)],
+);
+
+export const release = pgTable(
+  "release",
+  {
+    id: uuid("id").primaryKey(),
+    workId: uuid("work_id")
+      .notNull()
+      .references(() => work.id),
+    format: text("format").notNull(),
+    catalogNumber: text("catalog_number"),
+    releaseDate: dateString("release_date"),
+    releaseDatePrecision: text("release_date_precision"),
+    recordedFrom: dateString("recorded_from"),
+    recordedTo: dateString("recorded_to"),
+    description: text("description"),
+    notes: text("notes"),
+    distributorId: uuid("distributor_id").references(() => distributor.id),
+  },
+  (table) => [
+    unique("release_work_format_release_date_unique").on(table.workId, table.format, table.releaseDate),
+    check("release_recorded_to_check", sql`${table.recordedTo} IS NULL OR ${table.recordedTo} >= ${table.recordedFrom}`),
+  ],
+);
+
+export const label = pgTable(
+  "label",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+  },
+  (table) => [unique("label_name_unique").on(table.name)],
+);
+
+export const labelRelation = pgTable(
+  "label_relation",
+  {
+    id: uuid("id").primaryKey(),
+    releaseId: uuid("release_id")
+      .notNull()
+      .references(() => release.id, { onDelete: "cascade" }),
+    labelId: uuid("label_id")
+      .notNull()
+      .references(() => label.id),
+  },
+  (table) => [unique("label_relation_release_label_unique").on(table.releaseId, table.labelId)],
+);
+
+export const composition = pgTable(
+  "composition",
+  {
+    id: uuid("id").primaryKey(),
+    title: text("title").notNull(),
+    description: text("description"),
+  },
+  (table) => [unique("composition_title_unique").on(table.title)],
+);
+
+export const recording = pgTable(
+  "recording",
+  {
+    id: uuid("id").primaryKey(),
+    compositionId: uuid("composition_id")
+      .notNull()
+      .references(() => composition.id),
+    recordingYear: integer("recording_year"),
+    type: text("type"),
+    recordedDate: dateString("recorded_date"),
+    recordedFrom: dateString("recorded_from"),
+    recordedTo: dateString("recorded_to"),
+    releaseDate: dateString("release_date"),
+    notes: text("notes"),
+  },
+  (table) => [
+    check("recording_recorded_to_check", sql`${table.recordedTo} IS NULL OR ${table.recordedTo} >= ${table.recordedFrom}`),
+  ],
+);
+
+export const track = pgTable(
+  "track",
+  {
+    id: uuid("id").primaryKey(),
+    releaseId: uuid("release_id")
+      .notNull()
+      .references(() => release.id, { onDelete: "cascade" }),
+    recordingId: uuid("recording_id")
+      .notNull()
+      .references(() => recording.id),
+    trackNumber: integer("track_number").notNull(),
+    recordedDate: dateString("recorded_date"),
+    notes: text("notes"),
+  },
+  (table) => [
+    unique("track_release_track_number_unique").on(table.releaseId, table.trackNumber),
+    check("track_track_number_check", sql`${table.trackNumber} > 0`),
+  ],
+);
+
+export const venue = pgTable(
+  "venue",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    location: text("location"),
+    description: text("description"),
+  },
+  (table) => [unique("venue_name_location_unique").on(table.name, table.location)],
+);
+
+export const event = pgTable(
+  "event",
+  {
+    id: uuid("id").primaryKey(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => project.id),
+    venueId: uuid("venue_id")
+      .notNull()
+      .references(() => venue.id),
+    eventName: text("event_name"),
+    eventDate: dateString("event_date").notNull(),
+    startTime: timeString("start_time"),
+    endTime: timeString("end_time"),
+    doorsOpenTime: timeString("doors_open_time"),
+    ticketPrice: integer("ticket_price"),
+    description: text("description"),
+    notes: text("notes"),
+  },
+  (table) => [unique("event_project_venue_event_date_unique").on(table.projectId, table.venueId, table.eventDate)],
+);
+
+export const eventPerformance = pgTable(
+  "event_performance",
+  {
+    id: uuid("id").primaryKey(),
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => event.id, { onDelete: "cascade" }),
+    compositionId: uuid("composition_id")
+      .notNull()
+      .references(() => composition.id),
+    orderIndex: integer("order_index").notNull(),
+    encore: boolean("encore").notNull().default(false),
+    variationNote: text("variation_note"),
+    notes: text("notes"),
+  },
+  (table) => [
+    unique("event_performance_event_order_index_unique").on(table.eventId, table.orderIndex),
+    check("event_performance_order_index_check", sql`${table.orderIndex} > 0`),
+  ],
+);
+
+export const contribution = pgTable(
+  "contribution",
+  {
+    id: uuid("id").primaryKey(),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => person.id),
+    roleId: uuid("role_id")
+      .notNull()
+      .references(() => role.id),
+    instrumentId: uuid("instrument_id").references(() => instrument.id),
+    recordingId: uuid("recording_id").references(() => recording.id),
+    releaseId: uuid("release_id").references(() => release.id),
+    eventId: uuid("event_id").references(() => event.id),
+    notes: text("notes"),
+  },
+  (table) => [
+    check(
+      "contribution_single_target_check",
+      sql`((${table.recordingId} IS NOT NULL)::int + (${table.releaseId} IS NOT NULL)::int + (${table.eventId} IS NOT NULL)::int) = 1`,
+    ),
+  ],
+);
+
+export const publication = pgTable(
+  "publication",
+  {
+    id: uuid("id").primaryKey(),
+    name: text("name").notNull(),
+    type: text("type"),
+    publisher: text("publisher"),
+    description: text("description"),
+  },
+  (table) => [unique("publication_name_unique").on(table.name)],
+);
+
+export const publicationIssue = pgTable("publication_issue", {
+  id: uuid("id").primaryKey(),
+  publicationId: uuid("publication_id")
+    .notNull()
+    .references(() => publication.id),
+  issueNumber: text("issue_number"),
+  volume: text("volume"),
+  publishedDate: dateString("published_date"),
+  description: text("description"),
+});
+
+export const article = pgTable("article", {
+  id: uuid("id").primaryKey(),
+  publicationIssueId: uuid("publication_issue_id").references(() => publicationIssue.id),
+  title: text("title").notNull(),
+  type: text("type"),
+  publishedDate: dateString("published_date"),
+  summary: text("summary"),
+  content: text("content"),
+  url: text("url"),
+  createdAt: timestampString("created_at").defaultNow(),
+  updatedAt: timestampString("updated_at").defaultNow(),
+});
+
+export const articleMentionWork = pgTable(
+  "article_mention_work",
+  {
+    id: uuid("id").primaryKey(),
+    articleId: uuid("article_id")
+      .notNull()
+      .references(() => article.id, { onDelete: "cascade" }),
+    workId: uuid("work_id")
+      .notNull()
+      .references(() => work.id),
+    mentionType: text("mention_type").notNull(),
+    notes: text("notes"),
+  },
+  (table) => [unique("article_mention_work_unique").on(table.articleId, table.workId, table.mentionType)],
+);
+
+export const articleMentionEvent = pgTable(
+  "article_mention_event",
+  {
+    id: uuid("id").primaryKey(),
+    articleId: uuid("article_id")
+      .notNull()
+      .references(() => article.id, { onDelete: "cascade" }),
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => event.id),
+    mentionType: text("mention_type").notNull(),
+    notes: text("notes"),
+  },
+  (table) => [unique("article_mention_event_unique").on(table.articleId, table.eventId, table.mentionType)],
+);
+
+export const articleMentionPerson = pgTable(
+  "article_mention_person",
+  {
+    id: uuid("id").primaryKey(),
+    articleId: uuid("article_id")
+      .notNull()
+      .references(() => article.id, { onDelete: "cascade" }),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => person.id),
+    mentionType: text("mention_type").notNull(),
+    notes: text("notes"),
+  },
+  (table) => [unique("article_mention_person_unique").on(table.articleId, table.personId, table.mentionType)],
+);
+
+export type Person = typeof person.$inferSelect;
+export type NewPerson = typeof person.$inferInsert;
+export type Project = typeof project.$inferSelect;
+export type Work = typeof work.$inferSelect;
+export type Release = typeof release.$inferSelect;
+export type Article = typeof article.$inferSelect;
+export type Contribution = typeof contribution.$inferSelect;

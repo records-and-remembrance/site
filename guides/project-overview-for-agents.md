@@ -32,13 +32,19 @@ The current pipeline is intentionally incremental:
 
 - `app/`
   Hono review UI for composition drafts.
+  Drizzle schema and database access helpers live under `app/db/`.
 
 - `guides/`
   Human/agent-facing guidance documents.
 
+- `drizzle.config.ts`
+  Drizzle Kit configuration. The schema path is `app/db/schema.ts`.
+
 ## Core Schema
 
 Defined in `database.sql`.
+
+`app/db/schema.ts` mirrors the current PostgreSQL schema for typed Drizzle access. At this stage, `database.sql` remains the database bootstrap source; Drizzle migrations should not be pushed unless schema ownership is intentionally moved.
 
 Main entities currently used:
 
@@ -251,6 +257,8 @@ Run:
 ```bash
 bun run typecheck
 ```
+
+The Drizzle schema is covered by `bun run typecheck`.
 
 ## Docker Notes
 

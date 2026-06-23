@@ -22,6 +22,36 @@ user: monden
 password: monden
 ```
 
+## Drizzle
+
+Drizzle schema is defined in:
+
+```text
+app/db/schema.ts
+```
+
+Drizzle Kit config is defined in:
+
+```text
+drizzle.config.ts
+```
+
+For now, `database.sql` remains the database bootstrap source. Use Drizzle as the typed access layer and schema mirror first; do not run `drizzle-kit push` against the local database unless intentionally migrating schema ownership from `database.sql` to Drizzle.
+
+Type-check the Drizzle schema:
+
+```bash
+bun run typecheck
+```
+
+The default connection URL is:
+
+```text
+postgres://monden:monden@localhost:5432/monden
+```
+
+Set `DATABASE_URL` to override it.
+
 ## Raw Data
 
 元データは Markdown です。

@@ -12,5 +12,5 @@
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*.ts", "app/**/*.ts"]
+  "include": ["scripts/**/*.ts", "app/**/*.ts", "env.d.ts"],
 }
