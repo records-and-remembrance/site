@@ -305,21 +305,22 @@ bun run scripts/generate_media_seed_sql.ts \
 
 ### Contribution
 
-Live 記事の `サポートメンバー` から `contribution` を生成します。
-初期スコープは event support credits のみで、release / recording credits は未対応です。
+Live 記事の `サポートメンバー` と release 記事の `## クレジット` 内にある2列クレジット表から `contribution` を生成します。
+recording-level の track performer matrix は未対応です。
 
 ```bash
 bun run scripts/generate_contribution_seed_sql.ts \
   --live-dir rawData/articles_by_category/Live \
+  --release-dir rawData/articles_by_category/release \
   --output sql/contribution_seed.sql
 ```
 
 生成内容:
 
 - `person`: contribution で参照する人物が未作成の場合の補完
-- `role`: `support_performer`
+- `role`: `support_performer`, `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer` など
 - `instrument`: support member 表記から正規化した楽器
-- `contribution`: `event_id` のみを持つ live support contribution
+- `contribution`: live support は `event_id`、release-level credits は `release_id`
 
 ## Import
 

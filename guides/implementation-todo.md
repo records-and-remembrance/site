@@ -29,11 +29,12 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Initial policy: use deterministic internal links and explicit release/person evidence only; use review drafts for broader matching.
 
 - [~] Decide `contribution` ingestion policy.
-  - Cover release credits.
+  - Cover release credits. Initial scope covers release-level two-column credit tables only.
   - Cover recording credits.
   - Cover live/event support members.
   - Define how staff, producer, guest performer, lyricist, composer, and arranger credits should map to `role` / `instrument`.
   - Initial investigation found release `## クレジット`, track performer matrices, and Live `サポートメンバー` as the primary sources.
+  - Track performer matrices should target `recording_id` and remain pending.
 
 - [~] Add `scripts/generate_contribution_seed_sql.ts`.
   - Generate `person_id`.
@@ -41,7 +42,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Generate optional `instrument_id`.
   - Set exactly one of `recording_id`, `release_id`, or `event_id`.
   - Preserve `source_file=...` in `notes`.
-  - Current implementation covers Live `サポートメンバー` -> `event_id`; release and recording credits remain.
+  - Current implementation covers Live `サポートメンバー` -> `event_id` and release-level two-column credit tables -> `release_id`; recording credits remain.
 
 ## Medium Priority
 
@@ -53,7 +54,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Decide later whether seed generators should emit SQL files, execute through Drizzle, or support both.
 
 - [ ] Expand `role` / `instrument` vocabulary for contributions.
-  - Add or normalize roles such as `producer`, `arranger`, `composer`, `lyricist`, `guest`, and `staff`.
+  - Add or normalize remaining roles such as `guest` and `staff`.
   - Add a Japanese-to-English normalization table where source data uses Japanese labels.
 
 - [ ] Decide how to use `rawData/articles_by_category/label/`.

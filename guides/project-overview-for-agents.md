@@ -153,15 +153,16 @@ This represents each media Markdown source file as one `article` row, with `publ
 
 ### Contribution
 
-Generate live support contribution data:
+Generate contribution data:
 
 ```bash
 bun run scripts/generate_contribution_seed_sql.ts \
   --live-dir rawData/articles_by_category/Live \
+  --release-dir rawData/articles_by_category/release \
   --output sql/contribution_seed.sql
 ```
 
-Current scope is `Live` support members only. The script emits `person`, `role`, `instrument`, and `contribution` rows, with every generated contribution targeting exactly one `event_id`.
+Current scope covers `Live` support members and release-level two-column credit tables under `## クレジット`. The script emits `person`, `role`, `instrument`, and `contribution` rows. Live support rows target `event_id`; release-level credit rows target `release_id`. Track performer matrices remain out of scope until recording-level contribution rules are implemented.
 
 ## Import Order
 

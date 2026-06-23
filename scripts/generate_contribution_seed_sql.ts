@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
+import { resolvePersonAlias } from "./lib/personAliases";
 
 type SourceArticle = {
   path: string;
@@ -20,12 +21,21 @@ type SourceArticle = {
 type ParsedArgs = {
   output: string;
   liveDir: string;
+  releaseDir: string;
   files: string[] | null;
 };
 
+type ContributionTarget =
+  | { type: "event"; id: string }
+  | { type: "release"; id: string };
+
 type ContributionSeed = {
   source: SourceArticle;
+  target: ContributionTarget;
   personName: string;
+  roleName: string;
+  roleCategory: string;
+  roleDescription: string;
   instruments: string[];
   rawCredit: string;
 };
@@ -45,6 +55,7 @@ type ListItemNode = MarkdownNode & {
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const DEFAULT_LIVE_DIR = join(ROOT, "rawData", "articles_by_category", "Live");
+const DEFAULT_RELEASE_DIR = join(ROOT, "rawData", "articles_by_category", "release");
 const DEFAULT_OUTPUT = join(ROOT, "sql", "contribution_seed.sql");
 const MARKDOWN_PROCESSOR = unified().use(remarkParse).use(remarkGfm);
 
@@ -87,13 +98,44 @@ const INSTRUMENT_ALIASES = new Map<string, string>([
   ["spd", "synthesizer"],
 ]);
 
-const PERSON_ALIASES = new Map<string, string>([
-  ["maryne", "Maryne"],
-]);
+const RELEASE_ROLE_PATTERNS: {
+  pattern: RegExp;
+  name: string;
+  category: string;
+  description: string;
+}[] = [
+  { pattern: /\b(executive\s+producer)\b/i, name: "executive_producer", category: "production", description: "エグゼクティブプロデューサー" },
+  { pattern: /\b(lyrics?|lyricist|作詞)\b/i, name: "lyricist", category: "composition", description: "作詞" },
+  { pattern: /\b(music|compos(?:ed|er|ition)|written|作曲)\b/i, name: "composer", category: "composition", description: "作曲" },
+  { pattern: /\b(arrang(?:ed|er|ement)|編曲)\b/i, name: "arranger", category: "production", description: "編曲" },
+  { pattern: /\b(sound\s+produc|produc(?:ed|er|tion)|produce|プロデュース)\b/i, name: "producer", category: "production", description: "プロデュース" },
+  { pattern: /\b(record(?:ed|ing)?(?:,?\s*mix(?:ed|ing))?|engineer(?:ed|ing)?|録音|レコーディング)\b/i, name: "recording_engineer", category: "engineering", description: "録音エンジニア" },
+  { pattern: /\b(mix(?:ed|ing)|ミックス)\b/i, name: "mixing_engineer", category: "engineering", description: "ミックスエンジニア" },
+  { pattern: /\b(master(?:ed|ing)|マスタリング)\b/i, name: "mastering_engineer", category: "engineering", description: "マスタリングエンジニア" },
+  { pattern: /\b(artwork|illustration|painted|photography|design|designed|direction|camera|映像|写真)\b/i, name: "artwork", category: "creative", description: "アートワーク/デザイン" },
+  { pattern: /\b(a\s*&\s*r|a\+r|label\s+a&r)\b/i, name: "a_and_r", category: "management", description: "A&R" },
+  { pattern: /\b(management|manager)\b/i, name: "management", category: "management", description: "マネジメント" },
+];
+
+const SKIP_RELEASE_ROLE_PATTERNS = [
+  /\b(at|studio|recorded at|mixed at|mastered at|thanks|special thanks)\b/i,
+  /^-$/,
+  /^#?\d/,
+  /参加アーティスト/,
+  /voice strings/i,
+];
+
+const NON_PERSON_VALUE_PATTERNS = [
+  /\b(staff|friends?|famil(?:y|ies)|everyone|you|residents|people|all\s+)/i,
+  /\b(studio|records?|music|production|productions|label|arts|signs|city|garage|loft)\b/i,
+  /住民|全員|スタッフ|友人|家族|皆|レーベル|スタジオ/,
+  /Good Dog Happy Men|BURGER NUDS|Poet-type\.M|Bohemian Arts|castle|tearbridge|I WILL|PCI MUSIC|LUCKON GRAPHICS/i,
+];
 
 function parseArgs(argv: string[]): ParsedArgs {
   let output = DEFAULT_OUTPUT;
   let liveDir = DEFAULT_LIVE_DIR;
+  let releaseDir = DEFAULT_RELEASE_DIR;
   let files: string[] | null = null;
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -104,6 +146,10 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--live-dir") {
       liveDir = resolve(argv[++i] ?? DEFAULT_LIVE_DIR);
+      continue;
+    }
+    if (arg === "--release-dir") {
+      releaseDir = resolve(argv[++i] ?? DEFAULT_RELEASE_DIR);
       continue;
     }
     if (arg === "--files") {
@@ -117,7 +163,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     throw new Error(`Unknown argument: ${arg}`);
   }
 
-  return { output, liveDir, files };
+  return { output, liveDir, releaseDir, files };
 }
 
 function parseScalar(value: string): string {
@@ -361,7 +407,11 @@ function parseSupportCredit(source: SourceArticle, rawLine: string): Contributio
 
   return {
     source,
+    target: { type: "event", id: stableUuid("event", source.name) },
     personName,
+    roleName: "support_performer",
+    roleCategory: "performance",
+    roleDescription: "ライブサポート演奏者",
     instruments: [...instruments],
     rawCredit,
   };
@@ -387,6 +437,9 @@ function parseInstruments(value: string): string[] {
 
 function canonicalPersonName(value: string): string | null {
   let name = cleanText(value)
+    .replace(/^["“”']|["“”']$/g, "")
+    .replace(/^(.+?)\s*\{([^{}]+)\}.*$/u, "$2")
+    .replace(/\s+(?:at|for)\s+.+$/iu, "")
     .replace(/\s*※\s*$/u, "")
     .replace(/\s*[?？]+\s*$/u, "")
     .replace(/\s*….*$/u, "")
@@ -394,12 +447,12 @@ function canonicalPersonName(value: string): string | null {
     .trim();
 
   name = name.replace(/(?<=\p{Script=Han})\s+(?=\p{Script=Han})/gu, "");
-  name = PERSON_ALIASES.get(name.toLowerCase()) ?? name;
+  name = resolvePersonAlias(name);
   if (!name || name === "友人" || name.startsWith("(")) return null;
   return name;
 }
 
-function collectContributions(sources: SourceArticle[]): ContributionSeed[] {
+function collectLiveContributions(sources: SourceArticle[]): ContributionSeed[] {
   const contributions: ContributionSeed[] = [];
   for (const source of sources) {
     if (source.tags[0] !== "Live") continue;
@@ -411,25 +464,126 @@ function collectContributions(sources: SourceArticle[]): ContributionSeed[] {
   return contributions;
 }
 
+function collectReleaseContributions(sources: SourceArticle[]): ContributionSeed[] {
+  const contributions: ContributionSeed[] = [];
+  for (const source of sources) {
+    if (source.tags[0] !== "Release") continue;
+    for (const row of parseReleaseCreditRows(source.body)) {
+      const roles = normalizeReleaseRoles(row.role);
+      if (roles.length === 0) continue;
+      for (const role of roles) {
+        for (const personName of parseCreditPeople(row.names)) {
+          contributions.push({
+            source,
+            target: { type: "release", id: stableUuid("release", source.name) },
+            personName,
+            roleName: role.name,
+            roleCategory: role.category,
+            roleDescription: role.description,
+            instruments: [],
+            rawCredit: `${cleanText(row.role)} | ${cleanText(row.names)}`,
+          });
+        }
+      }
+    }
+  }
+  return contributions;
+}
+
+function parseReleaseCreditRows(body: string): { role: string; names: string }[] {
+  const tree = markdownTree(body);
+  const result: { role: string; names: string }[] = [];
+  let inCreditSection = false;
+
+  for (const child of tree.children ?? []) {
+    if (child.type === "heading") {
+      const heading = cleanText(plainTextFromNode(child));
+      inCreditSection = heading === "クレジット";
+      continue;
+    }
+    if (!inCreditSection || child.type !== "table") continue;
+
+    const rows = child.children ?? [];
+    if (rows.length < 2) continue;
+    for (const row of rows.slice(1)) {
+      const cells = row.children ?? [];
+      if (cells.length < 2) continue;
+      const role = cleanText(plainTextFromNode(cells[0]));
+      const names = cleanText(plainTextFromNode(cells[1]));
+      if (role && names) result.push({ role, names });
+    }
+  }
+
+  return result;
+}
+
+function normalizeReleaseRoles(rawRole: string): { name: string; category: string; description: string }[] {
+  const role = cleanText(stripFootnotes(rawRole)).replaceAll("+", "&");
+  if (!role || SKIP_RELEASE_ROLE_PATTERNS.some((pattern) => pattern.test(role))) return [];
+  const roles: { name: string; category: string; description: string }[] = [];
+  for (const entry of RELEASE_ROLE_PATTERNS) {
+    if (!entry.pattern.test(role)) continue;
+    if (roles.some((existing) => existing.name === entry.name)) continue;
+    roles.push({ name: entry.name, category: entry.category, description: entry.description });
+  }
+  return roles;
+}
+
+function parseCreditPeople(rawNames: string): string[] {
+  const braceValues = [...rawNames.matchAll(/\{([^{}]+)\}/g)]
+    .flatMap((match) => splitPersonCandidates(match[1]))
+    .filter((candidate) => /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(candidate));
+  const source = braceValues.length > 0 ? braceValues.join(" / ") : rawNames;
+  const withoutFootnotes = stripFootnotes(source)
+    .replace(/\([^()]*\)/g, " ")
+    .replace(/（[^（）]*）/g, " ");
+
+  const withoutLocations = withoutFootnotes.replace(/\s+(?:at|for)\s+.+$/iu, "");
+  const candidates = splitPersonCandidates(withoutLocations)
+    .map((candidate) => candidate.trim())
+    .filter(Boolean);
+
+  const people: string[] = [];
+  for (const candidate of candidates) {
+    if (NON_PERSON_VALUE_PATTERNS.some((pattern) => pattern.test(candidate))) continue;
+    const personName = canonicalPersonName(candidate);
+    if (!personName) continue;
+    if (/^[A-Za-z\s.]+$/.test(personName) && personName.split(/\s+/).length < 2) continue;
+    if (!people.includes(personName)) people.push(personName);
+  }
+  return people;
+}
+
+function splitPersonCandidates(value: string): string[] {
+  return value.split(/\s*(?:\/|&| and |,|、|・)\s*/iu);
+}
+
 function renderSql(contributions: ContributionSeed[]): string {
   const lines: string[] = [];
   const people = new Set(contributions.map((contribution) => contribution.personName));
   const instruments = new Set(contributions.flatMap((contribution) => contribution.instruments));
-  const supportRoleId = stableUuid("role", "support_performer");
+  const roles = new Map<string, { category: string; description: string }>();
+  for (const contribution of contributions) {
+    roles.set(contribution.roleName, { category: contribution.roleCategory, description: contribution.roleDescription });
+  }
   const emittedKeys = new Set<string>();
   let emitted = 0;
 
   lines.push("-- Generated by scripts/generate_contribution_seed_sql.ts");
-  lines.push("-- Initial scope: live support member credits only.");
+  lines.push("-- Scope: live support member credits and release-level credit tables.");
   lines.push("-- Requires event rows generated by scripts/generate_rawdata_seed_sql.ts --types live.");
-  lines.push(`-- live_support_contributions: ${contributions.length}`);
+  lines.push("-- Requires release rows generated by scripts/generate_rawdata_seed_sql.ts --types release.");
+  lines.push(`-- contributions: ${contributions.length}`);
   lines.push("BEGIN;");
   lines.push("");
 
-  lines.push("INSERT INTO role (id, name, category, description)");
-  lines.push(`VALUES (${sqlText(supportRoleId)}, 'support_performer', 'performance', 'ライブサポート演奏者')`);
-  lines.push("ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, category = EXCLUDED.category, description = EXCLUDED.description;");
-  lines.push("");
+  for (const [roleName, role] of [...roles].sort(([a], [b]) => a.localeCompare(b, "ja"))) {
+    const roleId = stableUuid("role", roleName);
+    lines.push("INSERT INTO role (id, name, category, description)");
+    lines.push(`VALUES (${sqlText(roleId)}, ${sqlText(roleName)}, ${sqlText(role.category)}, ${sqlText(role.description)})`);
+    lines.push("ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, category = EXCLUDED.category, description = EXCLUDED.description;");
+    lines.push("");
+  }
 
   for (const instrument of [...instruments].sort((a, b) => a.localeCompare(b, "ja"))) {
     const instrumentId = stableUuid("instrument", instrument);
@@ -450,20 +604,26 @@ function renderSql(contributions: ContributionSeed[]): string {
   }
 
   for (const contribution of contributions) {
-    const eventId = stableUuid("event", contribution.source.name);
     const personId = stableUuid("person", contribution.personName);
+    const roleId = stableUuid("role", contribution.roleName);
     const contributionInstruments = contribution.instruments.length > 0 ? contribution.instruments : [null];
     for (const instrument of contributionInstruments) {
       const instrumentId = instrument ? stableUuid("instrument", instrument) : null;
-      const key = `${contribution.source.name}|${contribution.personName}|${instrument ?? ""}|${contribution.rawCredit}`;
+      const key = `${contribution.target.type}|${contribution.source.name}|${contribution.personName}|${contribution.roleName}|${instrument ?? ""}|${contribution.rawCredit}`;
       if (emittedKeys.has(key)) continue;
       emittedKeys.add(key);
 
-      const contributionId = stableUuid("contribution", `event:${key}`);
+      const contributionId =
+        contribution.target.type === "event"
+          ? stableUuid("contribution", `event:${contribution.source.name}|${contribution.personName}|${instrument ?? ""}|${contribution.rawCredit}`)
+          : stableUuid("contribution", key);
       const notes = [`source_file=${contribution.source.name}`, `raw_credit=${contribution.rawCredit}`].join("\n");
+      const recordingId = null;
+      const releaseId = contribution.target.type === "release" ? contribution.target.id : null;
+      const eventId = contribution.target.type === "event" ? contribution.target.id : null;
       lines.push("INSERT INTO contribution (id, person_id, role_id, instrument_id, recording_id, release_id, event_id, notes)");
       lines.push(
-        `VALUES (${sqlText(contributionId)}, ${sqlText(personId)}, ${sqlText(supportRoleId)}, ${sqlText(instrumentId)}, NULL, NULL, ${sqlText(eventId)}, ${sqlText(notes)})`,
+        `VALUES (${sqlText(contributionId)}, ${sqlText(personId)}, ${sqlText(roleId)}, ${sqlText(instrumentId)}, ${sqlText(recordingId)}, ${sqlText(releaseId)}, ${sqlText(eventId)}, ${sqlText(notes)})`,
       );
       lines.push("ON CONFLICT (id) DO UPDATE");
       lines.push("SET person_id = EXCLUDED.person_id,");
@@ -485,17 +645,22 @@ function renderSql(contributions: ContributionSeed[]): string {
 async function main(): Promise<void> {
   const args = parseArgs(Bun.argv.slice(2));
   let liveSources = await loadSources(args.liveDir);
+  let releaseSources = await loadSources(args.releaseDir);
   if (args.files && args.files.length > 0) {
     const wanted = new Set(args.files);
     liveSources = liveSources.filter((source) => wanted.has(source.name));
+    releaseSources = releaseSources.filter((source) => wanted.has(source.name));
   }
 
-  const contributions = collectContributions(liveSources);
+  const liveContributions = collectLiveContributions(liveSources);
+  const releaseContributions = collectReleaseContributions(releaseSources);
+  const contributions = [...liveContributions, ...releaseContributions];
   const sql = renderSql(contributions);
   await mkdir(dirname(args.output), { recursive: true });
   await writeFile(args.output, sql, "utf8");
   console.log(`Wrote ${args.output}`);
-  console.log(`Live support credits: ${contributions.length}`);
+  console.log(`Live support credits: ${liveContributions.length}`);
+  console.log(`Release credits: ${releaseContributions.length}`);
 }
 
 await main();

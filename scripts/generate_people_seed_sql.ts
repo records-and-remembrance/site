@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolvePersonAlias } from "./lib/personAliases";
 
 type SourceArticle = {
   path: string;
@@ -86,10 +87,6 @@ const INSTRUMENT_ALIASES = new Map<string, string>([
   ["painting", "painting"],
   ["photo", "photo"],
   ["manipulator", "manipulator"],
-]);
-
-const PERSON_ALIASES = new Map<string, string>([
-  ["maryne", "Maryne"],
 ]);
 
 function parseArgs(argv: string[]): ParsedArgs {
@@ -297,7 +294,7 @@ function canonicalPersonName(value: string): string | null {
     .trim();
   name = name.replace(/(?<=\p{Script=Han})\s+(?=\p{Script=Han})/gu, "");
   name = name.replace(/^First Violin\s+|^Second Violin\s+|^Viola\s+|^Cello\s+/i, "").trim();
-  name = PERSON_ALIASES.get(name.toLowerCase()) ?? name;
+  name = resolvePersonAlias(name);
   if (!name || name === "友人" || name === "高校の友人" || name.startsWith("(")) return null;
   if (/^(ex\.|from\s|and\s|with\s)/i.test(name)) return null;
   return name;
@@ -315,23 +312,36 @@ function addRelatedPeople(article: SourceArticle, people: Map<string, PersonSeed
   const blocks = article.body.split(/^###\s+/gm).slice(1);
   for (const block of blocks) {
     const [headingLine = "", ...rest] = block.split(/\r?\n/);
-    const name = canonicalPersonName(personNameFromHeading(headingLine));
-    if (!name) continue;
+    const names = personNamesFromHeading(headingLine);
+    if (names.length === 0) continue;
 
     const body = rest.join("\n");
-    const person = ensurePerson(people, name);
     const birth = body.match(/^\*\s*(?:誕生|誕生日):\s*(.+)$/m)?.[1];
     const birthDate = parseDateLike(birth, false).date;
-    if (birthDate) person.birthDate ??= birthDate;
-
     const roleLine = body.match(/^\*\s*担当:\s*(.+)$/m)?.[1];
-    if (roleLine) person.descriptionParts.add(`担当: ${cleanText(roleLine)}`);
-
     const bandLine = body.match(/^\*\s*主な参加バンド:\s*(.+)$/m)?.[1];
-    if (bandLine) person.descriptionParts.add(`主な参加バンド: ${cleanText(bandLine)}`);
 
-    person.descriptionParts.add(`source_file=${article.name}`);
+    for (const name of names) {
+      const person = ensurePerson(people, name);
+      if (birthDate) person.birthDate ??= birthDate;
+      if (roleLine) person.descriptionParts.add(`担当: ${cleanText(roleLine)}`);
+      if (bandLine) person.descriptionParts.add(`主な参加バンド: ${cleanText(bandLine)}`);
+      person.descriptionParts.add(`source_file=${article.name}`);
+    }
   }
+}
+
+function personNamesFromHeading(value: string): string[] {
+  return splitPersonNameCandidates(personNameFromHeading(value))
+    .map((candidate) => canonicalPersonName(candidate))
+    .filter((name): name is string => Boolean(name));
+}
+
+function splitPersonNameCandidates(value: string): string[] {
+  return value
+    .split(/\s*(?:&| and |、)\s*/iu)
+    .map((candidate) => candidate.trim())
+    .filter(Boolean);
 }
 
 function addIndividualPerson(article: SourceArticle, people: Map<string, PersonSeed>): void {
@@ -484,7 +494,10 @@ function renderSql(people: Map<string, PersonSeed>, memberships: MembershipSeed[
     lines.push(`VALUES (${sqlText(id)}, ${sqlText(person.name)}, ${sqlText(description)}, ${sqlText(person.birthDate)}, NULL, NULL, NULL)`);
     lines.push("ON CONFLICT (id) DO UPDATE");
     lines.push("SET name = EXCLUDED.name,");
-    lines.push("    description = COALESCE(person.description, EXCLUDED.description),");
+    lines.push("    description = CASE");
+    lines.push("      WHEN person.description = 'source=contribution_seed' THEN EXCLUDED.description");
+    lines.push("      ELSE COALESCE(person.description, EXCLUDED.description)");
+    lines.push("    END,");
     lines.push("    birth_date = COALESCE(person.birth_date, EXCLUDED.birth_date);");
     lines.push("");
   }
