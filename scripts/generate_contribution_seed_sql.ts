@@ -96,18 +96,25 @@ const INSTRUMENT_ALIASES = new Map<string, string>([
   ["gu", "guitar"],
   ["guitar", "guitar"],
   ["guitars", "guitar"],
+  ["electric upright bass", "contrabass"],
+  ["upright bass", "contrabass"],
+  ["double bass", "contrabass"],
   ["electric gut guitar", "electric_guitar"],
   ["electric guitar", "electric_guitar"],
   ["a.gt", "acoustic_guitar"],
   ["a.gt.", "acoustic_guitar"],
   ["e.gt", "electric_guitar"],
   ["e.gt.", "electric_guitar"],
+  ["first violin", "violin"],
+  ["second violin", "violin"],
   ["ba", "bass"],
   ["bass", "bass"],
   ["contrabass", "contrabass"],
   ["dr", "drums"],
   ["drum", "drums"],
   ["drums", "drums"],
+  ["dr cho", "drums"],
+  ["dr cho.", "drums"],
   ["perc", "percussion"],
   ["percussion", "percussion"],
   ["junk perc", "percussion"],
@@ -154,6 +161,11 @@ const INSTRUMENT_ALIASES = new Map<string, string>([
   ["spd", "synthesizer"],
 ]);
 
+const INSTRUMENT_MULTI_ALIASES = new Map<string, string[]>([
+  ["dr cho", ["drums", "chorus"]],
+  ["dr cho.", ["drums", "chorus"]],
+]);
+
 const RELEASE_ROLE_PATTERNS: {
   pattern: RegExp;
   name: string;
@@ -171,6 +183,19 @@ const RELEASE_ROLE_PATTERNS: {
   { pattern: /\b(artwork|illustration|painted|photography|design|designed|direction|camera|映像|写真)\b/i, name: "artwork", category: "creative", description: "アートワーク/デザイン" },
   { pattern: /\b(a\s*&\s*r|a\+r|label\s+a&r)\b/i, name: "a_and_r", category: "management", description: "A&R" },
   { pattern: /\b(management|manager)\b/i, name: "management", category: "management", description: "マネジメント" },
+  { pattern: /\b(guest\s+vocal|guest\s+voice|guest\s+lead\s+vocal)\b/i, name: "guest_vocal", category: "performance", description: "ゲストボーカル" },
+  { pattern: /\b(guest\s+chorus|guest\s+cho(?:rus)?)\b/i, name: "guest_chorus", category: "performance", description: "ゲストコーラス" },
+  { pattern: /\b(guest\s+performer|guest\s+player|guest|special\s+guest)\b/i, name: "guest_performer", category: "performance", description: "ゲスト演奏" },
+  { pattern: /\b(vocal\s+director|voice\s+director)\b/i, name: "vocal_director", category: "production", description: "ボーカルディレクション" },
+  { pattern: /\b(assistant\s+director)\b/i, name: "assistant_director", category: "production", description: "アシスタントディレクション" },
+  { pattern: /\b(director)\b/i, name: "director", category: "creative", description: "ディレクション" },
+  { pattern: /\b(camera)\b/i, name: "camera", category: "creative", description: "カメラ" },
+  { pattern: /\b(photograph(?:er|y)|photo)\b/i, name: "photographer", category: "creative", description: "撮影" },
+  { pattern: /\b(art\s+designer|design(?:er|ing)?|art\s+design)\b/i, name: "art_designer", category: "creative", description: "アートデザイン" },
+  { pattern: /\b(rights\s+management\s+officer|rights\s+management)\b/i, name: "rights_management_officer", category: "management", description: "権利管理" },
+  { pattern: /\b(executive\s+manager)\b/i, name: "executive_manager", category: "management", description: "エグゼクティブマネージャー" },
+  { pattern: /\b(supervisor)\b/i, name: "supervisor", category: "management", description: "監修" },
+  { pattern: /\b(staff|stage\s+staff|dvd\s+staff)\b/i, name: "staff", category: "production", description: "スタッフ" },
 ];
 
 const SKIP_RELEASE_ROLE_PATTERNS = [
@@ -442,7 +467,7 @@ function parseSupportCredit(source: SourceArticle, rawLine: string): Contributio
   let base = cleanText(rawCredit.replace(/[（(][^（）()]*[）)]/gu, " "));
   const instruments = new Set<string>();
   for (const value of parenValues) {
-    for (const instrument of parseInstruments(value)) instruments.add(instrument);
+    for (const instrument of extractSupportInstruments(value)) instruments.add(instrument);
   }
 
   const prefix = base.match(/^([A-Za-z.,&/\s]+)\s+(.+)$/u);
@@ -471,6 +496,15 @@ function parseSupportCredit(source: SourceArticle, rawLine: string): Contributio
     instruments: [...instruments],
     rawCredit,
   };
+}
+
+function extractSupportInstruments(value: string): string[] {
+  const parsed = parseInstruments(value);
+  if (parsed.length <= 1) return parsed;
+  if (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(value) && /\s/.test(value)) {
+    return parsed.slice(0, 1);
+  }
+  return parsed;
 }
 
 function splitOutlineBlocks(body: string): OutlineBlock[] {
@@ -803,13 +837,34 @@ function parseInstruments(value: string): string[] {
     .replace(/&/g, "/")
     .replace(/,/g, "/")
     .replace(/・/g, "/")
-    .replace(/\./g, "");
+    .replace(/\./g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
   const result: string[] = [];
   for (const token of normalized.split("/")) {
     const key = token.trim().toLowerCase();
-    const instrument = INSTRUMENT_ALIASES.get(key);
-    if (instrument && !result.includes(instrument)) result.push(instrument);
+    if (!key) continue;
+
+    const multiInstrument = INSTRUMENT_MULTI_ALIASES.get(key);
+    if (multiInstrument) {
+      for (const instrument of multiInstrument) {
+        if (!result.includes(instrument)) result.push(instrument);
+      }
+      continue;
+    }
+
+    const exactInstrument = INSTRUMENT_ALIASES.get(key);
+    if (exactInstrument) {
+      if (!result.includes(exactInstrument)) result.push(exactInstrument);
+      continue;
+    }
+
+    for (const [alias, instrument] of INSTRUMENT_ALIASES) {
+      if (!key.startsWith(`${alias} `)) continue;
+      if (!result.includes(instrument)) result.push(instrument);
+      break;
+    }
   }
   return result;
 }

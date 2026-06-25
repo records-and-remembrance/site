@@ -317,8 +317,8 @@ bun run scripts/generate_contribution_seed_sql.ts \
 生成内容:
 
 - `person`: contribution で参照する人物が未作成の場合の補完
-- `role`: `support_performer`, `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer` など
-- `instrument`: support member 表記から正規化した楽器
+- `role`: `support_performer`, `performer`, `guest_vocal`, `guest_chorus`, `guest_performer`, `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer`, `mixing_engineer`, `mastering_engineer`, `vocal_director`, `staff` など
+- `instrument`: support member 表記から正規化した楽器と、`Dr. Cho.` のような複合表記
 - `contribution`: live support は `event_id`、release-level credits は `release_id`、track performer matrix は `recording_id`
 
 ## Import

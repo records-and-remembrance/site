@@ -375,7 +375,7 @@ Current generated scope:
 - Release-level two-column credit tables from `rawData/articles_by_category/release/` `## クレジット`
 - Recording-level performer matrices from `rawData/articles_by_category/release/` `## クレジット`
 - `role.name = 'support_performer'` for live support members
-- Release-level roles such as `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer`, `mixing_engineer`, `mastering_engineer`, `artwork`, `a_and_r`, `management`, and `executive_producer`
+- Release-level roles such as `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer`, `mixing_engineer`, `mastering_engineer`, `artwork`, `a_and_r`, `management`, `guest_vocal`, `guest_chorus`, `guest_performer`, `vocal_director`, `director`, `assistant_director`, `camera`, `photographer`, `staff`, and `executive_producer`
 - Optional `instrument_id` from normalized support member instrument labels
 - `event_id` set from the source filename using the same event UUID rule as live seed generation
 - `release_id` set from the release source filename using the same release UUID rule as release seed generation

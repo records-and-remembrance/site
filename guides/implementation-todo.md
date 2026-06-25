@@ -53,7 +53,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Keep `database.sql` as bootstrap source until migration ownership is explicitly moved.
   - Decide later whether seed generators should emit SQL files, execute through Drizzle, or support both.
 
-- [ ] Expand `role` / `instrument` vocabulary for contributions.
+- [x] Expand `role` / `instrument` vocabulary for contributions.
   - Add or normalize remaining roles such as `guest` and `staff`.
   - Add a Japanese-to-English normalization table where source data uses Japanese labels.
 
