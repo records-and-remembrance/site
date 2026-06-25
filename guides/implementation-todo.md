@@ -61,6 +61,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Review the 4 label source files.
   - Decide whether `label.description` should be populated from a dedicated label generator.
   - Keep release-derived label creation working.
+  - Current release-derived labels are normalized to canonical ASCII/Japanese names; markdown links, alias suffixes, and distributor fragments are split out before seed generation.
 
 - [ ] Decide how to use `rawData/articles_by_category/event/`.
   - Review the 2 non-Live event files.

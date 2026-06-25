@@ -136,6 +136,8 @@ Tables:
 `work` is the abstract product/work.
 
 `release` is a concrete released package or distribution instance.
+`label` stores canonical label names only; markdown links, slash-separated aliases, and note suffixes are normalized out of the generated name.
+`distributor` stores the separate distribution company/name when the source text provides it.
 
 Examples:
 

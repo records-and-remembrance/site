@@ -266,17 +266,57 @@ function parseBasicInfo(section: string): Record<string, string> {
 }
 
 function stripMarkdown(text: string): string {
-  return text
+  let result = text
     .replace(/`([^`]*)`/g, "$1")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
     .replace(/\[\[([^\]]+)\]\([^)]+\)/g, "$1")
     .replace(/<[^>]+>/g, " ")
-    .replace(/\(\([^)]+\)\)/g, " ")
+    .replace(/\[\[([^\]]+)\]\]/g, "$1")
     .replace(/^#+\s*/gm, "")
     .replace(/^\s*[-*]\s*/gm, "")
     .replace(/^\s*\d+\.\s*/gm, "")
     .replace(/\s+/g, " ")
     .trim();
+  let previous = "";
+  while (result !== previous) {
+    previous = result;
+    result = result.replace(/\(\([\s\S]*?\)\)/g, " ").replace(/\s+/g, " ").trim();
+  }
+  return result;
+}
+
+const NAME_ALIASES: Record<string, string> = {
+  "uk.project inc.": "UK.PROJECT",
+  "自主制作": "セルフリリース",
+};
+
+function normalizeLabelName(value: string | null | undefined): string | null {
+  if (!value) return null;
+  let name = stripMarkdown(value);
+  if (!name) return null;
+  name = name.replace(/\s*[:：]\s*$/, "");
+  name = name.replace(/\s*\(([^()]*)\)\s*$/, (_, inner: string) => {
+    const lowered = inner.toLowerCase();
+    if (lowered.includes("非売品") || lowered.includes("限定") || lowered.includes("仮") || lowered.includes("暫定")) return "";
+    if (lowered.startsWith("label") || lowered.startsWith("alias") || lowered.startsWith("aka") || lowered.startsWith("旧称") || lowered.startsWith("別名")) return "";
+    return ` (${inner})`;
+  });
+  name = name.replace(/\s+/g, " ").trim();
+  const alias = NAME_ALIASES[name.toLowerCase()];
+  if (alias) return alias;
+  return name || null;
+}
+
+function splitLabelSource(value: string | null | undefined): [string | null, string | null] {
+  const normalized = normalizeLabelName(value);
+  if (!normalized) return [null, null];
+  const parts = normalized
+    .split(/\s*\/\s*/)
+    .map((part) => normalizeLabelName(part))
+    .filter((part): part is string => Boolean(part));
+  if (parts.length === 0) return [null, null];
+  if (parts.length === 1) return [parts[0], null];
+  return [parts[0], parts[1]];
 }
 
 function summarize(text: string, limit = 280): string | null {
@@ -448,21 +488,27 @@ class SqlBuilder {
   }
 
   distributorUpsert(name: string | null): string | null {
-    if (!name) return null;
-    const distributorId = stableUuid("distributor", name);
+    const normalizedName = normalizeLabelName(name);
+    if (!normalizedName) return null;
+    const distributorId = stableUuid("distributor", normalizedName);
+    const description =
+      name && normalizeLabelName(name) !== normalizedName ? `source_label=${normalizeLabelName(name)}` : null;
     this.line("INSERT INTO distributor (id, name, description)");
-    this.line(`VALUES (${sqlText(distributorId)}, ${sqlText(name)}, NULL)`);
-    this.line("ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;");
+    this.line(`VALUES (${sqlText(distributorId)}, ${sqlText(normalizedName)}, ${sqlText(description)})`);
+    this.line("ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, description = COALESCE(distributor.description, EXCLUDED.description);");
     this.line();
     return distributorId;
   }
 
-  labelUpsert(name: string | null): string | null {
-    if (!name) return null;
-    const labelId = stableUuid("label", name);
+  labelUpsert(name: string | null, sourceLabel: string | null = null): string | null {
+    const normalizedName = normalizeLabelName(name);
+    if (!normalizedName) return null;
+    const labelId = stableUuid("label", normalizedName);
+    const description =
+      sourceLabel && normalizeLabelName(sourceLabel) !== normalizedName ? `source_label=${normalizeLabelName(sourceLabel)}` : null;
     this.line("INSERT INTO label (id, name, description)");
-    this.line(`VALUES (${sqlText(labelId)}, ${sqlText(name)}, NULL)`);
-    this.line("ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;");
+    this.line(`VALUES (${sqlText(labelId)}, ${sqlText(normalizedName)}, ${sqlText(description)})`);
+    this.line("ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, description = COALESCE(label.description, EXCLUDED.description);");
     this.line();
     return labelId;
   }
@@ -578,15 +624,19 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
     releasedDate: releaseDate,
   });
 
-  let labelName = basic["発売元"] ?? null;
+  let labelName = basic["レーベル"] ?? basic["発売元"] ?? null;
   let distributorName = basic["販売元"] ?? null;
   if (basic["発売元/販売元"]) {
     labelName ??= basic["発売元/販売元"];
     distributorName ??= basic["発売元/販売元"];
   }
 
-  const distributorId = builder.distributorUpsert(labelName === distributorName ? labelName : distributorName);
-  const labelId = builder.labelUpsert(labelName);
+  const [parsedLabelName, impliedDistributorName] = splitLabelSource(labelName);
+  const resolvedLabelName = parsedLabelName ?? normalizeLabelName(labelName);
+  const resolvedDistributorName = normalizeLabelName(distributorName) ?? impliedDistributorName;
+
+  const distributorId = builder.distributorUpsert(resolvedDistributorName);
+  const labelId = builder.labelUpsert(resolvedLabelName, labelName);
   const releaseId = builder.releaseUpsert({
     source,
     workId,
