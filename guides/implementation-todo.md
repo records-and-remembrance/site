@@ -79,7 +79,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Find articles without publication or issue where one should exist.
   - Find unresolved or suspicious article mentions.
 
-- [ ] Add contribution quality checks.
+- [x] Add contribution quality checks.
   - Find contributions with missing or suspicious roles.
   - Find contributions with missing instruments where expected.
   - Check that every contribution has exactly one target; this should also be enforced by the DB constraint.
