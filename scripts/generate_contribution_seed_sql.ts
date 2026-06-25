@@ -27,7 +27,8 @@ type ParsedArgs = {
 
 type ContributionTarget =
   | { type: "event"; id: string }
-  | { type: "release"; id: string };
+  | { type: "release"; id: string }
+  | { type: "recording"; id: string };
 
 type ContributionSeed = {
   source: SourceArticle;
@@ -37,6 +38,29 @@ type ContributionSeed = {
   roleCategory: string;
   roleDescription: string;
   instruments: string[];
+  rawCredit: string;
+};
+
+type OutlineBlock = {
+  top: string;
+  sub: string | null;
+  body: string;
+};
+
+type TrackGroup = {
+  name: string | null;
+  startTrackNumber: number;
+  tracks: {
+    number: number;
+    title: string;
+    notes: string | null;
+  }[];
+};
+
+type MatrixContribution = {
+  trackNumber: number;
+  personName: string;
+  instrument: string;
   rawCredit: string;
 };
 
@@ -56,6 +80,7 @@ type ListItemNode = MarkdownNode & {
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const DEFAULT_LIVE_DIR = join(ROOT, "rawData", "articles_by_category", "Live");
 const DEFAULT_RELEASE_DIR = join(ROOT, "rawData", "articles_by_category", "release");
+const DEFAULT_TRACK_SEED = join(ROOT, "sql", "release_tracks_seed.sql");
 const DEFAULT_OUTPUT = join(ROOT, "sql", "contribution_seed.sql");
 const MARKDOWN_PROCESSOR = unified().use(remarkParse).use(remarkGfm);
 
@@ -71,25 +96,56 @@ const INSTRUMENT_ALIASES = new Map<string, string>([
   ["gu", "guitar"],
   ["guitar", "guitar"],
   ["guitars", "guitar"],
-  ["electric gut guitar", "guitar"],
+  ["electric gut guitar", "electric_guitar"],
+  ["electric guitar", "electric_guitar"],
+  ["a.gt", "acoustic_guitar"],
+  ["a.gt.", "acoustic_guitar"],
+  ["e.gt", "electric_guitar"],
+  ["e.gt.", "electric_guitar"],
   ["ba", "bass"],
   ["bass", "bass"],
+  ["contrabass", "contrabass"],
   ["dr", "drums"],
   ["drum", "drums"],
   ["drums", "drums"],
   ["perc", "percussion"],
   ["percussion", "percussion"],
+  ["junk perc", "percussion"],
+  ["junk perc.", "percussion"],
   ["key", "keyboard"],
   ["keys", "keyboard"],
   ["keyboard", "keyboard"],
   ["keyboards", "keyboard"],
   ["pf", "piano"],
   ["piano", "piano"],
+  ["electric piano", "electric_piano"],
+  ["rhodes piano", "rhodes_piano"],
+  ["箱", "cajon"],
+  ["カホン", "cajon"],
+  ["小太鼓", "snare_drum"],
   ["synth", "synthesizer"],
   ["synthesizer", "synthesizer"],
   ["synthesizers", "synthesizer"],
   ["programming", "programming"],
+  ["program", "programming"],
   ["manipulator", "manipulator"],
+  ["recorder", "recorder"],
+  ["melodeon", "melodeon"],
+  ["melodion", "melodeon"],
+  ["washboard", "washboard"],
+  ["kazoo", "kazoo"],
+  ["bass drum", "bass_drum"],
+  ["hand cymbal", "hand_cymbal"],
+  ["snare drum", "snare_drum"],
+  ["glockenspiel", "glockenspiel"],
+  ["grockenspiel", "glockenspiel"],
+  ["conga", "conga"],
+  ["tambourine", "tambourine"],
+  ["shaker", "shaker"],
+  ["toys", "toys"],
+  ["metronome", "metronome"],
+  ["coin drop", "coin_drop"],
+  ["whistle", "whistle"],
   ["vn", "violin"],
   ["violin", "violin"],
   ["vj", "vj"],
@@ -417,6 +473,329 @@ function parseSupportCredit(source: SourceArticle, rawLine: string): Contributio
   };
 }
 
+function splitOutlineBlocks(body: string): OutlineBlock[] {
+  const blocks: OutlineBlock[] = [];
+  let currentTop: string | null = null;
+  let currentSub: string | null = null;
+  let currentLines: string[] = [];
+
+  const pushBlock = (): void => {
+    if (!currentTop || currentLines.length === 0) return;
+    blocks.push({ top: currentTop, sub: currentSub, body: currentLines.join("\n").trim() });
+  };
+
+  for (const rawLine of body.split(/\r?\n/)) {
+    const topMatch = rawLine.match(/^##\s+(.+)$/);
+    if (topMatch) {
+      pushBlock();
+      currentTop = cleanText(topMatch[1]);
+      currentSub = null;
+      currentLines = [];
+      continue;
+    }
+
+    const subMatch = rawLine.match(/^###\s+(.+)$/);
+    if (subMatch) {
+      pushBlock();
+      currentSub = cleanText(subMatch[1]);
+      currentLines = [];
+      continue;
+    }
+
+    if (!currentTop) continue;
+    currentLines.push(rawLine);
+  }
+
+  pushBlock();
+  return blocks;
+}
+
+function parseTrackGroups(source: SourceArticle): TrackGroup[] {
+  const blocks = splitOutlineBlocks(source.body).filter((block) => block.top === "収録曲");
+  const groups: TrackGroup[] = [];
+  let startTrackNumber = 1;
+
+  for (const block of blocks) {
+    const tracks = parseTrackListBlock(block.body, source);
+    if (tracks.length === 0) continue;
+    groups.push({
+      name: block.sub,
+      startTrackNumber,
+      tracks,
+    });
+    startTrackNumber += tracks.length;
+  }
+
+  return groups;
+}
+
+function parseTrackListBlock(section: string, source: SourceArticle): { number: number; title: string; notes: string | null }[] {
+  const tracks: { number: number; title: string; notes: string | null }[] = [];
+  let current: { number: number; title: string; noteLines: string[] } | null = null;
+
+  for (const rawLine of section.split(/\r?\n/)) {
+    const line = rawLine.trimEnd();
+    const trackMatch = line.match(/^\s*(\d+)[.)]\s+(.+)$/);
+    const bulletMatch = line.match(/^([-*])\s+(.+)$/);
+    if (trackMatch || bulletMatch) {
+      if (current) {
+        const noteText =
+          current.noteLines.length > 0
+            ? `${compactTrackNote(source, current.noteLines)}\n${cleanText(current.noteLines.join(" "))}`
+            : compactTrackNote(source, current.noteLines);
+        tracks.push({
+          number: current.number,
+          title: cleanText(stripFootnotes(current.title)),
+          notes: noteText,
+        });
+      }
+      current = {
+        number: tracks.length + 1,
+        title: (trackMatch?.[2] ?? bulletMatch?.[2] ?? "").trim(),
+        noteLines: [],
+      };
+      continue;
+    }
+
+    if (!current) continue;
+
+    const noteMatch = line.match(/^\s{2,}[-*]\s+(.+)$/);
+    if (noteMatch) {
+      current.noteLines.push(noteMatch[1].trim());
+      continue;
+    }
+
+    if (line.trim() && /^\s{2,}/.test(line)) {
+      current.noteLines.push(line.trim());
+    }
+  }
+
+  if (current) {
+    const noteText =
+      current.noteLines.length > 0
+        ? `${compactTrackNote(source, current.noteLines)}\n${cleanText(current.noteLines.join(" "))}`
+        : compactTrackNote(source, current.noteLines);
+    tracks.push({
+      number: current.number,
+      title: cleanText(stripFootnotes(current.title)),
+      notes: noteText,
+    });
+  }
+
+  return tracks.filter((track) => track.title.length > 0);
+}
+
+function compactTrackNote(source: SourceArticle, lines: string[]): string | null {
+  void lines;
+  return `source_file=${source.name}`;
+}
+
+function buildRecordingIndex(source: SourceArticle): Map<number, { recordingId: string; title: string }> {
+  const groups = parseTrackGroups(source);
+  const index = new Map<number, { recordingId: string; title: string }>();
+  for (const group of groups) {
+    for (const track of group.tracks) {
+      const absoluteTrackNumber = group.startTrackNumber + track.number - 1;
+      index.set(absoluteTrackNumber, {
+        recordingId: stableUuid("recording", `${source.name}:${absoluteTrackNumber}:${track.title}`),
+        title: track.title,
+      });
+    }
+  }
+  return index;
+}
+
+async function loadRecordingLookupFromTrackSeed(trackSeedPath: string): Promise<Map<string, string>> {
+  const lookup = new Map<string, string>();
+  const sql = await readFile(trackSeedPath, "utf8");
+  for (const line of sql.split(/\r?\n/)) {
+    if (!line.startsWith("VALUES ")) continue;
+    const match = line.match(
+      /^VALUES \('([^']+)', '([^']+)', '([^']+)', (\d+), NULL, '(?:source_file=)?([^']+)'\),?$/,
+    );
+    if (!match) continue;
+    const recordingId = match[3];
+    const trackNumber = Number.parseInt(match[4], 10);
+    const sourceFile = match[5];
+    lookup.set(`${sourceFile}|${trackNumber}`, recordingId);
+  }
+  return lookup;
+}
+
+function parseParticipantRoster(source: SourceArticle): string[] {
+  const roster: string[] = [];
+  let inRoster = false;
+
+  for (const rawLine of source.body.split(/\r?\n/)) {
+    const line = rawLine.trimEnd();
+    if (/^##\s+/.test(line)) {
+      inRoster = false;
+      continue;
+    }
+    if (/^\s*-\s*参加アーティスト\s*$/.test(line)) {
+      inRoster = true;
+      continue;
+    }
+    if (!inRoster) continue;
+
+    const item = line.match(/^\s*[-*]\s+(.+)$/);
+    if (item) {
+      const name = canonicalPersonName(item[1]);
+      if (name && !roster.includes(name)) roster.push(name);
+      continue;
+    }
+
+    if (line.trim() && !/^\s+/.test(line)) {
+      inRoster = false;
+    }
+  }
+
+  return roster;
+}
+
+function parseMatrixRowLabel(label: string): number | null {
+  const match = cleanText(label).match(/^#\s*(\d+)/);
+  return match ? Number.parseInt(match[1], 10) : null;
+}
+
+function normalizeMatrixInstrument(value: string): string | null {
+  const normalized = cleanText(stripFootnotes(value))
+    .replace(/\([^()]*\)/g, " ")
+    .replace(/\s*[:：]\s*$/, "")
+    .replace(/\.$/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return INSTRUMENT_ALIASES.get(normalized.toLowerCase()) ?? null;
+}
+
+function parseMatrixCellPeople(value: string, fallbackInstrument: string | null, roster: string[]): { personName: string; instrument: string }[] {
+  const cleaned = cleanText(stripFootnotes(value));
+  if (!cleaned) return [];
+  if (/^\[?\s*4\s*人\s*\]?$/.test(cleaned)) {
+    return roster.map((personName) => ({ personName, instrument: fallbackInstrument ?? "performer" }));
+  }
+
+  const results: { personName: string; instrument: string }[] = [];
+  for (const token of cleaned.split(/\s*(?:\/|&| and |,|、|・|＋)\s*/iu)) {
+    if (!token) continue;
+    const hintMatch = token.match(/^(.+?)\(([^()]+)\)$/u);
+    const base = cleanText(hintMatch?.[1] ?? token);
+    const hint = hintMatch ? normalizeMatrixInstrument(hintMatch[2]) : null;
+    const personName = canonicalPersonName(base);
+    if (!personName) continue;
+    results.push({ personName, instrument: hint ?? fallbackInstrument ?? "performer" });
+  }
+
+  return results;
+}
+
+function parseMatrixOtherCell(value: string, roster: string[]): { personName: string; instrument: string }[] {
+  const cleaned = cleanText(stripFootnotes(value)).replace(/<br\s*\/?>/gi, "\n");
+  if (!cleaned) return [];
+
+  const results: { personName: string; instrument: string }[] = [];
+  for (const segment of cleaned.split(/\n+/)) {
+    const trimmed = segment.trim();
+    if (!trimmed) continue;
+    const colonMatch = trimmed.match(/^(.+?)[：:]\s*(.+)$/u);
+    if (colonMatch) {
+      const instrument = normalizeMatrixInstrument(colonMatch[1]);
+      if (!instrument) continue;
+      for (const person of parseMatrixCellPeople(colonMatch[2], instrument, roster)) {
+        results.push(person);
+      }
+      continue;
+    }
+
+    const labelMatch = trimmed.match(/^(.+?)\s+(.+)$/u);
+    if (labelMatch) {
+      const instrument = normalizeMatrixInstrument(labelMatch[1]);
+      if (instrument) {
+        for (const person of parseMatrixCellPeople(labelMatch[2], instrument, roster)) {
+          results.push(person);
+        }
+        continue;
+      }
+    }
+  }
+  return results;
+}
+
+async function collectRecordingContributions(sources: SourceArticle[], recordingLookup: Map<string, string>): Promise<ContributionSeed[]> {
+  const contributions: ContributionSeed[] = [];
+  for (const source of sources) {
+    if (source.tags[0] !== "Release") continue;
+
+    const trackGroups = parseTrackGroups(source);
+    const trackGroupStarts = new Map(trackGroups.map((group) => [group.name ?? "", group.startTrackNumber]));
+
+    const roster = parseParticipantRoster(source);
+    const blocks = splitOutlineBlocks(source.body).filter((block) => block.top === "クレジット");
+    for (const block of blocks) {
+      const tables = parseTablesFromMarkdown(block.body);
+      for (const table of tables) {
+        const header = table.headers.map((cell) => cleanText(cell));
+        if (header.length < 2) continue;
+        const firstHeader = header[0];
+        const hasTrackMatrix = /^#|^トラック\/楽器/.test(firstHeader);
+        if (!hasTrackMatrix) continue;
+
+        const trackOffset = block.sub ? trackGroupStarts.get(block.sub) ?? null : null;
+        for (const row of table.rows) {
+          const rowLabel = cleanText(row[0] ?? "");
+          const localTrackNumber = parseMatrixRowLabel(rowLabel);
+          if (localTrackNumber == null) continue;
+          const absoluteTrackNumber = trackOffset ? trackOffset + localTrackNumber - 1 : localTrackNumber;
+          const recordingId = recordingLookup.get(`${source.name}|${absoluteTrackNumber}`);
+          if (!recordingId) continue;
+
+          for (let columnIndex = 1; columnIndex < header.length; columnIndex += 1) {
+            const columnHeader = header[columnIndex];
+            const cellValue = cleanText(row[columnIndex] ?? "");
+            if (!cellValue) continue;
+
+            const fallbackInstrument = normalizeMatrixInstrument(columnHeader);
+            if (!fallbackInstrument && columnHeader !== "その他") continue;
+
+            const people =
+              columnHeader === "その他"
+                ? parseMatrixOtherCell(cellValue, roster)
+                : parseMatrixCellPeople(cellValue, fallbackInstrument, roster);
+
+            for (const entry of people) {
+              contributions.push({
+                source,
+                target: { type: "recording", id: recordingId },
+                personName: entry.personName,
+                roleName: "performer",
+                roleCategory: "performance",
+                roleDescription: "録音演奏者",
+                instruments: [entry.instrument],
+                rawCredit: `${rowLabel} | ${columnHeader} | ${cellValue}`,
+              });
+            }
+          }
+        }
+      }
+    }
+  }
+  return contributions;
+}
+
+function parseTablesFromMarkdown(markdown: string): { headers: string[]; rows: string[][] }[] {
+  const tree = markdownTree(markdown);
+  const tables: { headers: string[]; rows: string[][] }[] = [];
+  for (const child of tree.children ?? []) {
+    if (child.type !== "table") continue;
+    const rows = child.children ?? [];
+    if (rows.length === 0) continue;
+    const headerCells = (rows[0].children ?? []).map((cell) => cleanText(plainTextFromNode(cell)));
+    const bodyRows = rows.slice(1).map((row) => (row.children ?? []).map((cell) => cleanText(plainTextFromNode(cell))));
+    tables.push({ headers: headerCells, rows: bodyRows });
+  }
+  return tables;
+}
+
 function parseInstruments(value: string): string[] {
   const normalized = value
     .replace(/など|他|etc\.?/gi, "")
@@ -570,7 +949,7 @@ function renderSql(contributions: ContributionSeed[]): string {
   let emitted = 0;
 
   lines.push("-- Generated by scripts/generate_contribution_seed_sql.ts");
-  lines.push("-- Scope: live support member credits and release-level credit tables.");
+  lines.push("-- Scope: live support member credits, release-level credit tables, and recording-level matrices.");
   lines.push("-- Requires event rows generated by scripts/generate_rawdata_seed_sql.ts --types live.");
   lines.push("-- Requires release rows generated by scripts/generate_rawdata_seed_sql.ts --types release.");
   lines.push(`-- contributions: ${contributions.length}`);
@@ -609,16 +988,14 @@ function renderSql(contributions: ContributionSeed[]): string {
     const contributionInstruments = contribution.instruments.length > 0 ? contribution.instruments : [null];
     for (const instrument of contributionInstruments) {
       const instrumentId = instrument ? stableUuid("instrument", instrument) : null;
-      const key = `${contribution.target.type}|${contribution.source.name}|${contribution.personName}|${contribution.roleName}|${instrument ?? ""}|${contribution.rawCredit}`;
+      const targetId = contribution.target.id;
+      const key = `${contribution.target.type}|${targetId}|${contribution.personName}|${contribution.roleName}|${instrument ?? ""}`;
       if (emittedKeys.has(key)) continue;
       emittedKeys.add(key);
 
-      const contributionId =
-        contribution.target.type === "event"
-          ? stableUuid("contribution", `event:${contribution.source.name}|${contribution.personName}|${instrument ?? ""}|${contribution.rawCredit}`)
-          : stableUuid("contribution", key);
+      const contributionId = stableUuid("contribution", key);
       const notes = [`source_file=${contribution.source.name}`, `raw_credit=${contribution.rawCredit}`].join("\n");
-      const recordingId = null;
+      const recordingId = contribution.target.type === "recording" ? contribution.target.id : null;
       const releaseId = contribution.target.type === "release" ? contribution.target.id : null;
       const eventId = contribution.target.type === "event" ? contribution.target.id : null;
       lines.push("INSERT INTO contribution (id, person_id, role_id, instrument_id, recording_id, release_id, event_id, notes)");
@@ -629,6 +1006,8 @@ function renderSql(contributions: ContributionSeed[]): string {
       lines.push("SET person_id = EXCLUDED.person_id,");
       lines.push("    role_id = EXCLUDED.role_id,");
       lines.push("    instrument_id = EXCLUDED.instrument_id,");
+      lines.push("    recording_id = EXCLUDED.recording_id,");
+      lines.push("    release_id = EXCLUDED.release_id,");
       lines.push("    event_id = EXCLUDED.event_id,");
       lines.push("    notes = EXCLUDED.notes;");
       lines.push("");
@@ -654,13 +1033,16 @@ async function main(): Promise<void> {
 
   const liveContributions = collectLiveContributions(liveSources);
   const releaseContributions = collectReleaseContributions(releaseSources);
-  const contributions = [...liveContributions, ...releaseContributions];
+  const recordingLookup = await loadRecordingLookupFromTrackSeed(DEFAULT_TRACK_SEED);
+  const recordingContributions = await collectRecordingContributions(releaseSources, recordingLookup);
+  const contributions = [...liveContributions, ...releaseContributions, ...recordingContributions];
   const sql = renderSql(contributions);
   await mkdir(dirname(args.output), { recursive: true });
   await writeFile(args.output, sql, "utf8");
   console.log(`Wrote ${args.output}`);
   console.log(`Live support credits: ${liveContributions.length}`);
   console.log(`Release credits: ${releaseContributions.length}`);
+  console.log(`Recording credits: ${recordingContributions.length}`);
 }
 
 await main();

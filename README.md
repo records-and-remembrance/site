@@ -305,8 +305,7 @@ bun run scripts/generate_media_seed_sql.ts \
 
 ### Contribution
 
-Live 記事の `サポートメンバー` と release 記事の `## クレジット` 内にある2列クレジット表から `contribution` を生成します。
-recording-level の track performer matrix は未対応です。
+Live 記事の `サポートメンバー`、release 記事の `## クレジット` 内にある2列クレジット表、release 記事の recording-level track performer matrix から `contribution` を生成します。
 
 ```bash
 bun run scripts/generate_contribution_seed_sql.ts \
@@ -320,7 +319,7 @@ bun run scripts/generate_contribution_seed_sql.ts \
 - `person`: contribution で参照する人物が未作成の場合の補完
 - `role`: `support_performer`, `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer` など
 - `instrument`: support member 表記から正規化した楽器
-- `contribution`: live support は `event_id`、release-level credits は `release_id`
+- `contribution`: live support は `event_id`、release-level credits は `release_id`、track performer matrix は `recording_id`
 
 ## Import
 
@@ -353,6 +352,6 @@ docker compose exec -T postgres psql -U monden -d monden < sql/media_seed.sql
 ## Notes
 
 `scripts/generate_work_seed_sql.ts` は Markdown 本文全体を `notes` に保存しません。
-生成される `notes` は追跡用の `source_file=...` 程度に留めています。
+`scripts/generate_contribution_seed_sql.ts` も追跡用の `source_file=...` と `raw_credit=...` 程度に留めています。
 
 `rawData/articles_by_category/release/2016-01-20-033504.md` は「ライブ演奏のみの楽曲」のメモで、通常の release track list ではないため、`composition` / `recording` / `track` 生成対象からはスキップされます。

@@ -28,21 +28,21 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Decide whether to trust Markdown links, tags, known title/person matching, or a review-draft flow.
   - Initial policy: use deterministic internal links and explicit release/person evidence only; use review drafts for broader matching.
 
-- [~] Decide `contribution` ingestion policy.
+- [x] Decide `contribution` ingestion policy.
   - Cover release credits. Initial scope covers release-level two-column credit tables only.
   - Cover recording credits.
   - Cover live/event support members.
   - Define how staff, producer, guest performer, lyricist, composer, and arranger credits should map to `role` / `instrument`.
   - Initial investigation found release `## クレジット`, track performer matrices, and Live `サポートメンバー` as the primary sources.
-  - Track performer matrices should target `recording_id` and remain pending.
+  - Track performer matrices target `recording_id`.
 
-- [~] Add `scripts/generate_contribution_seed_sql.ts`.
+- [x] Add `scripts/generate_contribution_seed_sql.ts`.
   - Generate `person_id`.
   - Generate `role_id`.
   - Generate optional `instrument_id`.
   - Set exactly one of `recording_id`, `release_id`, or `event_id`.
   - Preserve `source_file=...` in `notes`.
-  - Current implementation covers Live `サポートメンバー` -> `event_id` and release-level two-column credit tables -> `release_id`; recording credits remain.
+  - Current implementation covers Live `サポートメンバー` -> `event_id`, release-level two-column credit tables -> `release_id`, and recording-level performer matrices -> `recording_id`.
 
 ## Medium Priority
 

@@ -373,16 +373,17 @@ Current generated scope:
 
 - Live support members from `rawData/articles_by_category/Live/`
 - Release-level two-column credit tables from `rawData/articles_by_category/release/` `## クレジット`
+- Recording-level performer matrices from `rawData/articles_by_category/release/` `## クレジット`
 - `role.name = 'support_performer'` for live support members
 - Release-level roles such as `lyricist`, `composer`, `arranger`, `producer`, `recording_engineer`, `mixing_engineer`, `mastering_engineer`, `artwork`, `a_and_r`, `management`, and `executive_producer`
 - Optional `instrument_id` from normalized support member instrument labels
 - `event_id` set from the source filename using the same event UUID rule as live seed generation
 - `release_id` set from the release source filename using the same release UUID rule as release seed generation
+- `recording_id` set from the release track seed lookup using the same recording UUID rule as release track generation
 - `notes` preserve `source_file=...` and `raw_credit=...`
 
 Expected future expansion:
 
-- recording-level track performer credits
 - event staff credits
 
 ## Import Order
@@ -439,7 +440,7 @@ docker compose exec -T postgres psql -U monden -d monden < sql/people_overview.s
 ## Current Known Limitations
 
 - `article_mention_*` ingestion is not implemented yet.
-- `contribution` ingestion currently covers live support members and release-level credit tables; recording-level track performer credits are not implemented yet.
+- `contribution` ingestion currently covers live support members, release-level credit tables, and recording-level track performer matrices; event staff credits are not implemented yet.
 - Some membership/member support distinctions are stored in free-text `note`.
 - Approximate dates are represented by date plus precision fields where available.
 - Composition aliases are stored in draft descriptions for now; there is no dedicated `composition_alias` table.
