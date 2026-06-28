@@ -7,6 +7,15 @@ group_key: 'groria streetから愛を込めて #2'
 aliases:
   - 'Groria streetから愛を込めて #2'
 sources:
+  -
+    type: release
+    file: '2007-09-05-000000.md'
+    title: 'Good Dog Happy Men - the GOLDENBELLCITY ep2'
+    date: '2007-09-05'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
+    position: 4
+    raw_title: 'Groria Streetから愛を込めて #2'
   - type: live
     file: '2008-07-02-000000.md'
     title: "2008-07-02: Good Dog Happy Men - Good Dog Happy Men presents \\\"Good Time Rolls Vol.1\\\" at 新宿LOFT"

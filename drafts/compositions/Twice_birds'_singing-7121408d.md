@@ -11,6 +11,15 @@ aliases:
   - 'Twice Birds’ Singing'
   - "Twice Birds' Singing [2018 remix]"
 sources:
+  -
+    type: release
+    file: '2007-09-05-000000.md'
+    title: 'Good Dog Happy Men - the GOLDENBELLCITY ep2'
+    date: '2007-09-05'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
+    position: 1
+    raw_title: "Twice Birds' Singing"
   - type: release
     file: '2008-05-28-000000.md'
     title: 'Good Dog Happy Men - Memory of the GOLDENBELLCITY (Live DVD)'

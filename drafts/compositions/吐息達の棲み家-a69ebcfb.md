@@ -10,6 +10,15 @@ aliases:
   - '吐息達の棲み家 (弾き語り with 伊藤)'
   - '吐息達の棲み家 (弾き語り)'
 sources:
+  -
+    type: release
+    file: '2007-09-05-000000.md'
+    title: 'Good Dog Happy Men - the GOLDENBELLCITY ep2'
+    date: '2007-09-05'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
+    position: 3
+    raw_title: '吐息達の棲み家'
   - type: release
     file: '2008-05-28-000000.md'
     title: 'Good Dog Happy Men - Memory of the GOLDENBELLCITY (Live DVD)'

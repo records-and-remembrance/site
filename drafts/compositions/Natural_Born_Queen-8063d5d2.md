@@ -9,6 +9,15 @@ aliases:
   - 'Natural Boon Queen'
   - 'Natural Born Queen (w/内田, 韮沢)'
 sources:
+  -
+    type: release
+    file: '2007-09-05-000000.md'
+    title: 'Good Dog Happy Men - the GOLDENBELLCITY ep2'
+    date: '2007-09-05'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
+    position: 2
+    raw_title: 'Natural Born Queen'
   - type: live
     file: '2007-09-02-135500.md'
     title: '2007-09-02: Good Dog Happy Men - RUSH BALL 2007 at 泉大津フェニックス (ATMC Stage)'
