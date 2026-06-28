@@ -1,0 +1,63 @@
+import { describe, expect, test } from "bun:test";
+import { mainResourceOrder, resourceConfigs } from "./resources";
+
+describe("admin screen configuration", () => {
+  test("defines every main domain screen", () => {
+    expect(mainResourceOrder).toEqual([
+      "people",
+      "projects",
+      "works",
+      "compositions",
+      "events",
+      "articles",
+      "contributions",
+    ]);
+
+    for (const resource of mainResourceOrder) {
+      const config = resourceConfigs[resource];
+      expect(config.title).toBeTruthy();
+      expect(config.columns.length).toBeGreaterThan(1);
+      expect(config.fields.length).toBeGreaterThan(0);
+      expect(config.defaultSort).toBeTruthy();
+    }
+  });
+
+  test("uses human-readable foreign key selectors", () => {
+    for (const resource of mainResourceOrder) {
+      for (const field of resourceConfigs[resource].fields) {
+        if (field.key.endsWith("Id") && field.key !== "id") {
+          expect(["combobox", "target"]).toContain(field.type);
+        }
+      }
+    }
+  });
+
+  test("keeps first-milestone relations inside parent details", () => {
+    expect(resourceConfigs.people.relations?.map((relation) => relation.resource)).toContain(
+      "memberships",
+    );
+    expect(resourceConfigs.projects.relations?.map((relation) => relation.resource)).toEqual(
+      expect.arrayContaining(["memberships", "works", "events"]),
+    );
+    expect(resourceConfigs.works.relations?.map((relation) => relation.resource)).toContain(
+      "releases",
+    );
+    expect(
+      resourceConfigs.works.relations?.find((relation) => relation.resource === "releases")
+        ?.nestedAction?.resource,
+    ).toBe("label-relations");
+    expect(resourceConfigs.events.relations?.map((relation) => relation.resource)).toContain(
+      "event-performances",
+    );
+  });
+
+  test("defines remaining screen detail relationships", () => {
+    expect(resourceConfigs.compositions.relations?.map((relation) => relation.resource)).toContain(
+      "recordings",
+    );
+    expect(resourceConfigs.articles.relations?.map((relation) => relation.resource)).toContain(
+      "article-mentions",
+    );
+    expect(resourceConfigs.contributions.fields.map((field) => field.type)).toContain("target");
+  });
+});
