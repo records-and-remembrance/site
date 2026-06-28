@@ -2,6 +2,8 @@ import { describe, expect, test } from "bun:test";
 import {
   editorConfigs,
   mainResourceOrder,
+  relationDetailColumnKey,
+  relationDetailTarget,
   resourceConfigs,
   selectRelationRows,
 } from "./resources";
@@ -137,5 +139,59 @@ describe("admin screen configuration", () => {
         );
       }
     }
+  });
+
+  test("resolves a configured resource field to its detail resource", () => {
+    const worksRelation = resourceConfigs.projects.relations?.find(
+      (relation) => relation.key === "works",
+    );
+    const tracksRelation = resourceConfigs.works.relations?.find(
+      (relation) => relation.key === "tracks",
+    );
+
+    expect(relationDetailTarget(worksRelation!, { id: "work-1" })).toEqual({
+      resource: "works",
+      id: "work-1",
+    });
+    expect(
+      relationDetailTarget(tracksRelation!, {
+        id: "track-1",
+        compositionId: "composition-1",
+      }),
+    ).toEqual({
+      resource: "compositions",
+      id: "composition-1",
+    });
+    expect(relationDetailColumnKey(tracksRelation!)).toBe("compositionTitle");
+    expect(relationDetailTarget(tracksRelation!, { id: "track-1" })).toBeNull();
+    expect(relationDetailTarget(worksRelation!, {})).toBeNull();
+  });
+
+  test("links relation resources instead of membership and performance records", () => {
+    const projectMembership = resourceConfigs.people.relations?.find(
+      (relation) => relation.key === "memberships",
+    );
+    const personMembership = resourceConfigs.projects.relations?.find(
+      (relation) => relation.key === "members",
+    );
+    const performance = resourceConfigs.events.relations?.find(
+      (relation) => relation.key === "performances",
+    );
+
+    expect(projectMembership?.detailTarget).toEqual({
+      resource: "projects",
+      idKey: "projectId",
+      columnKey: "projectName",
+    });
+    expect(personMembership?.detailTarget).toEqual({
+      resource: "people",
+      idKey: "personId",
+      columnKey: "personName",
+    });
+    expect(performance?.detailTarget).toEqual({
+      resource: "compositions",
+      idKey: "compositionId",
+      columnKey: "compositionTitle",
+    });
   });
 });

@@ -12,13 +12,16 @@ import {
   Settings2,
   X,
 } from "lucide-react";
+import { useQueryStates } from "nuqs";
 import { useState } from "react";
 import { Button } from "react-aria-components";
 import { MasterManager } from "./MasterManager";
+import { adminSearchParams } from "./navigation";
 import { ResourceScreen } from "./ResourceScreen";
 import {
   mainResourceOrder,
   resourceConfigs,
+  type DetailTarget,
   type MainResource,
 } from "./resources";
 
@@ -33,14 +36,38 @@ const icons = {
 } satisfies Record<MainResource, typeof CircleUserRound>;
 
 export function App() {
-  const [resource, setResource] = useState<MainResource>(initialResource);
+  const [navigation, setNavigation] = useQueryStates(adminSearchParams, {
+    history: "push",
+  });
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [mastersOpen, setMastersOpen] = useState(false);
+  const { resource, detailResource, detailId } = navigation;
+  const detailTarget: DetailTarget | undefined =
+    detailResource && detailId
+      ? { resource: detailResource, id: detailId }
+      : undefined;
 
   const navigate = (next: MainResource) => {
-    setResource(next);
+    void setNavigation({
+      resource: next,
+      detailResource: null,
+      detailId: null,
+    });
     setMobileNavOpen(false);
-    window.history.replaceState(null, "", `/admin/${next}`);
+  };
+
+  const openDetail = (target: DetailTarget) => {
+    void setNavigation({
+      detailResource: target.resource,
+      detailId: target.id,
+    });
+  };
+
+  const closeDetail = () => {
+    void setNavigation(
+      { detailResource: null, detailId: null },
+      { history: "replace" },
+    );
   };
 
   return (
@@ -111,17 +138,16 @@ export function App() {
           </Button>
           <span>Monden Archive</span>
         </header>
-        <ResourceScreen key={resource} resource={resource} />
+        <ResourceScreen
+          key={resource}
+          resource={resource}
+          detailTarget={detailTarget}
+          onOpenDetail={openDetail}
+          onCloseDetail={closeDetail}
+        />
       </main>
 
       {mastersOpen ? <MasterManager onClose={() => setMastersOpen(false)} /> : null}
     </div>
   );
-}
-
-function initialResource(): MainResource {
-  const pathResource = window.location.pathname.split("/").filter(Boolean).at(-1);
-  return mainResourceOrder.includes(pathResource as MainResource)
-    ? (pathResource as MainResource)
-    : "people";
 }

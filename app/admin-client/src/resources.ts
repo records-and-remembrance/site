@@ -25,6 +25,11 @@ export type EditorResource =
   | "distributors"
   | "publications";
 
+export interface DetailTarget {
+  resource: EditorResource;
+  id: string;
+}
+
 export type LookupResource =
   | "project"
   | "person"
@@ -81,11 +86,18 @@ export interface NestedActionConfig {
   itemsKey: string;
 }
 
+export interface RelationDetailTargetConfig {
+  resource: EditorResource;
+  idKey: string;
+  columnKey: string;
+}
+
 export interface RelationConfig {
   key: string;
   sourceKey?: string;
   label: string;
   resource?: EditorResource;
+  detailTarget?: RelationDetailTargetConfig;
   parentField?: string;
   filter?: {
     key: string;
@@ -136,6 +148,24 @@ export function selectRelationRows(
     }
     return collator.compare(String(leftValue), String(rightValue)) * direction;
   });
+}
+
+export function relationDetailTarget(
+  relation: RelationConfig,
+  row: Record<string, unknown>,
+): DetailTarget | null {
+  const config = relation.detailTarget;
+  const resource = config?.resource ?? relation.resource;
+  const id = row[config?.idKey ?? "id"];
+  if (!resource || id === null || id === undefined) return null;
+  return {
+    resource,
+    id: String(id),
+  };
+}
+
+export function relationDetailColumnKey(relation: RelationConfig): string | undefined {
+  return relation.detailTarget?.columnKey ?? relation.columns[0]?.key;
 }
 
 const descriptionField: FieldConfig = {
@@ -193,6 +223,11 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         key: "memberships",
         label: "参加プロジェクト",
         resource: "memberships",
+        detailTarget: {
+          resource: "projects",
+          idKey: "projectId",
+          columnKey: "projectName",
+        },
         parentField: "personId",
         defaultSort: "fromDate",
         defaultDirection: "asc",
@@ -247,6 +282,11 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         key: "members",
         label: "メンバー",
         resource: "memberships",
+        detailTarget: {
+          resource: "people",
+          idKey: "personId",
+          columnKey: "personName",
+        },
         parentField: "projectId",
         filter: { key: "support", value: false },
         defaults: { support: false },
@@ -264,6 +304,11 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         sourceKey: "members",
         label: "サポートメンバー",
         resource: "memberships",
+        detailTarget: {
+          resource: "people",
+          idKey: "personId",
+          columnKey: "personName",
+        },
         parentField: "projectId",
         filter: { key: "support", value: true },
         defaults: { support: true },
@@ -355,6 +400,11 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         key: "tracks",
         label: "収録曲",
         resource: "tracks",
+        detailTarget: {
+          resource: "compositions",
+          idKey: "compositionId",
+          columnKey: "compositionTitle",
+        },
         defaultSort: "trackNumber",
         defaultDirection: "asc",
         columns: [
@@ -463,6 +513,11 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         key: "performances",
         label: "セットリスト",
         resource: "event-performances",
+        detailTarget: {
+          resource: "compositions",
+          idKey: "compositionId",
+          columnKey: "compositionTitle",
+        },
         parentField: "eventId",
         defaultSort: "orderIndex",
         defaultDirection: "asc",

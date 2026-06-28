@@ -25,9 +25,12 @@ import { getRecord, listRecords } from "./api";
 import { EditorDialog } from "./EditorDialog";
 import {
   editorConfigs,
+  relationDetailColumnKey,
+  relationDetailTarget,
   resourceConfigs,
   selectRelationRows,
   type ColumnConfig,
+  type DetailTarget,
   type EditorResource,
   type MainResource,
   type RelationConfig,
@@ -39,7 +42,17 @@ interface EditorState {
   defaults?: Record<string, string | boolean> | undefined;
 }
 
-export function ResourceScreen({ resource }: { resource: MainResource }) {
+export function ResourceScreen({
+  resource,
+  detailTarget,
+  onOpenDetail,
+  onCloseDetail,
+}: {
+  resource: MainResource;
+  detailTarget?: DetailTarget | undefined;
+  onOpenDetail: (target: DetailTarget) => void;
+  onCloseDetail: () => void;
+}) {
   const config = resourceConfigs[resource];
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
@@ -52,8 +65,9 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
       desc: config.defaultDirection === "desc",
     },
   ]);
-  const [selectedId, setSelectedId] = useState<string>();
   const [editor, setEditor] = useState<EditorState>();
+  const selectedId =
+    detailTarget?.resource === resource ? detailTarget.id : undefined;
   const currentSort = sorting[0] ?? {
     id: config.defaultSort,
     desc: config.defaultDirection === "desc",
@@ -81,9 +95,13 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
   });
 
   const detailQuery = useQuery({
-    queryKey: ["admin", "detail", resource, selectedId],
-    queryFn: () => getRecord(resource, selectedId as string),
-    enabled: Boolean(selectedId),
+    queryKey: ["admin", "detail", detailTarget?.resource, detailTarget?.id],
+    queryFn: () =>
+      getRecord(
+        detailTarget?.resource as EditorResource,
+        detailTarget?.id as string,
+      ),
+    enabled: Boolean(detailTarget),
   });
 
   const columns = useMemo<Array<ColumnDef<Record<string, unknown>>>>(
@@ -118,7 +136,7 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
     setEditor(undefined);
     await queryClient.invalidateQueries({ queryKey: ["admin"] });
     if (editor?.resource === resource && saved.id) {
-      setSelectedId(String(saved.id));
+      onOpenDetail({ resource, id: String(saved.id) });
     }
   };
 
@@ -240,11 +258,19 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
                     key={row.id}
                     className={selectedId === row.original.id ? "is-selected" : ""}
                     tabIndex={0}
-                    onClick={() => setSelectedId(String(row.original.id))}
+                    onClick={() =>
+                      onOpenDetail({
+                        resource,
+                        id: String(row.original.id),
+                      })
+                    }
                     onKeyDown={(event) => {
                       if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
-                        setSelectedId(String(row.original.id));
+                        onOpenDetail({
+                          resource,
+                          id: String(row.original.id),
+                        });
                       }
                     }}
                   >
@@ -302,14 +328,17 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
         </footer>
       </section>
 
-      {selectedId ? (
+      {detailTarget ? (
         <DetailPanel
-          resource={resource}
+          resource={detailTarget.resource}
           record={detailQuery.data}
           isLoading={detailQuery.isLoading}
-          onClose={() => setSelectedId(undefined)}
-          onEdit={(record) => setEditor({ resource, record })}
+          onClose={onCloseDetail}
+          onEdit={(record) =>
+            setEditor({ resource: detailTarget.resource, record })
+          }
           onEditRelated={openRelatedEditor}
+          onOpenDetail={onOpenDetail}
         />
       ) : null}
 
@@ -333,15 +362,17 @@ function DetailPanel({
   onClose,
   onEdit,
   onEditRelated,
+  onOpenDetail,
 }: {
-  resource: MainResource;
+  resource: EditorResource;
   record?: Record<string, unknown> | undefined;
   isLoading: boolean;
   onClose: () => void;
   onEdit: (record: Record<string, unknown>) => void;
   onEditRelated: (state: EditorState) => void;
+  onOpenDetail: (target: DetailTarget) => void;
 }) {
-  const config = resourceConfigs[resource];
+  const config = editorConfigs[resource];
   const related = (record?.related ?? {}) as Record<
     string,
     Array<Record<string, unknown>>
@@ -354,7 +385,11 @@ function DetailPanel({
           <p className="eyebrow">Record detail</p>
           <h2>{record ? primaryLabel(record) : "読み込み中"}</h2>
         </div>
-        <Button aria-label="詳細を閉じる" className="icon-button" onPress={onClose}>
+        <Button
+          aria-label="詳細を閉じる"
+          className="icon-button"
+          onPress={onClose}
+        >
           <X size={20} />
         </Button>
       </header>
@@ -392,6 +427,7 @@ function DetailPanel({
               rows={selectRelationRows(related, relation)}
               parentId={String(record.id)}
               onEdit={onEditRelated}
+              onOpenDetail={onOpenDetail}
             />
           ))}
         </div>
@@ -405,11 +441,13 @@ function RelationSection({
   rows,
   parentId,
   onEdit,
+  onOpenDetail,
 }: {
   relation: RelationConfig;
   rows: Array<Record<string, unknown>>;
   parentId: string;
   onEdit: (state: EditorState) => void;
+  onOpenDetail: (target: DetailTarget) => void;
 }) {
   const canAdd = relation.resource && !relation.readonly;
   return (
@@ -457,7 +495,20 @@ function RelationSection({
                 <tr key={String(row.id ?? index)}>
                   {relation.columns.map((column) => (
                     <td key={column.key}>
-                      <CellValue value={row[column.key]} column={column} />
+                      {column.key === relationDetailColumnKey(relation) &&
+                      relationDetailTarget(relation, row) ? (
+                        <Button
+                          className="relation-primary-link"
+                          onPress={() => {
+                            const target = relationDetailTarget(relation, row);
+                            if (target) onOpenDetail(target);
+                          }}
+                        >
+                          <CellValue value={row[column.key]} column={column} />
+                        </Button>
+                      ) : (
+                        <CellValue value={row[column.key]} column={column} />
+                      )}
                     </td>
                   ))}
                   {relation.resource && !relation.readonly ? (

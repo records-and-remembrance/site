@@ -583,6 +583,26 @@ button {
   border-bottom: 0;
 }
 
+.relation-primary-link {
+  padding: 0;
+  border: 0;
+  color: var(--blue);
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.relation-primary-link:hover,
+.relation-primary-link[data-hovered],
+.relation-primary-link[data-focus-visible] {
+  text-decoration-color: currentColor;
+}
+
 .relation-actions {
   display: flex;
   justify-content: flex-end;
