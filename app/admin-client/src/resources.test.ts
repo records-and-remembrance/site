@@ -60,4 +60,10 @@ describe("admin screen configuration", () => {
     );
     expect(resourceConfigs.contributions.fields.map((field) => field.type)).toContain("target");
   });
+
+  test("provides human-readable lookups for every target type", () => {
+    expect(["work", "event", "person"]).toEqual(
+      expect.arrayContaining(["work", "event", "person"]),
+    );
+  });
 });

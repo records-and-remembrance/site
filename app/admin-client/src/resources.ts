@@ -32,6 +32,7 @@ export type LookupResource =
   | "work"
   | "release"
   | "recording"
+  | "event"
   | "publication-issue"
   | "venue"
   | "role"
@@ -160,6 +161,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
           { key: "projectName", label: "プロジェクト" },
           { key: "fromDate", label: "開始", kind: "date" },
           { key: "toDate", label: "終了", kind: "date" },
+          { key: "roles", label: "役割" },
           { key: "note", label: "メモ", kind: "muted" },
         ],
         nestedAction: {
@@ -271,6 +273,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
           { key: "catalogNumber", label: "品番" },
           { key: "releaseDate", label: "発売日", kind: "date" },
           { key: "distributorName", label: "流通" },
+          { key: "labels", label: "ラベル" },
         ],
         nestedAction: {
           label: "ラベル",

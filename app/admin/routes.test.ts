@@ -162,6 +162,7 @@ describe("admin API", () => {
       "composition",
       "work",
       "release",
+      "event",
       "venue",
       "role",
       "instrument",

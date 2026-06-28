@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
@@ -9,8 +9,9 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "strict": true,
+    "jsx": "react-jsx",
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*.ts", "app/**/*.ts", "env.d.ts"],
+  "include": ["scripts/**/*.ts", "app/**/*.ts", "app/**/*.tsx", "vite.config.ts", "env.d.ts"],
 }

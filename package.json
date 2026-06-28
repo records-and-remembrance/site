@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "admin:dev": "vite --host 0.0.0.0",
+    "admin:dev": "bun scripts/admin-dev.ts",
+    "admin:client": "vite --host 0.0.0.0",
     "admin:server": "bun --watch app/server.ts",
     "admin:build": "vite build",
     "db:check": "drizzle-kit check",

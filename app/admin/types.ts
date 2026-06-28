@@ -30,6 +30,7 @@ export const lookupResources = [
   "work",
   "release",
   "recording",
+  "event",
   "publication-issue",
   "venue",
   "role",

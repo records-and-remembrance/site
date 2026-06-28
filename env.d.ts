@@ -3,3 +3,5 @@ declare module "bun" {
     DATABASE_URL?: string;
   }
 }
+
+declare module "*.css";

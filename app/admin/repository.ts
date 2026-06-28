@@ -422,6 +422,7 @@ export const lookupDefinitions: Record<LookupResource, LookupDefinition> = {
   work: lookup(schema.work, "work w join project p on p.id = w.project_id", "w.id", "w.title || ' — ' || p.name", ["w.title", "p.name"], "p.name"),
   release: lookup(schema.release, "release r join work w on w.id = r.work_id", "r.id", "w.title || ' (' || r.format || ')'", ["w.title", "r.format", "r.catalog_number"], "r.catalog_number"),
   recording: lookup(schema.recording, "recording r join composition c on c.id = r.composition_id", "r.id", "c.title || coalesce(' (' || r.type || ')', '')", ["c.title", "r.type", "r.notes"], "r.notes"),
+  event: lookup(schema.event, "event e join project p on p.id = e.project_id", "e.id", "coalesce(e.event_name, e.event_date::text) || ' — ' || p.name", ["e.event_name", "e.event_date::text", "p.name"], "e.event_date::text"),
   "publication-issue": lookup(schema.publicationIssue, "publication_issue pi join publication p on p.id = pi.publication_id", "pi.id", "p.name || coalesce(' ' || pi.issue_number, '') || coalesce(' ' || pi.published_date::text, '')", ["p.name", "pi.issue_number", "pi.volume", "pi.published_date::text"], "pi.description"),
   venue: lookup(schema.venue, "venue v", "v.id", "v.name || coalesce(' — ' || v.location, '')", ["v.name", "v.location"], "v.location"),
   role: lookup(schema.role, "role r", "r.id", "r.name", ["r.name", "r.category"], "r.category"),
@@ -664,7 +665,7 @@ export class DrizzleAdminRepository implements AdminRepository {
     const offset = (query.page - 1) * query.pageSize;
     const filter = query.search
       ? sql`where concat_ws(' ', "articleTitle", "targetName", "mentionType", notes) ilike ${search}`
-      : sql.empty;
+      : sql.empty();
     const union = allArticleMentions();
     const [itemsResult, countResult] = await Promise.all([
       this.database.execute(sql`
@@ -727,7 +728,7 @@ function selectionClause(select: Record<string, SQL>) {
 }
 
 function searchClause(columns: SQL[], search: string) {
-  if (!search) return sql.empty;
+  if (!search) return sql.empty();
   return sql`where concat_ws(' ', ${sql.join(columns, sql`, `)}) ilike ${`%${search}%`}`;
 }
 
