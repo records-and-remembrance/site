@@ -123,10 +123,25 @@ CREATE TABLE work (
     description TEXT,
     created_date DATE,
     released_date DATE,
+    type TEXT NOT NULL DEFAULT 'original'
+        CHECK (type IN ('original', 'compilation', 'best')),
     UNIQUE (project_id, title)
 );
 
 COMMENT ON TABLE work IS '抽象作品（アルバム単位）';
+COMMENT ON COLUMN work.type IS '作品種別（original: オリジナル、compilation: 複数アーティストの編集盤、best: 同一アーティストの編集盤）';
+
+CREATE TABLE work_project (
+    id UUID PRIMARY KEY,
+    work_id UUID NOT NULL REFERENCES work(id) ON DELETE CASCADE,
+    project_id UUID NOT NULL REFERENCES project(id),
+    relation_type TEXT NOT NULL DEFAULT 'primary'
+        CHECK (relation_type IN ('primary', 'participant')),
+    UNIQUE (work_id, project_id)
+);
+
+COMMENT ON TABLE work_project IS '作品と主名義・参加アーティストの関連';
+COMMENT ON COLUMN work_project.relation_type IS '作品との関係（primary: 主名義、participant: 参加アーティスト）';
 
 CREATE TABLE distributor (
     id UUID PRIMARY KEY,
@@ -147,11 +162,17 @@ CREATE TABLE release (
     description TEXT,
     notes TEXT,
     distributor_id UUID REFERENCES distributor(id),
+    edition_type TEXT NOT NULL DEFAULT 'original'
+        CHECK (edition_type IN ('original', 'reissue')),
+    reissue_of_release_id UUID REFERENCES release(id),
     CHECK (recorded_to IS NULL OR recorded_to >= recorded_from),
+    CHECK (reissue_of_release_id IS NULL OR reissue_of_release_id <> id),
     UNIQUE (work_id, format, release_date)
 );
 
 COMMENT ON TABLE release IS '具体リリース（CD, 配信など）';
+COMMENT ON COLUMN release.edition_type IS '版種別（original: 初版、reissue: 再発売）';
+COMMENT ON COLUMN release.reissue_of_release_id IS 'リイシュー元のリリース';
 
 -- ============================================================
 -- LABEL

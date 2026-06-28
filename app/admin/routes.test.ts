@@ -165,10 +165,81 @@ describe('admin API', () => {
 		});
 	});
 
+	test('accepts editorial types for works', async () => {
+		const repository = new FakeRepository();
+		const response = await testApp(repository).request('/api/admin/works', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({
+				projectId: generatedId,
+				title: 'Compilation Album',
+				type: 'compilation',
+			}),
+		});
+
+		expect(response.status).toBe(201);
+		expect(repository.calls[0]?.value).toMatchObject({
+			type: 'compilation',
+		});
+	});
+
+	test('accepts release edition lineage', async () => {
+		const repository = new FakeRepository();
+		const response = await testApp(repository).request('/api/admin/releases', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({
+				workId: generatedId,
+				format: 'CD',
+				editionType: 'reissue',
+				reissueOfReleaseId: generatedId,
+			}),
+		});
+
+		expect(response.status).toBe(201);
+		expect(repository.calls[0]?.value).toMatchObject({
+			editionType: 'reissue',
+			reissueOfReleaseId: generatedId,
+		});
+	});
+
+	test('accepts project roles on multi-artist works', async () => {
+		const repository = new FakeRepository();
+		const response = await testApp(repository).request('/api/admin/work-projects', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({
+				workId: generatedId,
+				projectId: generatedId,
+				relationType: 'participant',
+			}),
+		});
+
+		expect(response.status).toBe(201);
+		expect(repository.calls[0]?.value).toMatchObject({
+			relationType: 'participant',
+		});
+	});
+
 	test('exposes all domain and lookup resource groups', async () => {
 		const repository = new FakeRepository();
 		const app = testApp(repository);
-		const domains = ['people', 'projects', 'works', 'events', 'compositions', 'articles', 'contributions', 'memberships', 'releases', 'recordings', 'tracks', 'event-performances', 'article-mentions'];
+		const domains = [
+			'people',
+			'projects',
+			'works',
+			'work-projects',
+			'events',
+			'compositions',
+			'articles',
+			'contributions',
+			'memberships',
+			'releases',
+			'recordings',
+			'tracks',
+			'event-performances',
+			'article-mentions',
+		];
 		const lookups = ['project', 'person', 'composition', 'work', 'release', 'event', 'venue', 'role', 'instrument', 'label', 'distributor', 'publication'];
 
 		for (const resource of domains) {

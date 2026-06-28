@@ -2,6 +2,7 @@ export const adminResources = [
 	'people',
 	'projects',
 	'works',
+	'work-projects',
 	'events',
 	'compositions',
 	'articles',

@@ -5,7 +5,7 @@ import type { AdminDb, RelatedLoader } from '../types';
 export const createWorkRelatedLoader =
 	(database: AdminDb): RelatedLoader =>
 	async (workId) => {
-		const [releases, tracks] = await Promise.all([
+		const [releases, tracks, projects] = await Promise.all([
 			database
 				.select({
 					id: schema.release.id,
@@ -19,6 +19,8 @@ export const createWorkRelatedLoader =
 					notes: schema.release.notes,
 					distributorId: schema.release.distributorId,
 					distributorName: schema.distributor.name,
+					editionType: schema.release.editionType,
+					reissueOfReleaseId: schema.release.reissueOfReleaseId,
 				})
 				.from(schema.release)
 				.leftJoin(schema.distributor, eq(schema.distributor.id, schema.release.distributorId))
@@ -41,9 +43,21 @@ export const createWorkRelatedLoader =
 				.innerJoin(schema.composition, eq(schema.composition.id, schema.recording.compositionId))
 				.where(eq(schema.release.workId, workId))
 				.orderBy(asc(schema.release.releaseDate), asc(schema.release.format), asc(schema.track.trackNumber)),
+			database
+				.select({
+					id: schema.workProject.id,
+					workId: schema.workProject.workId,
+					projectId: schema.workProject.projectId,
+					projectName: schema.project.name,
+					relationType: schema.workProject.relationType,
+				})
+				.from(schema.workProject)
+				.innerJoin(schema.project, eq(schema.project.id, schema.workProject.projectId))
+				.where(eq(schema.workProject.workId, workId))
+				.orderBy(asc(schema.project.name)),
 		]);
 
-		if (releases.length === 0) return { releases: [], tracks };
+		if (releases.length === 0) return { projects, releases: [], tracks };
 
 		const labelRelations = await database
 			.select({
@@ -64,6 +78,7 @@ export const createWorkRelatedLoader =
 
 		const labelsByRelease = Map.groupBy(labelRelations, (labelRelation) => labelRelation.releaseId);
 		return {
+			projects,
 			releases: releases.map((release) => ({
 				...release,
 				labels: labelsByRelease.get(release.id) ?? [],

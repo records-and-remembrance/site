@@ -4,6 +4,7 @@ export type EditorResource =
 	| MainResource
 	| 'memberships'
 	| 'membership-roles'
+	| 'work-projects'
 	| 'releases'
 	| 'label-relations'
 	| 'recordings'
@@ -325,6 +326,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 			{ key: 'title', label: 'タイトル', sortable: true },
 			{ key: 'projectName', label: 'プロジェクト', sortable: true },
 			{ key: 'releasedDate', label: '代表リリース日', sortable: true, kind: 'date' },
+			{ key: 'type', label: '作品種別' },
 			{ key: 'releaseCount', label: 'リリース', kind: 'number' },
 		],
 		fields: [
@@ -339,9 +341,32 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 			{ key: 'title', label: 'タイトル', type: 'text', required: true, span: 2 },
 			{ key: 'createdDate', label: '制作日', type: 'date' },
 			{ key: 'releasedDate', label: '代表リリース日', type: 'date' },
+			{
+				key: 'type',
+				label: '作品種別',
+				type: 'select',
+				required: true,
+				options: [
+					{ value: 'original', label: 'オリジナル' },
+					{ value: 'compilation', label: 'コンピレーション（複数アーティスト）' },
+					{ value: 'best', label: 'ベスト（同一アーティスト）' },
+				],
+			},
 			descriptionField,
 		],
 		relations: [
+			{
+				key: 'projects',
+				label: '参加アーティスト',
+				resource: 'work-projects',
+				parentField: 'workId',
+				defaultSort: 'projectName',
+				defaultDirection: 'asc',
+				columns: [
+					{ key: 'projectName', label: 'プロジェクト' },
+					{ key: 'relationType', label: '関係' },
+				],
+			},
 			{
 				key: 'releases',
 				label: 'リリース',
@@ -353,6 +378,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 					{ key: 'format', label: '形式' },
 					{ key: 'catalogNumber', label: '品番' },
 					{ key: 'releaseDate', label: '発売日', kind: 'date' },
+					{ key: 'editionType', label: '版種別' },
 					{ key: 'distributorName', label: '流通' },
 					{ key: 'labels', label: 'レーベル' },
 				],
@@ -633,6 +659,27 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 			{ key: 'instrumentId', label: '楽器', type: 'combobox', lookup: 'instrument' },
 		],
 	},
+	'work-projects': {
+		title: 'Work projects',
+		singular: '参加アーティスト',
+		description: '',
+		defaultSort: 'projectName',
+		columns: [],
+		fields: [
+			{ key: 'workId', label: '作品', type: 'combobox', lookup: 'work', required: true },
+			{ key: 'projectId', label: 'プロジェクト', type: 'combobox', lookup: 'project', required: true },
+			{
+				key: 'relationType',
+				label: '関係',
+				type: 'select',
+				required: true,
+				options: [
+					{ value: 'primary', label: '主名義' },
+					{ value: 'participant', label: '参加アーティスト' },
+				],
+			},
+		],
+	},
 	releases: {
 		title: 'Releases',
 		singular: 'リリース',
@@ -644,6 +691,17 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 			{ key: 'format', label: '形式', type: 'text', required: true },
 			{ key: 'catalogNumber', label: '品番', type: 'text' },
 			{ key: 'releaseDate', label: '発売日', type: 'date' },
+			{
+				key: 'editionType',
+				label: '版種別',
+				type: 'select',
+				required: true,
+				options: [
+					{ value: 'original', label: '初版' },
+					{ value: 'reissue', label: 'リイシュー' },
+				],
+			},
+			{ key: 'reissueOfReleaseId', label: '再発売元', type: 'combobox', lookup: 'release', span: 2 },
 			{
 				key: 'releaseDatePrecision',
 				label: '発売日の精度',

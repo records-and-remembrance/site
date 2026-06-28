@@ -52,6 +52,46 @@ describe('admin screen configuration', () => {
 		});
 	});
 
+	test('allows work editorial type to be edited and viewed', () => {
+		expect(resourceConfigs.works.fields).toContainEqual({
+			key: 'type',
+			label: '作品種別',
+			type: 'select',
+			required: true,
+			options: [
+				{ value: 'original', label: 'オリジナル' },
+				{ value: 'compilation', label: 'コンピレーション（複数アーティスト）' },
+				{ value: 'best', label: 'ベスト（同一アーティスト）' },
+			],
+		});
+		expect(resourceConfigs.works.columns).toContainEqual({
+			key: 'type',
+			label: '作品種別',
+		});
+	});
+
+	test('allows release edition lineage to be edited', () => {
+		expect(editorConfigs.releases.fields).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ key: 'editionType', type: 'select', required: true }),
+				expect.objectContaining({ key: 'reissueOfReleaseId', type: 'combobox', lookup: 'release' }),
+			]),
+		);
+	});
+
+	test('allows artists to be attached to multi-artist works', () => {
+		expect(resourceConfigs.works.relations).toContainEqual(
+			expect.objectContaining({
+				key: 'projects',
+				resource: 'work-projects',
+				parentField: 'workId',
+			}),
+		);
+		expect(editorConfigs['work-projects'].fields).toEqual(
+			expect.arrayContaining([expect.objectContaining({ key: 'projectId', lookup: 'project' }), expect.objectContaining({ key: 'relationType', type: 'select' })]),
+		);
+	});
+
 	test('splits project memberships into regular and support sections', () => {
 		const membershipRelations = resourceConfigs.projects.relations?.filter((relation) => relation.resource === 'memberships');
 

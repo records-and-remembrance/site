@@ -7,7 +7,7 @@ import { createHash } from 'node:crypto';
 
 type NormalizedType = 'release' | 'live' | 'event' | 'project';
 
-type SourceArticle = {
+export type SourceArticle = {
 	path: string;
 	name: string;
 	stem: string;
@@ -450,17 +450,26 @@ class SqlBuilder {
 		return projectId;
 	}
 
-	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null }): string {
+	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null; type: 'original' | 'compilation' | 'best' }): string {
 		const workId = stableUuid('work', `${params.projectId}:${params.title}`);
-		this.line('INSERT INTO work (id, project_id, title, description, created_date, released_date)');
-		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)})`);
+		this.line('INSERT INTO work (id, project_id, title, description, created_date, released_date, type)');
+		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)}, ${sqlText(params.type)})`);
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET project_id = EXCLUDED.project_id,');
 		this.line('    title = EXCLUDED.title,');
 		this.line('    description = COALESCE(work.description, EXCLUDED.description),');
-		this.line('    released_date = COALESCE(work.released_date, EXCLUDED.released_date);');
+		this.line('    released_date = COALESCE(work.released_date, EXCLUDED.released_date),');
+		this.line('    type = EXCLUDED.type;');
 		this.line();
 		return workId;
+	}
+
+	workProjectUpsert(workId: string, projectId: string, relationType: 'primary' | 'participant'): void {
+		const relationId = stableUuid('work_project', `${workId}:${projectId}`);
+		this.line('INSERT INTO work_project (id, work_id, project_id, relation_type)');
+		this.line(`VALUES (${sqlText(relationId)}, ${sqlText(workId)}, ${sqlText(projectId)}, ${sqlText(relationType)})`);
+		this.line('ON CONFLICT (work_id, project_id) DO UPDATE SET relation_type = EXCLUDED.relation_type;');
+		this.line();
 	}
 
 	distributorUpsert(name: string | null): string | null {
@@ -496,11 +505,14 @@ class SqlBuilder {
 		description: string | null;
 		notes: string | null;
 		distributorId: string | null;
+		editionType: 'original' | 'reissue';
 	}): string {
 		const releaseId = stableUuid('release', params.source.name);
-		this.line('INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id)');
 		this.line(
-			`VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.releaseFormat)}, ${sqlText(params.catalogNumber)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)})`,
+			'INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id, edition_type, reissue_of_release_id)',
+		);
+		this.line(
+			`VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.releaseFormat)}, ${sqlText(params.catalogNumber)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)}, ${sqlText(params.editionType)}, NULL)`,
 		);
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET work_id = EXCLUDED.work_id,');
@@ -509,7 +521,8 @@ class SqlBuilder {
 		this.line('    release_date = EXCLUDED.release_date,');
 		this.line('    description = EXCLUDED.description,');
 		this.line('    notes = EXCLUDED.notes,');
-		this.line('    distributor_id = EXCLUDED.distributor_id;');
+		this.line('    distributor_id = EXCLUDED.distributor_id,');
+		this.line('    edition_type = EXCLUDED.edition_type;');
 		this.line();
 		return releaseId;
 	}
@@ -574,6 +587,27 @@ function compactNotes(source: SourceArticle, extra: Record<string, string | null
 	return parts.length > 0 ? parts.join('\n') : null;
 }
 
+export function workType(source: SourceArticle): 'original' | 'compilation' | 'best' {
+	if (source.tags.includes('Compilation')) {
+		return /^VA\s*-/i.test(source.title) ? 'compilation' : 'best';
+	}
+	if (/\bBEST\b/i.test(source.title) || /ベスト盤/.test(source.body)) return 'best';
+	return 'original';
+}
+
+export function compilationProjectNames(source: SourceArticle): string[] {
+	const classificationIndex = source.tags.indexOf('Compilation');
+	if (classificationIndex < 0) return [];
+	return source.tags
+		.slice(1, classificationIndex)
+		.map(normalizeName)
+		.filter((tag) => !/(?:label|records?|recordings?|self-release|uk\.project)/i.test(tag));
+}
+
+export function releaseEditionType(source: SourceArticle): 'original' | 'reissue' {
+	return source.tags.includes('Reissue/Remaster') ? 'reissue' : 'original';
+}
+
 function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
 	if (isReleaseIndexSource(source)) {
 		builder.line(`-- skipped release index: ${source.path}`);
@@ -593,12 +627,32 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
 	});
 
 	const releaseDate = parsePartialDate(basic['リリース'] ?? source.date, false);
+	const type = workType(source);
 	const workId = builder.workUpsert({
 		projectId,
 		title: releaseWorkTitle(source),
 		description: summarize(sections['その他'] || source.body),
 		releasedDate: releaseDate,
+		type,
 	});
+	if (type === 'compilation') {
+		const participantNames = compilationProjectNames(source);
+		for (const participantName of participantNames.length > 0 ? participantNames : [projectName]) {
+			const participantId =
+				participantName === projectName
+					? projectId
+					: builder.projectUpsert({
+							name: participantName,
+							kind: projectType(participantName),
+							description: null,
+							startDate: null,
+							endDate: null,
+						});
+			builder.workProjectUpsert(workId, participantId, 'participant');
+		}
+	} else {
+		builder.workProjectUpsert(workId, projectId, 'primary');
+	}
 
 	let labelName = basic['レーベル'] ?? basic['発売元'] ?? null;
 	let distributorName = basic['販売元'] ?? null;
@@ -625,6 +679,7 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
 			price: basic['定価'],
 		}),
 		distributorId,
+		editionType: releaseEditionType(source),
 	});
 	if (labelId) {
 		builder.labelRelationUpsert(releaseId, labelId);
@@ -804,4 +859,6 @@ async function main(): Promise<void> {
 	await writeFile(args.output, sql, 'utf8');
 }
 
-await main();
+if (import.meta.main) {
+	await main();
+}

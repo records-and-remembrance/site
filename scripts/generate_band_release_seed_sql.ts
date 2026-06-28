@@ -156,15 +156,24 @@ class SqlBuilder {
 
 	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null }): string {
 		const workId = stableUuid('work', `${params.projectId}:${params.title}`);
-		this.line('INSERT INTO work (id, project_id, title, description, created_date, released_date)');
-		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)})`);
+		this.line('INSERT INTO work (id, project_id, title, description, created_date, released_date, type)');
+		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)}, 'compilation')`);
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET project_id = EXCLUDED.project_id,');
 		this.line('    title = EXCLUDED.title,');
 		this.line('    description = COALESCE(work.description, EXCLUDED.description),');
-		this.line('    released_date = COALESCE(work.released_date, EXCLUDED.released_date);');
+		this.line('    released_date = COALESCE(work.released_date, EXCLUDED.released_date),');
+		this.line('    type = EXCLUDED.type;');
 		this.line();
 		return workId;
+	}
+
+	workProjectUpsert(workId: string, projectId: string): void {
+		const relationId = stableUuid('work_project', `${workId}:${projectId}`);
+		this.line('INSERT INTO work_project (id, work_id, project_id, relation_type)');
+		this.line(`VALUES (${sqlText(relationId)}, ${sqlText(workId)}, ${sqlText(projectId)}, 'participant')`);
+		this.line('ON CONFLICT (work_id, project_id) DO UPDATE SET relation_type = EXCLUDED.relation_type;');
+		this.line();
 	}
 
 	distributorUpsert(name: string | null): string | null {
@@ -179,9 +188,11 @@ class SqlBuilder {
 
 	releaseUpsert(params: { workId: string; format: string; catalogNumber: string | null; releaseDate: string; description: string | null; notes: string | null; distributorId: string | null }): void {
 		const releaseId = stableUuid('release', `${params.workId}:${params.format}:${params.releaseDate}`);
-		this.line('INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id)');
 		this.line(
-			`VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.format)}, ${sqlText(params.catalogNumber)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)})`,
+			'INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id, edition_type, reissue_of_release_id)',
+		);
+		this.line(
+			`VALUES (${sqlText(releaseId)}, ${sqlText(params.workId)}, ${sqlText(params.format)}, ${sqlText(params.catalogNumber)}, ${sqlText(params.releaseDate)}, NULL, NULL, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)}, ${sqlText(params.distributorId)}, 'original', NULL)`,
 		);
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET work_id = EXCLUDED.work_id,');
@@ -216,6 +227,7 @@ async function main(): Promise<void> {
 			description: seed.description,
 			releasedDate: seed.releaseDate,
 		});
+		builder.workProjectUpsert(workId, projectId);
 		const distributorId = builder.distributorUpsert(seed.distributorName);
 		builder.releaseUpsert({
 			workId,

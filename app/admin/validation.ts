@@ -36,6 +36,13 @@ const work = z.strictObject({
 	description: nullableText,
 	createdDate: nullableDate,
 	releasedDate: nullableDate,
+	type: z.enum(['original', 'compilation', 'best']).default('original'),
+});
+
+const workProject = z.strictObject({
+	workId: uuid,
+	projectId: uuid,
+	relationType: z.enum(['primary', 'participant']).default('primary'),
 });
 
 const event = z.strictObject({
@@ -110,6 +117,8 @@ const release = z.strictObject({
 	description: nullableText,
 	notes: nullableText,
 	distributorId: nullableUuid,
+	editionType: z.enum(['original', 'reissue']).default('original'),
+	reissueOfReleaseId: nullableUuid,
 });
 
 const labelRelation = z.strictObject({
@@ -189,6 +198,7 @@ export const resourceSchemas: Record<AdminResource, z.ZodObject | z.ZodPipe> = {
 	people: person,
 	projects: project,
 	works: work,
+	'work-projects': workProject,
 	events: event,
 	compositions: composition,
 	articles: article,

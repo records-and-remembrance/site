@@ -133,9 +133,20 @@ Tables:
 - `distributor`
 - `label_relation`
 
-`work` is the abstract product/work.
+`work` is the abstract product/work. `work.type` distinguishes:
+
+- `original`: an original work
+- `compilation`: a multi-artist compilation or sampler
+- `best`: a same-artist edited/best album
+
+`work_project` connects a work to one or more projects. `relation_type = primary`
+marks the primary credited project, while `participant` marks an artist appearing
+on a multi-artist work.
 
 `release` is a concrete released package or distribution instance.
+`release.edition_type = reissue` marks a reissue, and
+`release.reissue_of_release_id` points to its original release. Track-list changes
+between editions are represented by each release's own `track` rows.
 `label` stores canonical label names only; markdown links, slash-separated aliases, and note suffixes are normalized out of the generated name.
 `distributor` stores the separate distribution company/name when the source text provides it.
 

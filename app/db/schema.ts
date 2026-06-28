@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { boolean, check, date, integer, pgTable, text, time, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import { boolean, check, date, integer, pgTable, text, time, timestamp, unique, uuid, type AnyPgColumn } from 'drizzle-orm/pg-core';
 
 const dateString = (name: string) => date(name, { mode: 'string' });
 const timeString = (name: string) => time(name);
@@ -117,8 +117,25 @@ export const work = pgTable(
 		description: text('description'),
 		createdDate: dateString('created_date'),
 		releasedDate: dateString('released_date'),
+		type: text('type').notNull().default('original'),
 	},
-	(table) => [unique('work_project_title_unique').on(table.projectId, table.title)],
+	(table) => [unique('work_project_title_unique').on(table.projectId, table.title), check('work_type_check', sql`${table.type} IN ('original', 'compilation', 'best')`)],
+);
+
+/** 作品に関係するプロジェクト（主名義、参加アーティスト） */
+export const workProject = pgTable(
+	'work_project',
+	{
+		id: uuid('id').primaryKey(),
+		workId: uuid('work_id')
+			.notNull()
+			.references(() => work.id, { onDelete: 'cascade' }),
+		projectId: uuid('project_id')
+			.notNull()
+			.references(() => project.id),
+		relationType: text('relation_type').notNull().default('primary'),
+	},
+	(table) => [unique('work_project_work_project_unique').on(table.workId, table.projectId), check('work_project_relation_type_check', sql`${table.relationType} IN ('primary', 'participant')`)],
 );
 
 export const distributor = pgTable(
@@ -148,10 +165,14 @@ export const release = pgTable(
 		description: text('description'),
 		notes: text('notes'),
 		distributorId: uuid('distributor_id').references(() => distributor.id),
+		editionType: text('edition_type').notNull().default('original'),
+		reissueOfReleaseId: uuid('reissue_of_release_id').references((): AnyPgColumn => release.id),
 	},
 	(table) => [
 		unique('release_work_format_release_date_unique').on(table.workId, table.format, table.releaseDate),
 		check('release_recorded_to_check', sql`${table.recordedTo} IS NULL OR ${table.recordedTo} >= ${table.recordedFrom}`),
+		check('release_edition_type_check', sql`${table.editionType} IN ('original', 'reissue')`),
+		check('release_reissue_source_check', sql`${table.reissueOfReleaseId} IS NULL OR ${table.reissueOfReleaseId} <> ${table.id}`),
 	],
 );
 
