@@ -54,8 +54,8 @@ export function App() {
 						<Database size={20} />
 					</div>
 					<div>
-						<strong>Monden Archive</strong>
-						<span>Database admin</span>
+						<strong>Monden Database</strong>
+						<span>admin</span>
 					</div>
 					<Button aria-label="メニューを閉じる" className="mobile-close icon-button" onPress={() => setMobileNavOpen(false)}>
 						<X size={20} />
@@ -63,7 +63,7 @@ export function App() {
 				</div>
 
 				<nav aria-label="管理画面">
-					<p className="nav-heading">Archive</p>
+					<p className="nav-heading">Database</p>
 					{mainResourceOrder.map((item) => {
 						const Icon = icons[item];
 						return (
