@@ -157,6 +157,25 @@ describe("admin API", () => {
     });
   });
 
+  test("accepts support status for memberships", async () => {
+    const repository = new FakeRepository();
+    const response = await testApp(repository).request("/api/admin/memberships", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        personId: generatedId,
+        projectId: generatedId,
+        fromDate: "2025-01-01",
+        support: true,
+      }),
+    });
+
+    expect(response.status).toBe(201);
+    expect(repository.calls[0]?.value).toMatchObject({
+      support: true,
+    });
+  });
+
   test("exposes all domain and lookup resource groups", async () => {
     const repository = new FakeRepository();
     const app = testApp(repository);

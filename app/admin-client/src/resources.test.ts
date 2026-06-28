@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { mainResourceOrder, resourceConfigs } from "./resources";
+import {
+  editorConfigs,
+  mainResourceOrder,
+  resourceConfigs,
+  selectRelationRows,
+} from "./resources";
 
 describe("admin screen configuration", () => {
   test("defines every main domain screen", () => {
@@ -73,5 +78,51 @@ describe("admin screen configuration", () => {
     expect(["work", "event", "person"]).toEqual(
       expect.arrayContaining(["work", "event", "person"]),
     );
+  });
+
+  test("allows membership support status to be edited", () => {
+    expect(editorConfigs.memberships.fields).toContainEqual({
+      key: "support",
+      label: "サポート",
+      type: "checkbox",
+    });
+  });
+
+  test("splits project memberships into regular and support sections", () => {
+    const membershipRelations = resourceConfigs.projects.relations?.filter(
+      (relation) => relation.resource === "memberships",
+    );
+
+    expect(membershipRelations).toEqual([
+      expect.objectContaining({
+        key: "members",
+        label: "メンバー",
+        filter: { key: "support", value: false },
+        defaults: { support: false },
+      }),
+      expect.objectContaining({
+        key: "supportMembers",
+        sourceKey: "members",
+        label: "サポートメンバー",
+        filter: { key: "support", value: true },
+        defaults: { support: true },
+      }),
+    ]);
+  });
+
+  test("selects relation rows by source and support status", () => {
+    const related = {
+      members: [
+        { id: "regular", support: false },
+        { id: "support", support: true },
+      ],
+    };
+    const supportRelation = resourceConfigs.projects.relations?.find(
+      (relation) => relation.key === "supportMembers",
+    );
+
+    expect(selectRelationRows(related, supportRelation!)).toEqual([
+      { id: "support", support: true },
+    ]);
   });
 });

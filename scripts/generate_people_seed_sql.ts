@@ -21,13 +21,14 @@ type PersonSeed = {
   descriptionParts: Set<string>;
 };
 
-type MembershipSeed = {
+export type MembershipSeed = {
   personName: string;
   projectName: string;
   fromDate: string;
   toDate: string | null;
   fromPrecision: string | null;
   toPrecision: string | null;
+  support: boolean;
   note: string | null;
   instruments: string[];
 };
@@ -441,13 +442,14 @@ function addBiographyMemberships(
       toDate: period.toDate ?? projectPeriod.toDate,
       fromPrecision: period.fromPrecision ?? defaultFromPrecision,
       toPrecision: period.toPrecision ?? projectPeriod.toPrecision,
-      note: support ? `support; ${parsed.note ?? `source_file=${article.name}`}` : parsed.note ?? `source_file=${article.name}`,
+      support,
+      note: parsed.note ?? `source_file=${article.name}`,
       instruments: parsed.instruments,
     });
   }
 }
 
-function renderSql(people: Map<string, PersonSeed>, memberships: MembershipSeed[], biographyArticles: SourceArticle[]): string {
+export function renderSql(people: Map<string, PersonSeed>, memberships: MembershipSeed[], biographyArticles: SourceArticle[]): string {
   const lines: string[] = [];
   const projectNames = new Set<string>();
   const instruments = new Set<string>();
@@ -512,14 +514,15 @@ function renderSql(people: Map<string, PersonSeed>, memberships: MembershipSeed[
     emittedMembershipKeys.add(membershipKey);
 
     const membershipId = stableUuid("membership", membershipKey);
-    lines.push("INSERT INTO membership (id, person_id, project_id, from_date, to_date, from_date_precision, to_date_precision, note)");
+    lines.push("INSERT INTO membership (id, person_id, project_id, from_date, to_date, from_date_precision, to_date_precision, support, note)");
     lines.push(
-      `VALUES (${sqlText(membershipId)}, ${sqlText(personId)}, ${sqlText(projectId)}, ${sqlText(membership.fromDate)}, ${sqlText(membership.toDate)}, ${sqlText(membership.fromPrecision)}, ${sqlText(membership.toPrecision)}, ${sqlText(membership.note)})`,
+      `VALUES (${sqlText(membershipId)}, ${sqlText(personId)}, ${sqlText(projectId)}, ${sqlText(membership.fromDate)}, ${sqlText(membership.toDate)}, ${sqlText(membership.fromPrecision)}, ${sqlText(membership.toPrecision)}, ${membership.support ? "TRUE" : "FALSE"}, ${sqlText(membership.note)})`,
     );
     lines.push("ON CONFLICT (id) DO UPDATE");
     lines.push("SET to_date = EXCLUDED.to_date,");
     lines.push("    from_date_precision = EXCLUDED.from_date_precision,");
     lines.push("    to_date_precision = EXCLUDED.to_date_precision,");
+    lines.push("    support = EXCLUDED.support,");
     lines.push("    note = EXCLUDED.note;");
     lines.push("");
 
@@ -562,4 +565,4 @@ async function main(): Promise<void> {
   console.log(`Memberships: ${memberships.length}`);
 }
 
-await main();
+if (import.meta.main) await main();

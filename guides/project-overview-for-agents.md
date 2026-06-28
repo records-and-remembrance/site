@@ -166,6 +166,8 @@ bun run scripts/generate_people_seed_sql.ts \
   --output sql/people_seed.sql
 ```
 
+Support members are represented by `membership.support = true`; `note` is reserved for source details and other free text.
+
 ### Media / Article
 
 Generate media/article data:

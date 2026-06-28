@@ -83,9 +83,15 @@ export interface NestedActionConfig {
 
 export interface RelationConfig {
   key: string;
+  sourceKey?: string;
   label: string;
   resource?: EditorResource;
   parentField?: string;
+  filter?: {
+    key: string;
+    value: string | boolean;
+  };
+  defaults?: Record<string, string | boolean>;
   columns: ColumnConfig[];
   readonly?: boolean;
   nestedAction?: NestedActionConfig;
@@ -100,6 +106,15 @@ export interface ResourceConfig {
   columns: ColumnConfig[];
   fields: FieldConfig[];
   relations?: RelationConfig[];
+}
+
+export function selectRelationRows(
+  related: Record<string, Array<Record<string, unknown>>>,
+  relation: RelationConfig,
+): Array<Record<string, unknown>> {
+  const rows = related[relation.sourceKey ?? relation.key] ?? [];
+  if (!relation.filter) return rows;
+  return rows.filter((row) => row[relation.filter!.key] === relation.filter!.value);
 }
 
 const descriptionField: FieldConfig = {
@@ -162,6 +177,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
           { key: "projectName", label: "プロジェクト" },
           { key: "fromDate", label: "開始", kind: "date" },
           { key: "toDate", label: "終了", kind: "date" },
+          { key: "support", label: "サポート", kind: "boolean" },
           { key: "roles", label: "役割" },
           { key: "note", label: "メモ", kind: "muted" },
         ],
@@ -209,6 +225,23 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "メンバー",
         resource: "memberships",
         parentField: "projectId",
+        filter: { key: "support", value: false },
+        defaults: { support: false },
+        columns: [
+          { key: "personName", label: "人物" },
+          { key: "fromDate", label: "開始", kind: "date" },
+          { key: "toDate", label: "終了", kind: "date" },
+          { key: "note", label: "メモ", kind: "muted" },
+        ],
+      },
+      {
+        key: "supportMembers",
+        sourceKey: "members",
+        label: "サポートメンバー",
+        resource: "memberships",
+        parentField: "projectId",
+        filter: { key: "support", value: true },
+        defaults: { support: true },
         columns: [
           { key: "personName", label: "人物" },
           { key: "fromDate", label: "開始", kind: "date" },
@@ -513,6 +546,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
         type: "select",
         options: precisionOptions,
       },
+      { key: "support", label: "サポート", type: "checkbox" },
       { key: "note", label: "メモ", type: "textarea", span: 2 },
     ],
   },

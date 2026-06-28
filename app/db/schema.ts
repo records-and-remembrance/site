@@ -70,6 +70,8 @@ export const membership = pgTable(
     toDate: dateString("to_date"),
     fromDatePrecision: text("from_date_precision"),
     toDatePrecision: text("to_date_precision"),
+    /** サポートメンバーかどうか */
+    support: boolean("support").notNull().default(false),
     note: text("note"),
   },
   (table) => [

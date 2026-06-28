@@ -292,6 +292,7 @@ export const joinedResourceDefinitions: Record<JoinedAdminResource, ResourceRead
       toDate: "m.to_date",
       fromDatePrecision: "m.from_date_precision",
       toDatePrecision: "m.to_date_precision",
+      support: "m.support",
       note: "m.note",
     },
     ["pe.name", "pr.name", "m.note"],
@@ -648,6 +649,7 @@ async function loadPeopleRelated(database: AdminDb, personId: string) {
       toDate: schema.membership.toDate,
       fromDatePrecision: schema.membership.fromDatePrecision,
       toDatePrecision: schema.membership.toDatePrecision,
+      support: schema.membership.support,
       note: schema.membership.note,
     })
     .from(schema.membership)
@@ -698,6 +700,7 @@ async function loadProjectRelated(database: AdminDb, projectId: string) {
         personName: schema.person.name,
         fromDate: schema.membership.fromDate,
         toDate: schema.membership.toDate,
+        support: schema.membership.support,
         note: schema.membership.note,
       })
       .from(schema.membership)

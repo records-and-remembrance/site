@@ -95,6 +95,7 @@ const membership = z.strictObject({
   toDate: nullableDate,
   fromDatePrecision: nullableText,
   toDatePrecision: nullableText,
+  support: z.boolean().default(false),
   note: nullableText,
 });
 

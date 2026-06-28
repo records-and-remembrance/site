@@ -26,6 +26,7 @@ import { EditorDialog } from "./EditorDialog";
 import {
   editorConfigs,
   resourceConfigs,
+  selectRelationRows,
   type ColumnConfig,
   type EditorResource,
   type MainResource,
@@ -35,7 +36,7 @@ import {
 interface EditorState {
   resource: EditorResource;
   record?: Record<string, unknown> | undefined;
-  defaults?: Record<string, string> | undefined;
+  defaults?: Record<string, string | boolean> | undefined;
 }
 
 export function ResourceScreen({ resource }: { resource: MainResource }) {
@@ -388,7 +389,7 @@ function DetailPanel({
             <RelationSection
               key={relation.key}
               relation={relation}
-              rows={related[relation.key] ?? []}
+              rows={selectRelationRows(related, relation)}
               parentId={String(record.id)}
               onEdit={onEditRelated}
             />
@@ -424,9 +425,12 @@ function RelationSection({
             onPress={() =>
               onEdit({
                 resource: relation.resource as EditorResource,
-                defaults: relation.parentField
-                  ? { [relation.parentField]: parentId }
-                  : undefined,
+                defaults: {
+                  ...relation.defaults,
+                  ...(relation.parentField
+                    ? { [relation.parentField]: parentId }
+                    : {}),
+                },
               })
             }
           >

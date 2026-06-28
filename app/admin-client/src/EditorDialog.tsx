@@ -56,7 +56,7 @@ import {
 interface EditorDialogProps {
   resource: EditorResource;
   record?: Record<string, unknown> | undefined;
-  defaults?: Record<string, string> | undefined;
+  defaults?: Record<string, string | boolean> | undefined;
   onClose: () => void;
   onSaved: (record: Record<string, unknown>) => void;
 }

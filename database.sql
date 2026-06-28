@@ -61,6 +61,7 @@ CREATE TABLE membership (
     from_date_precision TEXT,
     to_date_precision TEXT,
 
+    support BOOLEAN NOT NULL DEFAULT FALSE,
     note TEXT,
 
     CHECK (to_date IS NULL OR to_date >= from_date),
@@ -68,6 +69,7 @@ CREATE TABLE membership (
 );
 
 COMMENT ON TABLE membership IS 'プロジェクトへの参加期間';
+COMMENT ON COLUMN membership.support IS 'サポートメンバーかどうか';
 
 ALTER TABLE membership
 ADD CONSTRAINT membership_no_overlap

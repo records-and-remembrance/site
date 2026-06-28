@@ -120,7 +120,7 @@ Primary sources:
 Current limitations:
 
 - Membership dates may be approximate.
-- Support members are stored as memberships with `support` in `note`.
+- Support members are identified by `membership.support = true`.
 - Role/instrument extraction is heuristic and should be reviewed via `sql/people_overview.sql`.
 
 ## Work / Release
@@ -483,6 +483,6 @@ docker compose exec -T postgres psql -U monden -d monden < sql/people_overview.s
 
 - `article_mention_*` ingestion is not implemented yet.
 - `contribution` ingestion currently covers live support members, release-level credit tables, and recording-level track performer matrices; event staff credits are not implemented yet.
-- Some membership/member support distinctions are stored in free-text `note`.
+- Membership support distinctions are stored in the `membership.support` boolean column.
 - Approximate dates are represented by date plus precision fields where available.
 - Composition aliases are stored in draft descriptions for now; there is no dedicated `composition_alias` table.
