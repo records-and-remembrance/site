@@ -1,43 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-	flexRender,
-	getCoreRowModel,
-	useReactTable,
-	type ColumnDef,
-	type SortingState,
-} from '@tanstack/react-table';
-import {
-	ArrowDown,
-	ArrowUp,
-	ArrowUpDown,
-	ChevronLeft,
-	ChevronRight,
-	CircleAlert,
-	LoaderCircle,
-	Search,
-	X,
-} from 'lucide-react';
+import { flexRender, getCoreRowModel, useReactTable, type ColumnDef, type SortingState } from '@tanstack/react-table';
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, CircleAlert, LoaderCircle, Search, X } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
 import { Button, Input, SearchField } from 'react-aria-components';
 import { listRecords } from '../api';
-import {
-	resourceConfigs,
-	type DetailTarget,
-	type MainResource,
-} from '../resources';
+import { resourceConfigs, type DetailTarget, type MainResource } from '../resources';
 import { CellValue, EmptyState } from './ResourceDisplay';
 
 const EMPTY_RECORDS: Array<Record<string, unknown>> = [];
 
-export function ResourceTable({
-	resource,
-	selectedId,
-	onOpenDetail,
-}: {
-	resource: MainResource;
-	selectedId?: string | undefined;
-	onOpenDetail: (target: DetailTarget) => void;
-}) {
+export function ResourceTable({ resource, selectedId, onOpenDetail }: { resource: MainResource; selectedId?: string | undefined; onOpenDetail: (target: DetailTarget) => void }) {
 	const config = resourceConfigs[resource];
 	const [search, setSearch] = useState('');
 	const deferredSearch = useDeferredValue(search);
@@ -132,13 +104,7 @@ export function ResourceTable({
 											{header.column.getCanSort() ? (
 												<button type="button" className="sort-button" onClick={header.column.getToggleSortingHandler()}>
 													{flexRender(header.column.columnDef.header, header.getContext())}
-													{sorted === 'asc' ? (
-														<ArrowUp size={14} />
-													) : sorted === 'desc' ? (
-														<ArrowDown size={14} />
-													) : (
-														<ArrowUpDown size={14} />
-													)}
+													{sorted === 'asc' ? <ArrowUp size={14} /> : sorted === 'desc' ? <ArrowDown size={14} /> : <ArrowUpDown size={14} />}
 												</button>
 											) : (
 												flexRender(header.column.columnDef.header, header.getContext())
@@ -206,23 +172,13 @@ export function ResourceTable({
 					{total === 0 ? 0 : (page - 1) * pageSize + 1}–{Math.min(page * pageSize, total)} / {total}
 				</span>
 				<div>
-					<Button
-						aria-label="前のページ"
-						className="icon-button"
-						isDisabled={page <= 1}
-						onPress={() => setPage((value) => Math.max(1, value - 1))}
-					>
+					<Button aria-label="前のページ" className="icon-button" isDisabled={page <= 1} onPress={() => setPage((value) => Math.max(1, value - 1))}>
 						<ChevronLeft size={18} />
 					</Button>
 					<span>
 						{page} / {pageCount}
 					</span>
-					<Button
-						aria-label="次のページ"
-						className="icon-button"
-						isDisabled={page >= pageCount}
-						onPress={() => setPage((value) => Math.min(pageCount, value + 1))}
-					>
+					<Button aria-label="次のページ" className="icon-button" isDisabled={page >= pageCount} onPress={() => setPage((value) => Math.min(pageCount, value + 1))}>
 						<ChevronRight size={18} />
 					</Button>
 				</div>

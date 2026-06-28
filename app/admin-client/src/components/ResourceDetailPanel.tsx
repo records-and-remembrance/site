@@ -1,21 +1,7 @@
 import { LoaderCircle, Pencil, Plus, X } from 'lucide-react';
 import { Button } from 'react-aria-components';
-import {
-	editorConfigs,
-	relationDetailColumnKey,
-	relationDetailTarget,
-	selectRelationRows,
-	type DetailTarget,
-	type EditorResource,
-	type RelationConfig,
-} from '../resources';
-import {
-	CellValue,
-	EmptyState,
-	formatValue,
-	primaryLabel,
-	resolvedDisplayValue,
-} from './ResourceDisplay';
+import { editorConfigs, relationDetailColumnKey, relationDetailTarget, selectRelationRows, type DetailTarget, type EditorResource, type RelationConfig } from '../resources';
+import { CellValue, EmptyState, formatValue, primaryLabel, resolvedDisplayValue } from './ResourceDisplay';
 
 export interface ResourceEditorState {
 	resource: EditorResource;
@@ -71,25 +57,13 @@ export function ResourceDetailPanel({
 							.map((field) => (
 								<div key={field.key} className={field.span === 2 ? 'span-2' : ''}>
 									<dt>{field.label}</dt>
-									<dd>
-										{formatValue(
-											resolvedDisplayValue(record, field.key),
-											field.type === 'checkbox' ? 'boolean' : undefined,
-										)}
-									</dd>
+									<dd>{formatValue(resolvedDisplayValue(record, field.key), field.type === 'checkbox' ? 'boolean' : undefined)}</dd>
 								</div>
 							))}
 					</dl>
 
 					{(config.relations ?? []).map((relation) => (
-						<RelationSection
-							key={relation.key}
-							relation={relation}
-							rows={selectRelationRows(related, relation)}
-							parentId={String(record.id)}
-							onEdit={onEditRelated}
-							onOpenDetail={onOpenDetail}
-						/>
+						<RelationSection key={relation.key} relation={relation} rows={selectRelationRows(related, relation)} parentId={String(record.id)} onEdit={onEditRelated} onOpenDetail={onOpenDetail} />
 					))}
 				</div>
 			)}
@@ -153,17 +127,11 @@ function RelationSection({
 							{rows.map((row, index) => (
 								<tr key={String(row.id ?? index)}>
 									{relation.columns.map((column) => {
-										const target =
-											column.key === relationDetailColumnKey(relation)
-												? relationDetailTarget(relation, row)
-												: null;
+										const target = column.key === relationDetailColumnKey(relation) ? relationDetailTarget(relation, row) : null;
 										return (
 											<td key={column.key}>
 												{target ? (
-													<Button
-														className="relation-primary-link"
-														onPress={() => onOpenDetail(target)}
-													>
+													<Button className="relation-primary-link" onPress={() => onOpenDetail(target)}>
 														<CellValue value={row[column.key]} column={column} />
 													</Button>
 												) : (
@@ -181,9 +149,7 @@ function RelationSection({
 													onEdit({
 														resource: relation.resource as EditorResource,
 														record: row,
-														defaults: relation.parentField
-															? { [relation.parentField]: parentId }
-															: undefined,
+														defaults: relation.parentField ? { [relation.parentField]: parentId } : undefined,
 													})
 												}
 											>
@@ -202,15 +168,7 @@ function RelationSection({
 	);
 }
 
-function NestedActions({
-	relation,
-	row,
-	onEdit,
-}: {
-	relation: RelationConfig;
-	row: Record<string, unknown>;
-	onEdit: (state: ResourceEditorState) => void;
-}) {
+function NestedActions({ relation, row, onEdit }: { relation: RelationConfig; row: Record<string, unknown>; onEdit: (state: ResourceEditorState) => void }) {
 	const action = relation.nestedAction;
 	if (!action) return null;
 	const defaults = { [action.parentField]: String(row.id) };

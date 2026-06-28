@@ -3,18 +3,10 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from 'react-aria-components';
 import { getRecord } from './api';
-import {
-	ResourceDetailPanel,
-	type ResourceEditorState,
-} from './components/ResourceDetailPanel';
+import { ResourceDetailPanel, type ResourceEditorState } from './components/ResourceDetailPanel';
 import { ResourceTable } from './components/ResourceTable';
 import { EditorDialog } from './EditorDialog';
-import {
-	resourceConfigs,
-	type DetailTarget,
-	type EditorResource,
-	type MainResource,
-} from './resources';
+import { resourceConfigs, type DetailTarget, type EditorResource, type MainResource } from './resources';
 
 export function ResourceScreen({
 	resource,
@@ -68,11 +60,7 @@ export function ResourceScreen({
 				</Button>
 			</header>
 
-			<ResourceTable
-				resource={resource}
-				selectedId={selectedId}
-				onOpenDetail={onOpenDetail}
-			/>
+			<ResourceTable resource={resource} selectedId={selectedId} onOpenDetail={onOpenDetail} />
 
 			{detailTarget ? (
 				<ResourceDetailPanel
@@ -86,15 +74,7 @@ export function ResourceScreen({
 				/>
 			) : null}
 
-			{editor ? (
-				<EditorDialog
-					resource={editor.resource}
-					record={editor.record}
-					defaults={editor.defaults}
-					onClose={() => setEditor(undefined)}
-					onSaved={handleSaved}
-				/>
-			) : null}
+			{editor ? <EditorDialog resource={editor.resource} record={editor.record} defaults={editor.defaults} onClose={() => setEditor(undefined)} onSaved={handleSaved} /> : null}
 		</div>
 	);
 }
