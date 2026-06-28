@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { PgDialect } from 'drizzle-orm/pg-core';
 import { adminResources, lookupResources } from './types';
-import { DrizzleAdminRepository, joinedResourceDefinitions, lookupDefinitions, relatedLoaders, resourceTables, simpleResourceDefinitions } from './repository';
+import { createAdminRepository, createRelatedLoaders, joinedResourceDefinitions, lookupDefinitions, resourceTables, simpleResourceDefinitions } from './repository';
 
 describe('admin repository definitions', () => {
 	test('separates persistence tables from read models', () => {
@@ -45,7 +45,7 @@ describe('admin repository definitions', () => {
 	});
 
 	test('defines dedicated loaders only for resources with related detail data', () => {
-		expect(Object.keys(relatedLoaders).sort()).toEqual(['articles', 'compositions', 'events', 'people', 'projects', 'works'].sort());
+		expect(Object.keys(createRelatedLoaders({} as never)).sort()).toEqual(['articles', 'compositions', 'events', 'people', 'projects', 'works'].sort());
 	});
 
 	test('builds an empty search clause without binding a function parameter', async () => {
@@ -58,7 +58,7 @@ describe('admin repository definitions', () => {
 				return { rows: query.sql.includes('count(*)') ? [{ total: 0 }] : [] };
 			},
 		};
-		const repository = new DrizzleAdminRepository(database as never);
+		const repository = createAdminRepository(database as never);
 
 		await repository.list('people', {
 			search: '',
@@ -70,5 +70,14 @@ describe('admin repository definitions', () => {
 		expect(queries).toHaveLength(2);
 		expect(queries.flatMap((query) => query.params)).not.toContainEqual(expect.any(Function));
 		expect(queries[0]?.sql).not.toContain('$1 order by');
+	});
+
+	test('composes a repository from functions after binding the database dependency', () => {
+		const repository = createAdminRepository({} as never);
+
+		expect(Object.keys(repository).sort()).toEqual(['create', 'detail', 'list', 'lookup', 'update']);
+		for (const operation of Object.values(repository)) {
+			expect(typeof operation).toBe('function');
+		}
 	});
 });

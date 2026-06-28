@@ -1,8 +1,13 @@
-import { asc, desc, eq, getTableColumns, inArray, sql, type SQL, type SQLWrapper } from 'drizzle-orm';
+import { getTableColumns, sql, type SQL, type SQLWrapper } from 'drizzle-orm';
 import type { PgTable } from 'drizzle-orm/pg-core';
-import { db as defaultDb } from '../db';
 import * as schema from '../db/schema';
 import type { AdminListQuery, AdminListResult, AdminRepository, AdminResource, LookupOption, LookupResource } from './types';
+import { createArticleMentionRepository } from './repository/articles/mentions';
+import { createRelatedLoaders } from './repository/related';
+import { resultRows, searchClause, selectionClause, tableId } from './repository/sql';
+import type { AdminDb, RelatedLoader } from './repository/types';
+
+export { createRelatedLoaders } from './repository/related';
 
 interface ResourceReadDefinition {
 	from: SQLWrapper;
@@ -57,12 +62,6 @@ export const resourceTables: Record<GenericAdminResource, PgTable> = {
 	distributors: schema.distributor,
 	publications: schema.publication,
 };
-
-function tableId(table: PgTable): SQLWrapper {
-	const id = getTableColumns(table)['id'];
-	if (!id) throw new Error('Admin resource table has no id column');
-	return id;
-}
 
 const simpleResource = (table: PgTable, searchColumns: SQLWrapper[], sortColumns: Record<string, SQLWrapper>, defaultSort: string): ResourceReadDefinition => ({
 	from: table,
@@ -410,26 +409,9 @@ function readDefinition(resourceName: GenericAdminResource): ResourceReadDefinit
 	return joinedResourceDefinitions[resourceName as JoinedAdminResource];
 }
 
-type AdminDb = typeof defaultDb;
-type RelatedLoader = (database: AdminDb, id: string) => Promise<Record<string, unknown>>;
-
-export const relatedLoaders = {
-	people: loadPeopleRelated,
-	projects: loadProjectRelated,
-	works: loadWorkRelated,
-	compositions: loadCompositionRelated,
-	events: loadEventRelated,
-	articles: loadArticleRelated,
-} satisfies Partial<Record<AdminResource, RelatedLoader>>;
-
-export class DrizzleAdminRepository implements AdminRepository {
-	constructor(private readonly database: AdminDb = defaultDb) {}
-
-	async list(resourceName: AdminResource, query: AdminListQuery): Promise<AdminListResult> {
-		if (resourceName === 'article-mentions') {
-			return await this.listArticleMentions(query);
-		}
-
+const createList =
+	(database: AdminDb) =>
+	async (resourceName: GenericAdminResource, query: AdminListQuery): Promise<AdminListResult> => {
 		const definition = readDefinition(resourceName);
 		const where = searchClause(definition.searchColumns, query.search);
 		const selectedSort = definition.sortColumns[query.sort ?? definition.defaultSort] ?? definition.sortColumns[definition.defaultSort];
@@ -438,18 +420,18 @@ export class DrizzleAdminRepository implements AdminRepository {
 		const selection = selectionClause(definition.select);
 
 		const [itemsResult, countResult] = await Promise.all([
-			this.database.execute(sql`
-        select ${selection}
-        from ${definition.from}
-        ${where}
+			database.execute(sql`
+	        select ${selection}
+	        from ${definition.from}
+	        ${where}
         order by ${selectedSort} ${direction} nulls last
-        limit ${query.pageSize}
-        offset ${offset}
-      `),
-			this.database.execute(sql`
-        select count(*)::int as total
-        from ${definition.from}
-        ${where}
+	        limit ${query.pageSize}
+	        offset ${offset}
+	      `),
+			database.execute(sql`
+	        select count(*)::int as total
+	        from ${definition.from}
+	        ${where}
       `),
 		]);
 
@@ -457,498 +439,77 @@ export class DrizzleAdminRepository implements AdminRepository {
 			items: resultRows(itemsResult),
 			total: Number(resultRows(countResult)[0]?.['total'] ?? 0),
 		};
-	}
+	};
 
-	async detail(resourceName: AdminResource, id: string): Promise<Record<string, unknown> | null> {
-		if (resourceName === 'article-mentions') {
-			return await this.findArticleMention(id);
-		}
-
+const createDetail =
+	(database: AdminDb) =>
+	(relatedLoaders: Partial<Record<AdminResource, RelatedLoader>>) =>
+	async (resourceName: GenericAdminResource, id: string): Promise<Record<string, unknown> | null> => {
 		const definition = readDefinition(resourceName);
 		const selection = selectionClause(definition.select);
-		const result = await this.database.execute(sql`
-      select ${selection}
-      from ${definition.from}
-      where ${definition.select['id']} = ${id}
+		const result = await database.execute(sql`
+	      select ${selection}
+	      from ${definition.from}
+	      where ${definition.select['id']} = ${id}
       limit 1
     `);
 		const record = resultRows(result)[0];
 		if (!record) return null;
 
-		const related = await this.related(resourceName, id);
+		const related = await relatedLoaders[resourceName]?.(id);
+		if (!related) return record;
 		return Object.keys(related).length > 0 ? { ...record, related } : record;
-	}
+	};
 
-	async create(resourceName: AdminResource, value: Record<string, unknown>) {
-		if (resourceName === 'article-mentions') {
-			return await this.createArticleMention(value);
-		}
-		const table = resourceTables[resourceName];
-		const rows = await this.database.insert(table).values(value).returning();
-		return rows[0] as Record<string, unknown>;
-	}
+const createRecord = (database: AdminDb) => async (resourceName: GenericAdminResource, value: Record<string, unknown>) => {
+	const table = resourceTables[resourceName];
+	const rows = await database.insert(table).values(value).returning();
+	return rows[0] as Record<string, unknown>;
+};
 
-	async update(resourceName: AdminResource, id: string, value: Record<string, unknown>) {
-		if (resourceName === 'article-mentions') {
-			return await this.updateArticleMention(id, value);
-		}
-		const table = resourceTables[resourceName];
-		const rows = await this.database
-			.update(table)
-			.set(value)
-			.where(sql`${tableId(table)} = ${id}`)
-			.returning();
-		return (rows[0] as Record<string, unknown> | undefined) ?? null;
-	}
+const updateRecord = (database: AdminDb) => async (resourceName: GenericAdminResource, id: string, value: Record<string, unknown>) => {
+	const table = resourceTables[resourceName];
+	const rows = await database
+		.update(table)
+		.set(value)
+		.where(sql`${tableId(table)} = ${id}`)
+		.returning();
+	return (rows[0] as Record<string, unknown> | undefined) ?? null;
+};
 
-	async lookup(resourceName: LookupResource, search: string): Promise<LookupOption[]> {
+const createLookup =
+	(database: AdminDb) =>
+	async (resourceName: LookupResource, search: string): Promise<LookupOption[]> => {
 		const definition = lookupDefinitions[resourceName];
 		const where = searchClause(definition.searchColumns, search);
 		const description = definition.description ?? sql`null`;
-		const result = await this.database.execute(sql`
-      select
-        ${definition.id} as "id",
+		const result = await database.execute(sql`
+	      select
+	        ${definition.id} as "id",
         ${definition.label} as "label",
         ${description} as "description"
       from ${definition.from}
       ${where}
       order by ${definition.label} asc
-      limit 50
-    `);
+	      limit 50
+	    `);
 		return resultRows(result) as unknown as LookupOption[];
-	}
-
-	private async related(resourceName: AdminResource, id: string) {
-		const loader = relatedLoaders[resourceName as keyof typeof relatedLoaders] as RelatedLoader | undefined;
-		return loader ? await loader(this.database, id) : {};
-	}
-
-	private async listArticleMentions(query: AdminListQuery): Promise<AdminListResult> {
-		const search = `%${query.search}%`;
-		const offset = (query.page - 1) * query.pageSize;
-		const filter = query.search ? sql`where concat_ws(' ', "articleTitle", "targetName", "mentionType", notes) ilike ${search}` : sql.empty();
-		const union = allArticleMentions();
-		const [itemsResult, countResult] = await Promise.all([
-			this.database.execute(sql`
-        select * from (${union}) mentions
-        ${filter}
-        order by "mentionType", "targetName"
-        limit ${query.pageSize} offset ${offset}
-      `),
-			this.database.execute(sql`select count(*)::int as total from (${union}) mentions ${filter}`),
-		]);
-		return {
-			items: resultRows(itemsResult),
-			total: Number(resultRows(countResult)[0]?.['total'] ?? 0),
-		};
-	}
-
-	private async findArticleMention(id: string) {
-		const result = await this.database.execute(sql`
-      select * from (${allArticleMentions()}) mentions where id = ${id} limit 1
-    `);
-		return resultRows(result)[0] ?? null;
-	}
-
-	private async createArticleMention(value: Record<string, unknown>) {
-		const { targetType, targetId, ...common } = value;
-		const table = mentionTable(String(targetType));
-		const targetColumn = mentionTargetColumn(String(targetType));
-		const rows = await this.database
-			.insert(table)
-			.values({ ...common, [targetColumn]: targetId })
-			.returning();
-		return { ...rows[0], targetType, targetId };
-	}
-
-	private async updateArticleMention(id: string, value: Record<string, unknown>) {
-		const existing = await this.findArticleMention(id);
-		if (!existing) return null;
-		if (existing['targetType'] !== value['targetType']) {
-			const error = new Error('Changing mention target type is not supported');
-			Object.assign(error, { code: '23514', constraint: 'article_mention_target_type' });
-			throw error;
-		}
-		const { targetType, targetId, ...common } = value;
-		const table = mentionTable(String(targetType));
-		const targetColumn = mentionTargetColumn(String(targetType));
-		const rows = await this.database
-			.update(table)
-			.set({ ...common, [targetColumn]: targetId })
-			.where(sql`${tableId(table)} = ${id}`)
-			.returning();
-		return rows[0] ? { ...rows[0], targetType, targetId } : null;
-	}
-}
-
-async function loadPeopleRelated(database: AdminDb, personId: string) {
-	const memberships = await database
-		.select({
-			id: schema.membership.id,
-			projectId: schema.membership.projectId,
-			projectName: schema.project.name,
-			fromDate: schema.membership.fromDate,
-			toDate: schema.membership.toDate,
-			fromDatePrecision: schema.membership.fromDatePrecision,
-			toDatePrecision: schema.membership.toDatePrecision,
-			support: schema.membership.support,
-			note: schema.membership.note,
-		})
-		.from(schema.membership)
-		.innerJoin(schema.project, eq(schema.project.id, schema.membership.projectId))
-		.where(eq(schema.membership.personId, personId))
-		.orderBy(desc(schema.membership.fromDate));
-
-	if (memberships.length === 0) return { memberships: [] };
-
-	const membershipRoles = await database
-		.select({
-			id: schema.membershipRole.id,
-			membershipId: schema.membershipRole.membershipId,
-			roleId: schema.role.id,
-			roleName: schema.role.name,
-			instrumentId: schema.instrument.id,
-			instrumentName: schema.instrument.name,
-		})
-		.from(schema.membershipRole)
-		.innerJoin(schema.role, eq(schema.role.id, schema.membershipRole.roleId))
-		.leftJoin(schema.instrument, eq(schema.instrument.id, schema.membershipRole.instrumentId))
-		.where(
-			inArray(
-				schema.membershipRole.membershipId,
-				memberships.map((membership) => membership.id),
-			),
-		)
-		.orderBy(asc(schema.role.name), asc(schema.instrument.name));
-
-	const rolesByMembership = Map.groupBy(membershipRoles, (membershipRole) => membershipRole.membershipId);
-	return {
-		memberships: memberships.map((membership) => ({
-			...membership,
-			roles: rolesByMembership.get(membership.id) ?? [],
-		})),
 	};
-}
 
-async function loadProjectRelated(database: AdminDb, projectId: string) {
-	const [members, works, events] = await Promise.all([
-		database
-			.select({
-				id: schema.membership.id,
-				personId: schema.membership.personId,
-				personName: schema.person.name,
-				fromDate: schema.membership.fromDate,
-				toDate: schema.membership.toDate,
-				support: schema.membership.support,
-				note: schema.membership.note,
-			})
-			.from(schema.membership)
-			.innerJoin(schema.person, eq(schema.person.id, schema.membership.personId))
-			.where(eq(schema.membership.projectId, projectId))
-			.orderBy(desc(schema.membership.fromDate), asc(schema.person.name)),
-		database
-			.select({
-				id: schema.work.id,
-				title: schema.work.title,
-				releasedDate: schema.work.releasedDate,
-			})
-			.from(schema.work)
-			.where(eq(schema.work.projectId, projectId))
-			.orderBy(sql`${schema.work.releasedDate} desc nulls last`, asc(schema.work.title)),
-		database
-			.select({
-				id: schema.event.id,
-				eventName: schema.event.eventName,
-				eventDate: schema.event.eventDate,
-				venueName: schema.venue.name,
-			})
-			.from(schema.event)
-			.innerJoin(schema.venue, eq(schema.venue.id, schema.event.venueId))
-			.where(eq(schema.event.projectId, projectId))
-			.orderBy(desc(schema.event.eventDate)),
-	]);
+export function createAdminRepository(database: AdminDb): AdminRepository {
+	const relatedLoaders = createRelatedLoaders(database);
+	const list = createList(database);
+	const detail = createDetail(database)(relatedLoaders);
+	const create = createRecord(database);
+	const update = updateRecord(database);
+	const lookup = createLookup(database);
+	const articleMentions = createArticleMentionRepository(database);
 
-	return { members, works, events };
-}
-
-async function loadWorkRelated(database: AdminDb, workId: string) {
-	const [releases, tracks] = await Promise.all([
-		database
-			.select({
-				id: schema.release.id,
-				format: schema.release.format,
-				catalogNumber: schema.release.catalogNumber,
-				releaseDate: schema.release.releaseDate,
-				releaseDatePrecision: schema.release.releaseDatePrecision,
-				recordedFrom: schema.release.recordedFrom,
-				recordedTo: schema.release.recordedTo,
-				description: schema.release.description,
-				notes: schema.release.notes,
-				distributorId: schema.release.distributorId,
-				distributorName: schema.distributor.name,
-			})
-			.from(schema.release)
-			.leftJoin(schema.distributor, eq(schema.distributor.id, schema.release.distributorId))
-			.where(eq(schema.release.workId, workId))
-			.orderBy(sql`${schema.release.releaseDate} desc nulls last`, asc(schema.release.format)),
-		database
-			.select({
-				id: schema.track.id,
-				releaseId: schema.track.releaseId,
-				format: schema.release.format,
-				trackNumber: schema.track.trackNumber,
-				recordingId: schema.recording.id,
-				compositionId: schema.composition.id,
-				compositionTitle: schema.composition.title,
-				notes: schema.track.notes,
-			})
-			.from(schema.track)
-			.innerJoin(schema.release, eq(schema.release.id, schema.track.releaseId))
-			.innerJoin(schema.recording, eq(schema.recording.id, schema.track.recordingId))
-			.innerJoin(schema.composition, eq(schema.composition.id, schema.recording.compositionId))
-			.where(eq(schema.release.workId, workId))
-			.orderBy(asc(schema.release.releaseDate), asc(schema.release.format), asc(schema.track.trackNumber)),
-	]);
-
-	if (releases.length === 0) return { releases: [], tracks };
-
-	const labelRelations = await database
-		.select({
-			id: schema.labelRelation.id,
-			releaseId: schema.labelRelation.releaseId,
-			labelId: schema.label.id,
-			name: schema.label.name,
-		})
-		.from(schema.labelRelation)
-		.innerJoin(schema.label, eq(schema.label.id, schema.labelRelation.labelId))
-		.where(
-			inArray(
-				schema.labelRelation.releaseId,
-				releases.map((release) => release.id),
-			),
-		)
-		.orderBy(asc(schema.label.name));
-
-	const labelsByRelease = Map.groupBy(labelRelations, (labelRelation) => labelRelation.releaseId);
 	return {
-		releases: releases.map((release) => ({
-			...release,
-			labels: labelsByRelease.get(release.id) ?? [],
-		})),
-		tracks,
+		list: (resource, query) => (resource === 'article-mentions' ? articleMentions.list(query) : list(resource, query)),
+		detail: (resource, id) => (resource === 'article-mentions' ? articleMentions.detail(id) : detail(resource, id)),
+		create: (resource, value) => (resource === 'article-mentions' ? articleMentions.create(value) : create(resource, value)),
+		update: (resource, id, value) => (resource === 'article-mentions' ? articleMentions.update(id, value) : update(resource, id, value)),
+		lookup,
 	};
-}
-
-async function loadCompositionRelated(database: AdminDb, compositionId: string) {
-	const [recordings, releaseAppearances, eventAppearances] = await Promise.all([
-		database
-			.select({
-				id: schema.recording.id,
-				recordingYear: schema.recording.recordingYear,
-				type: schema.recording.type,
-				recordedDate: schema.recording.recordedDate,
-				recordedFrom: schema.recording.recordedFrom,
-				recordedTo: schema.recording.recordedTo,
-				releaseDate: schema.recording.releaseDate,
-				notes: schema.recording.notes,
-			})
-			.from(schema.recording)
-			.where(eq(schema.recording.compositionId, compositionId))
-			.orderBy(sql`coalesce(${schema.recording.recordedDate}, ${schema.recording.releaseDate}) desc nulls last`),
-		database
-			.select({
-				id: schema.release.id,
-				title: schema.work.title,
-				format: schema.release.format,
-				orderIndex: schema.track.trackNumber,
-			})
-			.from(schema.recording)
-			.innerJoin(schema.track, eq(schema.track.recordingId, schema.recording.id))
-			.innerJoin(schema.release, eq(schema.release.id, schema.track.releaseId))
-			.innerJoin(schema.work, eq(schema.work.id, schema.release.workId))
-			.where(eq(schema.recording.compositionId, compositionId)),
-		database
-			.select({
-				id: schema.event.id,
-				eventName: schema.event.eventName,
-				eventDate: schema.event.eventDate,
-				orderIndex: schema.eventPerformance.orderIndex,
-			})
-			.from(schema.eventPerformance)
-			.innerJoin(schema.event, eq(schema.event.id, schema.eventPerformance.eventId))
-			.where(eq(schema.eventPerformance.compositionId, compositionId)),
-	]);
-
-	const appearances = [
-		...releaseAppearances.map(({ id, title, format, orderIndex }) => ({
-			type: 'release',
-			id,
-			label: `${title} (${format})`,
-			orderIndex,
-		})),
-		...eventAppearances.map(({ id, eventName, eventDate, orderIndex }) => ({
-			type: 'event',
-			id,
-			label: eventName ?? eventDate,
-			orderIndex,
-		})),
-	].sort((left, right) => left.label.localeCompare(right.label, 'ja'));
-
-	return { recordings, appearances };
-}
-
-async function loadEventRelated(database: AdminDb, eventId: string) {
-	const performances = await database
-		.select({
-			id: schema.eventPerformance.id,
-			compositionId: schema.eventPerformance.compositionId,
-			compositionTitle: schema.composition.title,
-			orderIndex: schema.eventPerformance.orderIndex,
-			encore: schema.eventPerformance.encore,
-			variationNote: schema.eventPerformance.variationNote,
-			notes: schema.eventPerformance.notes,
-		})
-		.from(schema.eventPerformance)
-		.innerJoin(schema.composition, eq(schema.composition.id, schema.eventPerformance.compositionId))
-		.where(eq(schema.eventPerformance.eventId, eventId))
-		.orderBy(asc(schema.eventPerformance.orderIndex));
-
-	return { performances };
-}
-
-async function loadArticleRelated(database: AdminDb, articleId: string) {
-	const [issue, workMentions, eventMentions, personMentions] = await Promise.all([
-		database
-			.select({
-				id: schema.publicationIssue.id,
-				publicationId: schema.publicationIssue.publicationId,
-				publicationName: schema.publication.name,
-				issueNumber: schema.publicationIssue.issueNumber,
-				volume: schema.publicationIssue.volume,
-				publishedDate: schema.publicationIssue.publishedDate,
-				description: schema.publicationIssue.description,
-			})
-			.from(schema.article)
-			.innerJoin(schema.publicationIssue, eq(schema.publicationIssue.id, schema.article.publicationIssueId))
-			.innerJoin(schema.publication, eq(schema.publication.id, schema.publicationIssue.publicationId))
-			.where(eq(schema.article.id, articleId)),
-		database
-			.select({
-				id: schema.articleMentionWork.id,
-				articleId: schema.articleMentionWork.articleId,
-				articleTitle: schema.article.title,
-				targetId: schema.work.id,
-				targetName: schema.work.title,
-				mentionType: schema.articleMentionWork.mentionType,
-				notes: schema.articleMentionWork.notes,
-			})
-			.from(schema.articleMentionWork)
-			.innerJoin(schema.article, eq(schema.article.id, schema.articleMentionWork.articleId))
-			.innerJoin(schema.work, eq(schema.work.id, schema.articleMentionWork.workId))
-			.where(eq(schema.articleMentionWork.articleId, articleId)),
-		database
-			.select({
-				id: schema.articleMentionEvent.id,
-				articleId: schema.articleMentionEvent.articleId,
-				articleTitle: schema.article.title,
-				targetId: schema.event.id,
-				eventName: schema.event.eventName,
-				eventDate: schema.event.eventDate,
-				mentionType: schema.articleMentionEvent.mentionType,
-				notes: schema.articleMentionEvent.notes,
-			})
-			.from(schema.articleMentionEvent)
-			.innerJoin(schema.article, eq(schema.article.id, schema.articleMentionEvent.articleId))
-			.innerJoin(schema.event, eq(schema.event.id, schema.articleMentionEvent.eventId))
-			.where(eq(schema.articleMentionEvent.articleId, articleId)),
-		database
-			.select({
-				id: schema.articleMentionPerson.id,
-				articleId: schema.articleMentionPerson.articleId,
-				articleTitle: schema.article.title,
-				targetId: schema.person.id,
-				targetName: schema.person.name,
-				mentionType: schema.articleMentionPerson.mentionType,
-				notes: schema.articleMentionPerson.notes,
-			})
-			.from(schema.articleMentionPerson)
-			.innerJoin(schema.article, eq(schema.article.id, schema.articleMentionPerson.articleId))
-			.innerJoin(schema.person, eq(schema.person.id, schema.articleMentionPerson.personId))
-			.where(eq(schema.articleMentionPerson.articleId, articleId)),
-	]);
-
-	const mentions = [
-		...workMentions.map((mention) => ({ ...mention, targetType: 'work' })),
-		...eventMentions.map(({ eventName, eventDate, ...mention }) => ({
-			...mention,
-			targetType: 'event',
-			targetName: eventName ?? eventDate,
-		})),
-		...personMentions.map((mention) => ({ ...mention, targetType: 'person' })),
-	].sort((left, right) => left.targetType.localeCompare(right.targetType) || left.targetName.localeCompare(right.targetName, 'ja'));
-
-	return { issue, mentions };
-}
-
-function selectionClause(select: Record<string, SQLWrapper>) {
-	return sql.join(
-		Object.entries(select).map(([alias, expression]) => sql`${expression} as ${sql.identifier(alias)}`),
-		sql`, `,
-	);
-}
-
-function searchClause(columns: SQLWrapper[], search: string) {
-	if (!search) return sql.empty();
-	return sql`where concat_ws(' ', ${sql.join(columns, sql`, `)}) ilike ${`%${search}%`}`;
-}
-
-function resultRows(result: unknown): Array<Record<string, unknown>> {
-	if (Array.isArray(result)) return result as Array<Record<string, unknown>>;
-	if (result && typeof result === 'object' && 'rows' in result) {
-		return (result as { rows: Array<Record<string, unknown>> }).rows;
-	}
-	return [];
-}
-
-function allArticleMentions() {
-	return sql`
-    select am.id, am.article_id as "articleId", a.title as "articleTitle",
-      'work' as "targetType", am.work_id as "targetId", w.title as "targetName",
-      am.mention_type as "mentionType", am.notes
-    from article_mention_work am join article a on a.id = am.article_id join work w on w.id = am.work_id
-    union all
-    select am.id, am.article_id, a.title, 'event', am.event_id,
-      coalesce(e.event_name, e.event_date::text), am.mention_type, am.notes
-    from article_mention_event am join article a on a.id = am.article_id join event e on e.id = am.event_id
-    union all
-    select am.id, am.article_id, a.title, 'person', am.person_id, p.name,
-      am.mention_type, am.notes
-    from article_mention_person am join article a on a.id = am.article_id join person p on p.id = am.person_id
-  `;
-}
-
-function mentionTable(targetType: string): PgTable {
-	switch (targetType) {
-		case 'work':
-			return schema.articleMentionWork;
-		case 'event':
-			return schema.articleMentionEvent;
-		case 'person':
-			return schema.articleMentionPerson;
-		default:
-			throw new Error(`Unsupported mention target type: ${targetType}`);
-	}
-}
-
-function mentionTargetColumn(targetType: string) {
-	switch (targetType) {
-		case 'work':
-			return 'workId';
-		case 'event':
-			return 'eventId';
-		case 'person':
-			return 'personId';
-		default:
-			throw new Error(`Unsupported mention target type: ${targetType}`);
-	}
 }

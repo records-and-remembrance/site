@@ -5,8 +5,9 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Hono } from 'hono';
 import { createAdminRoutes } from './admin/routes';
-import { DrizzleAdminRepository } from './admin/repository';
+import { createAdminRepository } from './admin/repository';
 import type { AdminRepository } from './admin/types';
+import { db } from './db';
 import { listDrafts, mergeDraft, readDraft, saveDraft, validateMergePayload, validateSavePayload } from './lib/compositionDrafts';
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -18,7 +19,7 @@ interface AppOptions {
 
 export function createApp(options: AppOptions = {}) {
 	const app = new Hono();
-	const adminRepository = options.adminRepository ?? new DrizzleAdminRepository();
+	const adminRepository = options.adminRepository ?? createAdminRepository(db);
 
 	app.get('/', async (c) => {
 		return c.html(await readPublicFile('index.html'));
