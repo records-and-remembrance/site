@@ -80,6 +80,15 @@ postgres://monden:monden@localhost:5432/monden
 
 Set `DATABASE_URL` to override it.
 
+## Frontend Admin
+
+The planned local DB editing UI is documented in:
+
+```text
+guides/frontend-admin-requirements.md
+guides/frontend-admin-todo.md
+```
+
 ## Raw Data
 
 元データは Markdown です。
