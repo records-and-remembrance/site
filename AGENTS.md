@@ -16,3 +16,4 @@ Refer to these files when the task touches project structure, data modeling, or 
 
 - t-wadaの提唱するTDDの考え方に従い、まずテストコードを書き、次に実装コードを書き、最後にリファクタリングする
 - 人間がレビューしやすいように、目安として1000行以上の変更を加えたら1つのコミットにまとめる。テストと実装コードで1つのコミットにまとめるという単位が望ましい
+- コミットメッセージは日本語で記述する

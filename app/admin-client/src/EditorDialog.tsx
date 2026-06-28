@@ -12,7 +12,8 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import {
   Button,
-  Checkbox,
+  CheckboxButton,
+  CheckboxField,
   ComboBox,
   DateField,
   DateInput,
@@ -254,16 +255,18 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
 
   if (field.type === "checkbox") {
     return (
-      <Checkbox
+      <CheckboxField
         className={`${className} checkbox-field`}
         isSelected={values[field.key] === true}
         onChange={(selected) => onChange(field.key, selected)}
       >
-        <span className="checkbox-box">
-          <Check size={14} />
-        </span>
-        {field.label}
-      </Checkbox>
+        <CheckboxButton className="checkbox-button">
+          <span className="checkbox-box">
+            <Check size={14} />
+          </span>
+          {field.label}
+        </CheckboxButton>
+      </CheckboxField>
     );
   }
 

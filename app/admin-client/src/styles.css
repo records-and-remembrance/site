@@ -845,11 +845,22 @@ button {
 }
 
 .checkbox-field {
-  flex-direction: row;
-  align-items: center;
   align-self: end;
   min-height: 41px;
+}
+
+.checkbox-button {
+  display: flex;
+  min-height: 41px;
+  align-items: center;
+  gap: 8px;
+  outline: 0;
   cursor: pointer;
+}
+
+.checkbox-button[data-focus-visible] {
+  border-radius: 5px;
+  box-shadow: 0 0 0 3px rgb(39 104 168 / 18%);
 }
 
 .checkbox-box {
