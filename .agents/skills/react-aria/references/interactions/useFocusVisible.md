@@ -3,22 +3,22 @@
 Manages focus visible state for the page, and subscribes individual components for updates.
 
 ```tsx
-import {useFocusVisible} from 'react-aria/useFocusVisible';
+import { useFocusVisible } from 'react-aria/useFocusVisible';
 
 function Example() {
-  let {isFocusVisible} = useFocusVisible({isTextInput: true});
+	let { isFocusVisible } = useFocusVisible({ isTextInput: true });
 
-  return (
-    <>
-      <div>Focus visible: {String(isFocusVisible)}</div>
-      <label style={{display: 'block'}}>
-        First Name: <input />
-      </label>
-      <label style={{display: 'block'}}>
-        Last Name: <input />
-      </label>
-    </>
-  );
+	return (
+		<>
+			<div>Focus visible: {String(isFocusVisible)}</div>
+			<label style={{ display: 'block' }}>
+				First Name: <input />
+			</label>
+			<label style={{ display: 'block' }}>
+				Last Name: <input />
+			</label>
+		</>
+	);
 }
 ```
 
@@ -43,13 +43,13 @@ globally, see [useFocusRing](useFocusRing.md).
 
 ### FocusVisibleProps
 
-| Name | Type | Description |
-|------|------|-------------|
-| `autoFocus` | `boolean | undefined` | Whether the element will be auto focused. |
-| `isTextInput` | `boolean | undefined` | Whether the element is a text input. |
+| Name          | Type     | Description |
+| ------------- | -------- | ----------- | ----------------------------------------- |
+| `autoFocus`   | `boolean | undefined`  | Whether the element will be auto focused. |
+| `isTextInput` | `boolean | undefined`  | Whether the element is a text input.      |
 
 ### FocusVisibleResult
 
-| Name | Type | Description |
-|------|------|-------------|
+| Name                | Type      | Description                                 |
+| ------------------- | --------- | ------------------------------------------- |
 | `isFocusVisible` \* | `boolean` | Whether keyboard focus is visible globally. |

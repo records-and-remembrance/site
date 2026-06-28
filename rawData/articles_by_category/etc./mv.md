@@ -9,6 +9,7 @@ tags:
   - 門田匡陽 (ソロ名義/2010)
   - etc.
 ---
+
 ## BURGER NUDS
 
 ### ミナソコ
@@ -153,7 +154,7 @@ tags:
 
 <div class="youtube"><iframe src="https://www.youtube.com/embed/D1a_WFSx704?feature=oembed" width="730" height="411" frameborder="0" allowfullscreen=""></iframe></div>
 
-監督：勝部誠 (([株式会社 COW Films - PVお手伝いしました。 | Facebook](https://www.facebook.com/permalink.php?id=259071774196193&amp;story_fbid=648498508586849)))
+監督：勝部誠 (([株式会社 COW Films - PVお手伝いしました。 | Facebook](https://www.facebook.com/permalink.php?id=259071774196193&story_fbid=648498508586849)))
 
 ### 氷の皿 (Ave Maria)
 
@@ -177,7 +178,6 @@ Director & Camera：高橋一生 (sui sui duck)
 #### Star dust
 
 <div class="youtube"><iframe src="https://www.youtube.com/embed/tN6YhmSevwY" width="730" height="411" frameborder="0" allowfullscreen></iframe></div>
-
 
 ---
 

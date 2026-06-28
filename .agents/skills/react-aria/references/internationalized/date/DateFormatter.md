@@ -16,7 +16,7 @@ See the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### Constructor
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `locale` | `string` | — |
-| `options` | `Intl.DateTimeFormatOptions` | — |
+| Parameter | Type                         | Description |
+| --------- | ---------------------------- | ----------- |
+| `locale`  | `string`                     | —           |
+| `options` | `Intl.DateTimeFormatOptions` | —           |

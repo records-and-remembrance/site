@@ -18,25 +18,23 @@ using the [I18nProvider](I18nProvider.md) to specify the locale to display.
 
 ```tsx
 'use client';
-import {I18nProvider} from 'react-aria/I18nProvider';
-import {useDateFormatter} from 'react-aria/useDateFormatter';
+import { I18nProvider } from 'react-aria/I18nProvider';
+import { useDateFormatter } from 'react-aria/useDateFormatter';
 
 function CurrentDate() {
-  let formatter = useDateFormatter();
+	let formatter = useDateFormatter();
 
-  return (
-    <p>{formatter.format(new Date())}</p>
-  );
+	return <p>{formatter.format(new Date())}</p>;
 }
 
 <>
-  <I18nProvider locale="en-US">
-    <CurrentDate />
-  </I18nProvider>
-  <I18nProvider locale="ru-RU">
-    <CurrentDate />
-  </I18nProvider>
-</>
+	<I18nProvider locale="en-US">
+		<CurrentDate />
+	</I18nProvider>
+	<I18nProvider locale="ru-RU">
+		<CurrentDate />
+	</I18nProvider>
+</>;
 ```
 
 ## API
@@ -48,27 +46,27 @@ function CurrentDate() {
 
 ### DateFormatterOptions
 
-| Name | Type | Description |
-|------|------|-------------|
-| `calendar` | `string | undefined` | — |
-| `dateStyle` | `"full" | "long" | "medium" | "short" | undefined` | — |
-| `day` | `"2-digit" | "numeric" | undefined` | — |
-| `dayPeriod` | `"long" | "narrow" | "short" | undefined` | — |
-| `era` | `"long" | "narrow" | "short" | undefined` | — |
-| `formatMatcher` | `"basic" | "best fit" | undefined` | — |
-| `fractionalSecondDigits` | `1 | 2 | 3 | undefined` | — |
-| `hour` | `"2-digit" | "numeric" | undefined` | — |
-| `hour12` | `boolean | undefined` | — |
-| `hourCycle` | `"h11" | "h12" | "h23" | "h24" | undefined` | — |
-| `localeMatcher` | `"best fit" | "lookup" | undefined` | — |
-| `minute` | `"2-digit" | "numeric" | undefined` | — |
-| `month` | `"2-digit" | "long" | "narrow" | "numeric" | "short" | undefined` | — |
-| `numberingSystem` | `string | undefined` | — |
-| `second` | `"2-digit" | "numeric" | undefined` | — |
-| `timeStyle` | `"full" | "long" | "medium" | "short" | undefined` | — |
-| `timeZone` | `string | undefined` | — |
-| `timeZoneName` | `"long" | "longGeneric" | "longOffset" | "short" | "shortGeneric" | "shortOffset" | undefined` | — |
-| `weekday` | `"long" | "narrow" | "short" | undefined` | — |
-| `year` | `"2-digit" | "numeric" | undefined` | — |
+| Name                     | Type        | Description   |
+| ------------------------ | ----------- | ------------- | ------------ | ---------- | -------------- | ------------- | ---------- | --- |
+| `calendar`               | `string     | undefined`    | —            |
+| `dateStyle`              | `"full"     | "long"        | "medium"     | "short"    | undefined`     | —             |
+| `day`                    | `"2-digit"  | "numeric"     | undefined`   | —          |
+| `dayPeriod`              | `"long"     | "narrow"      | "short"      | undefined` | —              |
+| `era`                    | `"long"     | "narrow"      | "short"      | undefined` | —              |
+| `formatMatcher`          | `"basic"    | "best fit"    | undefined`   | —          |
+| `fractionalSecondDigits` | `1          | 2             | 3            | undefined` | —              |
+| `hour`                   | `"2-digit"  | "numeric"     | undefined`   | —          |
+| `hour12`                 | `boolean    | undefined`    | —            |
+| `hourCycle`              | `"h11"      | "h12"         | "h23"        | "h24"      | undefined`     | —             |
+| `localeMatcher`          | `"best fit" | "lookup"      | undefined`   | —          |
+| `minute`                 | `"2-digit"  | "numeric"     | undefined`   | —          |
+| `month`                  | `"2-digit"  | "long"        | "narrow"     | "numeric"  | "short"        | undefined`    | —          |
+| `numberingSystem`        | `string     | undefined`    | —            |
+| `second`                 | `"2-digit"  | "numeric"     | undefined`   | —          |
+| `timeStyle`              | `"full"     | "long"        | "medium"     | "short"    | undefined`     | —             |
+| `timeZone`               | `string     | undefined`    | —            |
+| `timeZoneName`           | `"long"     | "longGeneric" | "longOffset" | "short"    | "shortGeneric" | "shortOffset" | undefined` | —   |
+| `weekday`                | `"long"     | "narrow"      | "short"      | undefined` | —              |
+| `year`                   | `"2-digit"  | "numeric"     | undefined`   | —          |
 
 ### DateFormatter

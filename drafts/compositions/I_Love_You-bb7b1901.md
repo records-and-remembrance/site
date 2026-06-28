@@ -1,174 +1,152 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "I LOVE YOU"
+canonical_title: 'I LOVE YOU'
 status: reviewed
 composition_id: null
-group_key: "i love you"
+group_key: 'i love you'
 aliases:
-  - "I LOVE YOU"
-  - "I LOVE YOU (w/河相, メトロノーム)"
-  - "I LOVE YOU (w/河相)"
-  - "I LOVE YOU (メトロノーム使用)"
+  - 'I LOVE YOU'
+  - 'I LOVE YOU (w/河相, メトロノーム)'
+  - 'I LOVE YOU (w/河相)'
+  - 'I LOVE YOU (メトロノーム使用)'
 sources:
-  -
-    type: release
-    file: "2011-06-02-000000.md"
-    title: "門田匡陽 - Nobody Knows My Name"
-    date: "2011-06-02"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "収録曲"
+  - type: release
+    file: '2011-06-02-000000.md'
+    title: '門田匡陽 - Nobody Knows My Name'
+    date: '2011-06-02'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: '収録曲'
     position: 3
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2010-07-25-000000.md"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2010-07-25-000000.md'
     title: "2010-07-25: 門田匡陽 -His Band- - Don't Trust Over 30 ～episode2～ at 下北沢GARAGE"
-    date: "2010-07-25"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    date: '2010-07-25'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 6
-    raw_title: "I Love You"
-  -
-    type: live
-    file: "2010-10-23-000000.md"
+    raw_title: 'I Love You'
+  - type: live
+    file: '2010-10-23-000000.md'
     title: "2010-10-23: 門田匡陽 -His Band- - Don't Trust Over 30 ～episode3～ at 下北沢GARAGE"
-    date: "2010-10-23"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    date: '2010-10-23'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 7
-    raw_title: "I Love You"
-  -
-    type: live
-    file: "2011-04-20-000000.md"
-    title: "2011-04-20: 門田匡陽 - 不定期弦奏会 at 名古屋APOLLO THEATER"
-    date: "2011-04-20"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I Love You'
+  - type: live
+    file: '2011-04-20-000000.md'
+    title: '2011-04-20: 門田匡陽 - 不定期弦奏会 at 名古屋APOLLO THEATER'
+    date: '2011-04-20'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 4
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-05-08-000001.md"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-05-08-000001.md'
     title: "2011-05-08: 門田匡陽 with タクヤ - 明日、照らす presents \\\"今日の音楽\\\" at 新宿スモーキンブギ"
-    date: "2011-05-08"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    date: '2011-05-08'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 4
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-06-11-000000.md"
-    title: "2011-06-11: 門田匡陽 - インストアライブ at TOWER RECORDS 梅田NU茶屋町店"
-    date: "2011-06-11"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-06-11-000000.md'
+    title: '2011-06-11: 門田匡陽 - インストアライブ at TOWER RECORDS 梅田NU茶屋町店'
+    date: '2011-06-11'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 4
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-06-17-000000.md"
-    title: "2011-06-17: 門田匡陽 -His Band- - FEVER presents [NOT BORED TYO] at 新代田FEVER"
-    date: "2011-06-17"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-06-17-000000.md'
+    title: '2011-06-17: 門田匡陽 -His Band- - FEVER presents [NOT BORED TYO] at 新代田FEVER'
+    date: '2011-06-17'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 3
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-07-02-000000.md"
-    title: "2011-07-02: 門田匡陽 -His Band- - Nobody Knows My Name at 新代田FEVER"
-    date: "2011-07-02"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-07-02-000000.md'
+    title: '2011-07-02: 門田匡陽 -His Band- - Nobody Knows My Name at 新代田FEVER'
+    date: '2011-07-02'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 4
-    raw_title: "I Love You"
-  -
-    type: live
-    file: "2011-08-04-000000.md"
-    title: "2011-08-04: 門田匡陽 -His Band- - Beat Happening! VOL.583 at 渋谷Lush"
-    date: "2011-08-04"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I Love You'
+  - type: live
+    file: '2011-08-04-000000.md'
+    title: '2011-08-04: 門田匡陽 -His Band- - Beat Happening! VOL.583 at 渋谷Lush'
+    date: '2011-08-04'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 6
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-08-11-000000.md"
-    title: "2011-08-11: 門田匡陽 -His Band- - GREENS&JANUS presents となりのバンドマン9 at 心斎橋JANUS"
-    date: "2011-08-11"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-08-11-000000.md'
+    title: '2011-08-11: 門田匡陽 -His Band- - GREENS&JANUS presents となりのバンドマン9 at 心斎橋JANUS'
+    date: '2011-08-11'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 6
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-11-22-000000.md"
-    title: "2011-11-22: 門田匡陽 -His Band- - yumeiroecho「定点観測」リリースパーティー ～Point vol.Vega～ at 新代田FEVER"
-    date: "2011-11-22"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-11-22-000000.md'
+    title: '2011-11-22: 門田匡陽 -His Band- - yumeiroecho「定点観測」リリースパーティー ～Point vol.Vega～ at 新代田FEVER'
+    date: '2011-11-22'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 2
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2012-01-29-000000.md"
-    title: "2012-01-29:  門田匡陽 with miss shama - CalmCalm Vol.1 at IID 世田谷ものづくり学校"
-    date: "2012-01-29"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2012-01-29-000000.md'
+    title: '2012-01-29:  門田匡陽 with miss shama - CalmCalm Vol.1 at IID 世田谷ものづくり学校'
+    date: '2012-01-29'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 10
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2012-09-02-000000.md"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2012-09-02-000000.md'
     title: "2012-09-02: 門田匡陽 with CalmCalm - Any presents \\\"take me HOME vol.3\\\" at 渋谷Lush"
-    date: "2012-09-02"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    date: '2012-09-02'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2014-01-31-000000.md"
-    title: "2014-01-31: Poet-type.M - Good Vibrations at 新代田FEVER"
-    date: "2014-01-31"
-    project: "Poet-type.M"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2014-01-31-000000.md'
+    title: '2014-01-31: Poet-type.M - Good Vibrations at 新代田FEVER'
+    date: '2014-01-31'
+    project: 'Poet-type.M'
+    section: 'セットリスト'
     position: 3
-    raw_title: "I LOVE YOU"
-  -
-    type: live
-    file: "2011-02-02-000000.md"
-    title: "2011-02-02: 門田匡陽 - 朝露は夜の口惜しさ at 下北沢CLUB Que"
-    date: "2011-02-02"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU'
+  - type: live
+    file: '2011-02-02-000000.md'
+    title: '2011-02-02: 門田匡陽 - 朝露は夜の口惜しさ at 下北沢CLUB Que'
+    date: '2011-02-02'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 4
-    raw_title: "I LOVE YOU (w/河相, メトロノーム)"
-  -
-    type: live
-    file: "2011-12-03-000000.md"
-    title: "2011-12-03: 門田匡陽 - 線の上の子供たち at 心斎橋club☆jungle"
-    date: "2011-12-03"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU (w/河相, メトロノーム)'
+  - type: live
+    file: '2011-12-03-000000.md'
+    title: '2011-12-03: 門田匡陽 - 線の上の子供たち at 心斎橋club☆jungle'
+    date: '2011-12-03'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 2
-    raw_title: "I LOVE YOU (w/河相)"
-  -
-    type: live
-    file: "2011-04-13-000000.md"
-    title: "2011-04-13: 門田匡陽 - Beat Happening! ～7th編第四章～ at 渋谷7th Floor"
-    date: "2011-04-13"
-    project: "門田匡陽 (ソロ名義/2010)"
-    section: "セットリスト"
+    raw_title: 'I LOVE YOU (w/河相)'
+  - type: live
+    file: '2011-04-13-000000.md'
+    title: '2011-04-13: 門田匡陽 - Beat Happening! ～7th編第四章～ at 渋谷7th Floor'
+    date: '2011-04-13'
+    project: '門田匡陽 (ソロ名義/2010)'
+    section: 'セットリスト'
     position: 5
-    raw_title: "I LOVE YOU (メトロノーム使用)"
+    raw_title: 'I LOVE YOU (メトロノーム使用)'
 ---
-
-
-
-
-
 
 # I Love You
 
@@ -178,12 +156,12 @@ sources:
 
 ## Merge Notes
 
-- 2026-06-14T11:24:45.579Z: merged sources from I_LOVE_YOU_(w_河相,_メトロノーム)-7f414b1e.md
+- 2026-06-14T11:24:45.579Z: merged sources from I*LOVE_YOU*(w*河相,*メトロノーム)-7f414b1e.md
 
 ## Merge Notes
 
-- 2026-06-14T11:24:48.955Z: merged sources from I_LOVE_YOU_(w_河相)-0a258bb7.md
+- 2026-06-14T11:24:48.955Z: merged sources from I*LOVE_YOU*(w\_河相)-0a258bb7.md
 
 ## Merge Notes
 
-- 2026-06-14T11:24:56.709Z: merged sources from I_LOVE_YOU_(メトロノーム使用)-01568467.md
+- 2026-06-14T11:24:56.709Z: merged sources from I*LOVE_YOU*(メトロノーム使用)-01568467.md

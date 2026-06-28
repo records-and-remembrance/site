@@ -20,7 +20,7 @@ to test React Aria itself, and it's quite easy to [query](https://testing-librar
 elements by role, text, label, etc.
 
 ```tsx
-import {render} from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 let tree = render(<MyComponent />);
 let option = tree.getByRole('button');
@@ -36,22 +36,22 @@ through to their underlying DOM nodes, which allows you to use an attribute like
 a particular instance of a component.
 
 ```tsx
-import {render} from '@testing-library/react';
-import {Input, Label, TextField} from 'react-aria-components/TextField';
+import { render } from '@testing-library/react';
+import { Input, Label, TextField } from 'react-aria-components/TextField';
 
 function LoginForm() {
-  return (
-    <>
-      <TextField data-testid="username">
-        <Label>Username</Label>
-        <Input />
-      </TextField>
-      <TextField data-testid="password">
-        <Label>Username</Label>
-        <Input />
-      </TextField>
-    </>
-  );
+	return (
+		<>
+			<TextField data-testid="username">
+				<Label>Username</Label>
+				<Input />
+			</TextField>
+			<TextField data-testid="password">
+				<Label>Username</Label>
+				<Input />
+			</TextField>
+		</>
+	);
 }
 
 let tree = render(<LoginForm />);
@@ -70,7 +70,7 @@ This lets you trigger high level interactions like a user would, and the library
 events that make up that interaction.
 
 ```tsx
-import {render} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 let tree = render(<LoginForm />);
@@ -97,7 +97,7 @@ See [Jest's timer docs](https://jestjs.io/docs/timer-mocks) or the equivalent do
 
 ```tsx
 afterEach(() => {
-  act(() => jest.runAllTimers());
+	act(() => jest.runAllTimers());
 });
 ```
 
@@ -112,7 +112,7 @@ to wait for a dialog to appear:
 
 ```tsx
 await waitFor(() => {
-  expect(getByRole('dialog')).toBeInTheDocument();
+	expect(getByRole('dialog')).toBeInTheDocument();
 });
 ```
 
@@ -121,7 +121,7 @@ await waitFor(() => {
 To simulate a long press event in components like Menu, mock PointerEvent globally and use the `triggerLongPress` function from `@react-aria/test-utils`.
 
 ```tsx
-import {installPointerEvent, triggerLongPress} from '@react-aria/test-utils';
+import { installPointerEvent, triggerLongPress } from '@react-aria/test-utils';
 installPointerEvent();
 
 // In test case
@@ -135,21 +135,21 @@ Components like ColorArea, ColorSlider, ColorWheel, and Slider each feature a dr
 to simulate these drag/move events in your tests. Additionally, the track dimensions for the draggable handle should be mocked so that the move operation calculations can be properly computed.
 
 ```tsx
-import {fireEvent} from '@testing-library/react';
-import {installMouseEvent} from '@react-aria/test-utils';
+import { fireEvent } from '@testing-library/react';
+import { installMouseEvent } from '@react-aria/test-utils';
 installMouseEvent();
 
 beforeAll(() => {
-  jest.spyOn(window.HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({top: 0, left: 0, width: 100, height: 10}));
-})
+	jest.spyOn(window.HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ top: 0, left: 0, width: 100, height: 10 }));
+});
 
 // In test case
 let sliderThumb = getByRole('slider').parentElement;
 
 // With fireEvent, move thumb from 0 to 50
-fireEvent.mouseDown(thumb, {clientX: 0, pageX: 0});
-fireEvent.mouseMove(thumb, {pageX: 50});
-fireEvent.mouseUp(thumb, {pageX: 50});
+fireEvent.mouseDown(thumb, { clientX: 0, pageX: 0 });
+fireEvent.mouseMove(thumb, { pageX: 50 });
+fireEvent.mouseUp(thumb, { pageX: 50 });
 ```
 
 ## React Aria test utils
@@ -176,22 +176,22 @@ Initialize a `User` object at the top of your test file, and use it to create an
 
 ```ts
 // YourTest.test.ts
-import {screen} from '@testing-library/react';
-import {User} from '@react-aria/test-utils';
+import { screen } from '@testing-library/react';
+import { User } from '@react-aria/test-utils';
 
 // Provide whatever method of advancing timers you use in your test, this example assumes Jest with fake timers.
 // 'interactionType' specifies what mode of interaction should be simulated by the tester
 // 'advanceTimer' is used by the tester to advance the timers in the tests for specific interactions (e.g. long press)
-let testUtilUser = new User({interactionType: 'mouse', advanceTimer: jest.advanceTimersByTime});
+let testUtilUser = new User({ interactionType: 'mouse', advanceTimer: jest.advanceTimersByTime });
 // ...
 
 it('my test case', async function () {
-  // Render your test component/app
-  render();
-  // Initialize the table tester via providing the 'Table' pattern name and the root element of said table
-  let table = testUtilUser.createTester('Table', {root: screen.getByTestId('test_table')});
+	// Render your test component/app
+	render();
+	// Initialize the table tester via providing the 'Table' pattern name and the root element of said table
+	let table = testUtilUser.createTester('Table', { root: screen.getByTestId('test_table') });
 
-  // ...
+	// ...
 });
 ```
 

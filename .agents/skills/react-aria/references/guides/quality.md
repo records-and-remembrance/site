@@ -15,25 +15,26 @@ Be sure to create an accessible visual design with meaningful labels, sufficient
 Most components should have a visible label, which is usually provided by rendering a `<Label>` element within it. This is associated with the component automatically.
 
 ```tsx
-import {TextField, Label, Input} from 'react-aria-components/TextField';
+import { TextField, Label, Input } from 'react-aria-components/TextField';
 
 <TextField>
-  {/*- begin highlight -*/}
-  <Label>First name</Label>
-  {/*- end highlight -*/}
-  <Input />
-</TextField>
+	{/*- begin highlight -*/}
+	<Label>First name</Label>
+	{/*- end highlight -*/}
+	<Input />
+</TextField>;
 ```
 
 When a component doesn't have a visible label, it must have an [aria-label](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) or [aria-labelledby](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby) prop to provide an accessible name.
 
 ```tsx
-import {ProgressBar} from 'react-aria-components/ProgressBar';
+import { ProgressBar } from 'react-aria-components/ProgressBar';
 
 <ProgressBar
-  /*- begin highlight -*/
-  aria-label="Processing" />
-  /*- end highlight -*/
+	/*- begin highlight -*/
+	aria-label="Processing"
+/>;
+/*- end highlight -*/
 ```
 
 ### Supported screen readers
@@ -61,20 +62,20 @@ Make sure your design supports right-to-left layout, and adapts to different lan
 React Aria automatically detects the user's current language by default. Use the `I18nProvider` component to set the locale to a specific value. You should also set the `lang` and `dir` attributes on the root-most element of your application.
 
 ```tsx
-import {I18nProvider, useLocale} from 'react-aria-components/I18nProvider';
+import { I18nProvider, useLocale } from 'react-aria-components/I18nProvider';
 
 <I18nProvider locale="fr-FR">
-  <App />
-</I18nProvider>
+	<App />
+</I18nProvider>;
 
 function App() {
-  let {locale, direction} = useLocale();
+	let { locale, direction } = useLocale();
 
-  return (
-    <html lang={locale} dir={direction}>
-      {/* your app here */}
-    </html>
-  );
+	return (
+		<html lang={locale} dir={direction}>
+			{/* your app here */}
+		</html>
+	);
 }
 ```
 

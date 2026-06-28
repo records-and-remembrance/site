@@ -26,15 +26,15 @@ a detailed explanation of its implementation.
 ```tsx
 'use client';
 import React from 'react';
-import {Button} from 'vanilla-starter/Button';
-import {MyToastRegion} from './MyToastRegion'
-import {UNSAFE_PortalProvider} from '@react-aria/overlays';
-import {UNSTABLE_ToastQueue as ToastQueue} from 'react-aria-components/Toast';
+import { Button } from 'vanilla-starter/Button';
+import { MyToastRegion } from './MyToastRegion';
+import { UNSAFE_PortalProvider } from '@react-aria/overlays';
+import { UNSTABLE_ToastQueue as ToastQueue } from 'react-aria-components/Toast';
 
 // Define the type for your toast content.
 interface MyToastContent {
-  title: string,
-  description?: string
+	title: string;
+	description?: string;
 }
 
 // Create a global ToastQueue.
@@ -42,96 +42,111 @@ const queue = new ToastQueue<MyToastContent>();
 
 // See the above Toast docs link for the ToastRegion implementation
 function App() {
-  let container = React.useRef(null);
-  return (
-    <>
-      <UNSAFE_PortalProvider getContainer={() => container.current}>
-        <MyToastRegion queue={queue} />
-        <Button
-          onPress={() => queue.add({
-            title: 'Toast complete!',
-            description: 'Great success.'
-          })}>
-          Open Toast
-        </Button>
-      </UNSAFE_PortalProvider>
-      <div ref={container} style={{height: '110px', width: '200px',  overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', padding: '5px'}}>
-        Toasts are portalled here!
-      </div>
-    </>
-  );
+	let container = React.useRef(null);
+	return (
+		<>
+			<UNSAFE_PortalProvider getContainer={() => container.current}>
+				<MyToastRegion queue={queue} />
+				<Button
+					onPress={() =>
+						queue.add({
+							title: 'Toast complete!',
+							description: 'Great success.',
+						})
+					}
+				>
+					Open Toast
+				</Button>
+			</UNSAFE_PortalProvider>
+			<div
+				ref={container}
+				style={{
+					height: '110px',
+					width: '200px',
+					overflow: 'auto',
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '20px',
+					padding: '5px',
+				}}
+			>
+				Toasts are portalled here!
+			</div>
+		</>
+	);
 }
 
-<App />
+<App />;
 ```
 
 ```css
 .react-aria-ToastRegion {
-  position: unset;
-  bottom: 16px;
-  right: 16px;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 8px;
-  border-radius: 8px;
-  outline: none;
+	position: unset;
+	bottom: 16px;
+	right: 16px;
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 8px;
+	border-radius: 8px;
+	outline: none;
 
-  &[data-focus-visible] {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
+	&[data-focus-visible] {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: 2px;
+	}
 }
 
 .react-aria-Toast {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: var(--highlight-background);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 8px;
-  outline: none;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	background: var(--highlight-background);
+	color: white;
+	padding: 12px 16px;
+	border-radius: 8px;
+	outline: none;
 
-  &[data-focus-visible] {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
+	&[data-focus-visible] {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: 2px;
+	}
 
-  .react-aria-ToastContent {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    min-width: 0px;
+	.react-aria-ToastContent {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1 auto;
+		min-width: 0px;
 
-    [slot=title] {
-      font-weight: bold;
-    }
-  }
+		[slot='title'] {
+			font-weight: bold;
+		}
+	}
 
-  .react-aria-Button[slot=close] {
-    flex: 0 0 auto;
-    background: none;
-    border: none;
-    appearance: none;
-    border-radius: 50%;
-    height: 32px;
-    width: 32px;
-    font-size: 16px;
-    border: 1px solid var(--highlight-foreground);
-    color: white;
-    padding: 0;
-    outline: none;
+	.react-aria-Button[slot='close'] {
+		flex: 0 0 auto;
+		background: none;
+		border: none;
+		appearance: none;
+		border-radius: 50%;
+		height: 32px;
+		width: 32px;
+		font-size: 16px;
+		border: 1px solid var(--highlight-foreground);
+		color: white;
+		padding: 0;
+		outline: none;
 
-    &[data-focus-visible] {
-      box-shadow: 0 0 0 2px var(--highlight-background), 0 0 0 4px var(--highlight-foreground);
-    }
+		&[data-focus-visible] {
+			box-shadow:
+				0 0 0 2px var(--highlight-background),
+				0 0 0 4px var(--highlight-foreground);
+		}
 
-    &[data-pressed] {
-      background: var(--highlight-pressed);
-    }
-  }
+		&[data-pressed] {
+			background: var(--highlight-pressed);
+		}
+	}
 }
-
 ```
 
 ## Contexts
@@ -145,12 +160,12 @@ used by custom overlay components to ensure that they are also being consistentl
 />
 
 ```tsx
-import {useUNSAFE_PortalContext} from '@react-aria/overlays';
+import { useUNSAFE_PortalContext } from '@react-aria/overlays';
 
 function MyOverlay(props) {
-  let {children} = props;
-  let {getContainer} = useUNSAFE_PortalContext();
-  return ReactDOM.createPortal(children, getContainer());
+	let { children } = props;
+	let { getContainer } = useUNSAFE_PortalContext();
+	return ReactDOM.createPortal(children, getContainer());
 }
 ```
 

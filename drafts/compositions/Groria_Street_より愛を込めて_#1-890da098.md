@@ -1,23 +1,21 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "Groria Street より愛を込めて #1"
+canonical_title: 'Groria Street より愛を込めて #1'
 status: merged
 composition_id: null
-group_key: "groria street より愛を込めて #1"
+group_key: 'groria street より愛を込めて #1'
 aliases:
-  - "Groria Street より愛を込めて #1"
+  - 'Groria Street より愛を込めて #1'
 sources:
-  -
-    type: live
-    file: "2023-08-27-000000.md"
+  - type: live
+    file: '2023-08-27-000000.md'
     title: " 2023-08-27: 門田匡陽 × NAO YANAGAWA - hmc studio live \\\"CORE\\\"  at 梅ヶ丘hmc coffee & sake"
-    date: "2023-08-27"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2023-08-27'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 8
-    raw_title: "Groria Street より愛を込めて #1"
+    raw_title: 'Groria Street より愛を込めて #1'
 ---
-
 
 # Groria Street より愛を込めて #1
 
@@ -27,4 +25,4 @@ sources:
 
 ## Merge Notes
 
-- 2026-06-14T11:22:36.444Z: merged into Groria_Streetから愛を込めて_#1-d239cddf.md
+- 2026-06-14T11:22:36.444Z: merged into Groria*Streetから愛を込めて*#1-d239cddf.md

@@ -9,15 +9,20 @@ A `ZonedDateTime` object represents an exact date and time in a specific time zo
 A `ZonedDateTime` can be created using the constructor. This example creates a date that represents February 3rd, 2022 at 9:15 AM in the Gregorian calendar system, with a time zone of `"America/Los Angeles"`.
 
 ```tsx
-import {ZonedDateTime} from '@internationalized/date';
+import { ZonedDateTime } from '@internationalized/date';
 
 let date = new ZonedDateTime(
-  // Date
-  2022, 2, 3,
-  // Time zone and UTC offset
-  'America/Los_Angeles', -28800000,
-  // Time
-  9, 15, 0
+	// Date
+	2022,
+	2,
+	3,
+	// Time zone and UTC offset
+	'America/Los_Angeles',
+	-28800000,
+	// Time
+	9,
+	15,
+	0,
 );
 ```
 
@@ -28,7 +33,7 @@ You can also create a `ZonedDateTime` by parsing an [ISO 8601](https://en.wikipe
 - `parseAbsoluteToLocal` – This function parses an absolute date and time into the current user's local time zone. It is a shortcut for `parseAbsolute`, and accepts the same formats.
 
 ```tsx
-import {parseZonedDateTime} from '@internationalized/date';
+import { parseZonedDateTime } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-11-07T00:45[America/Los_Angeles]');
 let date = parseAbsolute('2021-11-07T07:45:00Z', 'America/Los_Angeles');
@@ -41,7 +46,7 @@ You can also create a `ZonedDateTime` using a `Date` object or epoch time (milli
 - `fromAbsolute` – This function creates a `ZonedDateTime` from a Unix epoch (e.g. `1688023843144`, representing milliseconds since 1970). A time zone identifier, e.g. `America/Los_Angeles`, must be provided, and the result will be converted into that time zone.
 
 ```tsx
-import {fromDate, fromAbsolute} from '@internationalized/date';
+import { fromDate, fromAbsolute } from '@internationalized/date';
 
 let date = fromDate(new Date(), 'America/Los_Angeles');
 let date = fromAbsolute(1688023843144, 'America/Los_Angeles');
@@ -52,7 +57,7 @@ The current time can be retrieved using the `now` function. This requires a time
 **Note:** the local time zone is cached after the first call. You can reset it by calling `resetLocalTimeZone`, or mock it in unit tests by calling `setLocalTimeZone`.
 
 ```tsx
-import {now, getLocalTimeZone} from '@internationalized/date';
+import { now, getLocalTimeZone } from '@internationalized/date';
 
 let nyTime = now('America/New_York');
 let localTime = now(getLocalTimeZone());
@@ -61,11 +66,7 @@ let localTime = now(getLocalTimeZone());
 Once you have a `ZonedDateTime` object, you can read its properties, or manipulate it as described in the [Manipulating dates](#manipulating-dates) section below. You can also convert it to an ISO 8601 string, native JavaScript `Date` object, or another representation. See the [Conversion](#conversion) section below for details.
 
 ```tsx
-let date = new ZonedDateTime(
-  2022, 2, 3,
-  'America/Los_Angeles', -28800000,
-  12, 24, 45
-);
+let date = new ZonedDateTime(2022, 2, 3, 'America/Los_Angeles', -28800000, 12, 24, 45);
 
 date.toString(); // '2022-02-03T12:24:45-08:00[America/Los_Angeles]'
 ```
@@ -74,9 +75,9 @@ date.toString(); // '2022-02-03T12:24:45-08:00[America/Los_Angeles]'
 
 ### Constructor
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `args` | `any[]` | — |
+| Parameter | Type    | Description |
+| --------- | ------- | ----------- |
+| `args`    | `any[]` | —           |
 
 ## Calendar systems
 
@@ -85,13 +86,9 @@ By default, `ZonedDateTime` uses the Gregorian calendar system, but many other c
 This example creates a date in the Buddhist calendar system, which is equivalent to April 30th, 2020 at 9:15 AM in the Gregorian calendar.
 
 ```tsx
-import {BuddhistCalendar} from '@internationalized/date';
+import { BuddhistCalendar } from '@internationalized/date';
 
-let date = new ZonedDateTime(
-  new BuddhistCalendar(), 2563, 4, 30,
-  'America/Los_Angeles', -28800000,
-  9, 15
-);
+let date = new ZonedDateTime(new BuddhistCalendar(), 2563, 4, 30, 'America/Los_Angeles', -28800000, 9, 15);
 ```
 
 See the [Calendar](Calendar.md#implementations) docs for details about the supported calendars.
@@ -103,13 +100,9 @@ Many calendar systems have only one era, or a modern era and a pre-modern era (e
 This example creates a date in the Japanese calendar system, which is equivalent to April 30th, 2019 at 9:15 AM in the Gregorian calendar.
 
 ```tsx
-import {JapaneseCalendar} from '@internationalized/date';
+import { JapaneseCalendar } from '@internationalized/date';
 
-let date = new ZonedDateTime(
-  new JapaneseCalendar(), 'heisei', 31, 4, 30,
-  'America/Los_Angeles', -28800000,
-  9, 15
-);
+let date = new ZonedDateTime(new JapaneseCalendar(), 'heisei', 31, 4, 30, 'America/Los_Angeles', -28800000, 9, 15);
 ```
 
 A list of valid era identifiers can be retrieved using the `getEras` method of a `Calendar` instance. If an era is not provided, the date is assumed to be in the current era.
@@ -121,13 +114,9 @@ The `toCalendar` function can be used to convert a date from one calendar system
 This example converts a Gregorian date to a Hebrew one.
 
 ```tsx
-import {toCalendar, HebrewCalendar} from '@internationalized/date';
+import { toCalendar, HebrewCalendar } from '@internationalized/date';
 
-let gregorianDate = new ZonedDateTime(
-  2020, 9, 19,
-  'America/Los_Angeles', -28800000,
-  10, 30
-);
+let gregorianDate = new ZonedDateTime(2020, 9, 19, 'America/Los_Angeles', -28800000, 10, 30);
 
 let hebrewDate = toCalendar(gregorianDate, new HebrewCalendar());
 ```
@@ -141,32 +130,32 @@ A `DateTimeDuration` is an object that represents an amount of time, with fields
 ```tsx
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
 
-date.add({weeks: 1}); // 2022-02-10T09:45[America/Los_Angeles]
-date.add({months: 1}); // 2022-03-03T09:45[America/Los_Angeles]
-date.add({years: 1, months: 1, days: 1}); // 2023-03-04T09:45[America/Los_Angeles]
-date.add({hours: 1}); // 2022-02-03T10:45[America/Los_Angeles]
-date.add({minutes: 30}); // 2022-02-03T10:15[America/Los_Angeles]
+date.add({ weeks: 1 }); // 2022-02-10T09:45[America/Los_Angeles]
+date.add({ months: 1 }); // 2022-03-03T09:45[America/Los_Angeles]
+date.add({ years: 1, months: 1, days: 1 }); // 2023-03-04T09:45[America/Los_Angeles]
+date.add({ hours: 1 }); // 2022-02-03T10:45[America/Los_Angeles]
+date.add({ minutes: 30 }); // 2022-02-03T10:15[America/Los_Angeles]
 
-date.subtract({weeks: 1}); // 2022-01-27T09:45[America/Los_Angeles]
-date.subtract({months: 1}); // 2022-01-03T09:45[America/Los_Angeles]
-date.subtract({years: 1, months: 1, days: 1}); // 2021-01-02T09:45[America/Los_Angeles]
-date.subtract({hours: 1}); // 2022-02-03T8:45[America/Los_Angeles]
-date.subtract({minutes: 30}); // 2022-02-03T09:15[America/Los_Angeles]
+date.subtract({ weeks: 1 }); // 2022-01-27T09:45[America/Los_Angeles]
+date.subtract({ months: 1 }); // 2022-01-03T09:45[America/Los_Angeles]
+date.subtract({ years: 1, months: 1, days: 1 }); // 2021-01-02T09:45[America/Los_Angeles]
+date.subtract({ hours: 1 }); // 2022-02-03T8:45[America/Los_Angeles]
+date.subtract({ minutes: 30 }); // 2022-02-03T09:15[America/Los_Angeles]
 ```
 
-Adding or subtracting a duration that goes beyond the limits of a particular field will cause the date to be *balanced*. For example, adding one day to August 31st results in September 1st. In addition, if adding or subtracting one field causes another to be invalid, the date will be *constrained*. For example, adding one month to August 31st results in September 30th because September 31st does not exist.
+Adding or subtracting a duration that goes beyond the limits of a particular field will cause the date to be _balanced_. For example, adding one day to August 31st results in September 1st. In addition, if adding or subtracting one field causes another to be invalid, the date will be _constrained_. For example, adding one month to August 31st results in September 30th because September 31st does not exist.
 
 Adding and subtracting is time zone aware. When adjusting a date around a daylight saving time transition, the hour may be adjusted accordingly. For example, in the United States, adding one hour during a "spring forward" transition skips the 2 AM hour, and adding an hour in a "fall back" transition repeats the 1 AM hour. Under the hood, the UTC offset is changing instead.
 
 ```tsx
 // A "spring forward" transition
 let date = parseZonedDateTime('2020-03-08T01:00-08:00[America/Los_Angeles]');
-date.add({hours: 1}); // 2020-03-08T03:00-07:00[America/Los_Angeles]
+date.add({ hours: 1 }); // 2020-03-08T03:00-07:00[America/Los_Angeles]
 
 // A "fall back" transition
 let date = parseZonedDateTime('2020-11-01T01:00-07:00[America/Los_Angeles]');
-date.add({hours: 1}); // 2020-11-01T01:00-08:00[America/Los_Angeles]
-date.add({hours: 2}); // 2020-11-01T02:00-08:00[America/Los_Angeles]
+date.add({ hours: 1 }); // 2020-11-01T01:00-08:00[America/Los_Angeles]
+date.add({ hours: 2 }); // 2020-11-01T02:00-08:00[America/Los_Angeles]
 ```
 
 In addition, when changing the date portion of a `ZonedDateTime` around a daylight saving time transition, the hour may change if it is invalid in the target date. For example, during a "spring forward" transition, the 2 AM hour is skipped.
@@ -174,7 +163,7 @@ In addition, when changing the date portion of a `ZonedDateTime` around a daylig
 ```tsx
 // A "spring forward" transition
 let date = parseZonedDateTime('2020-03-07T02:00-08:00[America/Los_Angeles]');
-date.add({days: 1}); // 2020-03-08T03:00-07:00[America/Los_Angeles]
+date.add({ days: 1 }); // 2020-03-08T03:00-07:00[America/Los_Angeles]
 ```
 
 ### Parsing durations
@@ -198,30 +187,30 @@ parseDuration('P3Y6M6W4DT12H30M5.5S');
 
 ```tsx
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
-date.set({day: 10}); // 2022-02-10T09:45[America/Los_Angeles]
-date.set({month: 5}); // // 2022-05-03T09:45[America/Los_Angeles]
-date.set({year: 2023, month: 10, day: 16}); // 2023-10-16T09:45[America/Los_Angeles]
-date.set({hour: 18}); // 2022-02-03T18:45[America/Los_Angeles]
-date.set({minute: 15}); // 2022-02-03T09:15[America/Los_Angeles]
+date.set({ day: 10 }); // 2022-02-10T09:45[America/Los_Angeles]
+date.set({ month: 5 }); // // 2022-05-03T09:45[America/Los_Angeles]
+date.set({ year: 2023, month: 10, day: 16 }); // 2023-10-16T09:45[America/Los_Angeles]
+date.set({ hour: 18 }); // 2022-02-03T18:45[America/Los_Angeles]
+date.set({ minute: 15 }); // 2022-02-03T09:15[America/Los_Angeles]
 ```
 
-Setting a field to a value that is outside the valid range will cause it to be *constrained*. For example, setting the day to a value that is greater than the number of days in the month, will result in the last day of the month.
+Setting a field to a value that is outside the valid range will cause it to be _constrained_. For example, setting the day to a value that is greater than the number of days in the month, will result in the last day of the month.
 
 ```tsx
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
-date.set({day: 100}); // 2022-02-28T09:45[America/Los_Angeles]
-date.set({month: 20}); // 2022-12-03T09:45[America/Los_Angeles]
-date.set({hour: 30}); // 2022-02-03T23:45[America/Los_Angeles]
+date.set({ day: 100 }); // 2022-02-28T09:45[America/Los_Angeles]
+date.set({ month: 20 }); // 2022-12-03T09:45[America/Los_Angeles]
+date.set({ hour: 30 }); // 2022-02-03T23:45[America/Los_Angeles]
 ```
 
 Setting fields is time zone aware. When setting fields around a daylight saving time transition, the UTC offset will be adjusted accordingly. For example, when changing the `day` field from before a daylight saving transition to after, the time remains the same but the UTC offset changes.
 
 ```tsx
 let date = parseZonedDateTime('2020-03-01T10:00-08:00[America/Los_Angeles]');
-date.set({day: 14}); // 2020-03-14T10:00-07:00[America/Los_Angeles]
+date.set({ day: 14 }); // 2020-03-14T10:00-07:00[America/Los_Angeles]
 ```
 
-In addition, some time values during daylight saving transitions may be *ambiguous*. For example, in the United States, the 2 AM hour is skipped in the spring, and the 1 AM hour occurs twice in the fall. When setting date fields, this ambiguity must be resolved to determine the exact time. By default, the later of the two possible times is chosen for "spring forward" transitions, and the earlier time is chosen for "fall back" transitions. This can be controlled by passing the `disambiguation` parameter to the `set` method.
+In addition, some time values during daylight saving transitions may be _ambiguous_. For example, in the United States, the 2 AM hour is skipped in the spring, and the 1 AM hour occurs twice in the fall. When setting date fields, this ambiguity must be resolved to determine the exact time. By default, the later of the two possible times is chosen for "spring forward" transitions, and the earlier time is chosen for "fall back" transitions. This can be controlled by passing the `disambiguation` parameter to the `set` method.
 
 - `'earlier'` – choose the earlier of the two possible times
 - `'later'` – choose the later of the two possible times
@@ -231,15 +220,15 @@ In addition, some time values during daylight saving transitions may be *ambiguo
 ```tsx
 // A "spring forward" transition
 let date = parseZonedDateTime('2020-03-01T02:00-08:00[America/Los_Angeles]');
-date.set({day: 8}); // 2020-03-08T03:00:00-07:00[America/Los_Angeles]
-date.set({day: 8}, 'earlier'); // 2020-03-08T01:00:00-08:00[America/Los_Angeles]
-date.set({day: 8}, 'later'); // 2020-03-08T03:00:00-07:00[America/Los_Angeles]
+date.set({ day: 8 }); // 2020-03-08T03:00:00-07:00[America/Los_Angeles]
+date.set({ day: 8 }, 'earlier'); // 2020-03-08T01:00:00-08:00[America/Los_Angeles]
+date.set({ day: 8 }, 'later'); // 2020-03-08T03:00:00-07:00[America/Los_Angeles]
 
 // A "fall back" transition
 let date = parseZonedDateTime('2020-10-01T01:00-07:00[America/Los_Angeles]');
-date.set({month: 11}); // 2020-11-01T01:00:00-07:00[America/Los_Angeles]
-date.set({month: 11}, 'earlier'); // 2020-11-01T01:00:00-07:00[America/Los_Angeles]
-date.set({month: 11}, 'later'); // 2020-11-01T01:00:00-08:00[America/Los_Angeles]
+date.set({ month: 11 }); // 2020-11-01T01:00:00-07:00[America/Los_Angeles]
+date.set({ month: 11 }, 'earlier'); // 2020-11-01T01:00:00-07:00[America/Los_Angeles]
+date.set({ month: 11 }, 'later'); // 2020-11-01T01:00:00-08:00[America/Los_Angeles]
 ```
 
 ### Cycling fields
@@ -260,7 +249,7 @@ date.cycle('hour', -1); // 2022-01-01T23:00[America/Los_Angeles]
 date.cycle('minute', -1); // 2022-01-01T00:59[America/Los_Angeles]
 ```
 
-Note that if cycling a field causes another field to become invalid, the date is *constrained*. For example, adding one month to August 31st results in September 30th because September 31st does not exist.
+Note that if cycling a field causes another field to become invalid, the date is _constrained_. For example, adding one month to August 31st results in September 30th because September 31st does not exist.
 
 The `round` option may also be passed, which causes the value to be rounded to increments of the given amount. For example, you could round the minute to increments of 15.
 
@@ -268,10 +257,10 @@ The `round` option may also be passed, which causes the value to be rounded to i
 let date = parseZonedDateTime('2022-02-03T09:22[America/Los_Angeles]');
 
 date.cycle('minute', 15); // 2022-02-03T09:37:00-08:00[America/Los_Angeles]
-date.cycle('minute', 15, {round: true}); // 2022-02-03T09:30:00-08:00[America/Los_Angeles]
+date.cycle('minute', 15, { round: true }); // 2022-02-03T09:30:00-08:00[America/Los_Angeles]
 
 date.cycle('minute', -15); // 2022-02-03T09:07:00-08:00[America/Los_Angeles]
-date.cycle('minute', -15, {round: true}); // 2022-02-03T09:15:00-08:00[America/Los_Angeles]
+date.cycle('minute', -15, { round: true }); // 2022-02-03T09:15:00-08:00[America/Los_Angeles]
 ```
 
 By default, the `hour` field is cycled within a 24 hour range. The `hourCycle` option can be set to `12` to use a 12 hour clock instead, which will preserve the AM/PM value when formatted.
@@ -279,11 +268,11 @@ By default, the `hour` field is cycled within a 24 hour range. The `hourCycle` o
 ```tsx
 let date = parseZonedDateTime('2022-02-03T11:00[America/Los_Angeles]');
 date.cycle('hour', 1); // 2022-02-03T12:00[America/Los_Angeles]
-date.cycle('hour', 1, {hourCycle: 12}); // 2022-02-03T00:00[America/Los_Angeles]
+date.cycle('hour', 1, { hourCycle: 12 }); // 2022-02-03T00:00[America/Los_Angeles]
 
 let date = parseZonedDateTime('2022-02-03T23:00[America/Los_Angeles]');
 date.cycle('hour', 1); // 2022-02-03T00:00[America/Los_Angeles]
-date.cycle('hour', 1, {hourCycle: 12}); // 2022-02-03T12:00[America/Los_Angeles]
+date.cycle('hour', 1, { hourCycle: 12 }); // 2022-02-03T12:00[America/Los_Angeles]
 ```
 
 Cycling fields is time zone aware. When adjusting a date around a daylight saving time transition, the hour may be adjusted accordingly. For example, in the United States, adding one hour during a "spring forward" transition skips the 2 AM hour, and adding an hour in a "fall back" transition repeats the 1 AM hour. Under the hood, the UTC offset is changing instead.
@@ -313,11 +302,7 @@ date.cycle('day', 1); // 2020-03-08T03:00-07:00[America/Los_Angeles]
 `ZonedDateTime` objects can be converted to an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted string using the `toString` method. This format preserves the maximum amount of information, including the UTC offset and time zone identifier, in the same format used in other languages like Java.
 
 ```tsx
-let date = new ZonedDateTime(
-  2022, 2, 3,
-  'America/Los_Angeles', -28800000,
-  12, 24, 45
-);
+let date = new ZonedDateTime(2022, 2, 3, 'America/Los_Angeles', -28800000, 12, 24, 45);
 
 date.toString(); // '2022-02-03T12:24:45-08:00[America/Los_Angeles]'
 ```
@@ -346,7 +331,7 @@ A `ZonedDateTime` can be converted to a [CalendarDate](CalendarDate.md) or [Time
 Use the `toCalendarDate` function to convert a `ZonedDateTime` to a `CalendarDate`.
 
 ```tsx
-import {toCalendarDate} from '@internationalized/date';
+import { toCalendarDate } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
 toCalendarDate(date); // 2022-02-03
@@ -355,7 +340,7 @@ toCalendarDate(date); // 2022-02-03
 Use the `toTime` function to convert a `ZonedDateTime` to a `Time`.
 
 ```tsx
-import {toTime} from '@internationalized/date';
+import { toTime } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
 toTime(date); // 09:45
@@ -368,7 +353,7 @@ A `ZonedDateTime` can be converted to a [CalendarDateTime](CalendarDateTime.md),
 Use the `toCalendarDateTime` function to convert a `ZonedDateTime` to a `CalendarDateTime`.
 
 ```tsx
-import {toCalendarDateTime} from '@internationalized/date';
+import { toCalendarDateTime } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
 toCalendarDateTime(date); // 2022-02-03T09:45:00
@@ -379,7 +364,7 @@ toCalendarDateTime(date); // 2022-02-03T09:45:00
 A `ZonedDateTime` can be converted to a different time zone using the `toTimeZone` function. The `toLocalTimeZone` function can also be used to convert to the current user's local time zone.
 
 ```tsx
-import {toTimeZone, toLocalTimeZone} from '@internationalized/date';
+import { toTimeZone, toLocalTimeZone } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
 toTimeZone(date, 'America/Chicago'); // 2022-02-03T11:45[America/Chicago]
@@ -410,17 +395,11 @@ In addition, the following functions can be used to perform a partial comparison
 - `isToday` – <span>{docs.exports.isToday.description}</span>
 
 ```tsx
-import {isSameMonth} from '@internationalized/date';
+import { isSameMonth } from '@internationalized/date';
 
-isSameMonth(
-  parseZonedDateTime('2022-04-16T09:45[America/Los_Angeles]'),
-  parseZonedDateTime('2022-04-30T05:15[America/Los_Angeles]'),
-); // true
+isSameMonth(parseZonedDateTime('2022-04-16T09:45[America/Los_Angeles]'), parseZonedDateTime('2022-04-30T05:15[America/Los_Angeles]')); // true
 
-isSameMonth(
-  parseZonedDateTime('2022-04-16T09:45[America/Los_Angeles]'),
-  parseZonedDateTime('2022-08-020T05:15[America/Los_Angeles]'),
-); // false
+isSameMonth(parseZonedDateTime('2022-04-16T09:45[America/Los_Angeles]'), parseZonedDateTime('2022-08-020T05:15[America/Los_Angeles]')); // false
 ```
 
 A similar set of functions is also available that does not convert between calendar systems and requires the calendars to be equal.
@@ -443,7 +422,7 @@ The following functions can be used to find the start or end dates of a particul
 Note that `startOfWeek` and `endOfWeek` require a locale string to be provided. This is because the first day of the week changes depending on the locale. For example, in the United States, the first day of the week is on Sunday, but in France it is on Monday.
 
 ```tsx
-import {startOfYear, startOfMonth, startOfWeek} from '@internationalized/date';
+import { startOfYear, startOfMonth, startOfWeek } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-03T09:45[America/Los_Angeles]');
 
@@ -464,7 +443,7 @@ startOfWeek(date, 'en-US', 'mon'); // 2022-01-31T09:45[America/Los_Angeles]
 The `getDayOfWeek` function returns the day of the week for the given date and locale. Days are numbered from zero to six, where zero is the first day of the week in the given locale. For example, in the United States, the first day of the week is Sunday, but in France it is Monday.
 
 ```tsx
-import {getDayOfWeek} from '@internationalized/date';
+import { getDayOfWeek } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-06T08:30[America/Los_Angeles]'); // a Sunday
 
@@ -483,7 +462,7 @@ getDayOfWeek(date, 'en-US', 'mon'); // 6
 The `isWeekday` and `isWeekend` functions can be used to determine if a date is weekday or weekend respectively. This depends on the locale. For example, in the United States, weekends are Saturday and Sunday, but in Israel they are Friday and Saturday.
 
 ```tsx
-import {isWeekday, isWeekend} from '@internationalized/date';
+import { isWeekday, isWeekend } from '@internationalized/date';
 
 let date = parseZonedDateTime('2022-02-06T08:30[America/Los_Angeles]'); // a Sunday
 
@@ -499,7 +478,7 @@ isWeekend(date, 'he-IL'); // false
 The `getWeeksInMonth` function returns the number of weeks in the given month. This depends on the number of days in the month, what day of the week the month starts on, and the given locale. For example, in the United States, the first day of the week is Sunday, but in France it is Monday.
 
 ```tsx
-import {getWeeksInMonth} from '@internationalized/date';
+import { getWeeksInMonth } from '@internationalized/date';
 
 let date = parseZonedDateTime('2023-01-01T08:30[America/Los_Angeles]');
 
@@ -520,7 +499,7 @@ getWeeksInMonth(date, 'en-US', 'mon'); // 6
 `parseZonedDateTime(value: string, disambiguation?: Disambiguation): ZonedDateTime`
 
 Parses an ISO 8601 date and time string with a time zone extension and optional UTC offset (e.g.
-"2021-11-07T00:45\[America/Los\_Angeles]" or "2021-11-07T00:45-07:00\[America/Los\_Angeles]").
+"2021-11-07T00:45\[America/Los_Angeles]" or "2021-11-07T00:45-07:00\[America/Los_Angeles]").
 Ambiguous times due to daylight saving time transitions are resolved according to the
 \`disambiguation\` parameter.
 
@@ -580,37 +559,37 @@ Sets the time zone identifier for the current user.
 
 Calendars display a grid of days in one or more months and allow users to select a single date.
 
-| Name | Type | Default | Description |
-|------|------|---------|-------------|
-| `aria-describedby` | `string | undefined` | — | Identifies the element (or elements) that describes the object. |
-| `aria-details` | `string | undefined` | — | Identifies the element (or elements) that provide a detailed, extended description for the object. |
-| `aria-label` | `string | undefined` | — | Defines a string value that labels the current element. |
-| `aria-labelledby` | `string | undefined` | — | Identifies the element (or elements) that labels the current element. |
-| `autoFocus` | `boolean | undefined` | false | Whether to automatically focus the calendar when it mounts. |
-| `createCalendar` | `((identifier: CalendarIdentifier) => Calendar) | undefined` | — | A function to create a new [Calendar](https://react-spectrum.adobe.com/internationalized/date/Calendar.html) object for a given calendar identifier. If not provided, the `createCalendar` function from `@internationalized/date` will be used. |
-| `defaultFocusedValue` | `DateValue | null | undefined` | — | The date that is focused when the calendar first mounts (uncontrolled). |
-| `defaultValue` | `CalendarValueType<null, M | T> | undefined` | — | The default value (uncontrolled). |
-| `errorMessage` | `React.ReactNode` | — | The error message to display when the calendar is invalid. |
-| `firstDayOfWeek` | `"fri" | "mon" | "sat" | "sun" | "thu" | "tue" | "wed" | undefined` | — | The day that starts the week. |
-| `focusedValue` | `DateValue | null | undefined` | — | Controls the currently focused date within the calendar. |
-| `id` | `string | undefined` | — | The element's unique identifier. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). |
-| `isDateUnavailable` | `((date: DateValue) => boolean) | undefined` | — | Callback that is called for each date of the calendar. If it returns true, then the date is unavailable. |
-| `isDisabled` | `boolean | undefined` | false | Whether the calendar is disabled. |
-| `isInvalid` | `boolean | undefined` | — | Whether the current selection is invalid according to application logic. |
-| `isReadOnly` | `boolean | undefined` | false | Whether the calendar value is immutable. |
-| `maxValue` | `DateValue | null | undefined` | — | The maximum allowed date that a user may select. |
-| `minValue` | `DateValue | null | undefined` | — | The minimum allowed date that a user may select. |
-| `onChange` | `((value: CalendarValueType<MappedDateValue<T>, M>) => void) | undefined` | — | Handler that is called when the value changes. |
-| `onFocusChange` | `((date: CalendarDate) => void) | undefined` | — | Handler that is called when the focused date changes. |
-| `pageBehavior` | `PageBehavior | undefined` | visible | Controls the behavior of paging. Pagination either works by advancing the visible page by visibleDuration (default) or one unit of visibleDuration. |
-| `selectionAlignment` | `"center" | "end" | "start" | undefined` | 'center' | Determines the alignment of the visible months on initial render based on the current selection or current date if there is no selection. |
-| `selectionMode` | `M | undefined` | 'single' | Whether single or multiple selection is enabled. |
-| `slot` | `string | null | undefined` | — | A slot name for the component. Slots allow the component to receive props from a parent component. An explicit `null` value indicates that the local props completely override all props received from a parent. |
-| `styles` | `StylesProp | undefined` | — | Spectrum-defined styles, returned by the `style()` macro. |
-| `UNSAFE_className` | `UnsafeClassName | undefined` | — | Sets the CSS [className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className) for the element. Only use as a **last resort**. Use the `style` macro via the `styles` prop instead. |
-| `UNSAFE_style` | `React.CSSProperties | undefined` | — | Sets inline [style](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) for the element. Only use as a **last resort**. Use the `style` macro via the `styles` prop instead. |
-| `value` | `CalendarValueType<null, M | T> | undefined` | — | The current value (controlled). |
-| `visibleMonths` | `number | undefined` | 1 | The number of months to display at once. |
+| Name                  | Type                                                         | Default    | Description                                                |
+| --------------------- | ------------------------------------------------------------ | ---------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- | ---------- | --- | ----------------------------- |
+| `aria-describedby`    | `string                                                      | undefined` | —                                                          | Identifies the element (or elements) that describes the object.                                                                                                                                                                                  |
+| `aria-details`        | `string                                                      | undefined` | —                                                          | Identifies the element (or elements) that provide a detailed, extended description for the object.                                                                                                                                               |
+| `aria-label`          | `string                                                      | undefined` | —                                                          | Defines a string value that labels the current element.                                                                                                                                                                                          |
+| `aria-labelledby`     | `string                                                      | undefined` | —                                                          | Identifies the element (or elements) that labels the current element.                                                                                                                                                                            |
+| `autoFocus`           | `boolean                                                     | undefined` | false                                                      | Whether to automatically focus the calendar when it mounts.                                                                                                                                                                                      |
+| `createCalendar`      | `((identifier: CalendarIdentifier) => Calendar)              | undefined` | —                                                          | A function to create a new [Calendar](https://react-spectrum.adobe.com/internationalized/date/Calendar.html) object for a given calendar identifier. If not provided, the `createCalendar` function from `@internationalized/date` will be used. |
+| `defaultFocusedValue` | `DateValue                                                   | null       | undefined`                                                 | —                                                                                                                                                                                                                                                | The date that is focused when the calendar first mounts (uncontrolled).                                                                                                                                          |
+| `defaultValue`        | `CalendarValueType<null, M                                   | T>         | undefined`                                                 | —                                                                                                                                                                                                                                                | The default value (uncontrolled).                                                                                                                                                                                |
+| `errorMessage`        | `React.ReactNode`                                            | —          | The error message to display when the calendar is invalid. |
+| `firstDayOfWeek`      | `"fri"                                                       | "mon"      | "sat"                                                      | "sun"                                                                                                                                                                                                                                            | "thu"                                                                                                                                                                                                            | "tue"                                                                                                                                     | "wed" | undefined` | —   | The day that starts the week. |
+| `focusedValue`        | `DateValue                                                   | null       | undefined`                                                 | —                                                                                                                                                                                                                                                | Controls the currently focused date within the calendar.                                                                                                                                                         |
+| `id`                  | `string                                                      | undefined` | —                                                          | The element's unique identifier. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).                                                                                                                              |
+| `isDateUnavailable`   | `((date: DateValue) => boolean)                              | undefined` | —                                                          | Callback that is called for each date of the calendar. If it returns true, then the date is unavailable.                                                                                                                                         |
+| `isDisabled`          | `boolean                                                     | undefined` | false                                                      | Whether the calendar is disabled.                                                                                                                                                                                                                |
+| `isInvalid`           | `boolean                                                     | undefined` | —                                                          | Whether the current selection is invalid according to application logic.                                                                                                                                                                         |
+| `isReadOnly`          | `boolean                                                     | undefined` | false                                                      | Whether the calendar value is immutable.                                                                                                                                                                                                         |
+| `maxValue`            | `DateValue                                                   | null       | undefined`                                                 | —                                                                                                                                                                                                                                                | The maximum allowed date that a user may select.                                                                                                                                                                 |
+| `minValue`            | `DateValue                                                   | null       | undefined`                                                 | —                                                                                                                                                                                                                                                | The minimum allowed date that a user may select.                                                                                                                                                                 |
+| `onChange`            | `((value: CalendarValueType<MappedDateValue<T>, M>) => void) | undefined` | —                                                          | Handler that is called when the value changes.                                                                                                                                                                                                   |
+| `onFocusChange`       | `((date: CalendarDate) => void)                              | undefined` | —                                                          | Handler that is called when the focused date changes.                                                                                                                                                                                            |
+| `pageBehavior`        | `PageBehavior                                                | undefined` | visible                                                    | Controls the behavior of paging. Pagination either works by advancing the visible page by visibleDuration (default) or one unit of visibleDuration.                                                                                              |
+| `selectionAlignment`  | `"center"                                                    | "end"      | "start"                                                    | undefined`                                                                                                                                                                                                                                       | 'center'                                                                                                                                                                                                         | Determines the alignment of the visible months on initial render based on the current selection or current date if there is no selection. |
+| `selectionMode`       | `M                                                           | undefined` | 'single'                                                   | Whether single or multiple selection is enabled.                                                                                                                                                                                                 |
+| `slot`                | `string                                                      | null       | undefined`                                                 | —                                                                                                                                                                                                                                                | A slot name for the component. Slots allow the component to receive props from a parent component. An explicit `null` value indicates that the local props completely override all props received from a parent. |
+| `styles`              | `StylesProp                                                  | undefined` | —                                                          | Spectrum-defined styles, returned by the `style()` macro.                                                                                                                                                                                        |
+| `UNSAFE_className`    | `UnsafeClassName                                             | undefined` | —                                                          | Sets the CSS [className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className) for the element. Only use as a **last resort**. Use the `style` macro via the `styles` prop instead.                                                |
+| `UNSAFE_style`        | `React.CSSProperties                                         | undefined` | —                                                          | Sets inline [style](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) for the element. Only use as a **last resort**. Use the `style` macro via the `styles` prop instead.                                                     |
+| `value`               | `CalendarValueType<null, M                                   | T>         | undefined`                                                 | —                                                                                                                                                                                                                                                | The current value (controlled).                                                                                                                                                                                  |
+| `visibleMonths`       | `number                                                      | undefined` | 1                                                          | The number of months to display at once.                                                                                                                                                                                                         |
 
 ### toCalendar
 
@@ -623,16 +602,16 @@ Converts a date from one calendar system to another.
 Represents an amount of time with both date and time components, for use when performing
 arithmetic.
 
-| Name | Type | Description |
-|------|------|-------------|
-| `days` | `number | undefined` | The number of days to add or subtract. |
-| `hours` | `number | undefined` | The number of hours to add or subtract. |
-| `milliseconds` | `number | undefined` | The number of milliseconds to add or subtract. |
-| `minutes` | `number | undefined` | The number of minutes to add or subtract. |
-| `months` | `number | undefined` | The number of months to add or subtract. |
-| `seconds` | `number | undefined` | The number of seconds to add or subtract. |
-| `weeks` | `number | undefined` | The number of weeks to add or subtract. |
-| `years` | `number | undefined` | The number of years to add or subtract. |
+| Name           | Type    | Description |
+| -------------- | ------- | ----------- | ---------------------------------------------- |
+| `days`         | `number | undefined`  | The number of days to add or subtract.         |
+| `hours`        | `number | undefined`  | The number of hours to add or subtract.        |
+| `milliseconds` | `number | undefined`  | The number of milliseconds to add or subtract. |
+| `minutes`      | `number | undefined`  | The number of minutes to add or subtract.      |
+| `months`       | `number | undefined`  | The number of months to add or subtract.       |
+| `seconds`      | `number | undefined`  | The number of seconds to add or subtract.      |
+| `weeks`        | `number | undefined`  | The number of weeks to add or subtract.        |
+| `years`        | `number | undefined`  | The number of years to add or subtract.        |
 
 ### parseDuration
 
@@ -649,13 +628,13 @@ Converts a value with date components such as a \`CalendarDateTime\` or \`ZonedD
 
 ### Properties
 
-| Name | Type | Description |
-|------|------|-------------|
-| `calendar` \* | `Calendar` | — |
-| `day` \* | `number` | — |
-| `era` \* | `string` | — |
-| `month` \* | `number` | — |
-| `year` \* | `number` | — |
+| Name          | Type       | Description |
+| ------------- | ---------- | ----------- |
+| `calendar` \* | `Calendar` | —           |
+| `day` \*      | `number`   | —           |
+| `era` \*      | `string`   | —           |
+| `month` \*    | `number`   | —           |
+| `year` \*     | `number`   | —           |
 
 ### Methods
 
@@ -676,12 +655,12 @@ time of the resulting value, otherwise it will default to midnight.
 
 ### Properties
 
-| Name | Type | Description |
-|------|------|-------------|
-| `hour` \* | `number` | — |
-| `millisecond` \* | `number` | — |
-| `minute` \* | `number` | — |
-| `second` \* | `number` | — |
+| Name             | Type     | Description |
+| ---------------- | -------- | ----------- |
+| `hour` \*        | `number` | —           |
+| `millisecond` \* | `number` | —           |
+| `minute` \*      | `number` | —           |
+| `second` \*      | `number` | —           |
 
 ### Methods
 

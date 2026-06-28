@@ -22,7 +22,7 @@ npm install @internationalized/date
 
 Dates and times are represented in many different ways by cultures around the world. This includes differences in calendar systems, time zones, daylight saving time rules, date and time formatting, weekday and weekend rules, and much more. When building applications that support users around the world, it is important to handle these aspects correctly for each locale. The `@internationalized/date` package provides a library of objects and functions to perform date and time related manipulation, queries, and conversions that work across locales and calendars.
 
-By default, JavaScript represents dates and times using the [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) object. However, `Date` has *many* problems, including a very difficult to use API, lack of all internationalization support, and more. The [Temporal](https://tc39.es/proposal-temporal/docs/index.html) proposal will eventually address this in the language, and `@internationalized/date` is heavily inspired by it. We hope to back the objects in this package with it once it is implemented in browsers.
+By default, JavaScript represents dates and times using the [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) object. However, `Date` has _many_ problems, including a very difficult to use API, lack of all internationalization support, and more. The [Temporal](https://tc39.es/proposal-temporal/docs/index.html) proposal will eventually address this in the language, and `@internationalized/date` is heavily inspired by it. We hope to back the objects in this package with it once it is implemented in browsers.
 
 ## Package structure
 
@@ -39,10 +39,10 @@ Each object includes methods to allow basic manipulation and conversion function
 This example constructs a `CalendarDate` object, manipulates it to get the start of the next week, and converts it to a string representation.
 
 ```tsx
-import {CalendarDate, startOfWeek} from '@internationalized/date';
+import { CalendarDate, startOfWeek } from '@internationalized/date';
 
 let date = new CalendarDate(2022, 2, 3);
-date = date.add({weeks: 1});
+date = date.add({ weeks: 1 });
 date = startOfWeek(date, 'en-US');
 date.toString(); // 2022-02-06
 ```

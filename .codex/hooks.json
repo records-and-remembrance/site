@@ -1,16 +1,16 @@
 {
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bun \"$(git rev-parse --show-toplevel)/.codex/hooks/git-diff-commit-recommendation.js\"",
-            "timeout": 10,
-            "statusMessage": "Git差分の行数を確認しています"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bun \"$(git rev-parse --show-toplevel)/.codex/hooks/git-diff-commit-recommendation.js\"",
+						"timeout": 10,
+						"statusMessage": "Git差分の行数を確認しています"
+					}
+				]
+			}
+		]
+	}
 }

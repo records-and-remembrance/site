@@ -9,7 +9,7 @@ While the Gregorian calendar is the most common, many other calendar systems are
 As described in the docs for [CalendarDate](CalendarDate.md#calendar-systems) and other date objects, you can pass a `Calendar` instance to a date to represent a date in that calendar. Date manipulation follows the rules defined by that calendar system. You can also convert between calendar systems using the `toCalendar` function.
 
 ```tsx
-import {HebrewCalendar, GregorianCalendar, toCalendar} from '@internationalized/date';
+import { HebrewCalendar, GregorianCalendar, toCalendar } from '@internationalized/date';
 
 let hebrewDate = new CalendarDate(new HebrewCalendar(), 5781, 1, 1);
 toCalendar(hebrewDate, new GregorianCalendar());
@@ -21,7 +21,7 @@ toCalendar(hebrewDate, new GregorianCalendar());
 While it is possible to construct `Calendar` objects manually, a common usecase is to get a calendar object for a certain locale. Each calendar has an associated string identifier that can be used to retrieve an instance of that calendar using the `createCalendar` function. A list of supported calendar identifiers is available [below](#implementations).
 
 ```tsx
-import {createCalendar} from '@internationalized/date';
+import { createCalendar } from '@internationalized/date';
 
 createCalendar('gregory');
 createCalendar('hebrew');
@@ -49,25 +49,26 @@ createCalendar(calendarIdentifier); // new IndianCalendar()
 **Note**: importing `createCalendar` into your project will result in all available calendars being included in your bundle. If you wish to limit the supported calendars to reduce bundle sizes, you can create your own implementation that only imports the desired classes. This way, your bundler can tree-shake the unused calendar implementations.
 
 ```tsx
-import {GregorianCalendar, JapaneseCalendar} from '@internationalized/date';
+import { GregorianCalendar, JapaneseCalendar } from '@internationalized/date';
 
 function createCalendar(identifier) {
-  switch (identifier) {
-    case 'gregory':
-      return new GregorianCalendar();
-    case 'japanese':
-      return new JapaneseCalendar();
-    default:
-      throw new Error(`Unsupported calendar ${identifier}`);
-  }
+	switch (identifier) {
+		case 'gregory':
+			return new GregorianCalendar();
+		case 'japanese':
+			return new JapaneseCalendar();
+		default:
+			throw new Error(`Unsupported calendar ${identifier}`);
+	}
 }
 ```
 
 ## Implementations
 
-| Class | Identifier | Description |
-| ------ | ------ | ------ |
-| GregorianCalendar | `'gregory'` | The Gregorian calendar is the most commonly used calendar system in the world. It supports two
+| Class             | Identifier  | Description                                                                                    |
+| ----------------- | ----------- | ---------------------------------------------------------------------------------------------- |
+| GregorianCalendar | `'gregory'` | The Gregorian calendar is the most commonly used calendar system in the world. It supports two |
+
 eras: BC, and AD. Years always contain 12 months, and 365 or 366 days depending on whether it is
 a leap year. |
 | BuddhistCalendar | `'buddhist'` | The Buddhist calendar is the same as the Gregorian calendar, but counts years
@@ -115,7 +116,7 @@ has either 29 or 30 days depending on whether it is a leap year. The Persian yea
 around the March equinox. |
 | TaiwanCalendar | `'roc'` | The Taiwanese calendar is the same as the Gregorian calendar, but years
 are numbered starting from 1912 (Gregorian). Two eras are supported:
-'before\_minguo' and 'minguo'. |
+'before_minguo' and 'minguo'. |
 
 ## Interface
 
@@ -128,84 +129,84 @@ To implement a calendar, either extend an existing implementation (e.g. `Gregori
 The following code is an example of how you might implement a custom 4-5-4 calendar (though implementing a true 4-5-4 calendar would be more nuanced than this).
 
 ```tsx
-import type {AnyCalendarDate, Calendar} from '@internationalized/date';
-import {CalendarDate, GregorianCalendar, startOfWeek} from '@internationalized/date';
+import type { AnyCalendarDate, Calendar } from '@internationalized/date';
+import { CalendarDate, GregorianCalendar, startOfWeek } from '@internationalized/date';
 
 // This calendar gives each month a 4-5-4 week pattern, with February as the first month of the year.
 // This means that in this calendar, 2024-01-01 translates to 2024-02-04 in the Gregorian calendar.
 // Months begin on day 1, and go through 7*weeksInMonth days, ending on either the 28th or 35th day of the month.
 class Custom454 extends GregorianCalendar {
-  // The anchor date, in Gregorian calendar.
-  // The anchor date is a date that occurs in the first week of the first month of every fiscal year.
-  anchorDate = new CalendarDate(2001, 2, 4);
+	// The anchor date, in Gregorian calendar.
+	// The anchor date is a date that occurs in the first week of the first month of every fiscal year.
+	anchorDate = new CalendarDate(2001, 2, 4);
 
-  private getYear(year: number): [CalendarDate, number[]] {
-    let anchor = this.anchorDate.set({year});
-    let startOfYear = startOfWeek(anchor, 'en', 'sun');
-    let isBigYear = !startOfYear.add({weeks: 53}).compare(anchor.add({years: 1}));
-    let weekPattern = [4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, isBigYear ? 5 : 4];
-    return [startOfYear, weekPattern];
-  }
+	private getYear(year: number): [CalendarDate, number[]] {
+		let anchor = this.anchorDate.set({ year });
+		let startOfYear = startOfWeek(anchor, 'en', 'sun');
+		let isBigYear = !startOfYear.add({ weeks: 53 }).compare(anchor.add({ years: 1 }));
+		let weekPattern = [4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, isBigYear ? 5 : 4];
+		return [startOfYear, weekPattern];
+	}
 
-  getDaysInMonth(date: AnyCalendarDate): number {
-    // Months always have either 4 or 5 full weeks.
-    let [, weekPattern] = this.getYear(date.year);
-    return weekPattern[date.month - 1] * 7;
-  }
+	getDaysInMonth(date: AnyCalendarDate): number {
+		// Months always have either 4 or 5 full weeks.
+		let [, weekPattern] = this.getYear(date.year);
+		return weekPattern[date.month - 1] * 7;
+	}
 
-  fromJulianDay(jd: number): CalendarDate {
-    let gregorian = super.fromJulianDay(jd);
-    let year = gregorian.year;
+	fromJulianDay(jd: number): CalendarDate {
+		let gregorian = super.fromJulianDay(jd);
+		let year = gregorian.year;
 
-    let [monthStart, weekPattern] = this.getYear(year);
-    if (gregorian.compare(monthStart) < 0) {
-      year--;
-      [monthStart, weekPattern] = this.getYear(year);
-    }
+		let [monthStart, weekPattern] = this.getYear(year);
+		if (gregorian.compare(monthStart) < 0) {
+			year--;
+			[monthStart, weekPattern] = this.getYear(year);
+		}
 
-    // Start from the beginning of the first week of the gregorian year
-    // and add weeks until we find the month.
-    for (let month = 1; month <= 12; month++) {
-      let weeks = weekPattern[month - 1];
-      let nextMonth = monthStart.add({weeks});
-      if (nextMonth.compare(gregorian) > 0) {
-        let days = gregorian.compare(monthStart);
-        return new CalendarDate(this, year, month, days + 1);
-      }
-      monthStart = nextMonth;
-    }
+		// Start from the beginning of the first week of the gregorian year
+		// and add weeks until we find the month.
+		for (let month = 1; month <= 12; month++) {
+			let weeks = weekPattern[month - 1];
+			let nextMonth = monthStart.add({ weeks });
+			if (nextMonth.compare(gregorian) > 0) {
+				let days = gregorian.compare(monthStart);
+				return new CalendarDate(this, year, month, days + 1);
+			}
+			monthStart = nextMonth;
+		}
 
-    throw new Error('date not found');
-  }
+		throw new Error('date not found');
+	}
 
-  toJulianDay(date: AnyCalendarDate): number {
-    let [monthStart, weekPattern] = this.getYear(date.year);
-    for (let month = 1; month < date.month; month++) {
-      monthStart = monthStart.add({weeks: weekPattern[month - 1]});
-    }
+	toJulianDay(date: AnyCalendarDate): number {
+		let [monthStart, weekPattern] = this.getYear(date.year);
+		for (let month = 1; month < date.month; month++) {
+			monthStart = monthStart.add({ weeks: weekPattern[month - 1] });
+		}
 
-    let gregorian = monthStart.add({days: date.day - 1});
-    return super.toJulianDay(gregorian);
-  }
+		let gregorian = monthStart.add({ days: date.day - 1 });
+		return super.toJulianDay(gregorian);
+	}
 
-  getFormattableMonth(date: AnyCalendarDate): CalendarDate {
-    let anchorMonth = this.anchorDate.month - 1;
-    let dateMonth = date.month - 1;
-    let month = ((anchorMonth + dateMonth) % 12) + 1;
-    let year = anchorMonth + dateMonth >= 12 ? date.year + 1 : date.year;
-    return new CalendarDate(year, month, 1);
-  }
+	getFormattableMonth(date: AnyCalendarDate): CalendarDate {
+		let anchorMonth = this.anchorDate.month - 1;
+		let dateMonth = date.month - 1;
+		let month = ((anchorMonth + dateMonth) % 12) + 1;
+		let year = anchorMonth + dateMonth >= 12 ? date.year + 1 : date.year;
+		return new CalendarDate(year, month, 1);
+	}
 
-  isEqual(other: Calendar): boolean {
-    return other instanceof Custom454 && other.anchorDate.compare(this.anchorDate) === 0;
-  }
+	isEqual(other: Calendar): boolean {
+		return other instanceof Custom454 && other.anchorDate.compare(this.anchorDate) === 0;
+	}
 }
 ```
 
 This enables dates to be converted between calendar systems.
 
 ```tsx
-import {GregorianCalendar, toCalendar} from '@internationalized/date';
+import { GregorianCalendar, toCalendar } from '@internationalized/date';
 
 let date = new CalendarDate(new Custom454(), 2024, 2, 1);
 let gregorianDate = toCalendar(date, new GregorianCalendar());

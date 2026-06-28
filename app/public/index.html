@@ -1,304 +1,333 @@
 <!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Composition Draft Review</title>
-  <style>
-    :root {
-      --ink: #201a16;
-      --muted: #75695f;
-      --line: #d8cabd;
-      --paper: #fff9ef;
-      --accent: #b7410e;
-      --accent-dark: #7d2e0e;
-      --green: #326b46;
-      --shadow: 0 20px 70px rgba(76, 45, 22, .18);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(183, 65, 14, .20), transparent 34rem),
-        linear-gradient(135deg, #fffdf8 0%, #f1dfc8 100%);
-      font-family: ui-serif, "Hiragino Mincho ProN", "Yu Mincho", serif;
-    }
-    .app {
-      display: grid;
-      grid-template-columns: minmax(280px, 420px) 1fr;
-      min-height: 100vh;
-    }
-    aside {
-      border-right: 1px solid var(--line);
-      background: rgba(255, 249, 239, .82);
-      backdrop-filter: blur(10px);
-      padding: 22px;
-      overflow: auto;
-      max-height: 100vh;
-    }
-    main {
-      padding: 30px;
-      overflow: auto;
-      max-height: 100vh;
-    }
-    h1 {
-      margin: 0 0 14px;
-      font-size: 28px;
-      letter-spacing: -.03em;
-    }
-    .toolbar {
-      display: grid;
-      gap: 10px;
-      margin: 18px 0;
-    }
-    input, select, textarea, button {
-      font: inherit;
-    }
-    input, select, textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,.72);
-      color: var(--ink);
-      padding: 10px 12px;
-    }
-    textarea {
-      min-height: 96px;
-      resize: vertical;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-    button {
-      border: 0;
-      border-radius: 999px;
-      background: var(--accent);
-      color: #fff8ed;
-      padding: 10px 16px;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(183, 65, 14, .22);
-    }
-    button.secondary {
-      background: #ead9c5;
-      color: var(--ink);
-      box-shadow: none;
-    }
-    button:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-    }
-    .stats {
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .list {
-      display: grid;
-      gap: 8px;
-    }
-    .item {
-      width: 100%;
-      border: 1px solid transparent;
-      border-radius: 16px;
-      background: rgba(255,255,255,.56);
-      color: var(--ink);
-      padding: 11px 12px;
-      text-align: left;
-      box-shadow: none;
-    }
-    .item.active {
-      border-color: var(--accent);
-      background: #fff7e9;
-    }
-    .item-title {
-      font-weight: 700;
-      line-height: 1.35;
-    }
-    .item-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .badge {
-      border-radius: 999px;
-      background: #eee1d0;
-      padding: 2px 8px;
-    }
-    .badge.reviewed { background: #d9ebde; color: var(--green); }
-    .badge.draft { background: #f3dfc7; color: var(--accent-dark); }
-    .badge.merged, .badge.split, .badge.ignore { background: #e8e5df; color: #665f57; }
-    .card {
-      max-width: 1080px;
-      margin: 0 auto;
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      background: rgba(255, 249, 239, .86);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .card-head {
-      padding: 24px 28px;
-      border-bottom: 1px solid var(--line);
-      background:
-        linear-gradient(90deg, rgba(183,65,14,.13), transparent),
-        rgba(255,255,255,.25);
-    }
-    .card-body {
-      padding: 26px 28px;
-      display: grid;
-      gap: 18px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 220px 260px;
-      gap: 12px;
-      align-items: end;
-    }
-    label {
-      display: grid;
-      gap: 6px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    label span {
-      font-weight: 700;
-      color: var(--ink);
-      font-size: 14px;
-    }
-    .sources {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255,255,255,.55);
-      padding: 14px;
-      max-height: 420px;
-      overflow: auto;
-      white-space: pre-wrap;
-      font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-    .actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: flex-end;
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-    }
-    .merge-box {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255,255,255,.42);
-      padding: 14px;
-      display: grid;
-      gap: 10px;
-    }
-    .merge-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: end;
-    }
-    .message {
-      margin-right: auto;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .empty {
-      max-width: 720px;
-      margin: 20vh auto;
-      color: var(--muted);
-      text-align: center;
-      font-size: 18px;
-    }
-    @media (max-width: 900px) {
-      .app { grid-template-columns: 1fr; }
-      aside, main { max-height: none; }
-      aside { border-right: 0; border-bottom: 1px solid var(--line); }
-      .grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-  <div class="app">
-    <aside>
-      <h1>Composition Review</h1>
-      <div class="stats" id="stats">Loading...</div>
-      <div class="toolbar">
-        <input id="search" placeholder="Search title or file">
-        <select id="statusFilter">
-          <option value="">all statuses</option>
-          <option value="draft">draft</option>
-          <option value="reviewed">reviewed</option>
-          <option value="merged">merged</option>
-          <option value="split">split</option>
-          <option value="ignore">ignore</option>
-        </select>
-      </div>
-      <div class="list" id="list"></div>
-    </aside>
-    <main>
-      <div class="empty" id="empty">Select a draft to review.</div>
-      <section class="card" id="editor" hidden>
-        <div class="card-head">
-          <div class="stats" id="fileName"></div>
-          <h1 id="editorTitle"></h1>
-        </div>
-        <div class="card-body">
-          <div class="grid">
-            <label>
-              <span>canonical_title</span>
-              <input id="canonicalTitle">
-            </label>
-            <label>
-              <span>status</span>
-              <select id="status">
-                <option value="draft">draft</option>
-                <option value="reviewed">reviewed</option>
-                <option value="merged">merged</option>
-                <option value="split">split</option>
-                <option value="ignore">ignore</option>
-              </select>
-            </label>
-            <label>
-              <span>composition_id</span>
-              <input id="compositionId" placeholder="null">
-            </label>
-          </div>
-          <label>
-            <span>aliases - one per line</span>
-            <textarea id="aliases"></textarea>
-          </label>
-          <label>
-            <span>body / review notes</span>
-            <textarea id="body"></textarea>
-          </label>
-          <label>
-            <span>sources - readonly</span>
-            <div class="sources" id="sources"></div>
-          </label>
-          <div class="merge-box">
-            <label>
-              <span>merge into target draft</span>
-              <div class="merge-row">
-                <input id="mergeTarget" list="mergeTargets" placeholder="Select target file or canonical title">
-                <button class="secondary" id="merge" type="button">Merge</button>
-              </div>
-            </label>
-            <datalist id="mergeTargets"></datalist>
-            <div class="stats">Current draft sources are appended to the target. Current status becomes merged.</div>
-          </div>
-          <div class="actions">
-            <span class="message" id="message"></span>
-            <button class="secondary" id="markIgnore" type="button">Mark ignore</button>
-            <button class="secondary" id="markReviewed" type="button">Mark reviewed</button>
-            <button id="save" type="button">Save</button>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-  <script src="/app.js"></script>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Composition Draft Review</title>
+		<style>
+			:root {
+				--ink: #201a16;
+				--muted: #75695f;
+				--line: #d8cabd;
+				--paper: #fff9ef;
+				--accent: #b7410e;
+				--accent-dark: #7d2e0e;
+				--green: #326b46;
+				--shadow: 0 20px 70px rgba(76, 45, 22, 0.18);
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				color: var(--ink);
+				background: radial-gradient(circle at top left, rgba(183, 65, 14, 0.2), transparent 34rem), linear-gradient(135deg, #fffdf8 0%, #f1dfc8 100%);
+				font-family: ui-serif, 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+			}
+			.app {
+				display: grid;
+				grid-template-columns: minmax(280px, 420px) 1fr;
+				min-height: 100vh;
+			}
+			aside {
+				border-right: 1px solid var(--line);
+				background: rgba(255, 249, 239, 0.82);
+				backdrop-filter: blur(10px);
+				padding: 22px;
+				overflow: auto;
+				max-height: 100vh;
+			}
+			main {
+				padding: 30px;
+				overflow: auto;
+				max-height: 100vh;
+			}
+			h1 {
+				margin: 0 0 14px;
+				font-size: 28px;
+				letter-spacing: -0.03em;
+			}
+			.toolbar {
+				display: grid;
+				gap: 10px;
+				margin: 18px 0;
+			}
+			input,
+			select,
+			textarea,
+			button {
+				font: inherit;
+			}
+			input,
+			select,
+			textarea {
+				width: 100%;
+				border: 1px solid var(--line);
+				border-radius: 12px;
+				background: rgba(255, 255, 255, 0.72);
+				color: var(--ink);
+				padding: 10px 12px;
+			}
+			textarea {
+				min-height: 96px;
+				resize: vertical;
+				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+				font-size: 13px;
+				line-height: 1.55;
+			}
+			button {
+				border: 0;
+				border-radius: 999px;
+				background: var(--accent);
+				color: #fff8ed;
+				padding: 10px 16px;
+				cursor: pointer;
+				box-shadow: 0 8px 20px rgba(183, 65, 14, 0.22);
+			}
+			button.secondary {
+				background: #ead9c5;
+				color: var(--ink);
+				box-shadow: none;
+			}
+			button:disabled {
+				opacity: 0.45;
+				cursor: not-allowed;
+			}
+			.stats {
+				color: var(--muted);
+				font-size: 13px;
+			}
+			.list {
+				display: grid;
+				gap: 8px;
+			}
+			.item {
+				width: 100%;
+				border: 1px solid transparent;
+				border-radius: 16px;
+				background: rgba(255, 255, 255, 0.56);
+				color: var(--ink);
+				padding: 11px 12px;
+				text-align: left;
+				box-shadow: none;
+			}
+			.item.active {
+				border-color: var(--accent);
+				background: #fff7e9;
+			}
+			.item-title {
+				font-weight: 700;
+				line-height: 1.35;
+			}
+			.item-meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 6px;
+				margin-top: 8px;
+				color: var(--muted);
+				font-size: 12px;
+			}
+			.badge {
+				border-radius: 999px;
+				background: #eee1d0;
+				padding: 2px 8px;
+			}
+			.badge.reviewed {
+				background: #d9ebde;
+				color: var(--green);
+			}
+			.badge.draft {
+				background: #f3dfc7;
+				color: var(--accent-dark);
+			}
+			.badge.merged,
+			.badge.split,
+			.badge.ignore {
+				background: #e8e5df;
+				color: #665f57;
+			}
+			.card {
+				max-width: 1080px;
+				margin: 0 auto;
+				border: 1px solid var(--line);
+				border-radius: 26px;
+				background: rgba(255, 249, 239, 0.86);
+				box-shadow: var(--shadow);
+				overflow: hidden;
+			}
+			.card-head {
+				padding: 24px 28px;
+				border-bottom: 1px solid var(--line);
+				background: linear-gradient(90deg, rgba(183, 65, 14, 0.13), transparent), rgba(255, 255, 255, 0.25);
+			}
+			.card-body {
+				padding: 26px 28px;
+				display: grid;
+				gap: 18px;
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: 1fr 220px 260px;
+				gap: 12px;
+				align-items: end;
+			}
+			label {
+				display: grid;
+				gap: 6px;
+				color: var(--muted);
+				font-size: 13px;
+			}
+			label span {
+				font-weight: 700;
+				color: var(--ink);
+				font-size: 14px;
+			}
+			.sources {
+				border: 1px solid var(--line);
+				border-radius: 18px;
+				background: rgba(255, 255, 255, 0.55);
+				padding: 14px;
+				max-height: 420px;
+				overflow: auto;
+				white-space: pre-wrap;
+				font:
+					12px/1.5 ui-monospace,
+					SFMono-Regular,
+					Menlo,
+					Consolas,
+					monospace;
+			}
+			.actions {
+				display: flex;
+				gap: 10px;
+				align-items: center;
+				justify-content: flex-end;
+				border-top: 1px solid var(--line);
+				padding-top: 18px;
+			}
+			.merge-box {
+				border: 1px solid var(--line);
+				border-radius: 18px;
+				background: rgba(255, 255, 255, 0.42);
+				padding: 14px;
+				display: grid;
+				gap: 10px;
+			}
+			.merge-row {
+				display: grid;
+				grid-template-columns: 1fr auto;
+				gap: 10px;
+				align-items: end;
+			}
+			.message {
+				margin-right: auto;
+				color: var(--muted);
+				font-size: 13px;
+			}
+			.empty {
+				max-width: 720px;
+				margin: 20vh auto;
+				color: var(--muted);
+				text-align: center;
+				font-size: 18px;
+			}
+			@media (max-width: 900px) {
+				.app {
+					grid-template-columns: 1fr;
+				}
+				aside,
+				main {
+					max-height: none;
+				}
+				aside {
+					border-right: 0;
+					border-bottom: 1px solid var(--line);
+				}
+				.grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<aside>
+				<h1>Composition Review</h1>
+				<div class="stats" id="stats">Loading...</div>
+				<div class="toolbar">
+					<input id="search" placeholder="Search title or file" />
+					<select id="statusFilter">
+						<option value="">all statuses</option>
+						<option value="draft">draft</option>
+						<option value="reviewed">reviewed</option>
+						<option value="merged">merged</option>
+						<option value="split">split</option>
+						<option value="ignore">ignore</option>
+					</select>
+				</div>
+				<div class="list" id="list"></div>
+			</aside>
+			<main>
+				<div class="empty" id="empty">Select a draft to review.</div>
+				<section class="card" id="editor" hidden>
+					<div class="card-head">
+						<div class="stats" id="fileName"></div>
+						<h1 id="editorTitle"></h1>
+					</div>
+					<div class="card-body">
+						<div class="grid">
+							<label>
+								<span>canonical_title</span>
+								<input id="canonicalTitle" />
+							</label>
+							<label>
+								<span>status</span>
+								<select id="status">
+									<option value="draft">draft</option>
+									<option value="reviewed">reviewed</option>
+									<option value="merged">merged</option>
+									<option value="split">split</option>
+									<option value="ignore">ignore</option>
+								</select>
+							</label>
+							<label>
+								<span>composition_id</span>
+								<input id="compositionId" placeholder="null" />
+							</label>
+						</div>
+						<label>
+							<span>aliases - one per line</span>
+							<textarea id="aliases"></textarea>
+						</label>
+						<label>
+							<span>body / review notes</span>
+							<textarea id="body"></textarea>
+						</label>
+						<label>
+							<span>sources - readonly</span>
+							<div class="sources" id="sources"></div>
+						</label>
+						<div class="merge-box">
+							<label>
+								<span>merge into target draft</span>
+								<div class="merge-row">
+									<input id="mergeTarget" list="mergeTargets" placeholder="Select target file or canonical title" />
+									<button class="secondary" id="merge" type="button">Merge</button>
+								</div>
+							</label>
+							<datalist id="mergeTargets"></datalist>
+							<div class="stats">Current draft sources are appended to the target. Current status becomes merged.</div>
+						</div>
+						<div class="actions">
+							<span class="message" id="message"></span>
+							<button class="secondary" id="markIgnore" type="button">Mark ignore</button>
+							<button class="secondary" id="markReviewed" type="button">Mark reviewed</button>
+							<button id="save" type="button">Save</button>
+						</div>
+					</div>
+				</section>
+			</main>
+		</div>
+		<script src="/app.js"></script>
+	</body>
 </html>

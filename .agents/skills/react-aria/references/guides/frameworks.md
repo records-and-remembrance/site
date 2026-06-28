@@ -3,10 +3,10 @@
 Learn how to integrate React Aria with your framework.
 
 <Tabs
-  aria-label="Frameworks"
-  density="compact"
->
-  <TabList><Tab id="next"><Nextjs/><Text>Next.js</Text></Tab><Tab id="react-router"><ReactRouter/><Text>React Router</Text></Tab><Tab id="parcel"><Parcel/><Text>Parcel</Text></Tab><Tab id="vite"><Vite/><Text>Vite</Text></Tab><Tab id="webpack"><Webpack/><Text>webpack</Text></Tab><Tab id="rollup"><Rollup/><Text>Rollup</Text></Tab><Tab id="esbuild"><ESBuild/><Text>ESBuild</Text></Tab></TabList>
+aria-label="Frameworks"
+density="compact"
+
+> <TabList><Tab id="next"><Nextjs/><Text>Next.js</Text></Tab><Tab id="react-router"><ReactRouter/><Text>React Router</Text></Tab><Tab id="parcel"><Parcel/><Text>Parcel</Text></Tab><Tab id="vite"><Vite/><Text>Vite</Text></Tab><Tab id="webpack"><Webpack/><Text>webpack</Text></Tab><Tab id="rollup"><Rollup/><Text>Rollup</Text></Tab><Tab id="esbuild"><ESBuild/><Text>ESBuild</Text></Tab></TabList>
 
   <TabPanel id="next">
     To integrate with Next.js (app router), ensure the locale on the server matches the client.
@@ -63,6 +63,7 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, add a `<meta property="csp-nonce">` tag to your document head, setting the `content` attribute to the generated nonce value. React Aria automatically reads the nonce from this tag.
       </Step>
     </StepList>
+
   </TabPanel>
 
   <TabPanel id="react-router">
@@ -189,6 +190,7 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, add a `<meta property="csp-nonce">` tag to your document head, setting the `content` attribute to the generated nonce value. React Aria automatically reads the nonce from this tag.
       </Step>
     </StepList>
+
   </TabPanel>
 
   <TabPanel id="parcel">
@@ -228,6 +230,7 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, add a `<meta property="csp-nonce">` tag to your document head, setting the `content` attribute to the generated nonce value. React Aria automatically reads the nonce from this tag.
       </Step>
     </StepList>
+
   </TabPanel>
 
   <TabPanel id="vite">
@@ -267,6 +270,7 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, configure [`html.cspNonce`](https://vite.dev/config/shared-options.html#html-cspnonce) in `vite.config.ts`. React Aria automatically reads the nonce that Vite injects.
       </Step>
     </StepList>
+
   </TabPanel>
 
   <TabPanel id="webpack">
@@ -303,6 +307,7 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, configure [`__webpack_nonce__`](https://webpack.js.org/guides/csp/) in your entry script. React Aria automatically reads the nonce from the webpack global.
       </Step>
     </StepList>
+
   </TabPanel>
 
   <TabPanel id="rollup">
@@ -339,6 +344,7 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, add a `<meta property="csp-nonce">` tag to your document head, setting the `content` attribute to the generated nonce value. React Aria automatically reads the nonce from this tag.
       </Step>
     </StepList>
+
   </TabPanel>
 
   <TabPanel id="esbuild">
@@ -375,5 +381,6 @@ Learn how to integrate React Aria with your framework.
         <Counter/>If you are using a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) (CSP) with a nonce, add a `<meta property="csp-nonce">` tag to your document head, setting the `content` attribute to the generated nonce value. React Aria automatically reads the nonce from this tag.
       </Step>
     </StepList>
+
   </TabPanel>
 </Tabs>

@@ -4,48 +4,48 @@ Handles focus events for the target and its descendants.
 
 ```tsx
 import React from 'react';
-import {useFocusWithin} from 'react-aria/useFocusWithin';
+import { useFocusWithin } from 'react-aria/useFocusWithin';
 
 function Example() {
-  let [events, setEvents] = React.useState<string[]>([]);
-  let [isFocusWithin, setFocusWithin] = React.useState(false);
-  let {focusWithinProps} = useFocusWithin({
-    onFocusWithin: e => setEvents(
-      events => [...events, 'focus within']
-    ),
-    onBlurWithin: e => setEvents(
-      events => [...events, 'blur within']
-    ),
-    onFocusWithinChange: isFocusWithin => setFocusWithin(isFocusWithin)
-  });
+	let [events, setEvents] = React.useState<string[]>([]);
+	let [isFocusWithin, setFocusWithin] = React.useState(false);
+	let { focusWithinProps } = useFocusWithin({
+		onFocusWithin: (e) => setEvents((events) => [...events, 'focus within']),
+		onBlurWithin: (e) => setEvents((events) => [...events, 'blur within']),
+		onFocusWithinChange: (isFocusWithin) => setFocusWithin(isFocusWithin),
+	});
 
-  return (
-    <>
-      <div
-        {...focusWithinProps}
-        style={{
-          display: 'inline-block',
-          border: '1px solid gray',
-          padding: 10,
-          background: isFocusWithin ? 'goldenrod' : '',
-          color: isFocusWithin ? 'black' : ''
-        }}>
-        <label style={{display: 'block'}}>
-          First Name: <input />
-        </label>
-        <label style={{display: 'block'}}>
-          Last Name: <input />
-        </label>
-      </div>
-      <ul
-        style={{
-          maxHeight: '200px',
-          overflow: 'auto'
-        }}>
-        {events.map((e, i) => <li key={i}>{e}</li>)}
-      </ul>
-    </>
-  );
+	return (
+		<>
+			<div
+				{...focusWithinProps}
+				style={{
+					display: 'inline-block',
+					border: '1px solid gray',
+					padding: 10,
+					background: isFocusWithin ? 'goldenrod' : '',
+					color: isFocusWithin ? 'black' : '',
+				}}
+			>
+				<label style={{ display: 'block' }}>
+					First Name: <input />
+				</label>
+				<label style={{ display: 'block' }}>
+					Last Name: <input />
+				</label>
+			</div>
+			<ul
+				style={{
+					maxHeight: '200px',
+					overflow: 'auto',
+				}}
+			>
+				{events.map((e, i) => (
+					<li key={i}>{e}</li>
+				))}
+			</ul>
+		</>
+	);
 }
 ```
 
@@ -67,15 +67,15 @@ To handle focus events on only the target element, and not descendants, see [use
 
 ### FocusWithinProps
 
-| Name | Type | Description |
-|------|------|-------------|
-| `isDisabled` | `boolean | undefined` | Whether the focus within events should be disabled. |
-| `onBlurWithin` | `((e: FocusEvent) => void) | undefined` | Handler that is called when the target element and all descendants lose focus. |
-| `onFocusWithin` | `((e: FocusEvent) => void) | undefined` | Handler that is called when the target element or a descendant receives focus. |
-| `onFocusWithinChange` | `((isFocusWithin: boolean) => void) | undefined` | Handler that is called when the the focus within state changes. |
+| Name                  | Type                                | Description |
+| --------------------- | ----------------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| `isDisabled`          | `boolean                            | undefined`  | Whether the focus within events should be disabled.                            |
+| `onBlurWithin`        | `((e: FocusEvent) => void)          | undefined`  | Handler that is called when the target element and all descendants lose focus. |
+| `onFocusWithin`       | `((e: FocusEvent) => void)          | undefined`  | Handler that is called when the target element or a descendant receives focus. |
+| `onFocusWithinChange` | `((isFocusWithin: boolean) => void) | undefined`  | Handler that is called when the the focus within state changes.                |
 
 ### FocusWithinResult
 
-| Name | Type | Description |
-|------|------|-------------|
+| Name                  | Type                              | Description                              |
+| --------------------- | --------------------------------- | ---------------------------------------- |
 | `focusWithinProps` \* | `DOMAttributes<FocusableElement>` | Props to spread onto the target element. |

@@ -1,11 +1,11 @@
 ---
-name: "react-aria"
-description: "Build accessible UI components with React Aria Components. Use when developers mention React Aria, react-aria-components, accessible components, or need unstyled accessible primitives. Provides documentation for building custom accessible UI with hooks and components."
-license: "Apache-2.0"
-compatibility: "Requires React project with react-aria-components installed."
+name: 'react-aria'
+description: 'Build accessible UI components with React Aria Components. Use when developers mention React Aria, react-aria-components, accessible components, or need unstyled accessible primitives. Provides documentation for building custom accessible UI with hooks and components.'
+license: 'Apache-2.0'
+compatibility: 'Requires React project with react-aria-components installed.'
 metadata:
-  author: "Adobe"
-  website: "https://react-aria.adobe.com/"
+  author: 'Adobe'
+  website: 'https://react-aria.adobe.com/'
 ---
 
 # React Aria Components
@@ -53,14 +53,15 @@ When using fake timers, pass `advanceTimer: jest.advanceTimersByTime` and flush 
 
 ```ts
 afterEach(() => {
-  act(() => jest.runAllTimers());
+	act(() => jest.runAllTimers());
 });
 ```
 
 ### Tips and Tricks
+
 - The testers typically offers these things: a way to simulate common user interactions for the given component via a specified user modality (e.g. using mouse vs keyboard to toggle a menu), a way to get the various common elements that make up the component (e.g. the rows in a table), and a way to query the state of the component (e.g. get the selected rows in a table). Prefer using the testers for these use cases so that the user doesn't need to know what specific roles/elements/etc to target in their tests.
 - You can still simulate interactions manually in your test alongside the utilities provided by the tester. This can come in handy if you find that the tester doesn't cover a specific user flow or if one of its utilities isn't quite working as expected. After simulating your interaction, you can still
-use the tester to query for the component's state or trigger a different interaction utility.
+  use the tester to query for the component's state or trigger a different interaction utility.
 - Mouse drag interactions, simulated scrolling, and other mock reliant interactions are not available in these test utils since they depend heavily on how the user mocks things like clientHeight/Width/etc in their tests. These interactions need to be simulated manually by the user.
 - Some testers may support the notion of "long press" for certain interactions (e.g. long pressing a button to trigger its menu). To simulate this, you will need mock PointerEvent globally (see the installPointerEvent util) and provide a way to advance timers to the User via `advanceTimer`.
 - These test utils are compatible with not only JSDOM unit tests but browser tests as well (e.g. vitest-browser-react).
@@ -82,31 +83,36 @@ Skip the testers and write manual interactions for the following cases:
 Components with draggable handles (Slider, ColorArea, ColorSlider, ColorWheel) need `getBoundingClientRect` mocked so move calculations work:
 
 ```ts
-import {installMouseEvent} from '@react-aria/test-utils';
+import { installMouseEvent } from '@react-aria/test-utils';
 installMouseEvent();
 
 beforeAll(() => {
-  jest.spyOn(window.HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
-    () => ({top: 0, left: 0, width: 100, height: 10, bottom: 10, right: 100})
-  );
+	jest.spyOn(window.HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({
+		top: 0,
+		left: 0,
+		width: 100,
+		height: 10,
+		bottom: 10,
+		right: 100,
+	}));
 });
 ```
 
 ### Available testers
 
-| Pattern name | Component | Key methods |
-|---|---|---|
-| `'CheckboxGroup'` | CheckboxGroup | `getCheckboxGroup()`, `getCheckboxes()`, `getSelectedCheckboxes()`, `toggleCheckbox({checkbox})` |
-| `'ComboBox'` | ComboBox | `getCombobox()`, `getListbox()`, `getOptions()`, `open()`, `toggleOptionSelection({option})` |
-| `'Dialog'` | Modal, Popover | `getTrigger()`, `getDialog()`, `open()`, `close()` — pass `overlayType: 'modal'` or `'popover'` to `createTester` |
-| `'GridList'` | GridList | `getGridlist()`, `getRows()`, `getSelectedRows()`, `toggleRowSelection({row})`, `triggerRowAction({row})` |
-| `'ListBox'` | ListBox | `getListbox()`, `getOptions()`, `getSelectedOptions()`, `toggleOptionSelection({option})`, `triggerOptionAction({option})` |
-| `'Menu'` | Menu | `getTrigger()`, `getMenu()`, `getOptions()`, `open()`, `toggleOptionSelection({option})`, `openSubmenu({submenuTrigger})`, `close()` |
-| `'RadioGroup'` | RadioGroup | `getRadioGroup()`, `getRadios()`, `getSelectedRadio()`, `triggerRadio({radio})` |
-| `'Select'` | Select | `getTrigger()`, `getListbox()`, `getOptions()`, `toggleOptionSelection({option})` |
-| `'Table'` | Table | `getTable()`, `getRows()`, `getFooterRows()`, `getColumns()`, `getSelectedRows()`, `toggleRowSelection({row})`, `toggleSort({column})`, `triggerRowAction({row})` |
-| `'Tabs'` | Tabs | `getTablist()`, `getTabs()`, `getTabpanels()`, `getSelectedTab()`, `triggerTab({tab})` |
-| `'Tree'` | Tree | `getTree()`, `getRows()`, `getSelectedRows()`, `toggleRowSelection({row})`, `toggleRowExpansion({row})`, `triggerRowAction({row})` |
+| Pattern name      | Component      | Key methods                                                                                                                                                       |
+| ----------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `'CheckboxGroup'` | CheckboxGroup  | `getCheckboxGroup()`, `getCheckboxes()`, `getSelectedCheckboxes()`, `toggleCheckbox({checkbox})`                                                                  |
+| `'ComboBox'`      | ComboBox       | `getCombobox()`, `getListbox()`, `getOptions()`, `open()`, `toggleOptionSelection({option})`                                                                      |
+| `'Dialog'`        | Modal, Popover | `getTrigger()`, `getDialog()`, `open()`, `close()` — pass `overlayType: 'modal'` or `'popover'` to `createTester`                                                 |
+| `'GridList'`      | GridList       | `getGridlist()`, `getRows()`, `getSelectedRows()`, `toggleRowSelection({row})`, `triggerRowAction({row})`                                                         |
+| `'ListBox'`       | ListBox        | `getListbox()`, `getOptions()`, `getSelectedOptions()`, `toggleOptionSelection({option})`, `triggerOptionAction({option})`                                        |
+| `'Menu'`          | Menu           | `getTrigger()`, `getMenu()`, `getOptions()`, `open()`, `toggleOptionSelection({option})`, `openSubmenu({submenuTrigger})`, `close()`                              |
+| `'RadioGroup'`    | RadioGroup     | `getRadioGroup()`, `getRadios()`, `getSelectedRadio()`, `triggerRadio({radio})`                                                                                   |
+| `'Select'`        | Select         | `getTrigger()`, `getListbox()`, `getOptions()`, `toggleOptionSelection({option})`                                                                                 |
+| `'Table'`         | Table          | `getTable()`, `getRows()`, `getFooterRows()`, `getColumns()`, `getSelectedRows()`, `toggleRowSelection({row})`, `toggleSort({column})`, `triggerRowAction({row})` |
+| `'Tabs'`          | Tabs           | `getTablist()`, `getTabs()`, `getTabpanels()`, `getSelectedTab()`, `triggerTab({tab})`                                                                            |
+| `'Tree'`          | Tree           | `getTree()`, `getRows()`, `getSelectedRows()`, `toggleRowSelection({row})`, `toggleRowExpansion({row})`, `triggerRowAction({row})`                                |
 
 ### Per-component reference
 
@@ -128,6 +134,7 @@ beforeAll(() => {
 The `references/` directory contains detailed documentation organized as follows:
 
 ### Guides
+
 - [Collections](references/guides/collections.md)
 - [Customization](references/guides/customization.md)
 - [Drag and Drop](references/guides/dnd.md)
@@ -147,6 +154,7 @@ Component documentation is in `references/components/` — one Markdown file per
 Available components: Autocomplete, Breadcrumbs, Button, Calendar, Checkbox, CheckboxGroup, ColorArea, ColorField, ColorPicker, ColorSlider, ColorSwatch, ColorSwatchPicker, ColorWheel, ComboBox, DateField, DatePicker, DateRangePicker, Disclosure, DisclosureGroup, DropZone, FileTrigger, Form, GridList, Group, Link, ListBox, Menu, Meter, Modal, NumberField, Popover, ProgressBar, RadioGroup, RangeCalendar, SearchField, Select, Separator, Slider, Switch, Table, Tabs, TagGroup, TextField, TimeField, Toast, ToggleButton, ToggleButtonGroup, Toolbar, Tooltip, Tree, Virtualizer.
 
 ### Interactions
+
 - [FocusRing](references/interactions/FocusRing.md): A utility component that applies a CSS class when an element has keyboard focus.
 - [FocusScope](references/interactions/FocusScope.md): A FocusScope manages focus for its descendants. It supports containing focus inside
 - [useClipboard](references/interactions/useClipboard.md): Handles clipboard interactions for a focusable element. Supports items of multiple
@@ -164,6 +172,7 @@ Available components: Autocomplete, Breadcrumbs, Button, Calendar, Checkbox, Che
 - [usePress](references/interactions/usePress.md): Handles press interactions across mouse, touch, keyboard, and screen readers.
 
 ### Utilities
+
 - [I18nProvider](references/utilities/I18nProvider.md): Provides the locale for the application to all child components.
 - [mergeProps](references/utilities/mergeProps.md): Merges multiple props objects together. Event handlers are chained,
 - [PortalProvider](references/utilities/PortalProvider.md): Sets the portal container for all overlay elements rendered by its children.
@@ -181,6 +190,7 @@ Available components: Autocomplete, Breadcrumbs, Button, Calendar, Checkbox, Che
 - [VisuallyHidden](references/utilities/VisuallyHidden.md): VisuallyHidden hides its children visually, while keeping content visible
 
 ### Internationalization
+
 - [Calendar](references/internationalized/date/Calendar.md)
 - [CalendarDate](references/internationalized/date/CalendarDate.md)
 - [CalendarDateTime](references/internationalized/date/CalendarDateTime.md)

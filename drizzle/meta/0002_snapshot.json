@@ -1,1818 +1,1635 @@
 {
-  "id": "661dd818-f742-4891-b009-38bc5485259c",
-  "prevId": "25b458d1-5943-4691-bd4a-3c1db75f6597",
-  "version": "7",
-  "dialect": "postgresql",
-  "tables": {
-    "public.article": {
-      "name": "article",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "publication_issue_id": {
-          "name": "publication_issue_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "published_date": {
-          "name": "published_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "summary": {
-          "name": "summary",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "content": {
-          "name": "content",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "url": {
-          "name": "url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "article_publication_issue_id_publication_issue_id_fk": {
-          "name": "article_publication_issue_id_publication_issue_id_fk",
-          "tableFrom": "article",
-          "columnsFrom": [
-            "publication_issue_id"
-          ],
-          "tableTo": "publication_issue",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.article_mention_event": {
-      "name": "article_mention_event",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "article_id": {
-          "name": "article_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "event_id": {
-          "name": "event_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "mention_type": {
-          "name": "mention_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "article_mention_event_article_id_article_id_fk": {
-          "name": "article_mention_event_article_id_article_id_fk",
-          "tableFrom": "article_mention_event",
-          "columnsFrom": [
-            "article_id"
-          ],
-          "tableTo": "article",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "article_mention_event_event_id_event_id_fk": {
-          "name": "article_mention_event_event_id_event_id_fk",
-          "tableFrom": "article_mention_event",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "tableTo": "event",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "article_mention_event_unique": {
-          "name": "article_mention_event_unique",
-          "columns": [
-            "article_id",
-            "event_id",
-            "mention_type"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.article_mention_person": {
-      "name": "article_mention_person",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "article_id": {
-          "name": "article_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "person_id": {
-          "name": "person_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "mention_type": {
-          "name": "mention_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "article_mention_person_article_id_article_id_fk": {
-          "name": "article_mention_person_article_id_article_id_fk",
-          "tableFrom": "article_mention_person",
-          "columnsFrom": [
-            "article_id"
-          ],
-          "tableTo": "article",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "article_mention_person_person_id_person_id_fk": {
-          "name": "article_mention_person_person_id_person_id_fk",
-          "tableFrom": "article_mention_person",
-          "columnsFrom": [
-            "person_id"
-          ],
-          "tableTo": "person",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "article_mention_person_unique": {
-          "name": "article_mention_person_unique",
-          "columns": [
-            "article_id",
-            "person_id",
-            "mention_type"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.article_mention_work": {
-      "name": "article_mention_work",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "article_id": {
-          "name": "article_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "work_id": {
-          "name": "work_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "mention_type": {
-          "name": "mention_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "article_mention_work_article_id_article_id_fk": {
-          "name": "article_mention_work_article_id_article_id_fk",
-          "tableFrom": "article_mention_work",
-          "columnsFrom": [
-            "article_id"
-          ],
-          "tableTo": "article",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "article_mention_work_work_id_work_id_fk": {
-          "name": "article_mention_work_work_id_work_id_fk",
-          "tableFrom": "article_mention_work",
-          "columnsFrom": [
-            "work_id"
-          ],
-          "tableTo": "work",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "article_mention_work_unique": {
-          "name": "article_mention_work_unique",
-          "columns": [
-            "article_id",
-            "work_id",
-            "mention_type"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.composition": {
-      "name": "composition",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "composition_title_unique": {
-          "name": "composition_title_unique",
-          "columns": [
-            "title"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.contribution": {
-      "name": "contribution",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "person_id": {
-          "name": "person_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "instrument_id": {
-          "name": "instrument_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "recording_id": {
-          "name": "recording_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "release_id": {
-          "name": "release_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "event_id": {
-          "name": "event_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "contribution_person_id_person_id_fk": {
-          "name": "contribution_person_id_person_id_fk",
-          "tableFrom": "contribution",
-          "columnsFrom": [
-            "person_id"
-          ],
-          "tableTo": "person",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "contribution_role_id_role_id_fk": {
-          "name": "contribution_role_id_role_id_fk",
-          "tableFrom": "contribution",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "tableTo": "role",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "contribution_instrument_id_instrument_id_fk": {
-          "name": "contribution_instrument_id_instrument_id_fk",
-          "tableFrom": "contribution",
-          "columnsFrom": [
-            "instrument_id"
-          ],
-          "tableTo": "instrument",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "contribution_recording_id_recording_id_fk": {
-          "name": "contribution_recording_id_recording_id_fk",
-          "tableFrom": "contribution",
-          "columnsFrom": [
-            "recording_id"
-          ],
-          "tableTo": "recording",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "contribution_release_id_release_id_fk": {
-          "name": "contribution_release_id_release_id_fk",
-          "tableFrom": "contribution",
-          "columnsFrom": [
-            "release_id"
-          ],
-          "tableTo": "release",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "contribution_event_id_event_id_fk": {
-          "name": "contribution_event_id_event_id_fk",
-          "tableFrom": "contribution",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "tableTo": "event",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {
-        "contribution_single_target_check": {
-          "name": "contribution_single_target_check",
-          "value": "((\"contribution\".\"recording_id\" IS NOT NULL)::int + (\"contribution\".\"release_id\" IS NOT NULL)::int + (\"contribution\".\"event_id\" IS NOT NULL)::int) = 1"
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.distributor": {
-      "name": "distributor",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "distributor_name_unique": {
-          "name": "distributor_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.event": {
-      "name": "event",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "project_id": {
-          "name": "project_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "venue_id": {
-          "name": "venue_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "event_name": {
-          "name": "event_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "event_date": {
-          "name": "event_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_time": {
-          "name": "start_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "end_time": {
-          "name": "end_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "doors_open_time": {
-          "name": "doors_open_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "ticket_price": {
-          "name": "ticket_price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "event_project_id_project_id_fk": {
-          "name": "event_project_id_project_id_fk",
-          "tableFrom": "event",
-          "columnsFrom": [
-            "project_id"
-          ],
-          "tableTo": "project",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "event_venue_id_venue_id_fk": {
-          "name": "event_venue_id_venue_id_fk",
-          "tableFrom": "event",
-          "columnsFrom": [
-            "venue_id"
-          ],
-          "tableTo": "venue",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "event_project_venue_event_date_unique": {
-          "name": "event_project_venue_event_date_unique",
-          "columns": [
-            "project_id",
-            "venue_id",
-            "event_date"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.event_performance": {
-      "name": "event_performance",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "event_id": {
-          "name": "event_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "composition_id": {
-          "name": "composition_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "order_index": {
-          "name": "order_index",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "encore": {
-          "name": "encore",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
-        "variation_note": {
-          "name": "variation_note",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "event_performance_event_id_event_id_fk": {
-          "name": "event_performance_event_id_event_id_fk",
-          "tableFrom": "event_performance",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "tableTo": "event",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "event_performance_composition_id_composition_id_fk": {
-          "name": "event_performance_composition_id_composition_id_fk",
-          "tableFrom": "event_performance",
-          "columnsFrom": [
-            "composition_id"
-          ],
-          "tableTo": "composition",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "event_performance_event_order_index_unique": {
-          "name": "event_performance_event_order_index_unique",
-          "columns": [
-            "event_id",
-            "order_index"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "event_performance_order_index_check": {
-          "name": "event_performance_order_index_check",
-          "value": "\"event_performance\".\"order_index\" > 0"
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.instrument": {
-      "name": "instrument",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "instrument_name_unique": {
-          "name": "instrument_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.label": {
-      "name": "label",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "label_name_unique": {
-          "name": "label_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.label_relation": {
-      "name": "label_relation",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "release_id": {
-          "name": "release_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "label_id": {
-          "name": "label_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "label_relation_release_id_release_id_fk": {
-          "name": "label_relation_release_id_release_id_fk",
-          "tableFrom": "label_relation",
-          "columnsFrom": [
-            "release_id"
-          ],
-          "tableTo": "release",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "label_relation_label_id_label_id_fk": {
-          "name": "label_relation_label_id_label_id_fk",
-          "tableFrom": "label_relation",
-          "columnsFrom": [
-            "label_id"
-          ],
-          "tableTo": "label",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "label_relation_release_label_unique": {
-          "name": "label_relation_release_label_unique",
-          "columns": [
-            "release_id",
-            "label_id"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.membership": {
-      "name": "membership",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "person_id": {
-          "name": "person_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "project_id": {
-          "name": "project_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "from_date": {
-          "name": "from_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "to_date": {
-          "name": "to_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "from_date_precision": {
-          "name": "from_date_precision",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "to_date_precision": {
-          "name": "to_date_precision",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "note": {
-          "name": "note",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "membership_person_id_person_id_fk": {
-          "name": "membership_person_id_person_id_fk",
-          "tableFrom": "membership",
-          "columnsFrom": [
-            "person_id"
-          ],
-          "tableTo": "person",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "membership_project_id_project_id_fk": {
-          "name": "membership_project_id_project_id_fk",
-          "tableFrom": "membership",
-          "columnsFrom": [
-            "project_id"
-          ],
-          "tableTo": "project",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "membership_person_project_from_date_unique": {
-          "name": "membership_person_project_from_date_unique",
-          "columns": [
-            "person_id",
-            "project_id",
-            "from_date"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "membership_to_date_check": {
-          "name": "membership_to_date_check",
-          "value": "\"membership\".\"to_date\" IS NULL OR \"membership\".\"to_date\" >= \"membership\".\"from_date\""
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.membership_role": {
-      "name": "membership_role",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "membership_id": {
-          "name": "membership_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "instrument_id": {
-          "name": "instrument_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "membership_role_membership_id_membership_id_fk": {
-          "name": "membership_role_membership_id_membership_id_fk",
-          "tableFrom": "membership_role",
-          "columnsFrom": [
-            "membership_id"
-          ],
-          "tableTo": "membership",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "membership_role_role_id_role_id_fk": {
-          "name": "membership_role_role_id_role_id_fk",
-          "tableFrom": "membership_role",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "tableTo": "role",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "membership_role_instrument_id_instrument_id_fk": {
-          "name": "membership_role_instrument_id_instrument_id_fk",
-          "tableFrom": "membership_role",
-          "columnsFrom": [
-            "instrument_id"
-          ],
-          "tableTo": "instrument",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "membership_role_unique": {
-          "name": "membership_role_unique",
-          "columns": [
-            "membership_id",
-            "role_id",
-            "instrument_id"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.person": {
-      "name": "person",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "birth_date": {
-          "name": "birth_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "death_date": {
-          "name": "death_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "active_from": {
-          "name": "active_from",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "active_to": {
-          "name": "active_to",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "person_name_unique": {
-          "name": "person_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.project": {
-      "name": "project",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "start_date": {
-          "name": "start_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "end_date": {
-          "name": "end_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "project_name_unique": {
-          "name": "project_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "project_end_date_check": {
-          "name": "project_end_date_check",
-          "value": "\"project\".\"end_date\" IS NULL OR \"project\".\"end_date\" >= \"project\".\"start_date\""
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.publication": {
-      "name": "publication",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "publisher": {
-          "name": "publisher",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "publication_name_unique": {
-          "name": "publication_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.publication_issue": {
-      "name": "publication_issue",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "publication_id": {
-          "name": "publication_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "issue_number": {
-          "name": "issue_number",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "volume": {
-          "name": "volume",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "published_date": {
-          "name": "published_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "publication_issue_publication_id_publication_id_fk": {
-          "name": "publication_issue_publication_id_publication_id_fk",
-          "tableFrom": "publication_issue",
-          "columnsFrom": [
-            "publication_id"
-          ],
-          "tableTo": "publication",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.recording": {
-      "name": "recording",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "composition_id": {
-          "name": "composition_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "recording_year": {
-          "name": "recording_year",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "recorded_date": {
-          "name": "recorded_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "recorded_from": {
-          "name": "recorded_from",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "recorded_to": {
-          "name": "recorded_to",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "release_date": {
-          "name": "release_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "recording_composition_id_composition_id_fk": {
-          "name": "recording_composition_id_composition_id_fk",
-          "tableFrom": "recording",
-          "columnsFrom": [
-            "composition_id"
-          ],
-          "tableTo": "composition",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {
-        "recording_recorded_to_check": {
-          "name": "recording_recorded_to_check",
-          "value": "\"recording\".\"recorded_to\" IS NULL OR \"recording\".\"recorded_to\" >= \"recording\".\"recorded_from\""
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.release": {
-      "name": "release",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "work_id": {
-          "name": "work_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "format": {
-          "name": "format",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "catalog_number": {
-          "name": "catalog_number",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "release_date": {
-          "name": "release_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "release_date_precision": {
-          "name": "release_date_precision",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "recorded_from": {
-          "name": "recorded_from",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "recorded_to": {
-          "name": "recorded_to",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "distributor_id": {
-          "name": "distributor_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "release_work_id_work_id_fk": {
-          "name": "release_work_id_work_id_fk",
-          "tableFrom": "release",
-          "columnsFrom": [
-            "work_id"
-          ],
-          "tableTo": "work",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "release_distributor_id_distributor_id_fk": {
-          "name": "release_distributor_id_distributor_id_fk",
-          "tableFrom": "release",
-          "columnsFrom": [
-            "distributor_id"
-          ],
-          "tableTo": "distributor",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "release_work_format_release_date_unique": {
-          "name": "release_work_format_release_date_unique",
-          "columns": [
-            "work_id",
-            "format",
-            "release_date"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "release_recorded_to_check": {
-          "name": "release_recorded_to_check",
-          "value": "\"release\".\"recorded_to\" IS NULL OR \"release\".\"recorded_to\" >= \"release\".\"recorded_from\""
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.role": {
-      "name": "role",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category": {
-          "name": "category",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "role_name_unique": {
-          "name": "role_name_unique",
-          "columns": [
-            "name"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.track": {
-      "name": "track",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "release_id": {
-          "name": "release_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "recording_id": {
-          "name": "recording_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "track_number": {
-          "name": "track_number",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "recorded_date": {
-          "name": "recorded_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "track_release_id_release_id_fk": {
-          "name": "track_release_id_release_id_fk",
-          "tableFrom": "track",
-          "columnsFrom": [
-            "release_id"
-          ],
-          "tableTo": "release",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
-        },
-        "track_recording_id_recording_id_fk": {
-          "name": "track_recording_id_recording_id_fk",
-          "tableFrom": "track",
-          "columnsFrom": [
-            "recording_id"
-          ],
-          "tableTo": "recording",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "track_release_track_number_unique": {
-          "name": "track_release_track_number_unique",
-          "columns": [
-            "release_id",
-            "track_number"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "track_track_number_check": {
-          "name": "track_track_number_check",
-          "value": "\"track\".\"track_number\" > 0"
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.venue": {
-      "name": "venue",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "location": {
-          "name": "location",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "venue_name_location_unique": {
-          "name": "venue_name_location_unique",
-          "columns": [
-            "name",
-            "location"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.work": {
-      "name": "work",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "project_id": {
-          "name": "project_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_date": {
-          "name": "created_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "released_date": {
-          "name": "released_date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "work_project_id_project_id_fk": {
-          "name": "work_project_id_project_id_fk",
-          "tableFrom": "work",
-          "columnsFrom": [
-            "project_id"
-          ],
-          "tableTo": "project",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "work_project_title_unique": {
-          "name": "work_project_title_unique",
-          "columns": [
-            "project_id",
-            "title"
-          ],
-          "nullsNotDistinct": false
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    }
-  },
-  "enums": {},
-  "schemas": {},
-  "views": {},
-  "sequences": {},
-  "roles": {},
-  "policies": {},
-  "_meta": {
-    "columns": {},
-    "schemas": {},
-    "tables": {}
-  }
+	"id": "661dd818-f742-4891-b009-38bc5485259c",
+	"prevId": "25b458d1-5943-4691-bd4a-3c1db75f6597",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.article": {
+			"name": "article",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"publication_issue_id": {
+					"name": "publication_issue_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"published_date": {
+					"name": "published_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"summary": {
+					"name": "summary",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"content": {
+					"name": "content",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"url": {
+					"name": "url",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"article_publication_issue_id_publication_issue_id_fk": {
+					"name": "article_publication_issue_id_publication_issue_id_fk",
+					"tableFrom": "article",
+					"columnsFrom": ["publication_issue_id"],
+					"tableTo": "publication_issue",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.article_mention_event": {
+			"name": "article_mention_event",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"article_id": {
+					"name": "article_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"event_id": {
+					"name": "event_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"mention_type": {
+					"name": "mention_type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"article_mention_event_article_id_article_id_fk": {
+					"name": "article_mention_event_article_id_article_id_fk",
+					"tableFrom": "article_mention_event",
+					"columnsFrom": ["article_id"],
+					"tableTo": "article",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"article_mention_event_event_id_event_id_fk": {
+					"name": "article_mention_event_event_id_event_id_fk",
+					"tableFrom": "article_mention_event",
+					"columnsFrom": ["event_id"],
+					"tableTo": "event",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"article_mention_event_unique": {
+					"name": "article_mention_event_unique",
+					"columns": ["article_id", "event_id", "mention_type"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.article_mention_person": {
+			"name": "article_mention_person",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"article_id": {
+					"name": "article_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"person_id": {
+					"name": "person_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"mention_type": {
+					"name": "mention_type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"article_mention_person_article_id_article_id_fk": {
+					"name": "article_mention_person_article_id_article_id_fk",
+					"tableFrom": "article_mention_person",
+					"columnsFrom": ["article_id"],
+					"tableTo": "article",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"article_mention_person_person_id_person_id_fk": {
+					"name": "article_mention_person_person_id_person_id_fk",
+					"tableFrom": "article_mention_person",
+					"columnsFrom": ["person_id"],
+					"tableTo": "person",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"article_mention_person_unique": {
+					"name": "article_mention_person_unique",
+					"columns": ["article_id", "person_id", "mention_type"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.article_mention_work": {
+			"name": "article_mention_work",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"article_id": {
+					"name": "article_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"work_id": {
+					"name": "work_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"mention_type": {
+					"name": "mention_type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"article_mention_work_article_id_article_id_fk": {
+					"name": "article_mention_work_article_id_article_id_fk",
+					"tableFrom": "article_mention_work",
+					"columnsFrom": ["article_id"],
+					"tableTo": "article",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"article_mention_work_work_id_work_id_fk": {
+					"name": "article_mention_work_work_id_work_id_fk",
+					"tableFrom": "article_mention_work",
+					"columnsFrom": ["work_id"],
+					"tableTo": "work",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"article_mention_work_unique": {
+					"name": "article_mention_work_unique",
+					"columns": ["article_id", "work_id", "mention_type"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.composition": {
+			"name": "composition",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"composition_title_unique": {
+					"name": "composition_title_unique",
+					"columns": ["title"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.contribution": {
+			"name": "contribution",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"person_id": {
+					"name": "person_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"role_id": {
+					"name": "role_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"instrument_id": {
+					"name": "instrument_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"recording_id": {
+					"name": "recording_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"release_id": {
+					"name": "release_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"event_id": {
+					"name": "event_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"contribution_person_id_person_id_fk": {
+					"name": "contribution_person_id_person_id_fk",
+					"tableFrom": "contribution",
+					"columnsFrom": ["person_id"],
+					"tableTo": "person",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"contribution_role_id_role_id_fk": {
+					"name": "contribution_role_id_role_id_fk",
+					"tableFrom": "contribution",
+					"columnsFrom": ["role_id"],
+					"tableTo": "role",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"contribution_instrument_id_instrument_id_fk": {
+					"name": "contribution_instrument_id_instrument_id_fk",
+					"tableFrom": "contribution",
+					"columnsFrom": ["instrument_id"],
+					"tableTo": "instrument",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"contribution_recording_id_recording_id_fk": {
+					"name": "contribution_recording_id_recording_id_fk",
+					"tableFrom": "contribution",
+					"columnsFrom": ["recording_id"],
+					"tableTo": "recording",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"contribution_release_id_release_id_fk": {
+					"name": "contribution_release_id_release_id_fk",
+					"tableFrom": "contribution",
+					"columnsFrom": ["release_id"],
+					"tableTo": "release",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"contribution_event_id_event_id_fk": {
+					"name": "contribution_event_id_event_id_fk",
+					"tableFrom": "contribution",
+					"columnsFrom": ["event_id"],
+					"tableTo": "event",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {
+				"contribution_single_target_check": {
+					"name": "contribution_single_target_check",
+					"value": "((\"contribution\".\"recording_id\" IS NOT NULL)::int + (\"contribution\".\"release_id\" IS NOT NULL)::int + (\"contribution\".\"event_id\" IS NOT NULL)::int) = 1"
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.distributor": {
+			"name": "distributor",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"distributor_name_unique": {
+					"name": "distributor_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.event": {
+			"name": "event",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"project_id": {
+					"name": "project_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"venue_id": {
+					"name": "venue_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"event_name": {
+					"name": "event_name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"event_date": {
+					"name": "event_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"start_time": {
+					"name": "start_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"end_time": {
+					"name": "end_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"doors_open_time": {
+					"name": "doors_open_time",
+					"type": "time",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"ticket_price": {
+					"name": "ticket_price",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"event_project_id_project_id_fk": {
+					"name": "event_project_id_project_id_fk",
+					"tableFrom": "event",
+					"columnsFrom": ["project_id"],
+					"tableTo": "project",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"event_venue_id_venue_id_fk": {
+					"name": "event_venue_id_venue_id_fk",
+					"tableFrom": "event",
+					"columnsFrom": ["venue_id"],
+					"tableTo": "venue",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"event_project_venue_event_date_unique": {
+					"name": "event_project_venue_event_date_unique",
+					"columns": ["project_id", "venue_id", "event_date"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.event_performance": {
+			"name": "event_performance",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"event_id": {
+					"name": "event_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"composition_id": {
+					"name": "composition_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"order_index": {
+					"name": "order_index",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"encore": {
+					"name": "encore",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"variation_note": {
+					"name": "variation_note",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"event_performance_event_id_event_id_fk": {
+					"name": "event_performance_event_id_event_id_fk",
+					"tableFrom": "event_performance",
+					"columnsFrom": ["event_id"],
+					"tableTo": "event",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"event_performance_composition_id_composition_id_fk": {
+					"name": "event_performance_composition_id_composition_id_fk",
+					"tableFrom": "event_performance",
+					"columnsFrom": ["composition_id"],
+					"tableTo": "composition",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"event_performance_event_order_index_unique": {
+					"name": "event_performance_event_order_index_unique",
+					"columns": ["event_id", "order_index"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {
+				"event_performance_order_index_check": {
+					"name": "event_performance_order_index_check",
+					"value": "\"event_performance\".\"order_index\" > 0"
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.instrument": {
+			"name": "instrument",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"instrument_name_unique": {
+					"name": "instrument_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.label": {
+			"name": "label",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"label_name_unique": {
+					"name": "label_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.label_relation": {
+			"name": "label_relation",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"release_id": {
+					"name": "release_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"label_id": {
+					"name": "label_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"label_relation_release_id_release_id_fk": {
+					"name": "label_relation_release_id_release_id_fk",
+					"tableFrom": "label_relation",
+					"columnsFrom": ["release_id"],
+					"tableTo": "release",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"label_relation_label_id_label_id_fk": {
+					"name": "label_relation_label_id_label_id_fk",
+					"tableFrom": "label_relation",
+					"columnsFrom": ["label_id"],
+					"tableTo": "label",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"label_relation_release_label_unique": {
+					"name": "label_relation_release_label_unique",
+					"columns": ["release_id", "label_id"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.membership": {
+			"name": "membership",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"person_id": {
+					"name": "person_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"project_id": {
+					"name": "project_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"from_date": {
+					"name": "from_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"to_date": {
+					"name": "to_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"from_date_precision": {
+					"name": "from_date_precision",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"to_date_precision": {
+					"name": "to_date_precision",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"note": {
+					"name": "note",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"membership_person_id_person_id_fk": {
+					"name": "membership_person_id_person_id_fk",
+					"tableFrom": "membership",
+					"columnsFrom": ["person_id"],
+					"tableTo": "person",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"membership_project_id_project_id_fk": {
+					"name": "membership_project_id_project_id_fk",
+					"tableFrom": "membership",
+					"columnsFrom": ["project_id"],
+					"tableTo": "project",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"membership_person_project_from_date_unique": {
+					"name": "membership_person_project_from_date_unique",
+					"columns": ["person_id", "project_id", "from_date"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {
+				"membership_to_date_check": {
+					"name": "membership_to_date_check",
+					"value": "\"membership\".\"to_date\" IS NULL OR \"membership\".\"to_date\" >= \"membership\".\"from_date\""
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.membership_role": {
+			"name": "membership_role",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"membership_id": {
+					"name": "membership_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"role_id": {
+					"name": "role_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"instrument_id": {
+					"name": "instrument_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"membership_role_membership_id_membership_id_fk": {
+					"name": "membership_role_membership_id_membership_id_fk",
+					"tableFrom": "membership_role",
+					"columnsFrom": ["membership_id"],
+					"tableTo": "membership",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"membership_role_role_id_role_id_fk": {
+					"name": "membership_role_role_id_role_id_fk",
+					"tableFrom": "membership_role",
+					"columnsFrom": ["role_id"],
+					"tableTo": "role",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"membership_role_instrument_id_instrument_id_fk": {
+					"name": "membership_role_instrument_id_instrument_id_fk",
+					"tableFrom": "membership_role",
+					"columnsFrom": ["instrument_id"],
+					"tableTo": "instrument",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"membership_role_unique": {
+					"name": "membership_role_unique",
+					"columns": ["membership_id", "role_id", "instrument_id"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.person": {
+			"name": "person",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"birth_date": {
+					"name": "birth_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"death_date": {
+					"name": "death_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"active_from": {
+					"name": "active_from",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"active_to": {
+					"name": "active_to",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"person_name_unique": {
+					"name": "person_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.project": {
+			"name": "project",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"start_date": {
+					"name": "start_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"end_date": {
+					"name": "end_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"project_name_unique": {
+					"name": "project_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {
+				"project_end_date_check": {
+					"name": "project_end_date_check",
+					"value": "\"project\".\"end_date\" IS NULL OR \"project\".\"end_date\" >= \"project\".\"start_date\""
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.publication": {
+			"name": "publication",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"publisher": {
+					"name": "publisher",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"publication_name_unique": {
+					"name": "publication_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.publication_issue": {
+			"name": "publication_issue",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"publication_id": {
+					"name": "publication_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"issue_number": {
+					"name": "issue_number",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"volume": {
+					"name": "volume",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"published_date": {
+					"name": "published_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"publication_issue_publication_id_publication_id_fk": {
+					"name": "publication_issue_publication_id_publication_id_fk",
+					"tableFrom": "publication_issue",
+					"columnsFrom": ["publication_id"],
+					"tableTo": "publication",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.recording": {
+			"name": "recording",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"composition_id": {
+					"name": "composition_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"recording_year": {
+					"name": "recording_year",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"recorded_date": {
+					"name": "recorded_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"recorded_from": {
+					"name": "recorded_from",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"recorded_to": {
+					"name": "recorded_to",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"release_date": {
+					"name": "release_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"recording_composition_id_composition_id_fk": {
+					"name": "recording_composition_id_composition_id_fk",
+					"tableFrom": "recording",
+					"columnsFrom": ["composition_id"],
+					"tableTo": "composition",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {
+				"recording_recorded_to_check": {
+					"name": "recording_recorded_to_check",
+					"value": "\"recording\".\"recorded_to\" IS NULL OR \"recording\".\"recorded_to\" >= \"recording\".\"recorded_from\""
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.release": {
+			"name": "release",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"work_id": {
+					"name": "work_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"format": {
+					"name": "format",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"catalog_number": {
+					"name": "catalog_number",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"release_date": {
+					"name": "release_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"release_date_precision": {
+					"name": "release_date_precision",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"recorded_from": {
+					"name": "recorded_from",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"recorded_to": {
+					"name": "recorded_to",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"distributor_id": {
+					"name": "distributor_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"release_work_id_work_id_fk": {
+					"name": "release_work_id_work_id_fk",
+					"tableFrom": "release",
+					"columnsFrom": ["work_id"],
+					"tableTo": "work",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				},
+				"release_distributor_id_distributor_id_fk": {
+					"name": "release_distributor_id_distributor_id_fk",
+					"tableFrom": "release",
+					"columnsFrom": ["distributor_id"],
+					"tableTo": "distributor",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"release_work_format_release_date_unique": {
+					"name": "release_work_format_release_date_unique",
+					"columns": ["work_id", "format", "release_date"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {
+				"release_recorded_to_check": {
+					"name": "release_recorded_to_check",
+					"value": "\"release\".\"recorded_to\" IS NULL OR \"release\".\"recorded_to\" >= \"release\".\"recorded_from\""
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.role": {
+			"name": "role",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"category": {
+					"name": "category",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"role_name_unique": {
+					"name": "role_name_unique",
+					"columns": ["name"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.track": {
+			"name": "track",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"release_id": {
+					"name": "release_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"recording_id": {
+					"name": "recording_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"track_number": {
+					"name": "track_number",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"recorded_date": {
+					"name": "recorded_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"notes": {
+					"name": "notes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"track_release_id_release_id_fk": {
+					"name": "track_release_id_release_id_fk",
+					"tableFrom": "track",
+					"columnsFrom": ["release_id"],
+					"tableTo": "release",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "cascade"
+				},
+				"track_recording_id_recording_id_fk": {
+					"name": "track_recording_id_recording_id_fk",
+					"tableFrom": "track",
+					"columnsFrom": ["recording_id"],
+					"tableTo": "recording",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"track_release_track_number_unique": {
+					"name": "track_release_track_number_unique",
+					"columns": ["release_id", "track_number"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {
+				"track_track_number_check": {
+					"name": "track_track_number_check",
+					"value": "\"track\".\"track_number\" > 0"
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"public.venue": {
+			"name": "venue",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"location": {
+					"name": "location",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"venue_name_location_unique": {
+					"name": "venue_name_location_unique",
+					"columns": ["name", "location"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.work": {
+			"name": "work",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"project_id": {
+					"name": "project_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"created_date": {
+					"name": "created_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"released_date": {
+					"name": "released_date",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"work_project_id_project_id_fk": {
+					"name": "work_project_id_project_id_fk",
+					"tableFrom": "work",
+					"columnsFrom": ["project_id"],
+					"tableTo": "project",
+					"columnsTo": ["id"],
+					"onUpdate": "no action",
+					"onDelete": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"work_project_title_unique": {
+					"name": "work_project_title_unique",
+					"columns": ["project_id", "title"],
+					"nullsNotDistinct": false
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		}
+	},
+	"enums": {},
+	"schemas": {},
+	"views": {},
+	"sequences": {},
+	"roles": {},
+	"policies": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
 }

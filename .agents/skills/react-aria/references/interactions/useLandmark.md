@@ -4,54 +4,58 @@ Provides landmark navigation in an application. Call this with a role and label 
 landmark navigable with F6.
 
 ```tsx
-import {useLandmark} from 'react-aria/useLandmark';
-import {useRef} from 'react';
+import { useLandmark } from 'react-aria/useLandmark';
+import { useRef } from 'react';
 
 function Navigation(props) {
-  let ref = useRef<HTMLElement | null>(null);
-  let {landmarkProps} = useLandmark({...props, role: 'navigation'}, ref);
-  return (
-    <nav ref={ref} {...props} {...landmarkProps}>
-      {props.children}
-    </nav>
-  );
+	let ref = useRef<HTMLElement | null>(null);
+	let { landmarkProps } = useLandmark({ ...props, role: 'navigation' }, ref);
+	return (
+		<nav ref={ref} {...props} {...landmarkProps}>
+			{props.children}
+		</nav>
+	);
 }
 
 function Region(props) {
-  let ref = useRef<HTMLElement | null>(null);
-  let {landmarkProps} = useLandmark({...props, role: 'region'}, ref);
-  return (
-    <article ref={ref} {...props} {...landmarkProps}>
-      {props.children}
-    </article>
-  );
+	let ref = useRef<HTMLElement | null>(null);
+	let { landmarkProps } = useLandmark({ ...props, role: 'region' }, ref);
+	return (
+		<article ref={ref} {...props} {...landmarkProps}>
+			{props.children}
+		</article>
+	);
 }
 
 function Search(props) {
-  let ref = useRef<HTMLFormElement | null>(null);
-  let {landmarkProps} = useLandmark({...props, role: 'search'}, ref);
-  return (
-    <form ref={ref} {...props} {...landmarkProps}>
-      <h2 id="search-header">Search</h2>
-      <input aria-labelledby="search-header" type="search" />
-    </form>
-  );
+	let ref = useRef<HTMLFormElement | null>(null);
+	let { landmarkProps } = useLandmark({ ...props, role: 'search' }, ref);
+	return (
+		<form ref={ref} {...props} {...landmarkProps}>
+			<h2 id="search-header">Search</h2>
+			<input aria-labelledby="search-header" type="search" />
+		</form>
+	);
 }
 
 <div>
-  <Navigation>
-    <h2>Navigation</h2>
-    <ul>
-      <li><a href="#">Link 1</a></li>
-      <li><a href="#">Link 2</a></li>
-    </ul>
-  </Navigation>
-  <Search />
-  <Region aria-label="Example region">
-    <h2>Region</h2>
-    <p>Example region with no focusable children.</p>
-  </Region>
-</div>
+	<Navigation>
+		<h2>Navigation</h2>
+		<ul>
+			<li>
+				<a href="#">Link 1</a>
+			</li>
+			<li>
+				<a href="#">Link 2</a>
+			</li>
+		</ul>
+	</Navigation>
+	<Search />
+	<Region aria-label="Example region">
+		<h2>Region</h2>
+		<p>Example region with no focusable children.</p>
+	</Region>
+</div>;
 ```
 
 ## Features
@@ -85,17 +89,17 @@ For an example of landmarks in use, see the [useToastRegion](Toast/useToast.md#a
 
 ### AriaLandmarkProps
 
-| Name | Type | Description |
-|------|------|-------------|
-| `role` \* | `AriaLandmarkRole` | — |
-| `aria-describedby` | `string | undefined` | Identifies the element (or elements) that describes the object. |
-| `aria-details` | `string | undefined` | Identifies the element (or elements) that provide a detailed, extended description for the object. |
-| `aria-label` | `string | undefined` | Defines a string value that labels the current element. |
-| `aria-labelledby` | `string | undefined` | Identifies the element (or elements) that labels the current element. |
-| `focus` | `((direction: "forward" | "backward") => void) | undefined` | — |
+| Name               | Type                    | Description          |
+| ------------------ | ----------------------- | -------------------- | -------------------------------------------------------------------------------------------------- | --- |
+| `role` \*          | `AriaLandmarkRole`      | —                    |
+| `aria-describedby` | `string                 | undefined`           | Identifies the element (or elements) that describes the object.                                    |
+| `aria-details`     | `string                 | undefined`           | Identifies the element (or elements) that provide a detailed, extended description for the object. |
+| `aria-label`       | `string                 | undefined`           | Defines a string value that labels the current element.                                            |
+| `aria-labelledby`  | `string                 | undefined`           | Identifies the element (or elements) that labels the current element.                              |
+| `focus`            | `((direction: "forward" | "backward") => void) | undefined`                                                                                         | —   |
 
 ### LandmarkAria
 
-| Name | Type | Description |
-|------|------|-------------|
-| `landmarkProps` \* | `DOMAttributes<FocusableElement>` | — |
+| Name               | Type                              | Description |
+| ------------------ | --------------------------------- | ----------- |
+| `landmarkProps` \* | `DOMAttributes<FocusableElement>` | —           |

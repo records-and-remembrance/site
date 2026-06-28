@@ -20,12 +20,12 @@ Numbers are represented in many different ways by cultures around the world. Thi
 This example parses a percentage in the Arabic numbering system according to the `ar-SA` locale, and formats as a Latin number in the `en-US` locale.
 
 ```tsx
-import {NumberParser, NumberFormatter} from '@internationalized/number';
+import { NumberParser, NumberFormatter } from '@internationalized/number';
 
-let parser = new NumberParser('ar-SA', {style: 'percent'});
+let parser = new NumberParser('ar-SA', { style: 'percent' });
 let number = parser.parse('٤٥٪'); // 0.45
 
-let formatter = new NumberFormatter('en-US', {style: 'percent'});
+let formatter = new NumberFormatter('en-US', { style: 'percent' });
 formatter.format(number); // '45%'
 ```
 

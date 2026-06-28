@@ -1,23 +1,21 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "泥棒猫のかく語りき (Nursery Rhymes ep3)"
+canonical_title: '泥棒猫のかく語りき (Nursery Rhymes ep3)'
 status: merged
 composition_id: null
-group_key: "泥棒猫のかく語りき (nursery rhymes ep3)"
+group_key: '泥棒猫のかく語りき (nursery rhymes ep3)'
 aliases:
-  - "泥棒猫のかく語りき (Nursery Rhymes ep3)"
+  - '泥棒猫のかく語りき (Nursery Rhymes ep3)'
 sources:
-  -
-    type: live
-    file: "2015-04-01-000001.md"
-    title: "2015-04-01: Poet-type.M - D&D release&PtM 2nd Anniversary!! 『Gentry liar from D&D』 独演会Acoustic ver. at 原宿ストロボカフェ"
-    date: "2015-04-01"
-    project: "Poet-type.M"
-    section: "セットリスト"
+  - type: live
+    file: '2015-04-01-000001.md'
+    title: '2015-04-01: Poet-type.M - D&D release&PtM 2nd Anniversary!! 『Gentry liar from D&D』 独演会Acoustic ver. at 原宿ストロボカフェ'
+    date: '2015-04-01'
+    project: 'Poet-type.M'
+    section: 'セットリスト'
     position: 4
-    raw_title: "泥棒猫のかく語りき (Nursery Rhymes ep3)"
+    raw_title: '泥棒猫のかく語りき (Nursery Rhymes ep3)'
 ---
-
 
 # 泥棒猫のかく語りき (Nursery Rhymes ep3)
 
@@ -27,4 +25,4 @@ sources:
 
 ## Merge Notes
 
-- 2026-06-14T14:04:16.329Z: merged into 泥棒猫かく語りき_(Nursery_Rhymes_ep3)-8602e85c.md
+- 2026-06-14T14:04:16.329Z: merged into 泥棒猫かく語りき\_(Nursery_Rhymes_ep3)-8602e85c.md

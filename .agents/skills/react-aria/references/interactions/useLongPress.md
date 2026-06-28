@@ -5,55 +5,50 @@ threshold, accessibility description, and normalizes behavior across browsers an
 
 ```tsx
 import React from 'react';
-import {mergeProps} from 'react-aria/mergeProps';
-import {useLongPress} from 'react-aria/useLongPress';
-import {usePress} from 'react-aria/usePress';
+import { mergeProps } from 'react-aria/mergeProps';
+import { useLongPress } from 'react-aria/useLongPress';
+import { usePress } from 'react-aria/usePress';
 
 function Example() {
-  let [events, setEvents] = React.useState<string[]>([]);
-  let [mode, setMode] = React.useState('Activate');
+	let [events, setEvents] = React.useState<string[]>([]);
+	let [mode, setMode] = React.useState('Activate');
 
-  /*- begin focus -*/
-  // Long press to activate "Hyper speed"
-  let {longPressProps} = useLongPress({
-    accessibilityDescription: 'Long press to activate hyper speed',
-    onLongPressStart: e => setEvents(
-      events => [`long press start with ${e.pointerType}`, ...events]
-    ),
-    onLongPressEnd: e => setEvents(
-      events => [`long press end with ${e.pointerType}`, ...events]
-    ),
-    onLongPress: e => {
-      setMode('Hyper speed');
-      setEvents(
-        events => [`long press with ${e.pointerType}`, ...events]
-      );
-    }
-  });
-  /*- end focus -*/
+	/*- begin focus -*/
+	// Long press to activate "Hyper speed"
+	let { longPressProps } = useLongPress({
+		accessibilityDescription: 'Long press to activate hyper speed',
+		onLongPressStart: (e) => setEvents((events) => [`long press start with ${e.pointerType}`, ...events]),
+		onLongPressEnd: (e) => setEvents((events) => [`long press end with ${e.pointerType}`, ...events]),
+		onLongPress: (e) => {
+			setMode('Hyper speed');
+			setEvents((events) => [`long press with ${e.pointerType}`, ...events]);
+		},
+	});
+	/*- end focus -*/
 
-  // Short press to activate "Normal speed"
-  let {pressProps} = usePress({
-    onPress: e => {
-      setMode('Normal speed');
-      setEvents(
-        events => [`press with ${e.pointerType}`, ...events]
-      );
-    }
-  });
+	// Short press to activate "Normal speed"
+	let { pressProps } = usePress({
+		onPress: (e) => {
+			setMode('Normal speed');
+			setEvents((events) => [`press with ${e.pointerType}`, ...events]);
+		},
+	});
 
-  return (
-    <>
-      <button {...mergeProps(pressProps, longPressProps)}>{mode}</button>
-      <ul
-        style={{
-          maxHeight: '200px',
-          overflow: 'auto'
-        }}>
-        {events.map((e, i) => <li key={i}>{e}</li>)}
-      </ul>
-    </>
-  );
+	return (
+		<>
+			<button {...mergeProps(pressProps, longPressProps)}>{mode}</button>
+			<ul
+				style={{
+					maxHeight: '200px',
+					overflow: 'auto',
+				}}
+			>
+				{events.map((e, i) => (
+					<li key={i}>{e}</li>
+				))}
+			</ul>
+		</>
+	);
 }
 ```
 
@@ -83,19 +78,19 @@ A long press is triggered when a user presses and holds their pointer over a tar
 
 ### LongPressProps
 
-| Name | Type | Default | Description |
-|------|------|---------|-------------|
-| `accessibilityDescription` | `string | undefined` | — | A description for assistive techology users indicating that a long press action is available, e.g. "Long press to open menu". |
-| `isDisabled` | `boolean | undefined` | — | Whether long press events should be disabled. |
-| `onLongPress` | `((e: LongPressEvent) => void) | undefined` | — | Handler that is called when the threshold time is met while the press is over the target. |
-| `onLongPressEnd` | `((e: LongPressEvent) => void) | undefined` | — | Handler that is called when a long press interaction ends, either over the target or when the pointer leaves the target. |
-| `onLongPressStart` | `((e: LongPressEvent) => void) | undefined` | — | Handler that is called when a long press interaction starts. |
-| `threshold` | `number | undefined` | 500ms | The amount of time in milliseconds to wait before triggering a long press. |
+| Name                       | Type                           | Default    | Description |
+| -------------------------- | ------------------------------ | ---------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `accessibilityDescription` | `string                        | undefined` | —           | A description for assistive techology users indicating that a long press action is available, e.g. "Long press to open menu". |
+| `isDisabled`               | `boolean                       | undefined` | —           | Whether long press events should be disabled.                                                                                 |
+| `onLongPress`              | `((e: LongPressEvent) => void) | undefined` | —           | Handler that is called when the threshold time is met while the press is over the target.                                     |
+| `onLongPressEnd`           | `((e: LongPressEvent) => void) | undefined` | —           | Handler that is called when a long press interaction ends, either over the target or when the pointer leaves the target.      |
+| `onLongPressStart`         | `((e: LongPressEvent) => void) | undefined` | —           | Handler that is called when a long press interaction starts.                                                                  |
+| `threshold`                | `number                        | undefined` | 500ms       | The amount of time in milliseconds to wait before triggering a long press.                                                    |
 
 ### LongPressResult
 
-| Name | Type | Description |
-|------|------|-------------|
+| Name                | Type                              | Description                            |
+| ------------------- | --------------------------------- | -------------------------------------- |
 | `longPressProps` \* | `DOMAttributes<FocusableElement>` | Props to spread on the target element. |
 
 ### LongPressEvent

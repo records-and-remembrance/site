@@ -7,26 +7,23 @@ group_key: "バネのいかれたベッドの上で (i don't wanna grow up) [冒
 aliases:
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [冒頭ボーカル: 水野]"
 sources:
-  -
-    type: live
-    file: "2019-03-14-180000.md"
+  - type: live
+    file: '2019-03-14-180000.md'
     title: "2019-03-14: Poet-type.M - AD再騰就任シリーズ5days \\\"Why? Why? TODAY.\\\" at 下北沢GARAGE"
-    date: "2019-03-14"
-    project: "Poet-type.M"
-    section: "セットリスト"
+    date: '2019-03-14'
+    project: 'Poet-type.M'
+    section: 'セットリスト'
     position: 4
     raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [冒頭ボーカル: 水野]"
-  -
-    type: live
-    file: "2019-05-06-000000.md"
-    title: "2019-05-06: Poet-type.M - GARAGE 25th Anniversary at 下北沢GARAGE"
-    date: "2019-05-06"
-    project: "Poet-type.M"
-    section: "セットリスト"
+  - type: live
+    file: '2019-05-06-000000.md'
+    title: '2019-05-06: Poet-type.M - GARAGE 25th Anniversary at 下北沢GARAGE'
+    date: '2019-05-06'
+    project: 'Poet-type.M'
+    section: 'セットリスト'
     position: 3
     raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [冒頭ボーカル: 水野]"
 ---
-
 
 # バネのいかれたベッドの上で (I Don't Wanna Grow Up) [冒頭ボーカル: 水野]
 
@@ -36,4 +33,4 @@ sources:
 
 ## Merge Notes
 
-- 2026-06-14T11:24:17.140Z: merged into バネのいかれたベットの上で_(I_Don't_Wanna_Grow_Up)-eb5e76f0.md
+- 2026-06-14T11:24:17.140Z: merged into バネのいかれたベットの上で\_(I_Don't_Wanna_Grow_Up)-eb5e76f0.md

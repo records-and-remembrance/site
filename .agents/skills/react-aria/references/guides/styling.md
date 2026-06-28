@@ -10,16 +10,14 @@ When a custom `className` is not provided, each component includes a default cla
 
 ```css
 .react-aria-Select {
-  /* ... */
+	/* ... */
 }
 ```
 
 A custom `className` can also be specified on any component. This overrides the default `className` provided by React Aria with your own.
 
 ```jsx
-<Select className="my-select">
-  {/* ... */}
-</Select>
+<Select className="my-select">{/* ... */}</Select>
 ```
 
 ## States
@@ -28,11 +26,11 @@ React Aria exposes UI states such as pressed, hovered, and selected using data a
 
 ```css
 .react-aria-ListBoxItem[data-selected] {
-  /* ... */
+	/* ... */
 }
 
 .react-aria-ListBoxItem[data-focused] {
-  /* ... */
+	/* ... */
 }
 ```
 
@@ -43,30 +41,26 @@ React Aria includes states such as `data-hovered` and `data-pressed` which are s
 The `className` and `style` props also accept functions which receive states for styling. This lets you dynamically determine the classes or styles to apply.
 
 ```jsx
-<ListBoxItem className={({isSelected}) => isSelected ? 'selected' : 'unselected'}>
-  Item
-</ListBoxItem>
+<ListBoxItem className={({ isSelected }) => (isSelected ? 'selected' : 'unselected')}>Item</ListBoxItem>
 ```
 
 Render props may also be used as children to alter what elements are rendered based on the current state. For example, you could render a checkmark icon when an item is selected.
 
 ```jsx
 <ListBoxItem>
-  {({isSelected}) => (
-    <>
-      {isSelected && <CheckmarkIcon />}
-      <span>Item</span>
-    </>
-  )}
+	{({ isSelected }) => (
+		<>
+			{isSelected && <CheckmarkIcon />}
+			<span>Item</span>
+		</>
+	)}
 </ListBoxItem>
 ```
 
 Render props also let you modify the default values provided by React Aria via the `defaultClassName`, `defaultStyle`, and `defaultChildren` options. For example, you could wrap the default children of a `SelectValue` in an extra element, append an additional class name to React Aria's default, or merge default inline styles with your own.
 
 ```jsx
-<SelectValue>
-  {({defaultChildren}) => <span>{defaultChildren}</span>}
-</SelectValue>
+<SelectValue>{({ defaultChildren }) => <span>{defaultChildren}</span>}</SelectValue>
 ```
 
 ## Slots
@@ -75,30 +69,30 @@ Some patterns include multiple instances of the same component, for example the 
 
 ```tsx
 <NumberField>
-  <Label>Width</Label>
-  <Group>
-    <Input />
-    {/*- begin highlight -*/}
-    <Button slot="increment">+</Button>
-    <Button slot="decrement">-</Button>
-    {/*- end highlight -*/}
-  </Group>
+	<Label>Width</Label>
+	<Group>
+		<Input />
+		{/*- begin highlight -*/}
+		<Button slot="increment">+</Button>
+		<Button slot="decrement">-</Button>
+		{/*- end highlight -*/}
+	</Group>
 </NumberField>
 ```
 
 ```css
 .react-aria-NumberField {
-  /*- begin highlight -*/
-  [slot=increment] {
-  /*- end highlight -*/
-    border-radius: 4px 4px 0 0;
-  }
+	/*- begin highlight -*/
+	[slot='increment'] {
+		/*- end highlight -*/
+		border-radius: 4px 4px 0 0;
+	}
 
-  /*- begin highlight -*/
-  [slot=decrement] {
-  /*- end highlight -*/
-    border-radius: 0 0 4px 4px;
-  }
+	/*- begin highlight -*/
+	[slot='decrement'] {
+		/*- end highlight -*/
+		border-radius: 0 0 4px 4px;
+	}
 }
 ```
 
@@ -108,7 +102,7 @@ Some components provide CSS variables that you can use in your styling code. For
 
 ```css
 .react-aria-Popover {
-  width: var(--trigger-width);
+	width: var(--trigger-width);
 }
 ```
 
@@ -117,30 +111,27 @@ Some components provide CSS variables that you can use in your styling code. For
 When using Tailwind, use [data attributes](https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes) as modifiers:
 
 ```jsx
-<ListBoxItem className="data-[selected]:bg-blue-400 data-[disabled]:bg-gray-100">
-  Item
-</ListBoxItem>
+<ListBoxItem className="data-[selected]:bg-blue-400 data-[disabled]:bg-gray-100">Item</ListBoxItem>
 ```
 
 Alternatively, you can use [render props](#render-props) to control which Tailwind classes are applied based on states. This can be useful if you need to apply multiple classes based on a single state:
 
 ```jsx
 <Radio
-  className={({isFocusVisible, isSelected}) => `
+	className={({ isFocusVisible, isSelected }) => `
     flex rounded-lg p-4
     ${isFocusVisible ? 'ring-2 ring-blue-600 ring-offset-1' : ''}
     ${isSelected ? 'bg-blue-600 border-white/30 text-white' : ''}
-  `}>
-  {/* ... */}
+  `}
+>
+	{/* ... */}
 </Radio>
 ```
 
 To access [CSS variables](#css-variables), use Tailwind's [arbitrary value](https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values) syntax.
 
 ```jsx
-<Popover className="w-(--trigger-width)">
-  {/* ... */}
-</Popover>
+<Popover className="w-(--trigger-width)">{/* ... */}</Popover>
 ```
 
 ### Plugin
@@ -154,15 +145,15 @@ npm install tailwindcss-react-aria-components
 When using Tailwind v4, add it to your CSS:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "tailwindcss-react-aria-components";
 ```
 
 <Disclosure
-  size="S"
-  isQuiet
->
-  <DisclosureTitle>Tailwind v3</DisclosureTitle>
+size="S"
+isQuiet
+
+> <DisclosureTitle>Tailwind v3</DisclosureTitle>
 
   <DisclosurePanel>
     When using Tailwind v3, install `tailwindcss-react-aria-components` version 1.x instead of 2.x, and add the plugin to your `tailwind.config.js` instead:
@@ -176,15 +167,14 @@ When using Tailwind v4, add it to your CSS:
       ]
     };
     ```
+
   </DisclosurePanel>
 </Disclosure>
 
 With the plugin installed, you can access all states without the `data-` prefix. If you have the [Tailwind VSCode Extension](https://tailwindcss.com/docs/editor-setup#intelli-sense-for-vs-code) installed, you'll also get autocomplete for all states in your editor.
 
 ```jsx
-<ListBoxItem className="selected:bg-blue-400 disabled:bg-gray-100">
-  Item
-</ListBoxItem>
+<ListBoxItem className="selected:bg-blue-400 disabled:bg-gray-100">Item</ListBoxItem>
 ```
 
 ### Boolean states
@@ -192,9 +182,7 @@ With the plugin installed, you can access all states without the `data-` prefix.
 Boolean states such as `data-pressed` can be styled with `pressed:` like this:
 
 ```jsx
-<Button className="pressed:bg-blue">
-  {/* ... */}
-</Button>
+<Button className="pressed:bg-blue">{/* ... */}</Button>
 ```
 
 ### Non-boolean states
@@ -202,9 +190,7 @@ Boolean states such as `data-pressed` can be styled with `pressed:` like this:
 Non-boolean states follow the `{name}-{value}` pattern. For example, an element with `data-orientation="vertical"` can be styled using `orientation-vertical:`.
 
 ```jsx
-<Tabs className="orientation-vertical:flex-row">
-  {/* ... */}
-</Tabs>
+<Tabs className="orientation-vertical:flex-row">{/* ... */}</Tabs>
 ```
 
 ### Modifier prefix
@@ -212,14 +198,16 @@ Non-boolean states follow the `{name}-{value}` pattern. For example, an element 
 By default, all modifiers are unprefixed (e.g. `disabled:`), and generate CSS that automatically handles both React Aria Components and native CSS pseudo classes when the names conflict. If you prefer, you can optionally prefix all React Aria Components modifiers with a string of your choice.
 
 ```css
-@plugin "tailwindcss-react-aria-components" { prefix: rac };
+@plugin "tailwindcss-react-aria-components" {
+	prefix: rac;
+}
 ```
 
 <Disclosure
-  size="S"
-  isQuiet
->
-  <DisclosureTitle>Tailwind v3</DisclosureTitle>
+size="S"
+isQuiet
+
+> <DisclosureTitle>Tailwind v3</DisclosureTitle>
 
   <DisclosurePanel>
     When using Tailwind v3, pass the prefix option to the plugin in `tailwind.config.js`:
@@ -232,15 +220,14 @@ By default, all modifiers are unprefixed (e.g. `disabled:`), and generate CSS th
       ],
     };
     ```
+
   </DisclosurePanel>
 </Disclosure>
 
 With this configured, all states for React Aria Components can be accessed with that prefix.
 
 ```jsx
-<ListBoxItem className="rac-selected:bg-blue-400 rac-disabled:bg-gray-100">
-  Item
-</ListBoxItem>
+<ListBoxItem className="rac-selected:bg-blue-400 rac-disabled:bg-gray-100">Item</ListBoxItem>
 ```
 
 ## Animation
@@ -256,12 +243,12 @@ Several components support entry and exit animations via the `data-entering` and
 
 ```css
 .react-aria-Popover {
-  transition: opacity 300ms;
+	transition: opacity 300ms;
 
-  &[data-entering],
-  &[data-exiting] {
-    opacity: 0;
-  }
+	&[data-entering],
+	&[data-exiting] {
+		opacity: 0;
+	}
 }
 ```
 
@@ -269,21 +256,23 @@ Note that the `data-entering` state is only applied for one frame when using CSS
 
 ```css
 .react-aria-Popover {
-  /* entry transition */
-  transition: transform 300ms, opacity 300ms;
+	/* entry transition */
+	transition:
+		transform 300ms,
+		opacity 300ms;
 
-  /* starting state of the entry transition */
-  &[data-entering] {
-    opacity: 0;
-    transform: scale(0.8);
-  }
+	/* starting state of the entry transition */
+	&[data-entering] {
+		opacity: 0;
+		transform: scale(0.8);
+	}
 
-  &[data-exiting] {
-    /* exit transition */
-    transition: opacity 150ms;
-    /* ending state of the exit transition */
-    opacity: 0;
-  }
+	&[data-exiting] {
+		/* exit transition */
+		transition: opacity 150ms;
+		/* ending state of the exit transition */
+		opacity: 0;
+	}
 }
 ```
 
@@ -293,23 +282,23 @@ For more complex animations, you can also apply CSS keyframe animations using th
 
 ```css
 .react-aria-Popover[data-entering] {
-  animation: slide 300ms;
+	animation: slide 300ms;
 }
 
 .react-aria-Popover[data-exiting] {
-  animation: slide 300ms reverse;
+	animation: slide 300ms reverse;
 }
 
 @keyframes slide {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
+	from {
+		transform: translateY(-20px);
+		opacity: 0;
+	}
 
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 ```
 
@@ -320,9 +309,7 @@ Note that unlike CSS transitions, keyframe animations are not interruptible. If 
 If you are using Tailwind, we recommend using the [tailwindcss-animate](https://github.com/jamiebuilds/tailwindcss-animate) plugin. This includes utilities for building common animations such as fading, sliding, and zooming.
 
 ```jsx
-<Popover className="data-[entering]:animate-in data-[entering]:fade-in data-[exiting]:animate-out data-[exiting]:fade-out">
-  {/* ... */}
-</Popover>
+<Popover className="data-[entering]:animate-in data-[entering]:fade-in data-[exiting]:animate-out data-[exiting]:fade-out">{/* ... */}</Popover>
 ```
 
 ### Motion
@@ -330,8 +317,8 @@ If you are using Tailwind, we recommend using the [tailwindcss-animate](https://
 [Motion](https://motion.dev) and other JavaScript animation libraries can also be used with React Aria Components. Use [motion.create](https://motion.dev/docs/react-motion-component#custom-components) to create a wrapper component that adds support for Motion's animation props.
 
 ```tsx
-import {Modal, ModalOverlay} from 'react-aria-components/Modal';
-import {motion} from 'motion/react';
+import { Modal, ModalOverlay } from 'react-aria-components/Modal';
+import { motion } from 'motion/react';
 
 // Create Motion wrappers.
 const MotionModal = motion.create(Modal);
@@ -341,10 +328,8 @@ const MotionModalOverlay = motion.create(ModalOverlay);
 This enables using props like [animate](https://motion.dev/docs/react-motion-component#animation) with React Aria Components.
 
 ```tsx
-<MotionModal
-  initial={{opacity: 0}}
-  animate={{opacity: 1}}>
-  {/* ... */}
+<MotionModal initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+	{/* ... */}
 </MotionModal>
 ```
 
@@ -354,66 +339,64 @@ Overlay exit animations can be implemented using the `isExiting` prop, which kee
 type AnimationState = 'unmounted' | 'hidden' | 'visible';
 
 function Example() {
-  /*- begin highlight -*/
-  // Track animation state.
-  let [animation, setAnimation] = React.useState<AnimationState>('unmounted');
-  /*- end highlight -*/
+	/*- begin highlight -*/
+	// Track animation state.
+	let [animation, setAnimation] = React.useState<AnimationState>('unmounted');
+	/*- end highlight -*/
 
-  return (
-    <DialogTrigger
-      /*- begin highlight -*/
-      // Start animation when open state changes.
-      onOpenChange={isOpen => setAnimation(isOpen ? 'visible' : 'hidden')}
-      /*- end highlight -*/
-    >
-      <Button>Open dialog</Button>
-      <MotionModalOverlay
-        /*- begin highlight -*/
-        // Prevent modal from unmounting during animation.
-        isExiting={animation === 'hidden'}
-        // Reset animation state once it is complete.
-        onAnimationComplete={animation => {
-          setAnimation(a => animation === 'hidden' && a === 'hidden' ? 'unmounted' : a)
-        }}
-        /*- end highlight -*/
-        variants={{
-          hidden: {opacity: 0},
-          visible: {opacity: 1}
-        }}
-        initial="hidden"
-        animate={animation}>
-        <MotionModal
-          variants={{
-            hidden: {opacity: 0, y: 32},
-            visible: {opacity: 1, y: 0}
-          }}>
-          {/* ... */}
-        </MotionModal>
-      </MotionModalOverlay>
-    </DialogTrigger>
-  );
+	return (
+		<DialogTrigger
+			/*- begin highlight -*/
+			// Start animation when open state changes.
+			onOpenChange={(isOpen) => setAnimation(isOpen ? 'visible' : 'hidden')}
+			/*- end highlight -*/
+		>
+			<Button>Open dialog</Button>
+			<MotionModalOverlay
+				/*- begin highlight -*/
+				// Prevent modal from unmounting during animation.
+				isExiting={animation === 'hidden'}
+				// Reset animation state once it is complete.
+				onAnimationComplete={(animation) => {
+					setAnimation((a) => (animation === 'hidden' && a === 'hidden' ? 'unmounted' : a));
+				}}
+				/*- end highlight -*/
+				variants={{
+					hidden: { opacity: 0 },
+					visible: { opacity: 1 },
+				}}
+				initial="hidden"
+				animate={animation}
+			>
+				<MotionModal
+					variants={{
+						hidden: { opacity: 0, y: 32 },
+						visible: { opacity: 1, y: 0 },
+					}}
+				>
+					{/* ... */}
+				</MotionModal>
+			</MotionModalOverlay>
+		</DialogTrigger>
+	);
 }
 ```
 
 The [AnimatePresence](https://motion.dev/docs/react-animate-presence) component allows you to animate when items are added or removed in collection components. Use `array.map` to create children, and make sure each child has a unique `key` in addition to an `id` to ensure Motion can track it.
 
 ```tsx
-import {GridList, GridListItem} from 'react-aria-components/GridList';
-import {motion, AnimatePresence} from 'motion/react';
+import { GridList, GridListItem } from 'react-aria-components/GridList';
+import { motion, AnimatePresence } from 'motion/react';
 
 const MotionItem = motion.create(GridListItem);
 
 <GridList>
-  <AnimatePresence>
-    {items.map(item => (
-      <MotionItem
-        key={item.id}
-        id={item.id}
-        layout
-        exit={{opacity: 0}}>
-        {/* ... */}
-      </MotionItem>
-    ))}
-  </AnimatePresence>
-</GridList>
+	<AnimatePresence>
+		{items.map((item) => (
+			<MotionItem key={item.id} id={item.id} layout exit={{ opacity: 0 }}>
+				{/* ... */}
+			</MotionItem>
+		))}
+	</AnimatePresence>
+</GridList>;
 ```

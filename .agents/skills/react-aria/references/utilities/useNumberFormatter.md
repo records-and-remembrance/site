@@ -18,29 +18,27 @@ using the [I18nProvider](I18nProvider.md) to specify the locale to display.
 
 ```tsx
 'use client';
-import {I18nProvider} from 'react-aria/I18nProvider';
-import {useNumberFormatter} from 'react-aria/useNumberFormatter';
+import { I18nProvider } from 'react-aria/I18nProvider';
+import { useNumberFormatter } from 'react-aria/useNumberFormatter';
 
-function Currency({value, currency}) {
-  let formatter = useNumberFormatter({
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 0
-  });
+function Currency({ value, currency }) {
+	let formatter = useNumberFormatter({
+		style: 'currency',
+		currency,
+		minimumFractionDigits: 0,
+	});
 
-  return (
-    <p>{formatter.format(value)}</p>
-  );
+	return <p>{formatter.format(value)}</p>;
 }
 
 <>
-  <I18nProvider locale="en-US">
-    <Currency value={125000} currency="USD" />
-  </I18nProvider>
-  <I18nProvider locale="de-DE">
-    <Currency value={350000} currency="EUR" />
-  </I18nProvider>
-</>
+	<I18nProvider locale="en-US">
+		<Currency value={125000} currency="USD" />
+	</I18nProvider>
+	<I18nProvider locale="de-DE">
+		<Currency value={350000} currency="EUR" />
+	</I18nProvider>
+</>;
 ```
 
 ## API

@@ -20,42 +20,42 @@ and diacritics.
 ```tsx
 'use client';
 import React from 'react';
-import {useFilter} from 'react-aria/useFilter';
+import { useFilter } from 'react-aria/useFilter';
 
 function Example() {
-  const composers = [
-    'Wolfgang Amadeus Mozart',
-    'Johann Sebastian Bach',
-    'Ludwig van Beethoven',
-    'Claude Debussy',
-    'George Frideric Handel',
-    'Frédéric Chopin',
-    'Johannes Brahms',
-    'Pyotr Ilyich Tchaikovsky',
-    'Antonín Dvořák',
-    'Felix Mendelssohn',
-    'Béla Bartók',
-    'Niccolò Paganini'
-  ];
+	const composers = [
+		'Wolfgang Amadeus Mozart',
+		'Johann Sebastian Bach',
+		'Ludwig van Beethoven',
+		'Claude Debussy',
+		'George Frideric Handel',
+		'Frédéric Chopin',
+		'Johannes Brahms',
+		'Pyotr Ilyich Tchaikovsky',
+		'Antonín Dvořák',
+		'Felix Mendelssohn',
+		'Béla Bartók',
+		'Niccolò Paganini',
+	];
 
-  let {contains} = useFilter({
-    sensitivity: 'base'
-  });
+	let { contains } = useFilter({
+		sensitivity: 'base',
+	});
 
-  let [value, setValue] = React.useState('');
-  let matchedComposers = composers.filter(composer => contains(composer, value));
+	let [value, setValue] = React.useState('');
+	let matchedComposers = composers.filter((composer) => contains(composer, value));
 
-  return (
-    <>
-      <label htmlFor="search-input">Filter: </label>
-      <input type="search" id="search-input" value={value} onChange={e => setValue(e.target.value)} />
-      <ul style={{height: 300}}>
-        {matchedComposers.map((composer, i) =>
-          <li key={i}>{composer}</li>)
-        }
-      </ul>
-    </>
-  );
+	return (
+		<>
+			<label htmlFor="search-input">Filter: </label>
+			<input type="search" id="search-input" value={value} onChange={(e) => setValue(e.target.value)} />
+			<ul style={{ height: 300 }}>
+				{matchedComposers.map((composer, i) => (
+					<li key={i}>{composer}</li>
+				))}
+			</ul>
+		</>
+	);
 }
 ```
 

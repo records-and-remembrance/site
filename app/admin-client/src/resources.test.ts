@@ -1,197 +1,143 @@
-import { describe, expect, test } from "bun:test";
-import {
-  editorConfigs,
-  mainResourceOrder,
-  relationDetailColumnKey,
-  relationDetailTarget,
-  resourceConfigs,
-  selectRelationRows,
-} from "./resources";
+import { describe, expect, test } from 'bun:test';
+import { editorConfigs, mainResourceOrder, relationDetailColumnKey, relationDetailTarget, resourceConfigs, selectRelationRows } from './resources';
 
-describe("admin screen configuration", () => {
-  test("defines every main domain screen", () => {
-    expect(mainResourceOrder).toEqual([
-      "people",
-      "projects",
-      "works",
-      "compositions",
-      "events",
-      "articles",
-      "contributions",
-    ]);
+describe('admin screen configuration', () => {
+	test('defines every main domain screen', () => {
+		expect(mainResourceOrder).toEqual(['people', 'projects', 'works', 'compositions', 'events', 'articles', 'contributions']);
 
-    for (const resource of mainResourceOrder) {
-      const config = resourceConfigs[resource];
-      expect(config.title).toBeTruthy();
-      expect(config.columns.length).toBeGreaterThan(1);
-      expect(config.fields.length).toBeGreaterThan(0);
-      expect(config.defaultSort).toBeTruthy();
-    }
-  });
+		for (const resource of mainResourceOrder) {
+			const config = resourceConfigs[resource];
+			expect(config.title).toBeTruthy();
+			expect(config.columns.length).toBeGreaterThan(1);
+			expect(config.fields.length).toBeGreaterThan(0);
+			expect(config.defaultSort).toBeTruthy();
+		}
+	});
 
-  test("uses human-readable foreign key selectors", () => {
-    for (const resource of mainResourceOrder) {
-      for (const field of resourceConfigs[resource].fields) {
-        if (field.key.endsWith("Id") && field.key !== "id") {
-          expect(["combobox", "target"]).toContain(field.type);
-        }
-      }
-    }
-  });
+	test('uses human-readable foreign key selectors', () => {
+		for (const resource of mainResourceOrder) {
+			for (const field of resourceConfigs[resource].fields) {
+				if (field.key.endsWith('Id') && field.key !== 'id') {
+					expect(['combobox', 'target']).toContain(field.type);
+				}
+			}
+		}
+	});
 
-  test("keeps first-milestone relations inside parent details", () => {
-    expect(resourceConfigs.people.relations?.map((relation) => relation.resource)).toContain(
-      "memberships",
-    );
-    expect(resourceConfigs.projects.relations?.map((relation) => relation.resource)).toEqual(
-      expect.arrayContaining(["memberships", "works", "events"]),
-    );
-    expect(resourceConfigs.works.relations?.map((relation) => relation.resource)).toContain(
-      "releases",
-    );
-    expect(
-      resourceConfigs.works.relations?.find((relation) => relation.resource === "releases")
-        ?.nestedAction?.resource,
-    ).toBe("label-relations");
-    expect(
-      resourceConfigs.works.relations?.find((relation) => relation.resource === "releases")
-        ?.nestedAction?.itemsKey,
-    ).toBe("labels");
-    expect(
-      resourceConfigs.people.relations?.find((relation) => relation.resource === "memberships")
-        ?.nestedAction?.itemsKey,
-    ).toBe("roles");
-    expect(resourceConfigs.events.relations?.map((relation) => relation.resource)).toContain(
-      "event-performances",
-    );
-  });
+	test('keeps first-milestone relations inside parent details', () => {
+		expect(resourceConfigs.people.relations?.map((relation) => relation.resource)).toContain('memberships');
+		expect(resourceConfigs.projects.relations?.map((relation) => relation.resource)).toEqual(expect.arrayContaining(['memberships', 'works', 'events']));
+		expect(resourceConfigs.works.relations?.map((relation) => relation.resource)).toContain('releases');
+		expect(resourceConfigs.works.relations?.find((relation) => relation.resource === 'releases')?.nestedAction?.resource).toBe('label-relations');
+		expect(resourceConfigs.works.relations?.find((relation) => relation.resource === 'releases')?.nestedAction?.itemsKey).toBe('labels');
+		expect(resourceConfigs.people.relations?.find((relation) => relation.resource === 'memberships')?.nestedAction?.itemsKey).toBe('roles');
+		expect(resourceConfigs.events.relations?.map((relation) => relation.resource)).toContain('event-performances');
+	});
 
-  test("defines remaining screen detail relationships", () => {
-    expect(resourceConfigs.compositions.relations?.map((relation) => relation.resource)).toContain(
-      "recordings",
-    );
-    expect(resourceConfigs.articles.relations?.map((relation) => relation.resource)).toContain(
-      "article-mentions",
-    );
-    expect(resourceConfigs.contributions.fields.map((field) => field.type)).toContain("target");
-  });
+	test('defines remaining screen detail relationships', () => {
+		expect(resourceConfigs.compositions.relations?.map((relation) => relation.resource)).toContain('recordings');
+		expect(resourceConfigs.articles.relations?.map((relation) => relation.resource)).toContain('article-mentions');
+		expect(resourceConfigs.contributions.fields.map((field) => field.type)).toContain('target');
+	});
 
-  test("provides human-readable lookups for every target type", () => {
-    expect(["work", "event", "person"]).toEqual(
-      expect.arrayContaining(["work", "event", "person"]),
-    );
-  });
+	test('provides human-readable lookups for every target type', () => {
+		expect(['work', 'event', 'person']).toEqual(expect.arrayContaining(['work', 'event', 'person']));
+	});
 
-  test("allows membership support status to be edited", () => {
-    expect(editorConfigs.memberships.fields).toContainEqual({
-      key: "support",
-      label: "サポート",
-      type: "checkbox",
-    });
-  });
+	test('allows membership support status to be edited', () => {
+		expect(editorConfigs.memberships.fields).toContainEqual({
+			key: 'support',
+			label: 'サポート',
+			type: 'checkbox',
+		});
+	});
 
-  test("splits project memberships into regular and support sections", () => {
-    const membershipRelations = resourceConfigs.projects.relations?.filter(
-      (relation) => relation.resource === "memberships",
-    );
+	test('splits project memberships into regular and support sections', () => {
+		const membershipRelations = resourceConfigs.projects.relations?.filter((relation) => relation.resource === 'memberships');
 
-    expect(membershipRelations).toEqual([
-      expect.objectContaining({
-        key: "members",
-        label: "メンバー",
-        filter: { key: "support", value: false },
-        defaults: { support: false },
-      }),
-      expect.objectContaining({
-        key: "supportMembers",
-        sourceKey: "members",
-        label: "サポートメンバー",
-        filter: { key: "support", value: true },
-        defaults: { support: true },
-      }),
-    ]);
-  });
+		expect(membershipRelations).toEqual([
+			expect.objectContaining({
+				key: 'members',
+				label: 'メンバー',
+				filter: { key: 'support', value: false },
+				defaults: { support: false },
+			}),
+			expect.objectContaining({
+				key: 'supportMembers',
+				sourceKey: 'members',
+				label: 'サポートメンバー',
+				filter: { key: 'support', value: true },
+				defaults: { support: true },
+			}),
+		]);
+	});
 
-  test("selects relation rows by source and support status", () => {
-    const related = {
-      members: [
-        { id: "regular", personName: "通常奏者", support: false },
-        { id: "support-z", personName: "山田", support: true },
-        { id: "support-a", personName: "阿部", support: true },
-      ],
-    };
-    const supportRelation = resourceConfigs.projects.relations?.find(
-      (relation) => relation.key === "supportMembers",
-    );
+	test('selects relation rows by source and support status', () => {
+		const related = {
+			members: [
+				{ id: 'regular', personName: '通常奏者', support: false },
+				{ id: 'support-z', personName: '山田', support: true },
+				{ id: 'support-a', personName: '阿部', support: true },
+			],
+		};
+		const supportRelation = resourceConfigs.projects.relations?.find((relation) => relation.key === 'supportMembers');
 
-    expect(selectRelationRows(related, supportRelation!)).toEqual([
-      { id: "support-a", personName: "阿部", support: true },
-      { id: "support-z", personName: "山田", support: true },
-    ]);
-  });
+		expect(selectRelationRows(related, supportRelation!)).toEqual([
+			{ id: 'support-a', personName: '阿部', support: true },
+			{ id: 'support-z', personName: '山田', support: true },
+		]);
+	});
 
-  test("defines initial sorting for every related table", () => {
-    for (const config of Object.values(resourceConfigs)) {
-      for (const relation of config.relations ?? []) {
-        expect(relation.defaultSort).toBeTruthy();
-        expect(relation.columns.map((column) => column.key)).toContain(
-          relation.defaultSort,
-        );
-      }
-    }
-  });
+	test('defines initial sorting for every related table', () => {
+		for (const config of Object.values(resourceConfigs)) {
+			for (const relation of config.relations ?? []) {
+				expect(relation.defaultSort).toBeTruthy();
+				expect(relation.columns.map((column) => column.key)).toContain(relation.defaultSort);
+			}
+		}
+	});
 
-  test("resolves a configured resource field to its detail resource", () => {
-    const worksRelation = resourceConfigs.projects.relations?.find(
-      (relation) => relation.key === "works",
-    );
-    const tracksRelation = resourceConfigs.works.relations?.find(
-      (relation) => relation.key === "tracks",
-    );
+	test('resolves a configured resource field to its detail resource', () => {
+		const worksRelation = resourceConfigs.projects.relations?.find((relation) => relation.key === 'works');
+		const tracksRelation = resourceConfigs.works.relations?.find((relation) => relation.key === 'tracks');
 
-    expect(relationDetailTarget(worksRelation!, { id: "work-1" })).toEqual({
-      resource: "works",
-      id: "work-1",
-    });
-    expect(
-      relationDetailTarget(tracksRelation!, {
-        id: "track-1",
-        compositionId: "composition-1",
-      }),
-    ).toEqual({
-      resource: "compositions",
-      id: "composition-1",
-    });
-    expect(relationDetailColumnKey(tracksRelation!)).toBe("compositionTitle");
-    expect(relationDetailTarget(tracksRelation!, { id: "track-1" })).toBeNull();
-    expect(relationDetailTarget(worksRelation!, {})).toBeNull();
-  });
+		expect(relationDetailTarget(worksRelation!, { id: 'work-1' })).toEqual({
+			resource: 'works',
+			id: 'work-1',
+		});
+		expect(
+			relationDetailTarget(tracksRelation!, {
+				id: 'track-1',
+				compositionId: 'composition-1',
+			}),
+		).toEqual({
+			resource: 'compositions',
+			id: 'composition-1',
+		});
+		expect(relationDetailColumnKey(tracksRelation!)).toBe('compositionTitle');
+		expect(relationDetailTarget(tracksRelation!, { id: 'track-1' })).toBeNull();
+		expect(relationDetailTarget(worksRelation!, {})).toBeNull();
+	});
 
-  test("links relation resources instead of membership and performance records", () => {
-    const projectMembership = resourceConfigs.people.relations?.find(
-      (relation) => relation.key === "memberships",
-    );
-    const personMembership = resourceConfigs.projects.relations?.find(
-      (relation) => relation.key === "members",
-    );
-    const performance = resourceConfigs.events.relations?.find(
-      (relation) => relation.key === "performances",
-    );
+	test('links relation resources instead of membership and performance records', () => {
+		const projectMembership = resourceConfigs.people.relations?.find((relation) => relation.key === 'memberships');
+		const personMembership = resourceConfigs.projects.relations?.find((relation) => relation.key === 'members');
+		const performance = resourceConfigs.events.relations?.find((relation) => relation.key === 'performances');
 
-    expect(projectMembership?.detailTarget).toEqual({
-      resource: "projects",
-      idKey: "projectId",
-      columnKey: "projectName",
-    });
-    expect(personMembership?.detailTarget).toEqual({
-      resource: "people",
-      idKey: "personId",
-      columnKey: "personName",
-    });
-    expect(performance?.detailTarget).toEqual({
-      resource: "compositions",
-      idKey: "compositionId",
-      columnKey: "compositionTitle",
-    });
-  });
+		expect(projectMembership?.detailTarget).toEqual({
+			resource: 'projects',
+			idKey: 'projectId',
+			columnKey: 'projectName',
+		});
+		expect(personMembership?.detailTarget).toEqual({
+			resource: 'people',
+			idKey: 'personId',
+			columnKey: 'personName',
+		});
+		expect(performance?.detailTarget).toEqual({
+			resource: 'compositions',
+			idKey: 'compositionId',
+			columnKey: 'compositionTitle',
+		});
+	});
 });
