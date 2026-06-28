@@ -271,7 +271,7 @@ function LookupField({ className, label, lookup, value, initialLabel = '', requi
 		queryKey: ['admin', 'lookup', lookup, search],
 		queryFn: () => lookupRecords(lookup, search),
 	});
-	const options = query.data ?? [];
+	const options = useMemo(() => query.data ?? [], [query.data]);
 
 	useEffect(() => {
 		if (!search && value) {
