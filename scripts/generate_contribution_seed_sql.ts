@@ -238,8 +238,8 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--files") {
       const collected: string[] = [];
-      while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
-        collected.push(argv[++i]);
+      while (argv[i + 1] && !argv[i + 1]!.startsWith("--")) {
+        collected.push(argv[++i]!);
       }
       files = collected;
       continue;
@@ -268,14 +268,15 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
   while (index < lines.length) {
     const line = lines[index];
+    if (line === undefined) break;
     if (line.trim() === "---") {
       index += 1;
       break;
     }
     if (line.startsWith("tags:")) {
       index += 1;
-      while (index < lines.length && lines[index].startsWith("  - ")) {
-        tags.push(parseScalar(lines[index].slice(4)));
+      while (index < lines.length && lines[index]!.startsWith("  - ")) {
+        tags.push(parseScalar(lines[index]!.slice(4)));
         index += 1;
       }
       meta.tags = tags;
@@ -319,7 +320,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),
@@ -397,7 +398,7 @@ function parseSupportMemberLines(source: SourceArticle): string[] {
 
     const nestedItem = line.match(/^\s{2,}[-*]\s+(.+)$/);
     if (nestedItem) {
-      result.push(nestedItem[1].trim());
+      result.push(nestedItem[1]!.trim());
       continue;
     }
 
@@ -466,7 +467,7 @@ function parseSupportCredit(source: SourceArticle, rawLine: string): Contributio
   if (isEmptySupportValue(rawCredit)) return null;
   if (/はセットリスト|特記した曲のみ参加/.test(rawCredit)) return null;
 
-  const parenValues = [...rawCredit.matchAll(/[（(]([^（）()]*)[）)]/gu)].map((match) => cleanText(match[1]));
+  const parenValues = [...rawCredit.matchAll(/[（(]([^（）()]*)[）)]/gu)].map((match) => cleanText(match[1]!));
   let base = cleanText(rawCredit.replace(/[（(][^（）()]*[）)]/gu, " "));
   const instruments = new Set<string>();
   for (const value of parenValues) {
@@ -475,10 +476,10 @@ function parseSupportCredit(source: SourceArticle, rawLine: string): Contributio
 
   const prefix = base.match(/^([A-Za-z.,&/\s]+)\s+(.+)$/u);
   if (prefix) {
-    const prefixInstruments = parseInstruments(prefix[1]);
+    const prefixInstruments = parseInstruments(prefix[1]!);
     if (prefixInstruments.length > 0) {
       for (const instrument of prefixInstruments) instruments.add(instrument);
-      base = prefix[2].trim();
+      base = prefix[2]!.trim();
     }
   }
 
@@ -525,7 +526,7 @@ function splitOutlineBlocks(body: string): OutlineBlock[] {
     const topMatch = rawLine.match(/^##\s+(.+)$/);
     if (topMatch) {
       pushBlock();
-      currentTop = cleanText(topMatch[1]);
+      currentTop = cleanText(topMatch[1]!);
       currentSub = null;
       currentLines = [];
       continue;
@@ -534,7 +535,7 @@ function splitOutlineBlocks(body: string): OutlineBlock[] {
     const subMatch = rawLine.match(/^###\s+(.+)$/);
     if (subMatch) {
       pushBlock();
-      currentSub = cleanText(subMatch[1]);
+      currentSub = cleanText(subMatch[1]!);
       currentLines = [];
       continue;
     }
@@ -598,7 +599,7 @@ function parseTrackListBlock(section: string, source: SourceArticle): { number: 
 
     const noteMatch = line.match(/^\s{2,}[-*]\s+(.+)$/);
     if (noteMatch) {
-      current.noteLines.push(noteMatch[1].trim());
+      current.noteLines.push(noteMatch[1]!.trim());
       continue;
     }
 
@@ -651,9 +652,9 @@ async function loadRecordingLookupFromTrackSeed(trackSeedPath: string): Promise<
       /^VALUES \('([^']+)', '([^']+)', '([^']+)', (\d+), NULL, '(?:source_file=)?([^']+)'\),?$/,
     );
     if (!match) continue;
-    const recordingId = match[3];
-    const trackNumber = Number.parseInt(match[4], 10);
-    const sourceFile = match[5];
+    const recordingId = match[3]!;
+    const trackNumber = Number.parseInt(match[4]!, 10);
+    const sourceFile = match[5]!;
     lookup.set(`${sourceFile}|${trackNumber}`, recordingId);
   }
   return lookup;
@@ -677,7 +678,7 @@ function parseParticipantRoster(source: SourceArticle): string[] {
 
     const item = line.match(/^\s*[-*]\s+(.+)$/);
     if (item) {
-      const name = canonicalPersonName(item[1]);
+      const name = canonicalPersonName(item[1]!);
       if (name && !roster.includes(name)) roster.push(name);
       continue;
     }
@@ -692,7 +693,7 @@ function parseParticipantRoster(source: SourceArticle): string[] {
 
 function parseMatrixRowLabel(label: string): number | null {
   const match = cleanText(label).match(/^#\s*(\d+)/);
-  return match ? Number.parseInt(match[1], 10) : null;
+  return match ? Number.parseInt(match[1]!, 10) : null;
 }
 
 function normalizeMatrixInstrument(value: string): string | null {
@@ -717,7 +718,7 @@ function parseMatrixCellPeople(value: string, fallbackInstrument: string | null,
     if (!token) continue;
     const hintMatch = token.match(/^(.+?)\(([^()]+)\)$/u);
     const base = cleanText(hintMatch?.[1] ?? token);
-    const hint = hintMatch ? normalizeMatrixInstrument(hintMatch[2]) : null;
+    const hint = hintMatch ? normalizeMatrixInstrument(hintMatch[2]!) : null;
     const personName = canonicalPersonName(base);
     if (!personName) continue;
     results.push({ personName, instrument: hint ?? fallbackInstrument ?? "performer" });
@@ -758,9 +759,9 @@ export function parseMatrixOtherCell(value: string, roster: string[]): { personN
     if (!trimmed) continue;
     const colonMatch = trimmed.match(/^(.+?)[：:]\s*(.+)$/u);
     if (colonMatch) {
-      const instrument = normalizeMatrixInstrument(colonMatch[1]);
+      const instrument = normalizeMatrixInstrument(colonMatch[1]!);
       if (!instrument) continue;
-      for (const person of parseMatrixCellPeople(colonMatch[2], instrument, roster)) {
+      for (const person of parseMatrixCellPeople(colonMatch[2]!, instrument, roster)) {
         results.push(person);
       }
       continue;
@@ -768,9 +769,9 @@ export function parseMatrixOtherCell(value: string, roster: string[]): { personN
 
     const labelMatch = trimmed.match(/^(.+?)\s+(.+)$/u);
     if (labelMatch) {
-      const instrument = normalizeMatrixInstrument(labelMatch[1]);
+      const instrument = normalizeMatrixInstrument(labelMatch[1]!);
       if (instrument) {
-        for (const person of parseMatrixCellPeople(labelMatch[2], instrument, roster)) {
+        for (const person of parseMatrixCellPeople(labelMatch[2]!, instrument, roster)) {
           results.push(person);
         }
         continue;
@@ -808,7 +809,7 @@ async function collectRecordingContributions(sources: SourceArticle[], recording
       for (const table of tables) {
         const header = table.headers.map((cell) => cleanText(cell));
         if (header.length < 2) continue;
-        const firstHeader = header[0];
+        const firstHeader = header[0]!;
         const hasTrackMatrix = /^#|^トラック\/楽器/.test(firstHeader);
         if (!hasTrackMatrix) continue;
 
@@ -822,7 +823,7 @@ async function collectRecordingContributions(sources: SourceArticle[], recording
           if (!recordingId) continue;
 
           for (let columnIndex = 1; columnIndex < header.length; columnIndex += 1) {
-            const columnHeader = header[columnIndex];
+            const columnHeader = header[columnIndex]!;
             const cellValue = cleanText(row[columnIndex] ?? "");
             if (!cellValue) continue;
 
@@ -861,7 +862,7 @@ function parseTablesFromMarkdown(markdown: string): { headers: string[]; rows: s
     if (child.type !== "table") continue;
     const rows = child.children ?? [];
     if (rows.length === 0) continue;
-    const headerCells = (rows[0].children ?? []).map((cell) => cleanText(plainTextFromNode(cell)));
+    const headerCells = (rows[0]!.children ?? []).map((cell) => cleanText(plainTextFromNode(cell)));
     const bodyRows = rows.slice(1).map((row) => (row.children ?? []).map((cell) => cleanText(plainTextFromNode(cell))));
     tables.push({ headers: headerCells, rows: bodyRows });
   }
@@ -980,8 +981,8 @@ function parseReleaseCreditRows(body: string): { role: string; names: string }[]
     for (const row of rows.slice(1)) {
       const cells = row.children ?? [];
       if (cells.length < 2) continue;
-      const role = cleanText(plainTextFromNode(cells[0]));
-      const names = cleanText(plainTextFromNode(cells[1]));
+      const role = cleanText(plainTextFromNode(cells[0]!));
+      const names = cleanText(plainTextFromNode(cells[1]!));
       if (role && names) result.push({ role, names });
     }
   }
@@ -1003,7 +1004,7 @@ function normalizeReleaseRoles(rawRole: string): { name: string; category: strin
 
 function parseCreditPeople(rawNames: string): string[] {
   const braceValues = [...rawNames.matchAll(/\{([^{}]+)\}/g)]
-    .flatMap((match) => splitPersonCandidates(match[1]))
+    .flatMap((match) => splitPersonCandidates(match[1]!))
     .filter((candidate) => /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(candidate));
   const source = braceValues.length > 0 ? braceValues.join(" / ") : rawNames;
   const withoutFootnotes = stripFootnotes(source)

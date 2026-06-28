@@ -59,8 +59,8 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--files") {
       const collected: string[] = [];
-      while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
-        collected.push(argv[++i]);
+      while (argv[i + 1] && !argv[i + 1]!.startsWith("--")) {
+        collected.push(argv[++i]!);
       }
       files = collected;
       continue;
@@ -100,6 +100,7 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
   while (index < lines.length) {
     const line = lines[index];
+    if (line === undefined) break;
     if (line.trim() === "---") {
       index += 1;
       break;
@@ -107,8 +108,8 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
     if (line.startsWith("tags:")) {
       index += 1;
-      while (index < lines.length && lines[index].startsWith("  - ")) {
-        tags.push(parseScalar(lines[index].slice(4)));
+      while (index < lines.length && lines[index]!.startsWith("  - ")) {
+        tags.push(parseScalar(lines[index]!.slice(4)));
         index += 1;
       }
       meta.tags = tags;
@@ -158,7 +159,7 @@ async function loadSources(sourceDir: string): Promise<SourceArticle[]> {
 function parseDraftFrontMatter(markdown: string): string {
   const match = markdown.match(/^---\n([\s\S]*?)\n---\n?/);
   if (!match) throw new Error("missing front matter");
-  return match[1];
+  return match[1]!;
 }
 
 function parseYamlScalar(value: string): string | null {
@@ -180,7 +181,7 @@ function parseYamlScalar(value: string): string | null {
 function extractDraftField(frontMatter: string, key: string): string | null {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = frontMatter.match(new RegExp(`^${escaped}:\\s*(.*)$`, "m"));
-  return match ? parseYamlScalar(match[1]) : null;
+  return match ? parseYamlScalar(match[1]!) : null;
 }
 
 function extractDraftBlock(frontMatter: string, key: string): string {
@@ -217,7 +218,7 @@ function sourceEntries(sourcesYaml: string): string[] {
 function extractSourceField(sourceEntry: string, key: string): string | null {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = sourceEntry.match(new RegExp(`^\\s*${escaped}:\\s*(.*)$`, "m"));
-  return match ? parseYamlScalar(match[1]) : null;
+  return match ? parseYamlScalar(match[1]!) : null;
 }
 
 function compositionKey(file: string, rawTitle: string): string {
@@ -258,7 +259,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),
@@ -280,12 +281,12 @@ function parseSections(body: string): Record<string, string> {
   for (const line of body.split(/\r?\n/)) {
     const match = line.trim().match(/^##\s+(.+)$/);
     if (match) {
-      current = match[1].trim();
+      current = match[1]!.trim();
       sections[current] ??= [];
       continue;
     }
     sections[current] ??= [];
-    sections[current].push(line);
+    sections[current]!.push(line);
   }
   return Object.fromEntries(
     Object.entries(sections).map(([key, lines]) => [key, lines.join("\n").trim()]),
@@ -347,7 +348,7 @@ function parseTrackList(section: string, source: SourceArticle): TrackSource[] {
 
     const noteMatch = line.match(/^\s{2,}[-*]\s+(.+)$/);
     if (noteMatch) {
-      current.noteLines.push(noteMatch[1].trim());
+      current.noteLines.push(noteMatch[1]!.trim());
       continue;
     }
 

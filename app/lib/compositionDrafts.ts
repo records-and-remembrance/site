@@ -70,16 +70,16 @@ function parseFrontMatter(markdown: string): { frontMatter: string; body: string
     throw new Error("missing front matter");
   }
 
-  return {
-    frontMatter: match[1],
-    body: match[2] ?? "",
-  };
+  const frontMatter = match[1];
+  if (frontMatter === undefined) throw new Error("missing front matter");
+  return { frontMatter, body: match[2] ?? "" };
 }
 
 function extractField(frontMatter: string, key: string): string | null {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = frontMatter.match(new RegExp(`^${escaped}:\\s*(.*)$`, "m"));
-  return match ? parseYamlScalar(match[1]) : null;
+  const value = match?.[1];
+  return value === undefined ? null : parseYamlScalar(value);
 }
 
 function extractBlock(frontMatter: string, key: string): string {

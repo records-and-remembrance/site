@@ -46,7 +46,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--statuses") {
       const collected: DraftStatus[] = [];
-      while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
+      while (argv[i + 1] && !argv[i + 1]!.startsWith("--")) {
         const status = argv[++i] as DraftStatus;
         if (!STATUSES.has(status)) throw new Error(`Unsupported status: ${status}`);
         collected.push(status);
@@ -80,13 +80,13 @@ function parseYamlScalar(value: string): string | null {
 function parseFrontMatter(markdown: string): string {
   const match = markdown.match(/^---\n([\s\S]*?)\n---\n?/);
   if (!match) throw new Error("missing front matter");
-  return match[1];
+  return match[1]!;
 }
 
 function extractField(frontMatter: string, key: string): string | null {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = frontMatter.match(new RegExp(`^${escaped}:\\s*(.*)$`, "m"));
-  return match ? parseYamlScalar(match[1]) : null;
+  return match ? parseYamlScalar(match[1]!) : null;
 }
 
 function extractBlock(frontMatter: string, key: string): string {
@@ -153,7 +153,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),

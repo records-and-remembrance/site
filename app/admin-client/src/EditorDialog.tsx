@@ -55,8 +55,8 @@ import {
 
 interface EditorDialogProps {
   resource: EditorResource;
-  record?: Record<string, unknown>;
-  defaults?: Record<string, string>;
+  record?: Record<string, unknown> | undefined;
+  defaults?: Record<string, string> | undefined;
   onClose: () => void;
   onSaved: (record: Record<string, unknown>) => void;
 }
@@ -190,9 +190,9 @@ export function EditorDialog({
 interface FieldProps {
   field: FieldConfig;
   resource: EditorResource;
-  record?: Record<string, unknown>;
+  record?: Record<string, unknown> | undefined;
   values: FormValues;
-  error?: string;
+  error?: string | undefined;
   onChange: (key: string, value: string | boolean) => void;
 }
 
@@ -231,7 +231,7 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
       <Select
         className={className}
         selectedKey={String(values[field.key] ?? "")}
-        isRequired={field.required}
+        isRequired={field.required ?? false}
         onSelectionChange={(key) => onChange(field.key, String(key))}
       >
         <Label>{field.label}</Label>
@@ -275,8 +275,8 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
     return (
       <NumberField
         className={className}
-        isRequired={field.required}
-        value={Number.isFinite(value) && values[field.key] !== "" ? value : undefined}
+        isRequired={field.required ?? false}
+        {...(Number.isFinite(value) && values[field.key] !== "" ? { value } : {})}
         onChange={(next) => onChange(field.key, Number.isNaN(next) ? "" : String(next))}
       >
         <Label>{field.label}</Label>
@@ -309,7 +309,7 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
     return field.type === "date" ? (
       <DateField
         className={className}
-        isRequired={field.required}
+        isRequired={field.required ?? false}
         value={rawValue ? parseDate(rawValue) : null}
         onChange={(next) => onChange(field.key, next?.toString() ?? "")}
       >
@@ -318,7 +318,7 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
     ) : (
       <TimeField
         className={className}
-        isRequired={field.required}
+        isRequired={field.required ?? false}
         value={rawValue ? parseTime(rawValue) : null}
         onChange={(next) => onChange(field.key, next?.toString() ?? "")}
       >
@@ -330,7 +330,7 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
   return (
     <TextField
       className={className}
-      isRequired={field.required}
+      isRequired={field.required ?? false}
       value={String(values[field.key] ?? "")}
       onChange={(value) => onChange(field.key, value)}
     >
@@ -340,7 +340,7 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
       ) : (
         <Input
           type={field.type === "text" ? "text" : field.type}
-          placeholder={field.placeholder}
+          {...(field.placeholder ? { placeholder: field.placeholder } : {})}
         />
       )}
       {error ? <span className="field-error">{error}</span> : null}
@@ -353,9 +353,9 @@ interface LookupFieldProps {
   label: string;
   lookup: LookupResource;
   value: string;
-  initialLabel?: string;
-  required?: boolean;
-  error?: string;
+  initialLabel?: string | undefined;
+  required?: boolean | undefined;
+  error?: string | undefined;
   onChange: (value: string) => void;
 }
 
@@ -391,7 +391,7 @@ function LookupField({
       inputValue={search}
       items={options}
       selectedKey={value || null}
-      isRequired={required}
+      isRequired={required ?? false}
       menuTrigger="focus"
       allowsEmptyCollection
       onInputChange={setSearch}
@@ -455,7 +455,7 @@ function TargetField({
   className: string;
   resource: EditorResource;
   values: FormValues;
-  error?: string;
+  error?: string | undefined;
   onChange: (key: string, value: string) => void;
 }) {
   const isContribution = resource === "contributions";
@@ -470,12 +470,12 @@ function TargetField({
         { value: "event", label: "イベント", lookup: "event" as const },
         { value: "person", label: "人物", lookup: "person" as const },
       ];
-  const fallbackType = targetOptions[0].value;
+  const fallbackType = targetOptions[0]!.value;
   const type = targetOptions.some((option) => option.value === values.targetType)
     ? String(values.targetType)
     : fallbackType;
   const lookup = targetOptions.find((option) => option.value === type)?.lookup ??
-    targetOptions[0].lookup;
+    targetOptions[0]!.lookup;
 
   useEffect(() => {
     if (values.targetType !== type) {

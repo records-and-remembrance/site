@@ -49,7 +49,7 @@ export interface AdminListQuery {
   search: string;
   page: number;
   pageSize: number;
-  sort?: string;
+  sort?: string | undefined;
   direction: SortDirection;
 }
 

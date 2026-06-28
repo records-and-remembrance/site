@@ -3,20 +3,31 @@ import { PgDialect } from "drizzle-orm/pg-core";
 import { adminResources, lookupResources } from "./types";
 import {
   DrizzleAdminRepository,
+  joinedResourceDefinitions,
   lookupDefinitions,
-  resourceDefinitions,
+  relatedLoaders,
+  resourceTables,
+  simpleResourceDefinitions,
 } from "./repository";
 
 describe("admin repository definitions", () => {
-  test("defines every route resource with safe list columns", () => {
-    expect(Object.keys(resourceDefinitions).sort()).toEqual([...adminResources].sort());
+  test("separates persistence tables from read models", () => {
+    const readResources = adminResources.filter((resource) => resource !== "article-mentions");
+    expect(Object.keys(resourceTables).sort()).toEqual([...readResources].sort());
 
-    for (const resource of adminResources) {
-      const definition = resourceDefinitions[resource];
-      expect(definition.table).toBeTruthy();
-      expect(definition.select.id).toBeTruthy();
+    const simpleResources = Object.keys(simpleResourceDefinitions);
+    const joinedResources = Object.keys(joinedResourceDefinitions);
+
+    expect(simpleResources.filter((resource) => joinedResources.includes(resource))).toEqual([]);
+    expect([...simpleResources, ...joinedResources].sort()).toEqual([...readResources].sort());
+
+    for (const definition of [
+      ...Object.values(simpleResourceDefinitions),
+      ...Object.values(joinedResourceDefinitions),
+    ]) {
+      expect(definition.select["id"]).toBeTruthy();
       expect(definition.searchColumns.length).toBeGreaterThan(0);
-      expect(definition.sortColumns.id).toBeTruthy();
+      expect(definition.sortColumns["id"]).toBeTruthy();
       expect(definition.defaultSort).toBeTruthy();
       expect(definition.sortColumns[definition.defaultSort]).toBeTruthy();
     }
@@ -35,12 +46,18 @@ describe("admin repository definitions", () => {
   });
 
   test("main list definitions expose resolved relationship labels", () => {
-    expect(resourceDefinitions.works.select.projectName).toBeTruthy();
-    expect(resourceDefinitions.events.select.projectName).toBeTruthy();
-    expect(resourceDefinitions.events.select.venueName).toBeTruthy();
-    expect(resourceDefinitions.contributions.select.personName).toBeTruthy();
-    expect(resourceDefinitions.contributions.select.roleName).toBeTruthy();
-    expect(resourceDefinitions.articles.select.publicationName).toBeTruthy();
+    expect(joinedResourceDefinitions.works.select["projectName"]).toBeTruthy();
+    expect(joinedResourceDefinitions.events.select["projectName"]).toBeTruthy();
+    expect(joinedResourceDefinitions.events.select["venueName"]).toBeTruthy();
+    expect(joinedResourceDefinitions.contributions.select["personName"]).toBeTruthy();
+    expect(joinedResourceDefinitions.contributions.select["roleName"]).toBeTruthy();
+    expect(joinedResourceDefinitions.articles.select["publicationName"]).toBeTruthy();
+  });
+
+  test("defines dedicated loaders only for resources with related detail data", () => {
+    expect(Object.keys(relatedLoaders).sort()).toEqual(
+      ["articles", "compositions", "events", "people", "projects", "works"].sort(),
+    );
   });
 
   test("builds an empty search clause without binding a function parameter", async () => {

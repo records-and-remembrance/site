@@ -34,8 +34,8 @@ import {
 
 interface EditorState {
   resource: EditorResource;
-  record?: Record<string, unknown>;
-  defaults?: Record<string, string>;
+  record?: Record<string, unknown> | undefined;
+  defaults?: Record<string, string> | undefined;
 }
 
 export function ResourceScreen({ resource }: { resource: MainResource }) {
@@ -333,7 +333,7 @@ function DetailPanel({
   onEditRelated,
 }: {
   resource: MainResource;
-  record?: Record<string, unknown>;
+  record?: Record<string, unknown> | undefined;
   isLoading: boolean;
   onClose: () => void;
   onEdit: (record: Record<string, unknown>) => void;

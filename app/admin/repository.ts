@@ -1,4 +1,13 @@
-import { getTableColumns, sql, type SQL } from "drizzle-orm";
+import {
+  asc,
+  desc,
+  eq,
+  getTableColumns,
+  inArray,
+  sql,
+  type SQL,
+  type SQLWrapper,
+} from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 import { db as defaultDb } from "../db";
 import * as schema from "../db/schema";
@@ -11,12 +20,11 @@ import type {
   LookupResource,
 } from "./types";
 
-interface ResourceDefinition {
-  table: PgTable;
-  from: SQL;
-  select: Record<string, SQL>;
-  searchColumns: SQL[];
-  sortColumns: Record<string, SQL>;
+interface ResourceReadDefinition {
+  from: SQLWrapper;
+  select: Record<string, SQLWrapper>;
+  searchColumns: SQLWrapper[];
+  sortColumns: Record<string, SQLWrapper>;
   defaultSort: string;
 }
 
@@ -30,15 +38,13 @@ interface LookupDefinition {
 }
 
 const raw = (value: string) => sql.raw(value);
-const resource = (
-  table: PgTable,
+const joinedResource = (
   from: string,
   select: Record<string, string>,
   searchColumns: string[],
   sortColumns: Record<string, string>,
   defaultSort: string,
-): ResourceDefinition => ({
-  table,
+): ResourceReadDefinition => ({
   from: raw(from),
   select: Object.fromEntries(Object.entries(select).map(([key, value]) => [key, raw(value)])),
   searchColumns: searchColumns.map(raw),
@@ -51,40 +57,131 @@ const resource = (
   defaultSort,
 });
 
-export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
-  people: resource(
+type GenericAdminResource = Exclude<AdminResource, "article-mentions">;
+type SimpleAdminResource =
+  | "people"
+  | "projects"
+  | "venues"
+  | "roles"
+  | "instruments"
+  | "labels"
+  | "distributors"
+  | "publications";
+type JoinedAdminResource = Exclude<GenericAdminResource, SimpleAdminResource>;
+
+export const resourceTables: Record<GenericAdminResource, PgTable> = {
+  people: schema.person,
+  projects: schema.project,
+  works: schema.work,
+  events: schema.event,
+  compositions: schema.composition,
+  articles: schema.article,
+  contributions: schema.contribution,
+  memberships: schema.membership,
+  "membership-roles": schema.membershipRole,
+  releases: schema.release,
+  "label-relations": schema.labelRelation,
+  recordings: schema.recording,
+  tracks: schema.track,
+  "event-performances": schema.eventPerformance,
+  "publication-issues": schema.publicationIssue,
+  venues: schema.venue,
+  roles: schema.role,
+  instruments: schema.instrument,
+  labels: schema.label,
+  distributors: schema.distributor,
+  publications: schema.publication,
+};
+
+function tableId(table: PgTable): SQLWrapper {
+  const id = getTableColumns(table)["id"];
+  if (!id) throw new Error("Admin resource table has no id column");
+  return id;
+}
+
+const simpleResource = (
+  table: PgTable,
+  searchColumns: SQLWrapper[],
+  sortColumns: Record<string, SQLWrapper>,
+  defaultSort: string,
+): ResourceReadDefinition => ({
+  from: table,
+  select: getTableColumns(table),
+  searchColumns,
+  sortColumns: { id: tableId(table), ...sortColumns },
+  defaultSort,
+});
+
+export const simpleResourceDefinitions: Record<SimpleAdminResource, ResourceReadDefinition> = {
+  people: simpleResource(
     schema.person,
-    "person p",
+    [schema.person.name, schema.person.description],
     {
-      id: "p.id",
-      name: "p.name",
-      description: "p.description",
-      birthDate: "p.birth_date",
-      deathDate: "p.death_date",
-      activeFrom: "p.active_from",
-      activeTo: "p.active_to",
+      name: schema.person.name,
+      birthDate: schema.person.birthDate,
+      activeFrom: schema.person.activeFrom,
     },
-    ["p.name", "p.description"],
-    { name: "p.name", birthDate: "p.birth_date", activeFrom: "p.active_from" },
     "name",
   ),
-  projects: resource(
+  projects: simpleResource(
     schema.project,
-    "project p",
+    [schema.project.name, schema.project.type, schema.project.description],
     {
-      id: "p.id",
-      name: "p.name",
-      type: "p.type",
-      description: "p.description",
-      startDate: "p.start_date",
-      endDate: "p.end_date",
+      name: schema.project.name,
+      type: schema.project.type,
+      startDate: schema.project.startDate,
     },
-    ["p.name", "p.type", "p.description"],
-    { name: "p.name", type: "p.type", startDate: "p.start_date" },
     "name",
   ),
-  works: resource(
-    schema.work,
+  venues: simpleResource(
+    schema.venue,
+    [schema.venue.name, schema.venue.location, schema.venue.description],
+    { name: schema.venue.name, location: schema.venue.location },
+    "name",
+  ),
+  roles: simpleResource(
+    schema.role,
+    [schema.role.name, schema.role.category, schema.role.description],
+    { name: schema.role.name, category: schema.role.category },
+    "name",
+  ),
+  instruments: simpleResource(
+    schema.instrument,
+    [schema.instrument.name, schema.instrument.description],
+    { name: schema.instrument.name },
+    "name",
+  ),
+  labels: simpleResource(
+    schema.label,
+    [schema.label.name, schema.label.description],
+    { name: schema.label.name },
+    "name",
+  ),
+  distributors: simpleResource(
+    schema.distributor,
+    [schema.distributor.name, schema.distributor.description],
+    { name: schema.distributor.name },
+    "name",
+  ),
+  publications: simpleResource(
+    schema.publication,
+    [
+      schema.publication.name,
+      schema.publication.type,
+      schema.publication.publisher,
+      schema.publication.description,
+    ],
+    {
+      name: schema.publication.name,
+      type: schema.publication.type,
+      publisher: schema.publication.publisher,
+    },
+    "name",
+  ),
+};
+
+export const joinedResourceDefinitions: Record<JoinedAdminResource, ResourceReadDefinition> = {
+  works: joinedResource(
     "work w join project p on p.id = w.project_id",
     {
       id: "w.id",
@@ -100,8 +197,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "w.id", title: "w.title", projectName: "p.name", releasedDate: "w.released_date" },
     "title",
   ),
-  events: resource(
-    schema.event,
+  events: joinedResource(
     "event e join project p on p.id = e.project_id join venue v on v.id = e.venue_id",
     {
       id: "e.id",
@@ -130,8 +226,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     },
     "eventDate",
   ),
-  compositions: resource(
-    schema.composition,
+  compositions: joinedResource(
     "composition c",
     {
       id: "c.id",
@@ -143,8 +238,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { title: "c.title" },
     "title",
   ),
-  articles: resource(
-    schema.article,
+  articles: joinedResource(
     "article a left join publication_issue pi on pi.id = a.publication_issue_id left join publication p on p.id = pi.publication_id",
     {
       id: "a.id",
@@ -165,8 +259,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { title: "a.title", publicationName: "p.name", publishedDate: "a.published_date" },
     "publishedDate",
   ),
-  contributions: resource(
-    schema.contribution,
+  contributions: joinedResource(
     "contribution c join person p on p.id = c.person_id join role ro on ro.id = c.role_id left join instrument i on i.id = c.instrument_id left join recording rec on rec.id = c.recording_id left join composition co on co.id = rec.composition_id left join release rel on rel.id = c.release_id left join work w on w.id = rel.work_id left join event e on e.id = c.event_id",
     {
       id: "c.id",
@@ -187,8 +280,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { personName: "p.name", roleName: "ro.name", targetName: "targetName" },
     "personName",
   ),
-  memberships: resource(
-    schema.membership,
+  memberships: joinedResource(
     "membership m join person pe on pe.id = m.person_id join project pr on pr.id = m.project_id",
     {
       id: "m.id",
@@ -206,8 +298,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "m.id", personName: "pe.name", projectName: "pr.name", fromDate: "m.from_date" },
     "fromDate",
   ),
-  "membership-roles": resource(
-    schema.membershipRole,
+  "membership-roles": joinedResource(
     "membership_role mr join role r on r.id = mr.role_id left join instrument i on i.id = mr.instrument_id",
     {
       id: "mr.id",
@@ -221,8 +312,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "mr.id", roleName: "r.name", instrumentName: "i.name" },
     "roleName",
   ),
-  releases: resource(
-    schema.release,
+  releases: joinedResource(
     "release r join work w on w.id = r.work_id join project p on p.id = w.project_id left join distributor d on d.id = r.distributor_id",
     {
       id: "r.id",
@@ -244,8 +334,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "r.id", workTitle: "w.title", releaseDate: "r.release_date", format: "r.format" },
     "releaseDate",
   ),
-  "label-relations": resource(
-    schema.labelRelation,
+  "label-relations": joinedResource(
     "label_relation lr join label l on l.id = lr.label_id join release r on r.id = lr.release_id join work w on w.id = r.work_id",
     {
       id: "lr.id",
@@ -258,8 +347,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "lr.id", releaseName: "w.title", labelName: "l.name" },
     "labelName",
   ),
-  recordings: resource(
-    schema.recording,
+  recordings: joinedResource(
     "recording r join composition c on c.id = r.composition_id",
     {
       id: "r.id",
@@ -277,8 +365,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "r.id", compositionTitle: "c.title", recordingYear: "r.recording_year" },
     "compositionTitle",
   ),
-  tracks: resource(
-    schema.track,
+  tracks: joinedResource(
     "track t join release rel on rel.id = t.release_id join work w on w.id = rel.work_id join recording rec on rec.id = t.recording_id join composition c on c.id = rec.composition_id",
     {
       id: "t.id",
@@ -294,8 +381,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "t.id", releaseName: "w.title", trackNumber: "t.track_number", compositionTitle: "c.title" },
     "releaseName",
   ),
-  "event-performances": resource(
-    schema.eventPerformance,
+  "event-performances": joinedResource(
     "event_performance ep join event e on e.id = ep.event_id join composition c on c.id = ep.composition_id",
     {
       id: "ep.id",
@@ -312,8 +398,7 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     { id: "ep.id", eventName: "e.event_date", orderIndex: "ep.order_index", compositionTitle: "c.title" },
     "eventName",
   ),
-  "publication-issues": resource(
-    schema.publicationIssue,
+  "publication-issues": joinedResource(
     "publication_issue pi join publication p on p.id = pi.publication_id",
     {
       id: "pi.id",
@@ -327,75 +412,6 @@ export const resourceDefinitions: Record<AdminResource, ResourceDefinition> = {
     ["p.name", "pi.issue_number", "pi.volume", "pi.description"],
     { id: "pi.id", publicationName: "p.name", publishedDate: "pi.published_date" },
     "publishedDate",
-  ),
-  "article-mentions": resource(
-    schema.articleMentionWork,
-    "article_mention_work am",
-    {
-      id: "am.id",
-      articleId: "am.article_id",
-      targetType: "'work'",
-      targetId: "am.work_id",
-      mentionType: "am.mention_type",
-      notes: "am.notes",
-    },
-    ["am.mention_type", "am.notes"],
-    { mentionType: "am.mention_type" },
-    "mentionType",
-  ),
-  venues: resource(
-    schema.venue,
-    "venue v",
-    { id: "v.id", name: "v.name", location: "v.location", description: "v.description" },
-    ["v.name", "v.location", "v.description"],
-    { name: "v.name", location: "v.location" },
-    "name",
-  ),
-  roles: resource(
-    schema.role,
-    "role r",
-    { id: "r.id", name: "r.name", category: "r.category", description: "r.description" },
-    ["r.name", "r.category", "r.description"],
-    { name: "r.name", category: "r.category" },
-    "name",
-  ),
-  instruments: resource(
-    schema.instrument,
-    "instrument i",
-    { id: "i.id", name: "i.name", description: "i.description" },
-    ["i.name", "i.description"],
-    { name: "i.name" },
-    "name",
-  ),
-  labels: resource(
-    schema.label,
-    "label l",
-    { id: "l.id", name: "l.name", description: "l.description" },
-    ["l.name", "l.description"],
-    { name: "l.name" },
-    "name",
-  ),
-  distributors: resource(
-    schema.distributor,
-    "distributor d",
-    { id: "d.id", name: "d.name", description: "d.description" },
-    ["d.name", "d.description"],
-    { name: "d.name" },
-    "name",
-  ),
-  publications: resource(
-    schema.publication,
-    "publication p",
-    {
-      id: "p.id",
-      name: "p.name",
-      type: "p.type",
-      publisher: "p.publisher",
-      description: "p.description",
-    },
-    ["p.name", "p.type", "p.publisher", "p.description"],
-    { name: "p.name", type: "p.type", publisher: "p.publisher" },
-    "name",
   ),
 };
 
@@ -411,7 +427,7 @@ const lookup = (
   from: raw(from),
   id: raw(id),
   label: raw(label),
-  description: description ? raw(description) : undefined,
+  ...(description ? { description: raw(description) } : {}),
   searchColumns: searchColumns.map(raw),
 });
 
@@ -432,7 +448,27 @@ export const lookupDefinitions: Record<LookupResource, LookupDefinition> = {
   publication: lookup(schema.publication, "publication p", "p.id", "p.name", ["p.name", "p.publisher"], "p.publisher"),
 };
 
+function readDefinition(resourceName: GenericAdminResource): ResourceReadDefinition {
+  if (resourceName in simpleResourceDefinitions) {
+    return simpleResourceDefinitions[resourceName as SimpleAdminResource];
+  }
+  return joinedResourceDefinitions[resourceName as JoinedAdminResource];
+}
+
 type AdminDb = typeof defaultDb;
+type RelatedLoader = (
+  database: AdminDb,
+  id: string,
+) => Promise<Record<string, unknown>>;
+
+export const relatedLoaders = {
+  people: loadPeopleRelated,
+  projects: loadProjectRelated,
+  works: loadWorkRelated,
+  compositions: loadCompositionRelated,
+  events: loadEventRelated,
+  articles: loadArticleRelated,
+} satisfies Partial<Record<AdminResource, RelatedLoader>>;
 
 export class DrizzleAdminRepository implements AdminRepository {
   constructor(private readonly database: AdminDb = defaultDb) {}
@@ -442,7 +478,7 @@ export class DrizzleAdminRepository implements AdminRepository {
       return await this.listArticleMentions(query);
     }
 
-    const definition = resourceDefinitions[resourceName];
+    const definition = readDefinition(resourceName);
     const where = searchClause(definition.searchColumns, query.search);
     const selectedSort =
       definition.sortColumns[query.sort ?? definition.defaultSort] ??
@@ -469,7 +505,7 @@ export class DrizzleAdminRepository implements AdminRepository {
 
     return {
       items: resultRows(itemsResult),
-      total: Number(resultRows(countResult)[0]?.total ?? 0),
+      total: Number(resultRows(countResult)[0]?.["total"] ?? 0),
     };
   }
 
@@ -478,12 +514,12 @@ export class DrizzleAdminRepository implements AdminRepository {
       return await this.findArticleMention(id);
     }
 
-    const definition = resourceDefinitions[resourceName];
+    const definition = readDefinition(resourceName);
     const selection = selectionClause(definition.select);
     const result = await this.database.execute(sql`
       select ${selection}
       from ${definition.from}
-      where ${definition.select.id} = ${id}
+      where ${definition.select["id"]} = ${id}
       limit 1
     `);
     const record = resultRows(result)[0];
@@ -497,9 +533,9 @@ export class DrizzleAdminRepository implements AdminRepository {
     if (resourceName === "article-mentions") {
       return await this.createArticleMention(value);
     }
-    const definition = resourceDefinitions[resourceName];
+    const table = resourceTables[resourceName];
     const rows = await this.database
-      .insert(definition.table)
+      .insert(table)
       .values(value)
       .returning();
     return rows[0] as Record<string, unknown>;
@@ -509,11 +545,11 @@ export class DrizzleAdminRepository implements AdminRepository {
     if (resourceName === "article-mentions") {
       return await this.updateArticleMention(id, value);
     }
-    const definition = resourceDefinitions[resourceName];
+    const table = resourceTables[resourceName];
     const rows = await this.database
-      .update(definition.table)
+      .update(table)
       .set(value)
-      .where(sql`${getTableColumns(definition.table).id} = ${id}`)
+      .where(sql`${tableId(table)} = ${id}`)
       .returning();
     return (rows[0] as Record<string, unknown> | undefined) ?? null;
   }
@@ -536,131 +572,10 @@ export class DrizzleAdminRepository implements AdminRepository {
   }
 
   private async related(resourceName: AdminResource, id: string) {
-    const queries: Partial<Record<AdminResource, Record<string, SQL>>> = {
-      people: {
-        memberships: sql`
-          select m.id, m.project_id as "projectId", p.name as "projectName",
-            m.from_date as "fromDate", m.to_date as "toDate",
-            m.from_date_precision as "fromDatePrecision", m.to_date_precision as "toDatePrecision",
-            m.note,
-            coalesce(json_agg(json_build_object(
-              'id', mr.id, 'membershipId', m.id,
-              'roleId', r.id, 'roleName', r.name,
-              'instrumentId', i.id, 'instrumentName', i.name
-            )) filter (where mr.id is not null), '[]') as roles
-          from membership m
-          join project p on p.id = m.project_id
-          left join membership_role mr on mr.membership_id = m.id
-          left join role r on r.id = mr.role_id
-          left join instrument i on i.id = mr.instrument_id
-          where m.person_id = ${id}
-          group by m.id, p.name
-          order by m.from_date desc
-        `,
-      },
-      projects: {
-        members: sql`
-          select m.id, m.person_id as "personId", p.name as "personName",
-            m.from_date as "fromDate", m.to_date as "toDate", m.note
-          from membership m join person p on p.id = m.person_id
-          where m.project_id = ${id}
-          order by m.from_date desc, p.name
-        `,
-        works: sql`
-          select w.id, w.title, w.released_date as "releasedDate"
-          from work w where w.project_id = ${id}
-          order by w.released_date desc nulls last, w.title
-        `,
-        events: sql`
-          select e.id, e.event_name as "eventName", e.event_date as "eventDate",
-            v.name as "venueName"
-          from event e join venue v on v.id = e.venue_id
-          where e.project_id = ${id}
-          order by e.event_date desc
-        `,
-      },
-      works: {
-        releases: sql`
-          select r.id, r.format, r.catalog_number as "catalogNumber",
-            r.release_date as "releaseDate", r.release_date_precision as "releaseDatePrecision",
-            r.recorded_from as "recordedFrom", r.recorded_to as "recordedTo",
-            r.description, r.notes, r.distributor_id as "distributorId",
-            d.name as "distributorName",
-            coalesce(json_agg(json_build_object(
-              'id', lr.id, 'releaseId', r.id, 'labelId', l.id, 'name', l.name
-            ))
-              filter (where l.id is not null), '[]') as labels
-          from release r
-          left join distributor d on d.id = r.distributor_id
-          left join label_relation lr on lr.release_id = r.id
-          left join label l on l.id = lr.label_id
-          where r.work_id = ${id}
-          group by r.id, d.name
-          order by r.release_date desc nulls last, r.format
-        `,
-        tracks: sql`
-          select t.id, t.release_id as "releaseId", r.format,
-            t.track_number as "trackNumber", rec.id as "recordingId",
-            c.id as "compositionId", c.title as "compositionTitle", t.notes
-          from track t
-          join release r on r.id = t.release_id
-          join recording rec on rec.id = t.recording_id
-          join composition c on c.id = rec.composition_id
-          where r.work_id = ${id}
-          order by r.release_date, r.format, t.track_number
-        `,
-      },
-      compositions: {
-        recordings: sql`
-          select r.id, r.recording_year as "recordingYear", r.type,
-            r.recorded_date as "recordedDate", r.recorded_from as "recordedFrom",
-            r.recorded_to as "recordedTo", r.release_date as "releaseDate", r.notes
-          from recording r where r.composition_id = ${id}
-          order by coalesce(r.recorded_date, r.release_date) desc nulls last
-        `,
-        appearances: sql`
-          select 'release' as "type", rel.id, w.title || ' (' || rel.format || ')' as "label",
-            t.track_number as "orderIndex"
-          from recording rec
-          join track t on t.recording_id = rec.id
-          join release rel on rel.id = t.release_id
-          join work w on w.id = rel.work_id
-          where rec.composition_id = ${id}
-          union all
-          select 'event', e.id, coalesce(e.event_name, e.event_date::text), ep.order_index
-          from event_performance ep join event e on e.id = ep.event_id
-          where ep.composition_id = ${id}
-          order by "label"
-        `,
-      },
-      events: {
-        performances: sql`
-          select ep.id, ep.composition_id as "compositionId", c.title as "compositionTitle",
-            ep.order_index as "orderIndex", ep.encore,
-            ep.variation_note as "variationNote", ep.notes
-          from event_performance ep join composition c on c.id = ep.composition_id
-          where ep.event_id = ${id}
-          order by ep.order_index
-        `,
-      },
-      articles: {
-        issue: sql`
-          select pi.id, pi.publication_id as "publicationId", p.name as "publicationName",
-            pi.issue_number as "issueNumber", pi.volume,
-            pi.published_date as "publishedDate", pi.description
-          from publication_issue pi join publication p on p.id = pi.publication_id
-          join article a on a.publication_issue_id = pi.id
-          where a.id = ${id}
-        `,
-        mentions: articleMentionsForArticle(id),
-      },
-    };
-
-    const entries = Object.entries(queries[resourceName] ?? {});
-    const results = await Promise.all(
-      entries.map(async ([name, query]) => [name, resultRows(await this.database.execute(query))]),
-    );
-    return Object.fromEntries(results);
+    const loader = relatedLoaders[resourceName as keyof typeof relatedLoaders] as
+      | RelatedLoader
+      | undefined;
+    return loader ? await loader(this.database, id) : {};
   }
 
   private async listArticleMentions(query: AdminListQuery): Promise<AdminListResult> {
@@ -681,7 +596,7 @@ export class DrizzleAdminRepository implements AdminRepository {
     ]);
     return {
       items: resultRows(itemsResult),
-      total: Number(resultRows(countResult)[0]?.total ?? 0),
+      total: Number(resultRows(countResult)[0]?.["total"] ?? 0),
     };
   }
 
@@ -706,7 +621,7 @@ export class DrizzleAdminRepository implements AdminRepository {
   private async updateArticleMention(id: string, value: Record<string, unknown>) {
     const existing = await this.findArticleMention(id);
     if (!existing) return null;
-    if (existing.targetType !== value.targetType) {
+    if (existing["targetType"] !== value["targetType"]) {
       const error = new Error("Changing mention target type is not supported");
       Object.assign(error, { code: "23514", constraint: "article_mention_target_type" });
       throw error;
@@ -717,20 +632,355 @@ export class DrizzleAdminRepository implements AdminRepository {
     const rows = await this.database
       .update(table)
       .set({ ...common, [targetColumn]: targetId })
-      .where(sql`${getTableColumns(table).id} = ${id}`)
+      .where(sql`${tableId(table)} = ${id}`)
       .returning();
     return rows[0] ? { ...rows[0], targetType, targetId } : null;
   }
 }
 
-function selectionClause(select: Record<string, SQL>) {
+async function loadPeopleRelated(database: AdminDb, personId: string) {
+  const memberships = await database
+    .select({
+      id: schema.membership.id,
+      projectId: schema.membership.projectId,
+      projectName: schema.project.name,
+      fromDate: schema.membership.fromDate,
+      toDate: schema.membership.toDate,
+      fromDatePrecision: schema.membership.fromDatePrecision,
+      toDatePrecision: schema.membership.toDatePrecision,
+      note: schema.membership.note,
+    })
+    .from(schema.membership)
+    .innerJoin(schema.project, eq(schema.project.id, schema.membership.projectId))
+    .where(eq(schema.membership.personId, personId))
+    .orderBy(desc(schema.membership.fromDate));
+
+  if (memberships.length === 0) return { memberships: [] };
+
+  const membershipRoles = await database
+    .select({
+      id: schema.membershipRole.id,
+      membershipId: schema.membershipRole.membershipId,
+      roleId: schema.role.id,
+      roleName: schema.role.name,
+      instrumentId: schema.instrument.id,
+      instrumentName: schema.instrument.name,
+    })
+    .from(schema.membershipRole)
+    .innerJoin(schema.role, eq(schema.role.id, schema.membershipRole.roleId))
+    .leftJoin(schema.instrument, eq(schema.instrument.id, schema.membershipRole.instrumentId))
+    .where(
+      inArray(
+        schema.membershipRole.membershipId,
+        memberships.map((membership) => membership.id),
+      ),
+    )
+    .orderBy(asc(schema.role.name), asc(schema.instrument.name));
+
+  const rolesByMembership = Map.groupBy(
+    membershipRoles,
+    (membershipRole) => membershipRole.membershipId,
+  );
+  return {
+    memberships: memberships.map((membership) => ({
+      ...membership,
+      roles: rolesByMembership.get(membership.id) ?? [],
+    })),
+  };
+}
+
+async function loadProjectRelated(database: AdminDb, projectId: string) {
+  const [members, works, events] = await Promise.all([
+    database
+      .select({
+        id: schema.membership.id,
+        personId: schema.membership.personId,
+        personName: schema.person.name,
+        fromDate: schema.membership.fromDate,
+        toDate: schema.membership.toDate,
+        note: schema.membership.note,
+      })
+      .from(schema.membership)
+      .innerJoin(schema.person, eq(schema.person.id, schema.membership.personId))
+      .where(eq(schema.membership.projectId, projectId))
+      .orderBy(desc(schema.membership.fromDate), asc(schema.person.name)),
+    database
+      .select({
+        id: schema.work.id,
+        title: schema.work.title,
+        releasedDate: schema.work.releasedDate,
+      })
+      .from(schema.work)
+      .where(eq(schema.work.projectId, projectId))
+      .orderBy(sql`${schema.work.releasedDate} desc nulls last`, asc(schema.work.title)),
+    database
+      .select({
+        id: schema.event.id,
+        eventName: schema.event.eventName,
+        eventDate: schema.event.eventDate,
+        venueName: schema.venue.name,
+      })
+      .from(schema.event)
+      .innerJoin(schema.venue, eq(schema.venue.id, schema.event.venueId))
+      .where(eq(schema.event.projectId, projectId))
+      .orderBy(desc(schema.event.eventDate)),
+  ]);
+
+  return { members, works, events };
+}
+
+async function loadWorkRelated(database: AdminDb, workId: string) {
+  const [releases, tracks] = await Promise.all([
+    database
+      .select({
+        id: schema.release.id,
+        format: schema.release.format,
+        catalogNumber: schema.release.catalogNumber,
+        releaseDate: schema.release.releaseDate,
+        releaseDatePrecision: schema.release.releaseDatePrecision,
+        recordedFrom: schema.release.recordedFrom,
+        recordedTo: schema.release.recordedTo,
+        description: schema.release.description,
+        notes: schema.release.notes,
+        distributorId: schema.release.distributorId,
+        distributorName: schema.distributor.name,
+      })
+      .from(schema.release)
+      .leftJoin(schema.distributor, eq(schema.distributor.id, schema.release.distributorId))
+      .where(eq(schema.release.workId, workId))
+      .orderBy(sql`${schema.release.releaseDate} desc nulls last`, asc(schema.release.format)),
+    database
+      .select({
+        id: schema.track.id,
+        releaseId: schema.track.releaseId,
+        format: schema.release.format,
+        trackNumber: schema.track.trackNumber,
+        recordingId: schema.recording.id,
+        compositionId: schema.composition.id,
+        compositionTitle: schema.composition.title,
+        notes: schema.track.notes,
+      })
+      .from(schema.track)
+      .innerJoin(schema.release, eq(schema.release.id, schema.track.releaseId))
+      .innerJoin(schema.recording, eq(schema.recording.id, schema.track.recordingId))
+      .innerJoin(
+        schema.composition,
+        eq(schema.composition.id, schema.recording.compositionId),
+      )
+      .where(eq(schema.release.workId, workId))
+      .orderBy(
+        asc(schema.release.releaseDate),
+        asc(schema.release.format),
+        asc(schema.track.trackNumber),
+      ),
+  ]);
+
+  if (releases.length === 0) return { releases: [], tracks };
+
+  const labelRelations = await database
+    .select({
+      id: schema.labelRelation.id,
+      releaseId: schema.labelRelation.releaseId,
+      labelId: schema.label.id,
+      name: schema.label.name,
+    })
+    .from(schema.labelRelation)
+    .innerJoin(schema.label, eq(schema.label.id, schema.labelRelation.labelId))
+    .where(
+      inArray(
+        schema.labelRelation.releaseId,
+        releases.map((release) => release.id),
+      ),
+    )
+    .orderBy(asc(schema.label.name));
+
+  const labelsByRelease = Map.groupBy(
+    labelRelations,
+    (labelRelation) => labelRelation.releaseId,
+  );
+  return {
+    releases: releases.map((release) => ({
+      ...release,
+      labels: labelsByRelease.get(release.id) ?? [],
+    })),
+    tracks,
+  };
+}
+
+async function loadCompositionRelated(database: AdminDb, compositionId: string) {
+  const [recordings, releaseAppearances, eventAppearances] = await Promise.all([
+    database
+      .select({
+        id: schema.recording.id,
+        recordingYear: schema.recording.recordingYear,
+        type: schema.recording.type,
+        recordedDate: schema.recording.recordedDate,
+        recordedFrom: schema.recording.recordedFrom,
+        recordedTo: schema.recording.recordedTo,
+        releaseDate: schema.recording.releaseDate,
+        notes: schema.recording.notes,
+      })
+      .from(schema.recording)
+      .where(eq(schema.recording.compositionId, compositionId))
+      .orderBy(
+        sql`coalesce(${schema.recording.recordedDate}, ${schema.recording.releaseDate}) desc nulls last`,
+      ),
+    database
+      .select({
+        id: schema.release.id,
+        title: schema.work.title,
+        format: schema.release.format,
+        orderIndex: schema.track.trackNumber,
+      })
+      .from(schema.recording)
+      .innerJoin(schema.track, eq(schema.track.recordingId, schema.recording.id))
+      .innerJoin(schema.release, eq(schema.release.id, schema.track.releaseId))
+      .innerJoin(schema.work, eq(schema.work.id, schema.release.workId))
+      .where(eq(schema.recording.compositionId, compositionId)),
+    database
+      .select({
+        id: schema.event.id,
+        eventName: schema.event.eventName,
+        eventDate: schema.event.eventDate,
+        orderIndex: schema.eventPerformance.orderIndex,
+      })
+      .from(schema.eventPerformance)
+      .innerJoin(schema.event, eq(schema.event.id, schema.eventPerformance.eventId))
+      .where(eq(schema.eventPerformance.compositionId, compositionId)),
+  ]);
+
+  const appearances = [
+    ...releaseAppearances.map(({ id, title, format, orderIndex }) => ({
+      type: "release",
+      id,
+      label: `${title} (${format})`,
+      orderIndex,
+    })),
+    ...eventAppearances.map(({ id, eventName, eventDate, orderIndex }) => ({
+      type: "event",
+      id,
+      label: eventName ?? eventDate,
+      orderIndex,
+    })),
+  ].sort((left, right) => left.label.localeCompare(right.label, "ja"));
+
+  return { recordings, appearances };
+}
+
+async function loadEventRelated(database: AdminDb, eventId: string) {
+  const performances = await database
+    .select({
+      id: schema.eventPerformance.id,
+      compositionId: schema.eventPerformance.compositionId,
+      compositionTitle: schema.composition.title,
+      orderIndex: schema.eventPerformance.orderIndex,
+      encore: schema.eventPerformance.encore,
+      variationNote: schema.eventPerformance.variationNote,
+      notes: schema.eventPerformance.notes,
+    })
+    .from(schema.eventPerformance)
+    .innerJoin(
+      schema.composition,
+      eq(schema.composition.id, schema.eventPerformance.compositionId),
+    )
+    .where(eq(schema.eventPerformance.eventId, eventId))
+    .orderBy(asc(schema.eventPerformance.orderIndex));
+
+  return { performances };
+}
+
+async function loadArticleRelated(database: AdminDb, articleId: string) {
+  const [issue, workMentions, eventMentions, personMentions] = await Promise.all([
+    database
+      .select({
+        id: schema.publicationIssue.id,
+        publicationId: schema.publicationIssue.publicationId,
+        publicationName: schema.publication.name,
+        issueNumber: schema.publicationIssue.issueNumber,
+        volume: schema.publicationIssue.volume,
+        publishedDate: schema.publicationIssue.publishedDate,
+        description: schema.publicationIssue.description,
+      })
+      .from(schema.article)
+      .innerJoin(
+        schema.publicationIssue,
+        eq(schema.publicationIssue.id, schema.article.publicationIssueId),
+      )
+      .innerJoin(
+        schema.publication,
+        eq(schema.publication.id, schema.publicationIssue.publicationId),
+      )
+      .where(eq(schema.article.id, articleId)),
+    database
+      .select({
+        id: schema.articleMentionWork.id,
+        articleId: schema.articleMentionWork.articleId,
+        articleTitle: schema.article.title,
+        targetId: schema.work.id,
+        targetName: schema.work.title,
+        mentionType: schema.articleMentionWork.mentionType,
+        notes: schema.articleMentionWork.notes,
+      })
+      .from(schema.articleMentionWork)
+      .innerJoin(schema.article, eq(schema.article.id, schema.articleMentionWork.articleId))
+      .innerJoin(schema.work, eq(schema.work.id, schema.articleMentionWork.workId))
+      .where(eq(schema.articleMentionWork.articleId, articleId)),
+    database
+      .select({
+        id: schema.articleMentionEvent.id,
+        articleId: schema.articleMentionEvent.articleId,
+        articleTitle: schema.article.title,
+        targetId: schema.event.id,
+        eventName: schema.event.eventName,
+        eventDate: schema.event.eventDate,
+        mentionType: schema.articleMentionEvent.mentionType,
+        notes: schema.articleMentionEvent.notes,
+      })
+      .from(schema.articleMentionEvent)
+      .innerJoin(schema.article, eq(schema.article.id, schema.articleMentionEvent.articleId))
+      .innerJoin(schema.event, eq(schema.event.id, schema.articleMentionEvent.eventId))
+      .where(eq(schema.articleMentionEvent.articleId, articleId)),
+    database
+      .select({
+        id: schema.articleMentionPerson.id,
+        articleId: schema.articleMentionPerson.articleId,
+        articleTitle: schema.article.title,
+        targetId: schema.person.id,
+        targetName: schema.person.name,
+        mentionType: schema.articleMentionPerson.mentionType,
+        notes: schema.articleMentionPerson.notes,
+      })
+      .from(schema.articleMentionPerson)
+      .innerJoin(schema.article, eq(schema.article.id, schema.articleMentionPerson.articleId))
+      .innerJoin(schema.person, eq(schema.person.id, schema.articleMentionPerson.personId))
+      .where(eq(schema.articleMentionPerson.articleId, articleId)),
+  ]);
+
+  const mentions = [
+    ...workMentions.map((mention) => ({ ...mention, targetType: "work" })),
+    ...eventMentions.map(({ eventName, eventDate, ...mention }) => ({
+      ...mention,
+      targetType: "event",
+      targetName: eventName ?? eventDate,
+    })),
+    ...personMentions.map((mention) => ({ ...mention, targetType: "person" })),
+  ].sort(
+    (left, right) =>
+      left.targetType.localeCompare(right.targetType) ||
+      left.targetName.localeCompare(right.targetName, "ja"),
+  );
+
+  return { issue, mentions };
+}
+
+function selectionClause(select: Record<string, SQLWrapper>) {
   return sql.join(
     Object.entries(select).map(([alias, expression]) => sql`${expression} as ${sql.identifier(alias)}`),
     sql`, `,
   );
 }
 
-function searchClause(columns: SQL[], search: string) {
+function searchClause(columns: SQLWrapper[], search: string) {
   if (!search) return sql.empty();
   return sql`where concat_ws(' ', ${sql.join(columns, sql`, `)}) ilike ${`%${search}%`}`;
 }
@@ -758,10 +1008,6 @@ function allArticleMentions() {
       am.mention_type, am.notes
     from article_mention_person am join article a on a.id = am.article_id join person p on p.id = am.person_id
   `;
-}
-
-function articleMentionsForArticle(articleId: string) {
-  return sql`select * from (${allArticleMentions()}) mentions where "articleId" = ${articleId} order by "targetType", "targetName"`;
 }
 
 function mentionTable(targetType: string): PgTable {

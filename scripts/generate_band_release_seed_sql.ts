@@ -126,7 +126,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),

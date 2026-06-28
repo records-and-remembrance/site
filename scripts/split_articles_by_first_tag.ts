@@ -47,7 +47,7 @@ function extractFirstTag(markdown: string): string | null {
   const frontMatterMatch = markdown.match(/^---\n([\s\S]*?)\n---/);
   if (!frontMatterMatch) return null;
 
-  const lines = frontMatterMatch[1].split(/\r?\n/);
+  const lines = frontMatterMatch[1]!.split(/\r?\n/);
   const tagsIndex = lines.findIndex((line) => line.trim() === "tags:");
   if (tagsIndex < 0) return null;
 
@@ -56,7 +56,7 @@ function extractFirstTag(markdown: string): string | null {
 
     const tagMatch = line.match(/^\s*-\s*(.+?)\s*$/);
     if (tagMatch) {
-      return stripYamlQuotes(tagMatch[1]);
+      return stripYamlQuotes(tagMatch[1]!);
     }
   }
 

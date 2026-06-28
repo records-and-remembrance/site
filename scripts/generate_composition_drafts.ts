@@ -113,6 +113,7 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
   while (index < lines.length) {
     const line = lines[index];
+    if (line === undefined) break;
     if (line.trim() === "---") {
       index += 1;
       break;
@@ -120,8 +121,8 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
     if (line.startsWith("tags:")) {
       index += 1;
-      while (index < lines.length && lines[index].startsWith("  - ")) {
-        tags.push(parseScalar(lines[index].slice(4)));
+      while (index < lines.length && lines[index]!.startsWith("  - ")) {
+        tags.push(parseScalar(lines[index]!.slice(4)));
         index += 1;
       }
       meta.tags = tags;
@@ -175,13 +176,13 @@ function parseSections(body: string): Record<string, string> {
   for (const line of body.split(/\r?\n/)) {
     const heading = line.trim().match(/^##\s+(.+)$/);
     if (heading) {
-      current = heading[1].trim();
+      current = heading[1]!.trim();
       sections[current] ??= [];
       continue;
     }
 
     sections[current] ??= [];
-    sections[current].push(line);
+    sections[current]!.push(line);
   }
 
   return Object.fromEntries(

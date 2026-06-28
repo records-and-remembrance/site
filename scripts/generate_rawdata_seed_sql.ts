@@ -86,7 +86,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--types") {
       const collected: NormalizedType[] = [];
-      while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
+      while (argv[i + 1] && !argv[i + 1]!.startsWith("--")) {
         const next = argv[++i] as NormalizedType;
         if (next === "release" || next === "live" || next === "event" || next === "project") {
           collected.push(next);
@@ -99,8 +99,8 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--files") {
       const collected: string[] = [];
-      while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
-        collected.push(argv[++i]);
+      while (argv[i + 1] && !argv[i + 1]!.startsWith("--")) {
+        collected.push(argv[++i]!);
       }
       files = collected;
       continue;
@@ -140,6 +140,7 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
   while (index < lines.length) {
     const line = lines[index];
+    if (line === undefined) break;
     if (line.trim() === "---") {
       index += 1;
       break;
@@ -147,8 +148,8 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
     if (line.startsWith("tags:")) {
       index += 1;
-      while (index < lines.length && lines[index].startsWith("  - ")) {
-        tags.push(parseScalar(lines[index].slice(4)));
+      while (index < lines.length && lines[index]!.startsWith("  - ")) {
+        tags.push(parseScalar(lines[index]!.slice(4)));
         index += 1;
       }
       meta.tags = tags;
@@ -198,7 +199,7 @@ async function loadSources(sourceDir: string): Promise<SourceArticle[]> {
 function kindOf(source: SourceArticle): NormalizedType | null {
   if (source.tags.length === 0) return null;
   if (source.tags[0] === "Live" && source.stem.startsWith("live_")) return null;
-  return KIND_MAP[source.tags[0]] ?? null;
+  return KIND_MAP[source.tags[0]!] ?? null;
 }
 
 function normalizeName(name: string): string {
@@ -217,7 +218,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),
@@ -239,12 +240,12 @@ function parseSections(body: string): Record<string, string> {
   for (const line of body.split(/\r?\n/)) {
     const match = line.trim().match(/^##\s+(.+)$/);
     if (match) {
-      current = match[1].trim();
+      current = match[1]!.trim();
       sections[current] ??= [];
       continue;
     }
     sections[current] ??= [];
-    sections[current].push(line);
+    sections[current]!.push(line);
   }
   return Object.fromEntries(
     Object.entries(sections).map(([key, lines]) => [key, lines.join("\n").trim()]),
@@ -317,8 +318,8 @@ function splitLabelSource(value: string | null | undefined): [string | null, str
     .map((part) => normalizeLabelName(part))
     .filter((part): part is string => Boolean(part));
   if (parts.length === 0) return [null, null];
-  if (parts.length === 1) return [parts[0], null];
-  return [parts[0], parts[1]];
+  if (parts.length === 1) return [parts[0]!, null];
+  return [parts[0]!, parts[1]!];
 }
 
 function summarize(text: string, limit = 280): string | null {
@@ -337,7 +338,7 @@ function parsePartialDate(value: string | null | undefined, end = false): string
 
   let match = text.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
   if (match) {
-    return `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
+    return `${match[1]}-${match[2]!.padStart(2, "0")}-${match[3]!.padStart(2, "0")}`;
   }
 
   match = text.match(/(\d{4})年(\d{1,2})月/);
@@ -414,10 +415,12 @@ function parseEventDatetime(value: string | null | undefined, fallbackDate: stri
 function splitVenue(value: string | null | undefined): [string | null, string | null] {
   if (!value) return [null, null];
   const parts = value.split(",").map((part) => part.trim()).filter(Boolean);
-  if (parts.length === 1) return [parts[0], null];
-  if (LOCATION_HINTS.has(parts[0])) return [parts[1], parts[0]];
-  if (LOCATION_HINTS.has(parts[parts.length - 1])) return [parts[0], parts[parts.length - 1]];
-  return [parts[0], parts.slice(1).join(", ")];
+  if (parts.length === 1) return [parts[0]!, null];
+  if (LOCATION_HINTS.has(parts[0]!)) return [parts[1]!, parts[0]!];
+  if (LOCATION_HINTS.has(parts[parts.length - 1]!)) {
+    return [parts[0]!, parts[parts.length - 1]!];
+  }
+  return [parts[0]!, parts.slice(1).join(", ")];
 }
 
 function releaseWorkTitle(source: SourceArticle): string {
@@ -434,7 +437,7 @@ function projectNameForSource(source: SourceArticle): string {
 
   const parts = source.title.split(" - ");
   if (parts.length > 1) {
-    return normalizeName(parts[0].replace(/^\d{4}-\d{2}-\d{2}:\s*/, ""));
+    return normalizeName(parts[0]!.replace(/^\d{4}-\d{2}-\d{2}:\s*/, ""));
   }
 
   return normalizeName(source.title.replace(/^\d{4}-\d{2}-\d{2}:\s*/, ""));

@@ -88,8 +88,8 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--files") {
       const collected: string[] = [];
-      while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
-        collected.push(argv[++i]);
+      while (argv[i + 1] && !argv[i + 1]!.startsWith("--")) {
+        collected.push(argv[++i]!);
       }
       files = collected;
       continue;
@@ -118,14 +118,15 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
   while (index < lines.length) {
     const line = lines[index];
+    if (line === undefined) break;
     if (line.trim() === "---") {
       index += 1;
       break;
     }
     if (line.startsWith("tags:")) {
       index += 1;
-      while (index < lines.length && lines[index].startsWith("  - ")) {
-        tags.push(parseScalar(lines[index].slice(4)));
+      while (index < lines.length && lines[index]!.startsWith("  - ")) {
+        tags.push(parseScalar(lines[index]!.slice(4)));
         index += 1;
       }
       meta.tags = tags;
@@ -169,7 +170,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),
@@ -242,25 +243,25 @@ function parseSections(body: string): Record<string, string> {
     const rendered = body.slice((node as { position?: { start: { offset: number }; end: { offset: number } } }).position?.start.offset ?? 0, (node as { position?: { start: { offset: number }; end: { offset: number } } }).position?.end.offset ?? 0);
     if (rendered) {
       sections[current] ??= [];
-      sections[current].push(rendered);
+      sections[current]!.push(rendered);
     }
   }
 
   for (const line of body.split(/\r?\n/)) {
     const htmlHeading = line.trim().match(/^<h[23]>(.+)<\/h[23]>$/i);
     if (htmlHeading) {
-      fallbackCurrent = cleanText(htmlHeading[1]);
+      fallbackCurrent = cleanText(htmlHeading[1]!);
       sections[fallbackCurrent] ??= [];
       continue;
     }
     if (fallbackCurrent !== "_root") {
       sections[fallbackCurrent] ??= [];
-      sections[fallbackCurrent].push(line);
+      sections[fallbackCurrent]!.push(line);
       continue;
     }
     if ((tree.children ?? []).length === 0) {
       sections[current] ??= [];
-      sections[current].push(line);
+      sections[current]!.push(line);
     }
   }
 
@@ -307,10 +308,10 @@ function parseDateLike(value: string | null | undefined): string | null {
   const text = value.trim().replaceAll(" ", "");
 
   let match = text.match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
-  if (match) return `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
+  if (match) return `${match[1]}-${match[2]!.padStart(2, "0")}-${match[3]!.padStart(2, "0")}`;
 
   match = text.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-  if (match) return `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
+  if (match) return `${match[1]}-${match[2]!.padStart(2, "0")}-${match[3]!.padStart(2, "0")}`;
 
   return null;
 }

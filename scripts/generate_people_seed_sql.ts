@@ -132,14 +132,15 @@ function parseFrontMatter(text: string): { meta: Record<string, string | string[
 
   while (index < lines.length) {
     const line = lines[index];
+    if (line === undefined) break;
     if (line.trim() === "---") {
       index += 1;
       break;
     }
     if (line.startsWith("tags:")) {
       index += 1;
-      while (index < lines.length && lines[index].startsWith("  - ")) {
-        tags.push(parseScalar(lines[index].slice(4)));
+      while (index < lines.length && lines[index]!.startsWith("  - ")) {
+        tags.push(parseScalar(lines[index]!.slice(4)));
         index += 1;
       }
       meta.tags = tags;
@@ -183,7 +184,7 @@ function stableUuid(namespace: string, value: string): string {
   const hash = createHash("sha1").update(`mondenDatabase/${namespace}/${value}`).digest("hex");
   const chars = hash.slice(0, 32).split("");
   chars[12] = "5";
-  const variant = Number.parseInt(chars[16], 16);
+  const variant = Number.parseInt(chars[16]!, 16);
   chars[16] = ((variant & 0x3) | 0x8).toString(16);
   return [
     chars.slice(0, 8).join(""),
@@ -217,12 +218,12 @@ function parseSections(body: string): Record<string, string> {
   for (const line of body.split(/\r?\n/)) {
     const match = line.trim().match(/^##\s+(.+)$/);
     if (match) {
-      current = match[1].trim();
+      current = match[1]!.trim();
       sections[current] ??= [];
       continue;
     }
     sections[current] ??= [];
-    sections[current].push(line);
+    sections[current]!.push(line);
   }
   return Object.fromEntries(Object.entries(sections).map(([key, lines]) => [key, lines.join("\n").trim()]));
 }
@@ -246,10 +247,10 @@ function parseDateLike(value: string | null | undefined, end = false): { date: s
   const text = value.trim().replaceAll(" ", "");
 
   let match = text.match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
-  if (match) return { date: `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`, precision: "day" };
+  if (match) return { date: `${match[1]}-${match[2]!.padStart(2, "0")}-${match[3]!.padStart(2, "0")}`, precision: "day" };
 
   match = text.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-  if (match) return { date: `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`, precision: "day" };
+  if (match) return { date: `${match[1]}-${match[2]!.padStart(2, "0")}-${match[3]!.padStart(2, "0")}`, precision: "day" };
 
   match = text.match(/(\d{4})年(\d{1,2})月/);
   if (match) {
@@ -364,7 +365,7 @@ function splitMemberLine(line: string): { name: string; instruments: string[]; p
   const period = withoutFootnote.match(/\[([^\]]+)\]\s*$/)?.[1] ?? null;
   const withoutPeriod = withoutFootnote.replace(/\s*\[[^\]]+\]\s*$/, "").trim();
   const roleMatch = withoutPeriod.match(/^(.*?)\s*[（(]([^（）()]*)[）)]/u);
-  const nameText = roleMatch ? roleMatch[1] : withoutPeriod;
+  const nameText = roleMatch?.[1] ?? withoutPeriod;
   const roleText = roleMatch?.[2] ?? "";
   const name = canonicalPersonName(nameText);
   if (!name) return null;
@@ -415,7 +416,7 @@ function addBiographyMemberships(
   for (const rawLine of article.body.split(/\r?\n/)) {
     const h2 = rawLine.match(/^##\s+(.+)$/);
     if (h2) {
-      inMembers = h2[1].trim() === "メンバー";
+      inMembers = h2[1]!.trim() === "メンバー";
       support = false;
       continue;
     }
@@ -423,7 +424,7 @@ function addBiographyMemberships(
 
     const h3 = rawLine.match(/^###\s+(.+)$/);
     if (h3) {
-      support = h3[1].includes("サポート");
+      support = h3[1]!.includes("サポート");
       continue;
     }
     if (!/^\s*[-*]\s+/.test(rawLine)) continue;

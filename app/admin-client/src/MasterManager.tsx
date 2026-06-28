@@ -21,7 +21,7 @@ import {
 
 export function MasterManager({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
-  const [resource, setResource] = useState<EditorResource>(masterResources[0].resource);
+  const [resource, setResource] = useState<EditorResource>(masterResources[0]!.resource);
   const [editorRecord, setEditorRecord] = useState<Record<string, unknown> | null>();
   const config = editorConfigs[resource];
   const query = useQuery({
