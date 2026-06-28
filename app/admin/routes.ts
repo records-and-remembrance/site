@@ -16,6 +16,7 @@ interface AdminRouteOptions {
 interface DatabaseError extends Error {
   code?: string;
   constraint?: string;
+  cause?: unknown;
 }
 
 export function createAdminRoutes(
@@ -23,7 +24,7 @@ export function createAdminRoutes(
   options: AdminRouteOptions = {},
 ): Hono {
   const app = new Hono();
-  const generateUuid = options.uuid ?? crypto.randomUUID;
+  const generateUuid = options.uuid ?? (() => crypto.randomUUID());
 
   app.get("/lookups/:resource", async (c) => {
     const resource = parseLookupResource(c.req.param("resource"));
@@ -98,7 +99,7 @@ export function createAdminRoutes(
       );
     }
 
-    const databaseError = error as DatabaseError;
+    const databaseError = findDatabaseError(error);
     const mapped = mapDatabaseError(databaseError);
     if (mapped) {
       return c.json(
@@ -106,7 +107,7 @@ export function createAdminRoutes(
           error: {
             code: mapped.code,
             message: mapped.message,
-            ...(databaseError.constraint ? { constraint: databaseError.constraint } : {}),
+            ...(databaseError?.constraint ? { constraint: databaseError.constraint } : {}),
           },
         },
         mapped.status,
@@ -172,8 +173,21 @@ async function readJson(request: Request): Promise<unknown> {
   }
 }
 
-function mapDatabaseError(error: DatabaseError) {
-  switch (error.code) {
+function findDatabaseError(error: unknown): DatabaseError | undefined {
+  let current = error;
+  const visited = new Set<unknown>();
+
+  while (current && typeof current === "object" && !visited.has(current)) {
+    visited.add(current);
+    const candidate = current as DatabaseError;
+    if (typeof candidate.code === "string") return candidate;
+    current = candidate.cause;
+  }
+  return undefined;
+}
+
+function mapDatabaseError(error: DatabaseError | undefined) {
+  switch (error?.code) {
     case "23505":
       return {
         code: "CONFLICT",

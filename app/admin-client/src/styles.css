@@ -603,6 +603,14 @@ button {
   font-size: 10px;
 }
 
+.mini-button.nested-edit {
+  max-width: 120px;
+  overflow: hidden;
+  color: var(--blue);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .empty-relation {
   margin: 0;
   padding: 22px;
@@ -729,6 +737,32 @@ button {
   border: 1px solid #cdd3d8;
   border-radius: 7px;
   background: #fff;
+}
+
+.date-control {
+  display: flex;
+  min-height: 41px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid #cdd3d8;
+  border-radius: 7px;
+  background: #fff;
+}
+
+.date-control [role="spinbutton"] {
+  padding: 2px;
+  border-radius: 3px;
+  outline: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.date-control [role="spinbutton"][data-focused] {
+  color: #fff;
+  background: var(--blue);
+}
+
+.date-control [data-placeholder] {
+  color: #8b949d;
 }
 
 .number-control input {

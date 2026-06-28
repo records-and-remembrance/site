@@ -114,6 +114,25 @@ describe("admin API", () => {
     expect(rejected.status).toBe(400);
   });
 
+  test("uses the platform UUID generator when no generator is injected", async () => {
+    const repository = new FakeRepository();
+    const app = new Hono();
+    app.route("/api/admin", createAdminRoutes(repository));
+
+    const response = await app.request("/api/admin/people", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "新規人物" }),
+    });
+
+    expect(response.status).toBe(201);
+    expect(repository.calls[0]?.value).toMatchObject({
+      id: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+    });
+  });
+
   test("validates required foreign keys and date formats", async () => {
     const response = await testApp(new FakeRepository()).request("/api/admin/events", {
       method: "POST",
@@ -208,5 +227,31 @@ describe("admin API", () => {
         },
       });
     }
+  });
+
+  test("maps PostgreSQL errors wrapped by Drizzle", async () => {
+    const repository = new FakeRepository();
+    repository.create = async () => {
+      throw Object.assign(new Error("Failed query"), {
+        cause: Object.assign(new Error("duplicate key"), {
+          code: "23505",
+          constraint: "project_name_unique",
+        }),
+      });
+    };
+
+    const response = await testApp(repository).request("/api/admin/projects", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "重複", type: "band" }),
+    });
+
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({
+      error: {
+        code: "CONFLICT",
+        constraint: "project_name_unique",
+      },
+    });
   });
 });

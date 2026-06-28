@@ -46,6 +46,14 @@ describe("admin screen configuration", () => {
       resourceConfigs.works.relations?.find((relation) => relation.resource === "releases")
         ?.nestedAction?.resource,
     ).toBe("label-relations");
+    expect(
+      resourceConfigs.works.relations?.find((relation) => relation.resource === "releases")
+        ?.nestedAction?.itemsKey,
+    ).toBe("labels");
+    expect(
+      resourceConfigs.people.relations?.find((relation) => relation.resource === "memberships")
+        ?.nestedAction?.itemsKey,
+    ).toBe("roles");
     expect(resourceConfigs.events.relations?.map((relation) => relation.resource)).toContain(
       "event-performances",
     );

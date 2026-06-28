@@ -78,6 +78,7 @@ export interface NestedActionConfig {
   label: string;
   resource: EditorResource;
   parentField: string;
+  itemsKey: string;
 }
 
 export interface RelationConfig {
@@ -168,6 +169,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
           label: "役割",
           resource: "membership-roles",
           parentField: "membershipId",
+          itemsKey: "roles",
         },
       },
     ],
@@ -279,6 +281,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
           label: "ラベル",
           resource: "label-relations",
           parentField: "releaseId",
+          itemsKey: "labels",
         },
       },
       {

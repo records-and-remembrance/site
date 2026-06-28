@@ -544,7 +544,8 @@ export class DrizzleAdminRepository implements AdminRepository {
             m.from_date_precision as "fromDatePrecision", m.to_date_precision as "toDatePrecision",
             m.note,
             coalesce(json_agg(json_build_object(
-              'id', mr.id, 'roleId', r.id, 'roleName', r.name,
+              'id', mr.id, 'membershipId', m.id,
+              'roleId', r.id, 'roleName', r.name,
               'instrumentId', i.id, 'instrumentName', i.name
             )) filter (where mr.id is not null), '[]') as roles
           from membership m
@@ -585,7 +586,9 @@ export class DrizzleAdminRepository implements AdminRepository {
             r.recorded_from as "recordedFrom", r.recorded_to as "recordedTo",
             r.description, r.notes, r.distributor_id as "distributorId",
             d.name as "distributorName",
-            coalesce(json_agg(json_build_object('id', l.id, 'name', l.name))
+            coalesce(json_agg(json_build_object(
+              'id', lr.id, 'releaseId', r.id, 'labelId', l.id, 'name', l.name
+            ))
               filter (where l.id is not null), '[]') as labels
           from release r
           left join distributor d on d.id = r.distributor_id

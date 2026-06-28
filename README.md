@@ -82,11 +82,38 @@ Set `DATABASE_URL` to override it.
 
 ## Frontend Admin
 
-The planned local DB editing UI is documented in:
+The local DB editing UI is documented in:
 
 ```text
 guides/frontend-admin-requirements.md
 guides/frontend-admin-todo.md
+```
+
+Install dependencies and start PostgreSQL before launching the admin:
+
+```bash
+bun install
+docker compose up -d
+bun run admin:dev
+```
+
+The command starts the existing Hono server and the Vite client together:
+
+```text
+Admin UI:          http://localhost:5173/admin/
+Admin API:         http://localhost:3000/api/admin
+Composition review: http://localhost:3000/
+```
+
+The admin edits the local PostgreSQL database directly. It supports create and
+update workflows; delete and authentication are intentionally outside v1.
+
+Verification:
+
+```bash
+bun test
+bun run typecheck
+bun run admin:build
 ```
 
 ## Raw Data

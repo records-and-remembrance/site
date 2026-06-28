@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { parseDate, parseTime } from "@internationalized/date";
 import {
   AlertCircle,
   Check,
@@ -13,6 +14,9 @@ import {
   Button,
   Checkbox,
   ComboBox,
+  DateField,
+  DateInput,
+  DateSegment,
   Dialog,
   Input,
   Label,
@@ -27,6 +31,7 @@ import {
   SelectValue,
   TextArea,
   TextField,
+  TimeField,
 } from "react-aria-components";
 import {
   AdminApiError,
@@ -283,6 +288,39 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
         </Group>
         {error ? <span className="field-error">{error}</span> : null}
       </NumberField>
+    );
+  }
+
+  if (field.type === "date" || field.type === "time") {
+    const rawValue = String(values[field.key] ?? "");
+    const content = (
+      <>
+        <Label>{field.label}</Label>
+        <DateInput className="date-control">
+          {(segment) => <DateSegment segment={segment} />}
+        </DateInput>
+        {error ? <span className="field-error">{error}</span> : null}
+      </>
+    );
+
+    return field.type === "date" ? (
+      <DateField
+        className={className}
+        isRequired={field.required}
+        value={rawValue ? parseDate(rawValue) : null}
+        onChange={(next) => onChange(field.key, next?.toString() ?? "")}
+      >
+        {content}
+      </DateField>
+    ) : (
+      <TimeField
+        className={className}
+        isRequired={field.required}
+        value={rawValue ? parseTime(rawValue) : null}
+        onChange={(next) => onChange(field.key, next?.toString() ?? "")}
+      >
+        {content}
+      </TimeField>
     );
   }
 

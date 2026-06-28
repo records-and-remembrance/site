@@ -473,20 +473,44 @@ function RelationSection({
                         <Pencil size={14} />
                       </Button>
                       {relation.nestedAction ? (
-                        <Button
-                          className="mini-button labeled"
-                          onPress={() =>
-                            onEdit({
-                              resource: relation.nestedAction?.resource as EditorResource,
-                              defaults: {
-                                [relation.nestedAction?.parentField as string]: String(row.id),
-                              },
-                            })
-                          }
-                        >
-                          <Plus size={13} />
-                          {relation.nestedAction.label}
-                        </Button>
+                        <>
+                          {nestedRows(row, relation).map((nested) => (
+                            <Button
+                              key={String(nested.id)}
+                              className="mini-button labeled nested-edit"
+                              onPress={() =>
+                                onEdit({
+                                  resource: relation.nestedAction
+                                    ?.resource as EditorResource,
+                                  record: nested,
+                                  defaults: {
+                                    [relation.nestedAction
+                                      ?.parentField as string]: String(row.id),
+                                  },
+                                })
+                              }
+                            >
+                              <Pencil size={12} />
+                              {nestedLabel(nested)}
+                            </Button>
+                          ))}
+                          <Button
+                            className="mini-button labeled"
+                            onPress={() =>
+                              onEdit({
+                                resource: relation.nestedAction
+                                  ?.resource as EditorResource,
+                                defaults: {
+                                  [relation.nestedAction
+                                    ?.parentField as string]: String(row.id),
+                                },
+                              })
+                            }
+                          >
+                            <Plus size={13} />
+                            {relation.nestedAction.label}
+                          </Button>
+                        </>
                       ) : null}
                     </td>
                   ) : null}
@@ -497,6 +521,25 @@ function RelationSection({
         </div>
       )}
     </section>
+  );
+}
+
+function nestedRows(
+  row: Record<string, unknown>,
+  relation: RelationConfig,
+): Array<Record<string, unknown>> {
+  const value = relation.nestedAction
+    ? row[relation.nestedAction.itemsKey]
+    : undefined;
+  return Array.isArray(value) ? value : [];
+}
+
+function nestedLabel(record: Record<string, unknown>): string {
+  return String(
+    record.name ??
+      record.roleName ??
+      record.instrumentName ??
+      "編集",
   );
 }
 
