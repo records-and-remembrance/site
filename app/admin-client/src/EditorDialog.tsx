@@ -230,9 +230,9 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
     return (
       <Select
         className={className}
-        selectedKey={String(values[field.key] ?? "")}
+        value={String(values[field.key] ?? "") || null}
         isRequired={field.required ?? false}
-        onSelectionChange={(key) => onChange(field.key, String(key))}
+        onChange={(key) => onChange(field.key, key == null ? "" : String(key))}
       >
         <Label>{field.label}</Label>
         <Button className="select-trigger">
@@ -390,12 +390,12 @@ function LookupField({
       className={className}
       inputValue={search}
       items={options}
-      selectedKey={value || null}
+      value={value || null}
       isRequired={required ?? false}
       menuTrigger="focus"
       allowsEmptyCollection
       onInputChange={setSearch}
-      onSelectionChange={(key) => {
+      onChange={(key) => {
         const id = key ? String(key) : "";
         onChange(id);
         const selected = options.find((option) => option.id === id);
@@ -487,9 +487,9 @@ function TargetField({
     <div className={`${className} target-fields`}>
       <Select
         className="field"
-        selectedKey={type}
-        onSelectionChange={(key) => {
-          onChange("targetType", String(key));
+        value={type}
+        onChange={(key) => {
+          onChange("targetType", key == null ? "" : String(key));
           onChange("targetId", "");
         }}
       >

@@ -44,7 +44,7 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize, setPageSize] = useState(100);
   const [sorting, setSorting] = useState<SortingState>([
     {
       id: config.defaultSort,
@@ -272,6 +272,7 @@ export function ResourceScreen({ resource }: { resource: MainResource }) {
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>
+              <option value="100">100</option>
             </select>
           </label>
           <span>

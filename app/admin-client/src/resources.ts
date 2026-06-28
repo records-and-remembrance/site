@@ -242,7 +242,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
   works: {
     title: "Works / Releases",
     singular: "作品",
-    description: "作品、具体リリース、ラベル、収録曲",
+    description: "作品、具体リリース、レーベル、収録曲",
     defaultSort: "title",
     columns: [
       { key: "title", label: "タイトル", sortable: true },
@@ -275,10 +275,10 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
           { key: "catalogNumber", label: "品番" },
           { key: "releaseDate", label: "発売日", kind: "date" },
           { key: "distributorName", label: "流通" },
-          { key: "labels", label: "ラベル" },
+          { key: "labels", label: "レーベル" },
         ],
         nestedAction: {
-          label: "ラベル",
+          label: "レーベル",
           resource: "label-relations",
           parentField: "releaseId",
           itemsKey: "labels",
@@ -566,7 +566,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
   },
   "label-relations": {
     title: "Release labels",
-    singular: "ラベル紐付け",
+    singular: "レーベル紐付け",
     description: "",
     defaultSort: "labelName",
     columns: [],
@@ -578,7 +578,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
         lookup: "release",
         required: true,
       },
-      { key: "labelId", label: "ラベル", type: "combobox", lookup: "label", required: true },
+      { key: "labelId", label: "レーベル", type: "combobox", lookup: "label", required: true },
     ],
   },
   recordings: {
@@ -700,7 +700,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
     { key: "name", label: "名前", type: "text", required: true },
     descriptionField,
   ]),
-  labels: masterConfig("Labels", "ラベル", [
+  labels: masterConfig("Labels", "レーベル", [
     { key: "name", label: "名前", type: "text", required: true },
     descriptionField,
   ]),
@@ -720,7 +720,7 @@ export const masterResources: Array<{ resource: EditorResource; label: string }>
   { resource: "venues", label: "会場" },
   { resource: "roles", label: "役割" },
   { resource: "instruments", label: "楽器" },
-  { resource: "labels", label: "ラベル" },
+  { resource: "labels", label: "レーベル" },
   { resource: "distributors", label: "流通" },
   { resource: "publications", label: "媒体" },
   { resource: "publication-issues", label: "掲載号" },
