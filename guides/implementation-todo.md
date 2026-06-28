@@ -57,21 +57,19 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Add or normalize remaining roles such as `guest` and `staff`.
   - Add a Japanese-to-English normalization table where source data uses Japanese labels.
 
-- [ ] Decide how to use `rawData/articles_by_category/label/`.
+- [x] Decide how to use `rawData/articles_by_category/label/`.
   - Review the 4 label source files.
   - Decide whether `label.description` should be populated from a dedicated label generator.
   - Keep release-derived label creation working.
   - Current release-derived labels are normalized to canonical ASCII/Japanese names; markdown links, alias suffixes, and distributor fragments are split out before seed generation.
+  - Dedicated label articles now populate `label.description`; catalog lists in those articles are not used to generate releases.
 
-- [ ] Decide how to use `rawData/articles_by_category/event/`.
+- [x] Decide how to use `rawData/articles_by_category/event/`.
   - Review the 2 non-Live event files.
   - Decide whether existing `event` is sufficient for exhibitions and related events.
   - Consider whether `event.type` or another discriminator is needed.
-
-- [ ] Decide how to use `rawData/articles_by_category/lyrics/`.
-  - Review the 23 lyrics files.
-  - Decide whether lyrics belong in `composition.description` or a new table.
-  - Confirm copyright/storage policy before importing full lyric text.
+  - Store non-Live event rows in `event` with `event.type`.
+  - Do not add `event.end_date`; preserve multi-day date ranges in `event.description`.
 
 ## Quality Checks
 
@@ -91,6 +89,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Add new seed-generation commands.
   - Update import order.
   - Document any review step required for media or contribution data.
+  - Document supplemental band/article release seed generation.
 
 - [x] Update `guides/project-overview-for-agents.md`.
   - Add new flow sections once generators exist.
@@ -100,6 +99,7 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
   - Replace future-use notes after media/article ingestion is implemented.
   - Replace future-use notes after contribution ingestion is implemented.
   - Document any new tables or columns if schema changes are needed.
+  - Document supplemental band/article release seed generation.
 
 ## Current Table Coverage Snapshot
 
@@ -137,7 +137,6 @@ Raw data category counts observed while creating this TODO:
 
 - `Live`: 366
 - `release`: 46
-- `lyrics`: 23
 - `etc.`: 13
 - `media`: 12
 - `biography`: 8
@@ -145,3 +144,7 @@ Raw data category counts observed while creating this TODO:
 - `label`: 4
 - `person`: 3
 - `event`: 2
+
+Out of scope:
+
+- `lyrics`: 23 files. Do not import lyric text into the database for now.

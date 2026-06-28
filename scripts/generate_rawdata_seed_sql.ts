@@ -5,7 +5,7 @@ import { basename, dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 
-type NormalizedType = "release" | "live" | "project";
+type NormalizedType = "release" | "live" | "event" | "project";
 
 type SourceArticle = {
   path: string;
@@ -29,6 +29,7 @@ const DEFAULT_SOURCE_DIR = join(ROOT, "rawData", "articles");
 const KIND_MAP: Record<string, NormalizedType> = {
   Release: "release",
   Live: "live",
+  Event: "event",
   "参加バンド": "project",
 };
 const LOCATION_HINTS = new Set([
@@ -47,6 +48,7 @@ const LOCATION_HINTS = new Set([
 const NON_PROJECT_TAGS = new Set([
   "Release",
   "Live",
+  "Event",
   "参加バンド",
   "Biography",
   "Album",
@@ -70,7 +72,7 @@ function parseArgs(argv: string[]): ParsedArgs {
   let output: string | null = null;
   let sourceDir = DEFAULT_SOURCE_DIR;
   let files: string[] | null = null;
-  let types: NormalizedType[] = ["release", "live", "project"];
+  let types: NormalizedType[] = ["release", "live", "event", "project"];
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -86,7 +88,7 @@ function parseArgs(argv: string[]): ParsedArgs {
       const collected: NormalizedType[] = [];
       while (argv[i + 1] && !argv[i + 1].startsWith("--")) {
         const next = argv[++i] as NormalizedType;
-        if (next === "release" || next === "live" || next === "project") {
+        if (next === "release" || next === "live" || next === "event" || next === "project") {
           collected.push(next);
         } else {
           throw new Error(`Unsupported type: ${next}`);
@@ -564,6 +566,7 @@ class SqlBuilder {
     source: SourceArticle;
     projectId: string;
     venueId: string;
+    eventType: string;
     eventName: string | null;
     eventDate: string;
     startTime: string | null;
@@ -572,13 +575,14 @@ class SqlBuilder {
     notes: string | null;
   }): string {
     const eventId = stableUuid("event", params.source.name);
-    this.line("INSERT INTO event (id, project_id, venue_id, event_name, event_date, start_time, end_time, doors_open_time, ticket_price, description, notes)");
+    this.line("INSERT INTO event (id, project_id, venue_id, type, event_name, event_date, start_time, end_time, doors_open_time, ticket_price, description, notes)");
     this.line(
-      `VALUES (${sqlText(eventId)}, ${sqlText(params.projectId)}, ${sqlText(params.venueId)}, ${sqlText(params.eventName)}, ${sqlText(params.eventDate)}, ${sqlText(params.startTime)}, NULL, ${sqlText(params.doorsOpenTime)}, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)})`,
+      `VALUES (${sqlText(eventId)}, ${sqlText(params.projectId)}, ${sqlText(params.venueId)}, ${sqlText(params.eventType)}, ${sqlText(params.eventName)}, ${sqlText(params.eventDate)}, ${sqlText(params.startTime)}, NULL, ${sqlText(params.doorsOpenTime)}, NULL, ${sqlText(params.description)}, ${sqlText(params.notes)})`,
     );
     this.line("ON CONFLICT (id) DO UPDATE");
     this.line("SET project_id = EXCLUDED.project_id,");
     this.line("    venue_id = EXCLUDED.venue_id,");
+    this.line("    type = EXCLUDED.type,");
     this.line("    event_date = EXCLUDED.event_date,");
     this.line("    event_name = EXCLUDED.event_name,");
     this.line("    start_time = EXCLUDED.start_time,");
@@ -682,11 +686,64 @@ function emitLive(builder: SqlBuilder, source: SourceArticle): void {
     source,
     projectId,
     venueId,
+    eventType: "live",
     eventName: basic["イベント名"] ?? null,
     eventDate,
     startTime,
     doorsOpenTime,
     description: summarize(sections["その他"] || sections["セットリスト"] || source.body),
+    notes: compactNotes(source, {
+      detail_url: basic["詳細"] ?? basic["公演詳細"],
+    }),
+  });
+}
+
+function eventTypeForSource(source: SourceArticle, eventName: string | null): string {
+  const text = `${source.title} ${eventName ?? ""}`;
+  if (text.includes("展") || text.includes("展示")) return "exhibition";
+  if (text.includes("試聴会")) return "listening_event";
+  return "event";
+}
+
+function eventDescriptionFromBasic(basic: Record<string, string>): string | null {
+  const parts: string[] = [];
+  if (basic["日時"]?.includes("〜") || basic["日時"]?.includes("~")) {
+    parts.push(`日時: ${stripMarkdown(basic["日時"])}`);
+  }
+  if (parts.length === 0) return null;
+  return parts.join("\n");
+}
+
+function emitEvent(builder: SqlBuilder, source: SourceArticle): void {
+  const sections = parseSections(source.body);
+  const basic = parseBasicInfo(sections["基本情報"] ?? "");
+  const projectName = projectNameForSource(source);
+  const projectId = builder.projectUpsert({
+    name: projectName,
+    kind: projectType(projectName),
+    description: null,
+    startDate: null,
+    endDate: null,
+  });
+
+  const [venueName, location] = splitVenue(basic["会場"]);
+  if (!venueName) throw new Error(`Could not parse venue for ${source.name}`);
+  const venueId = builder.venueUpsert({ name: venueName, location, description: null });
+
+  const [eventDate, doorsOpenTime, startTime] = parseEventDatetime(basic["日時"], source.date);
+  if (!eventDate) throw new Error(`Could not parse event date for ${source.name}`);
+  const eventName = basic["イベント名"] ?? null;
+
+  builder.eventUpsert({
+    source,
+    projectId,
+    venueId,
+    eventType: eventTypeForSource(source, eventName),
+    eventName,
+    eventDate,
+    startTime,
+    doorsOpenTime,
+    description: eventDescriptionFromBasic(basic),
     notes: compactNotes(source, {
       detail_url: basic["詳細"] ?? basic["公演詳細"],
     }),
@@ -730,6 +787,7 @@ function renderSql(sources: SourceArticle[], includeTypes: NormalizedType[]): st
     try {
       if (sourceKind === "release") emitRelease(builder, source);
       if (sourceKind === "live") emitLive(builder, source);
+      if (sourceKind === "event") emitEvent(builder, source);
       if (sourceKind === "project") emitProject(builder, source);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);

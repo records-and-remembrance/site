@@ -266,6 +266,8 @@ export const event = pgTable(
     venueId: uuid("venue_id")
       .notNull()
       .references(() => venue.id),
+    /** イベント種別（live / exhibition / listening_event 等） */
+    type: text("type").notNull().default("live"),
     eventName: text("event_name"),
     eventDate: dateString("event_date").notNull(),
     startTime: timeString("start_time"),

@@ -5,6 +5,7 @@
     "db:migrate": "if [ -z \"$DRIZZLE_DATABASE_URL\" ]; then echo \"Set DRIZZLE_DATABASE_URL to a fresh Drizzle-managed database before migrating\"; exit 1; fi; DATABASE_URL=\"$DRIZZLE_DATABASE_URL\" drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:generate:band-releases": "bun scripts/generate_band_release_seed_sql.ts",
+    "db:generate:labels": "bun scripts/generate_label_seed_sql.ts",
     "review:compositions": "bun run app/server.ts",
     "typecheck": "tsc --noEmit"
   },

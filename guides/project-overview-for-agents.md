@@ -84,6 +84,22 @@ bun run scripts/generate_rawdata_seed_sql.ts \
   --output sql/release_seed.sql
 ```
 
+Generate supplemental releases found in band/article source files but missing dedicated release articles:
+
+```bash
+bun run db:generate:band-releases
+```
+
+This emits `sql/band_release_seed.sql`. The entries are intentionally curated in the script because the source evidence spans band pages and compilation notes rather than one normalized release article per work.
+
+Generate label descriptions from dedicated label articles:
+
+```bash
+bun run db:generate:labels
+```
+
+This emits `sql/label_seed.sql`. It updates `label.description` only; release rows continue to come from release and supplemental release generators.
+
 ### Composition
 
 Composition canonicalization is human-reviewed in Markdown first.
@@ -118,6 +134,17 @@ bun run scripts/generate_rawdata_seed_sql.ts \
   --types live \
   --output sql/live_seed.sql
 ```
+
+Generate non-Live event data:
+
+```bash
+bun run scripts/generate_rawdata_seed_sql.ts \
+  --source-dir rawData/articles_by_category/event \
+  --types event \
+  --output sql/event_seed.sql
+```
+
+These rows use `event.type` for broad classification such as `exhibition` and `listening_event`. Multi-day end dates are not modeled as a separate column; keep the original date range in `event.description`.
 
 Generate setlist data:
 
@@ -170,9 +197,12 @@ Use this order for a populated local DB:
 
 ```bash
 docker compose exec -T postgres psql -U monden -d monden < sql/release_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/band_release_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/label_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/composition_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/release_tracks_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/live_seed.sql
+docker compose exec -T postgres psql -U monden -d monden < sql/event_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/live_performances_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/people_seed.sql
 docker compose exec -T postgres psql -U monden -d monden < sql/contribution_seed.sql

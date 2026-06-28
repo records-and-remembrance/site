@@ -225,6 +225,7 @@ CREATE TABLE event (
     id UUID PRIMARY KEY,
     project_id UUID NOT NULL REFERENCES project(id),
     venue_id UUID NOT NULL REFERENCES venue(id),
+    type TEXT NOT NULL DEFAULT 'live',
     event_name TEXT,
     event_date DATE NOT NULL,
     start_time TIME,
@@ -237,6 +238,7 @@ CREATE TABLE event (
 );
 
 COMMENT ON TABLE event IS 'ライブ・公演';
+COMMENT ON COLUMN event.type IS 'イベント種別（live / exhibition / listening_event 等）';
 
 CREATE TABLE event_performance (
     id UUID PRIMARY KEY,
