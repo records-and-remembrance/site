@@ -113,8 +113,9 @@ describe("admin screen configuration", () => {
   test("selects relation rows by source and support status", () => {
     const related = {
       members: [
-        { id: "regular", support: false },
-        { id: "support", support: true },
+        { id: "regular", personName: "通常奏者", support: false },
+        { id: "support-z", personName: "山田", support: true },
+        { id: "support-a", personName: "阿部", support: true },
       ],
     };
     const supportRelation = resourceConfigs.projects.relations?.find(
@@ -122,7 +123,19 @@ describe("admin screen configuration", () => {
     );
 
     expect(selectRelationRows(related, supportRelation!)).toEqual([
-      { id: "support", support: true },
+      { id: "support-a", personName: "阿部", support: true },
+      { id: "support-z", personName: "山田", support: true },
     ]);
+  });
+
+  test("defines initial sorting for every related table", () => {
+    for (const config of Object.values(resourceConfigs)) {
+      for (const relation of config.relations ?? []) {
+        expect(relation.defaultSort).toBeTruthy();
+        expect(relation.columns.map((column) => column.key)).toContain(
+          relation.defaultSort,
+        );
+      }
+    }
   });
 });

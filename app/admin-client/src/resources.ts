@@ -92,6 +92,8 @@ export interface RelationConfig {
     value: string | boolean;
   };
   defaults?: Record<string, string | boolean>;
+  defaultSort: string;
+  defaultDirection?: "asc" | "desc";
   columns: ColumnConfig[];
   readonly?: boolean;
   nestedAction?: NestedActionConfig;
@@ -113,8 +115,27 @@ export function selectRelationRows(
   relation: RelationConfig,
 ): Array<Record<string, unknown>> {
   const rows = related[relation.sourceKey ?? relation.key] ?? [];
-  if (!relation.filter) return rows;
-  return rows.filter((row) => row[relation.filter!.key] === relation.filter!.value);
+  const filter = relation.filter;
+  const selectedRows = filter
+    ? rows.filter((row) => row[filter.key] === filter.value)
+    : rows;
+  const direction = relation.defaultDirection === "desc" ? -1 : 1;
+  const collator = new Intl.Collator("ja", {
+    numeric: true,
+    sensitivity: "base",
+  });
+
+  return [...selectedRows].sort((left, right) => {
+    const leftValue = left[relation.defaultSort];
+    const rightValue = right[relation.defaultSort];
+    if (leftValue === rightValue) return 0;
+    if (leftValue === null || leftValue === undefined || leftValue === "") return 1;
+    if (rightValue === null || rightValue === undefined || rightValue === "") return -1;
+    if (typeof leftValue === "number" && typeof rightValue === "number") {
+      return (leftValue - rightValue) * direction;
+    }
+    return collator.compare(String(leftValue), String(rightValue)) * direction;
+  });
 }
 
 const descriptionField: FieldConfig = {
@@ -173,6 +194,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "参加プロジェクト",
         resource: "memberships",
         parentField: "personId",
+        defaultSort: "fromDate",
+        defaultDirection: "asc",
         columns: [
           { key: "projectName", label: "プロジェクト" },
           { key: "fromDate", label: "開始", kind: "date" },
@@ -227,6 +250,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         parentField: "projectId",
         filter: { key: "support", value: false },
         defaults: { support: false },
+        defaultSort: "personName",
+        defaultDirection: "asc",
         columns: [
           { key: "personName", label: "人物" },
           { key: "fromDate", label: "開始", kind: "date" },
@@ -242,6 +267,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         parentField: "projectId",
         filter: { key: "support", value: true },
         defaults: { support: true },
+        defaultSort: "personName",
+        defaultDirection: "asc",
         columns: [
           { key: "personName", label: "人物" },
           { key: "fromDate", label: "開始", kind: "date" },
@@ -254,6 +281,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "作品",
         resource: "works",
         parentField: "projectId",
+        defaultSort: "releasedDate",
+        defaultDirection: "asc",
         columns: [
           { key: "title", label: "タイトル" },
           { key: "releasedDate", label: "リリース日", kind: "date" },
@@ -264,6 +293,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "イベント",
         resource: "events",
         parentField: "projectId",
+        defaultSort: "eventDate",
+        defaultDirection: "asc",
         columns: [
           { key: "eventDate", label: "日付", kind: "date" },
           { key: "eventName", label: "イベント" },
@@ -276,7 +307,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
     title: "Works / Releases",
     singular: "作品",
     description: "作品、具体リリース、レーベル、収録曲",
-    defaultSort: "title",
+    defaultSort: "releasedDate",
+    defaultDirection: "asc",
     columns: [
       { key: "title", label: "タイトル", sortable: true },
       { key: "projectName", label: "プロジェクト", sortable: true },
@@ -303,6 +335,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "リリース",
         resource: "releases",
         parentField: "workId",
+        defaultSort: "releaseDate",
+        defaultDirection: "asc",
         columns: [
           { key: "format", label: "形式" },
           { key: "catalogNumber", label: "品番" },
@@ -321,6 +355,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         key: "tracks",
         label: "収録曲",
         resource: "tracks",
+        defaultSort: "trackNumber",
+        defaultDirection: "asc",
         columns: [
           { key: "format", label: "リリース" },
           { key: "trackNumber", label: "#", kind: "number" },
@@ -350,6 +386,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "録音",
         resource: "recordings",
         parentField: "compositionId",
+        defaultSort: "recordingYear",
+        defaultDirection: "asc",
         columns: [
           { key: "recordingYear", label: "年", kind: "number" },
           { key: "type", label: "種別" },
@@ -361,6 +399,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         key: "appearances",
         label: "登場",
         readonly: true,
+        defaultSort: "label",
+        defaultDirection: "asc",
         columns: [
           { key: "type", label: "種別" },
           { key: "label", label: "リリース / イベント" },
@@ -374,7 +414,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
     singular: "イベント",
     description: "公演、会場、セットリスト",
     defaultSort: "eventDate",
-    defaultDirection: "desc",
+    defaultDirection: "asc",
     columns: [
       { key: "eventDate", label: "日付", sortable: true, kind: "date" },
       { key: "eventName", label: "イベント", sortable: true },
@@ -424,6 +464,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "セットリスト",
         resource: "event-performances",
         parentField: "eventId",
+        defaultSort: "orderIndex",
+        defaultDirection: "asc",
         columns: [
           { key: "orderIndex", label: "#", kind: "number" },
           { key: "compositionTitle", label: "楽曲" },
@@ -438,7 +480,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
     singular: "記事",
     description: "掲載媒体、号、記事、参照対象",
     defaultSort: "publishedDate",
-    defaultDirection: "desc",
+    defaultDirection: "asc",
     columns: [
       { key: "publishedDate", label: "公開日", sortable: true, kind: "date" },
       { key: "title", label: "タイトル", sortable: true },
@@ -466,6 +508,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "掲載号",
         resource: "publication-issues",
         readonly: true,
+        defaultSort: "publishedDate",
+        defaultDirection: "asc",
         columns: [
           { key: "publicationName", label: "媒体" },
           { key: "issueNumber", label: "号" },
@@ -478,6 +522,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
         label: "参照",
         resource: "article-mentions",
         parentField: "articleId",
+        defaultSort: "targetName",
+        defaultDirection: "asc",
         columns: [
           { key: "targetType", label: "対象種別" },
           { key: "targetName", label: "対象" },
