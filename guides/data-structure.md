@@ -138,6 +138,7 @@ Tables:
 - `original`: an original work
 - `compilation`: a multi-artist compilation or sampler
 - `best`: a same-artist edited/best album
+- `live`: a collection of recordings from a live performance
 
 `work_project` connects a work to one or more projects. `relation_type = primary`
 marks the primary credited project, while `participant` marks an artist appearing

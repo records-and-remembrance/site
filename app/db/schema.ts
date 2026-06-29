@@ -119,7 +119,7 @@ export const work = pgTable(
 		releasedDate: dateString('released_date'),
 		type: text('type').notNull().default('original'),
 	},
-	(table) => [unique('work_project_title_unique').on(table.projectId, table.title), check('work_type_check', sql`${table.type} IN ('original', 'compilation', 'best')`)],
+	(table) => [unique('work_project_title_unique').on(table.projectId, table.title), check('work_type_check', sql`${table.type} IN ('original', 'compilation', 'best', 'live')`)],
 );
 
 /** 作品に関係するプロジェクト（主名義、参加アーティスト） */

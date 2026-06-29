@@ -350,6 +350,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 					{ value: 'original', label: 'オリジナル' },
 					{ value: 'compilation', label: 'コンピレーション（複数アーティスト）' },
 					{ value: 'best', label: 'ベスト（同一アーティスト）' },
+					{ value: 'live', label: 'ライブ作品集' },
 				],
 			},
 			descriptionField,

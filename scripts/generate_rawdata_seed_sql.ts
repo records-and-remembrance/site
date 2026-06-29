@@ -450,7 +450,7 @@ class SqlBuilder {
 		return projectId;
 	}
 
-	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null; type: 'original' | 'compilation' | 'best' }): string {
+	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null; type: 'original' | 'compilation' | 'best' | 'live' }): string {
 		const workId = stableUuid('work', `${params.projectId}:${params.title}`);
 		this.line('INSERT INTO work (id, project_id, title, description, created_date, released_date, type)');
 		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)}, ${sqlText(params.type)})`);
@@ -587,7 +587,8 @@ function compactNotes(source: SourceArticle, extra: Record<string, string | null
 	return parts.length > 0 ? parts.join('\n') : null;
 }
 
-export function workType(source: SourceArticle): 'original' | 'compilation' | 'best' {
+export function workType(source: SourceArticle): 'original' | 'compilation' | 'best' | 'live' {
+	if (source.tags.includes('Live DVD')) return 'live';
 	if (source.tags.includes('Compilation')) {
 		return /^VA\s*-/i.test(source.title) ? 'compilation' : 'best';
 	}

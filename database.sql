@@ -124,12 +124,12 @@ CREATE TABLE work (
     created_date DATE,
     released_date DATE,
     type TEXT NOT NULL DEFAULT 'original'
-        CHECK (type IN ('original', 'compilation', 'best')),
+        CHECK (type IN ('original', 'compilation', 'best', 'live')),
     UNIQUE (project_id, title)
 );
 
 COMMENT ON TABLE work IS '抽象作品（アルバム単位）';
-COMMENT ON COLUMN work.type IS '作品種別（original: オリジナル、compilation: 複数アーティストの編集盤、best: 同一アーティストの編集盤）';
+COMMENT ON COLUMN work.type IS '作品種別（original: オリジナル、compilation: 複数アーティストの編集盤、best: 同一アーティストの編集盤、live: ライブ作品集）';
 
 CREATE TABLE work_project (
     id UUID PRIMARY KEY,

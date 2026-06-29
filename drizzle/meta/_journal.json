@@ -43,6 +43,13 @@
 			"when": 1782649216187,
 			"tag": "0005_moaning_junta",
 			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1782746494755,
+			"tag": "0006_bouncy_monster_badoon",
+			"breakpoints": true
 		}
 	]
 }

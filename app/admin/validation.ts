@@ -36,7 +36,7 @@ const work = z.strictObject({
 	description: nullableText,
 	createdDate: nullableDate,
 	releasedDate: nullableDate,
-	type: z.enum(['original', 'compilation', 'best']).default('original'),
+	type: z.enum(['original', 'compilation', 'best', 'live']).default('original'),
 });
 
 const workProject = z.strictObject({
