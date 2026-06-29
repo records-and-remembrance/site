@@ -172,14 +172,14 @@ describe('admin API', () => {
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({
 				projectId: generatedId,
-					title: 'Live Album',
-					type: 'live',
+				title: 'Live Album',
+				type: 'live',
 			}),
 		});
 
 		expect(response.status).toBe(201);
 		expect(repository.calls[0]?.value).toMatchObject({
-				type: 'live',
+			type: 'live',
 		});
 	});
 

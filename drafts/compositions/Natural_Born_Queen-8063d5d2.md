@@ -9,8 +9,7 @@ aliases:
   - 'Natural Boon Queen'
   - 'Natural Born Queen (w/内田, 韮沢)'
 sources:
-  -
-    type: release
+  - type: release
     file: '2007-09-05-000000.md'
     title: 'Good Dog Happy Men - the GOLDENBELLCITY ep2'
     date: '2007-09-05'

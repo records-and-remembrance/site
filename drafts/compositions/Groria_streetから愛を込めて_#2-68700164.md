@@ -7,8 +7,7 @@ group_key: 'groria streetから愛を込めて #2'
 aliases:
   - 'Groria streetから愛を込めて #2'
 sources:
-  -
-    type: release
+  - type: release
     file: '2007-09-05-000000.md'
     title: 'Good Dog Happy Men - the GOLDENBELLCITY ep2'
     date: '2007-09-05'
