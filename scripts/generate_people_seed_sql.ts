@@ -283,9 +283,15 @@ function parsePeriod(value: string | null | undefined): {
 		.split(/[~〜～-]/)
 		.map((part) => part.trim())
 		.filter(Boolean);
-	const from = parseDateLike(parts[0], false);
+	const from = parts.map((part) => parseDateLike(part, false)).find((parsed) => parsed.date) ?? { date: null, precision: null };
 	const openEnded = /現在|現行|活動中|～\s*$|〜\s*$/.test(value);
-	const to = parts.length > 1 && !openEnded ? parseDateLike(parts[parts.length - 1], true) : { date: null, precision: null };
+	const to =
+		parts.length > 1 && !openEnded
+			? (parts
+					.toReversed()
+					.map((part) => parseDateLike(part, true))
+					.find((parsed) => parsed.date) ?? { date: null, precision: null })
+			: { date: null, precision: null };
 	return {
 		fromDate: from.date,
 		toDate: to.date,
@@ -469,11 +475,16 @@ function addBiographyMemberships(article: SourceArticle, people: Map<string, Per
 export function renderSql(people: Map<string, PersonSeed>, memberships: MembershipSeed[], biographyArticles: SourceArticle[]): string {
 	const lines: string[] = [];
 	const projectNames = new Set<string>();
+	const projectPeriods = new Map<string, ReturnType<typeof parsePeriod>>();
 	const instruments = new Set<string>();
 	const roleId = stableUuid('role', 'performer');
 
 	for (const article of biographyArticles) {
-		if (article.tags.includes('参加バンド')) projectNames.add(projectNameForBiography(article));
+		if (!article.tags.includes('参加バンド')) continue;
+		const projectName = projectNameForBiography(article);
+		const basicInfo = parseBasicInfo(parseSections(article.body)['基本情報'] ?? '');
+		projectNames.add(projectName);
+		projectPeriods.set(projectName, parsePeriod(basicInfo['活動期間']));
 	}
 	for (const membership of memberships) {
 		projectNames.add(membership.projectName);
@@ -501,9 +512,14 @@ export function renderSql(people: Map<string, PersonSeed>, memberships: Membersh
 
 	for (const projectName of [...projectNames].sort((a, b) => a.localeCompare(b, 'ja'))) {
 		const id = stableUuid('project', projectName);
+		const period = projectPeriods.get(projectName);
 		lines.push('INSERT INTO project (id, name, type, description, start_date, end_date)');
-		lines.push(`VALUES (${sqlText(id)}, ${sqlText(projectName)}, ${sqlText(projectType(projectName))}, NULL, NULL, NULL)`);
-		lines.push('ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type;');
+		lines.push(`VALUES (${sqlText(id)}, ${sqlText(projectName)}, ${sqlText(projectType(projectName))}, NULL, ${sqlText(period?.fromDate ?? null)}, ${sqlText(period?.toDate ?? null)})`);
+		lines.push('ON CONFLICT (id) DO UPDATE');
+		lines.push('SET name = EXCLUDED.name,');
+		lines.push('    type = EXCLUDED.type,');
+		lines.push('    start_date = EXCLUDED.start_date,');
+		lines.push('    end_date = EXCLUDED.end_date;');
 		lines.push('');
 	}
 
