@@ -282,6 +282,33 @@ sources:
     section: 'セットリスト'
     position: 3
     raw_title: '光の粒子 埃の中で (Departures) [Lost Verse(s) ver.]'
+  -
+    type: live
+    file: "2024-05-12-000000_1.md"
+    title: "2024-05-12: MONDEN MASAAKI - \\\"新代田環七フェスティバル 2024\\\" at 新代田Live bar crossing"
+    date: "2024-05-12"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 6
+    raw_title: "光の粒子 埃の中で (Departures)"
+  -
+    type: live
+    file: "2024-08-11-000000.md"
+    title: "2024-08-11: 門田匡陽 - \\\"599LIVE\\\" at 高尾599ミュージアム"
+    date: "2024-08-11"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "光の粒子 埃の中で (Departures)"
+  -
+    type: live
+    file: "2024-12-29-000000.md"
+    title: "2024-12-29: 門田匡陽 Instagram Live"
+    date: "2024-12-29"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 3
+    raw_title: "光の粒子 埃の中で (Departures)"
 ---
 
 # 光の粒子 埃の中で (Departures)

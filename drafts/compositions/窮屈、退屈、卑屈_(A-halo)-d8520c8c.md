@@ -169,6 +169,24 @@ sources:
     section: 'セットリスト'
     position: 2
     raw_title: '窮屈な退屈で卑屈な天使 (Stiff, Tedium, Obsequious)<br>'
+  -
+    type: live
+    file: "2024-04-25-000000.md"
+    title: "2024-04-25: MONDEN MASAAKI - \\\"KISS\\\" at 池下CLUB UPSET"
+    date: "2024-04-25"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "窮屈、退屈、卑屈 (A-halo)"
+  -
+    type: live
+    file: "2024-04-26-000000.md"
+    title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
+    date: "2024-04-26"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 5
+    raw_title: "窮屈、退屈、卑屈 (A-halo)"
 ---
 
 # 窮屈、退屈、卑屈 (A-halo)

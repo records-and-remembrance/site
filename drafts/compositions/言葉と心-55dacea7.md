@@ -87,6 +87,15 @@ sources:
     section: 'セットリスト'
     position: 18
     raw_title: '言葉と心'
+  -
+    type: live
+    file: "2024-11-23-000000.md"
+    title: "2024-11-23: BURGER NUDS - tomoran presents せだい 2nd album release party \\\"四季 -momiji-\\\" at 下北沢近道"
+    date: "2024-11-23"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 4
+    raw_title: "言葉と心"
 ---
 
 # 言葉と心

@@ -80,6 +80,24 @@ sources:
     section: 'セットリスト'
     position: 18
     raw_title: '楽園の追放者 (Somebody To Love) ◆<br>'
+  -
+    type: live
+    file: "2024-05-18-000000.md"
+    title: "2024-05-18: MONDEN MASAAKI - \\\"KISS\\\" at 新代田FEVER"
+    date: "2024-05-18"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 16
+    raw_title: "楽園の追放者 (Somebody To Love)"
+  -
+    type: live
+    file: "2024-12-25-000000.md"
+    title: "2024-12-25: MONDEN MASAAKI (BAND SET) - \\\"chant de Noël 2024\\\" at 新代田FEVER"
+    date: "2024-12-25"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 11
+    raw_title: "楽園の追放者 (Somebody To Love)"
 ---
 
 # 楽園の追放者 (Somebody To Love)

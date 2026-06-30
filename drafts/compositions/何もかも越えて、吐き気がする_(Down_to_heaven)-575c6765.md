@@ -1,13 +1,14 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: '何もかも越えて、吐き気がする (Down to heaven)'
+canonical_title: "何もかも越えて、吐き気がする (Down to heaven)"
 status: reviewed
 composition_id: null
-group_key: '何もかも越えて、吐き気がする (down to heaven)'
+group_key: "何もかも越えて、吐き気がする (down to heaven)"
 aliases:
-  - '何もかも越えて、吐き気がする (Down to heaven)'
-  - 'Down To Heaven'
-  - '何もかも越えて、吐き気がする (Down To Heaven) [Lost Verse(s) ver.]'
+  - "何もかも越えて、吐き気がする (Down to heaven)"
+  - "Down To Heaven"
+  - "何もかも越えて、吐き気がする (Down To Heaven) [Lost Verse(s) ver.]"
+  - "何もかも越えて、 吐き気がする (Down to heaven)"
 sources:
   - type: release
     file: '2013-10-02-000000.md'
@@ -185,7 +186,35 @@ sources:
     section: 'セットリスト'
     position: 4
     raw_title: '何もかも越えて、吐き気がする (Down To Heaven) [Lost Verse(s) ver.]'
+  -
+    type: live
+    file: "2024-04-25-000000.md"
+    title: "2024-04-25: MONDEN MASAAKI - \\\"KISS\\\" at 池下CLUB UPSET"
+    date: "2024-04-25"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "何もかも越えて、吐き気がする (Down To Heaven)"
+  -
+    type: live
+    file: "2024-05-18-000000.md"
+    title: "2024-05-18: MONDEN MASAAKI - \\\"KISS\\\" at 新代田FEVER"
+    date: "2024-05-18"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "何もかも越えて、吐き気がする (Down to heaven)"
+  -
+    type: live
+    file: "2024-04-26-000000.md"
+    title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
+    date: "2024-04-26"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "何もかも越えて、 吐き気がする (Down to heaven)"
 ---
+
 
 # 何もかも越えて、吐き気がする (Down to heaven)
 
@@ -200,3 +229,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:58:46.232Z: merged sources from 何もかも越えて、吐き気がする*(Down_To_Heaven)*[Lost_Verse(s)_ver.]-8cee673b.md
+
+## Merge Notes
+
+- 2026-06-30T13:25:47.342Z: merged sources from 何もかも越えて、_吐き気がする_(Down_to_heaven)-32b6bdf0.md

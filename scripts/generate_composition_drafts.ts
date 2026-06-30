@@ -41,6 +41,8 @@ type ParsedArgs = {
 	liveDir: string;
 	outputDir: string;
 	overwrite: boolean;
+	mergeSources: boolean;
+	files: string[] | null;
 };
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -48,12 +50,14 @@ const DEFAULT_RELEASE_DIR = join(ROOT, 'rawData', 'articles_by_category', 'relea
 const DEFAULT_LIVE_DIR = join(ROOT, 'rawData', 'articles_by_category', 'Live');
 const DEFAULT_OUTPUT_DIR = join(ROOT, 'drafts', 'compositions');
 
-function parseArgs(argv: string[]): ParsedArgs {
+function parseCliArgs(argv: string[]): ParsedArgs {
 	const args: ParsedArgs = {
 		releaseDir: DEFAULT_RELEASE_DIR,
 		liveDir: DEFAULT_LIVE_DIR,
 		outputDir: DEFAULT_OUTPUT_DIR,
 		overwrite: false,
+		mergeSources: false,
+		files: null,
 	};
 
 	for (let index = 0; index < argv.length; index += 1) {
@@ -83,7 +87,25 @@ function parseArgs(argv: string[]): ParsedArgs {
 			continue;
 		}
 
+		if (arg === '--merge-sources') {
+			args.mergeSources = true;
+			continue;
+		}
+
+		if (arg === '--files') {
+			const files: string[] = [];
+			while (argv[index + 1] && !argv[index + 1]!.startsWith('--')) {
+				files.push(argv[++index]!);
+			}
+			args.files = files;
+			continue;
+		}
+
 		throw new Error(`Unknown or incomplete argument: ${arg}`);
+	}
+
+	if (args.overwrite && args.mergeSources) {
+		throw new Error('--overwrite and --merge-sources cannot be used together');
 	}
 
 	return args;
@@ -369,6 +391,129 @@ function renderDraft(draft: SongDraft): string {
 	return lines.join('\n');
 }
 
+type SourcesBlock = {
+	contentStart: number;
+	contentEnd: number;
+	entries: string[];
+};
+
+function sourcesBlock(markdown: string): SourcesBlock {
+	const lines = markdown.split(/\r?\n/);
+	const sourcesIndex = lines.findIndex((line) => line.trim() === 'sources:');
+	if (sourcesIndex < 0) throw new Error('missing sources block');
+
+	let contentEnd = sourcesIndex + 1;
+	while (contentEnd < lines.length && lines[contentEnd]!.trim() !== '---') {
+		contentEnd += 1;
+	}
+	if (contentEnd >= lines.length) throw new Error('unterminated front matter');
+
+	const entries: string[] = [];
+	let current: string[] = [];
+	for (const line of lines.slice(sourcesIndex + 1, contentEnd)) {
+		if (/^  -(?:\s|$)/.test(line)) {
+			if (current.length > 0) entries.push(current.join('\n'));
+			current = [line];
+			continue;
+		}
+		if (current.length > 0) current.push(line);
+	}
+	if (current.length > 0) entries.push(current.join('\n'));
+
+	return {
+		contentStart: sourcesIndex + 1,
+		contentEnd,
+		entries,
+	};
+}
+
+function sourceEntryValue(entry: string, key: string): string {
+	const match = entry.match(new RegExp(`^\\s*(?:-\\s*)?${key}:\\s*(.+)$`, 'm'));
+	if (!match) return '';
+	const value = match[1]!.trim();
+	if (value.startsWith('"') && value.endsWith('"')) {
+		try {
+			return String(JSON.parse(value));
+		} catch {
+			return value.slice(1, -1);
+		}
+	}
+	if (value.startsWith("'") && value.endsWith("'")) {
+		return value.slice(1, -1).replaceAll("''", "'");
+	}
+	return value;
+}
+
+function sourceEntryKey(entry: string): string {
+	const type = sourceEntryValue(entry, 'type');
+	const file = sourceEntryValue(entry, 'file');
+	const rawTitle = sourceEntryValue(entry, 'raw_title');
+	if (type && file && rawTitle) return `${type}\u0000${file}\u0000${rawTitle}`;
+	return entry.replace(/\s+/g, ' ').trim();
+}
+
+export function mergeDraftSources(existingMarkdown: string, generatedMarkdown: string): string {
+	const existing = sourcesBlock(existingMarkdown);
+	const generated = sourcesBlock(generatedMarkdown);
+	const seen = new Set(existing.entries.map(sourceEntryKey));
+	const additions = generated.entries.filter((entry) => {
+		const key = sourceEntryKey(entry);
+		if (!key || seen.has(key)) return false;
+		seen.add(key);
+		return true;
+	});
+	if (additions.length === 0) return existingMarkdown;
+
+	const lines = existingMarkdown.split(/\r?\n/);
+	lines.splice(existing.contentStart, existing.contentEnd - existing.contentStart, ...existing.entries, ...additions);
+	return lines.join('\n');
+}
+
+export function mergedTargetFile(markdown: string): string | null {
+	const matches = [...markdown.matchAll(/merged into (.+\.md)\s*$/gm)];
+	const target = matches.at(-1)?.[1]?.trim();
+	return target ? target.replace(/\\(.)/g, '$1') : null;
+}
+
+export function resolveMergedTargetFile(recordedTarget: string, availableFiles: string[]): string | null {
+	if (availableFiles.includes(recordedTarget)) return recordedTarget;
+
+	const hash = recordedTarget.match(/-([0-9a-f]{8})\.md$/)?.[1];
+	if (!hash) return null;
+	const matches = availableFiles.filter((file) => file.endsWith(`-${hash}.md`));
+	if (matches.length > 1) {
+		throw new Error(`ambiguous composition draft merge target hash: ${hash}`);
+	}
+	return matches[0] ?? null;
+}
+
+async function mergeGeneratedSources(outputDir: string, outputPath: string, generatedMarkdown: string): Promise<boolean> {
+	let destinationPath = outputPath;
+	const visited = new Set<string>();
+
+	while (true) {
+		if (visited.has(destinationPath)) {
+			throw new Error(`cyclic composition draft merge detected at ${basename(destinationPath)}`);
+		}
+		visited.add(destinationPath);
+
+		const existingMarkdown = await readFile(destinationPath, 'utf8');
+		const targetFile = mergedTargetFile(existingMarkdown);
+		if (!targetFile) {
+			const mergedMarkdown = mergeDraftSources(existingMarkdown, generatedMarkdown);
+			if (mergedMarkdown === existingMarkdown) return false;
+			await writeFile(destinationPath, mergedMarkdown, 'utf8');
+			return true;
+		}
+
+		const resolvedTarget = resolveMergedTargetFile(targetFile, await readdir(outputDir));
+		if (!resolvedTarget) {
+			throw new Error(`merged target does not exist: ${targetFile}`);
+		}
+		destinationPath = join(outputDir, resolvedTarget);
+	}
+}
+
 function renderIndex(drafts: SongDraft[], releaseCount: number, liveCount: number): string {
 	const lines = [
 		'# Composition Drafts',
@@ -423,9 +568,18 @@ async function fileExists(path: string): Promise<boolean> {
 	return await Bun.file(path).exists();
 }
 
+export function parseArgs(argv: string[]): ParsedArgs {
+	return parseCliArgs(argv);
+}
+
 async function main(): Promise<void> {
 	const args = parseArgs(Bun.argv.slice(2));
-	const [releaseSources, liveSources] = await Promise.all([loadSources('release', args.releaseDir), loadSources('live', args.liveDir)]);
+	let [releaseSources, liveSources] = await Promise.all([loadSources('release', args.releaseDir), loadSources('live', args.liveDir)]);
+	if (args.files) {
+		const wanted = new Set(args.files);
+		releaseSources = releaseSources.filter((source) => wanted.has(source.name));
+		liveSources = liveSources.filter((source) => wanted.has(source.name));
+	}
 
 	const releaseOccurrences = releaseSources.flatMap(extractOccurrences);
 	const liveOccurrences = liveSources.flatMap(extractOccurrences);
@@ -434,26 +588,41 @@ async function main(): Promise<void> {
 	await mkdir(args.outputDir, { recursive: true });
 	let written = 0;
 	let skipped = 0;
+	let mergedSources = 0;
 
 	for (const draft of drafts) {
 		const fileName = `${safeFileName(draft.canonicalTitle)}-${hash(draft.groupKey)}.md`;
 		const outputPath = join(args.outputDir, fileName);
+		const generatedMarkdown = renderDraft(draft);
+		if (args.mergeSources && (await fileExists(outputPath))) {
+			if (await mergeGeneratedSources(args.outputDir, outputPath, generatedMarkdown)) {
+				mergedSources += 1;
+			} else {
+				skipped += 1;
+			}
+			continue;
+		}
 		if (!args.overwrite && (await fileExists(outputPath))) {
 			skipped += 1;
 			continue;
 		}
-		await writeFile(outputPath, renderDraft(draft), 'utf8');
+		await writeFile(outputPath, generatedMarkdown, 'utf8');
 		written += 1;
 	}
 
-	await writeFile(join(args.outputDir, 'README.md'), renderIndex(drafts, releaseOccurrences.length, liveOccurrences.length), 'utf8');
+	if (!args.files) {
+		await writeFile(join(args.outputDir, 'README.md'), renderIndex(drafts, releaseOccurrences.length, liveOccurrences.length), 'utf8');
+	}
 
 	console.log(`release occurrences: ${releaseOccurrences.length}`);
 	console.log(`live occurrences: ${liveOccurrences.length}`);
 	console.log(`drafts: ${drafts.length}`);
 	console.log(`written: ${written}`);
+	console.log(`merged sources: ${mergedSources}`);
 	console.log(`skipped existing: ${skipped}`);
 	console.log(`output: ${args.outputDir}`);
 }
 
-await main();
+if (import.meta.main) {
+	await main();
+}

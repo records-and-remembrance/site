@@ -353,6 +353,15 @@ sources:
     section: '収録曲'
     position: 1
     raw_title: 'COLD BURN ([TELESCOPE COMPILATION 01](http://monden-info.hatenablog.com/entry/2001/04/14/000000))'
+  -
+    type: live
+    file: "2024-11-01-000000.md"
+    title: "2024-11-01: BURGER NUDS - FEVER 15th ANNIVERSARY \\\"LIVE FOR THE FUTURE\\\" at 新代田FEVER"
+    date: "2024-11-01"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 12
+    raw_title: "COLD BURN"
 ---
 
 # cold burn

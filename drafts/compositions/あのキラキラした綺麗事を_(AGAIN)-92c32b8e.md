@@ -1,14 +1,15 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: 'あのキラキラした綺麗事を (AGAIN)'
+canonical_title: "あのキラキラした綺麗事を (AGAIN)"
 status: reviewed
 composition_id: null
-group_key: 'あのキラキラした綺麗事を (again)'
+group_key: "あのキラキラした綺麗事を (again)"
 aliases:
-  - 'あのキラキラした綺麗事を (AGAIN)'
-  - 'Kireigoto ("あのキラキラした綺麗事を (AGAIN)" rearrange)'
-  - 'Kireigoto ("あのキラキラした綺麗事を (AGAIN)" アコースティックバージョン)'
-  - 'あのキラキラした綺麗事 (AGAIN)'
+  - "あのキラキラした綺麗事を (AGAIN)"
+  - "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" rearrange)"
+  - "Kireigoto (\"あのキラキラした綺麗事を (AGAIN)\" アコースティックバージョン)"
+  - "あのキラキラした綺麗事 (AGAIN)"
+  - "あのキラキラした綺麗事を"
 sources:
   - type: release
     file: '2015-10-21-000000.md'
@@ -234,7 +235,44 @@ sources:
     section: 'セットリスト'
     position: 4
     raw_title: 'あのキラキラした綺麗事 (AGAIN)'
+  -
+    type: live
+    file: "2024-04-25-000000.md"
+    title: "2024-04-25: MONDEN MASAAKI - \\\"KISS\\\" at 池下CLUB UPSET"
+    date: "2024-04-25"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 12
+    raw_title: "あのキラキラした綺麗事を (AGAIN)"
+  -
+    type: live
+    file: "2024-04-26-000000.md"
+    title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
+    date: "2024-04-26"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 12
+    raw_title: "あのキラキラした綺麗事を (AGAIN)"
+  -
+    type: live
+    file: "2024-05-18-000000.md"
+    title: "2024-05-18: MONDEN MASAAKI - \\\"KISS\\\" at 新代田FEVER"
+    date: "2024-05-18"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 10
+    raw_title: "あのキラキラした綺麗事を (AGAIN)"
+  -
+    type: live
+    file: "2026-04-27-000000.md"
+    title: "2026-04-27: 門田匡陽 - \\\"Now 2\\\" at 下北沢近道"
+    date: "2026-04-27"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "あのキラキラした綺麗事を"
 ---
+
 
 # あのキラキラした綺麗事を (AGAIN)
 
@@ -253,3 +291,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:26:15.371Z: merged sources from あのキラキラした綺麗事\_(AGAIN)-56716310.md
+
+## Merge Notes
+
+- 2026-06-30T13:25:47.340Z: merged sources from あのキラキラした綺麗事を-f92dcbf2.md

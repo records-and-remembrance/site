@@ -489,6 +489,33 @@ sources:
     section: '収録曲'
     position: 3
     raw_title: 'Apple star storyS【2007】'
+  -
+    type: live
+    file: "2026-01-29-000000.md"
+    title: "2026-01-29: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 池下CLUB UPSET"
+    date: "2026-01-29"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "Apple star storyS"
+  -
+    type: live
+    file: "2026-01-30-000000.md"
+    title: "2026-01-30: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 木屋町UrBANGUILD"
+    date: "2026-01-30"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "Apple star storyS"
+  -
+    type: live
+    file: "2026-02-15-000000.md"
+    title: "2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER"
+    date: "2026-02-15"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 2
+    raw_title: "Apple star storyS"
 ---
 
 # Apple star storyS

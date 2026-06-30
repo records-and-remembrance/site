@@ -230,7 +230,7 @@ function sourceEntries(sourcesYaml: string): string[] {
 	let current: string[] = [];
 
 	for (const line of sourcesYaml.split(/\r?\n/)) {
-		if (/^\s*-\s*$/.test(line)) {
+		if (/^\s{2}-\s*(?:\S.*)?$/.test(line)) {
 			if (current.length > 0) entries.push(current.join('\n'));
 			current = [line];
 			continue;
@@ -242,7 +242,7 @@ function sourceEntries(sourcesYaml: string): string[] {
 	return entries;
 }
 
-function mergeSources(...blocks: string[]): string {
+export function mergeSources(...blocks: string[]): string {
 	const seen = new Set<string>();
 	const entries: string[] = [];
 

@@ -73,6 +73,24 @@ sources:
     section: 'セットリスト'
     position: 8
     raw_title: 'Groria Street より愛を込めて #1'
+  -
+    type: live
+    file: "2026-01-29-000000.md"
+    title: "2026-01-29: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 池下CLUB UPSET"
+    date: "2026-01-29"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 6
+    raw_title: "Groria Streetから愛を込めて #1"
+  -
+    type: live
+    file: "2026-02-15-000000.md"
+    title: "2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER"
+    date: "2026-02-15"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 18
+    raw_title: "Groria Streetから愛を込めて #1"
 ---
 
 # Groria Streetから愛を込めて #1

@@ -304,6 +304,24 @@ sources:
     section: 'セットリスト'
     position: 11
     raw_title: 'BRAVE GIRL IN HEL'
+  -
+    type: live
+    file: "2024-11-01-000000.md"
+    title: "2024-11-01: BURGER NUDS - FEVER 15th ANNIVERSARY \\\"LIVE FOR THE FUTURE\\\" at 新代田FEVER"
+    date: "2024-11-01"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 8
+    raw_title: "BRAVE GIRL IN HELL"
+  -
+    type: live
+    file: "2025-05-23-000000.md"
+    title: "2025-05-23: BURGER NUDS - “内山結愛 presents「tie in reaction vol.8」“ at 新宿MARZ"
+    date: "2025-05-23"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 5
+    raw_title: "BRAVE GIRL IN HELL"
 ---
 
 # BRAVE GIRL IN HELL

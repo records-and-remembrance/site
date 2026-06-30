@@ -120,6 +120,15 @@ sources:
     section: '収録曲'
     position: 13
     raw_title: 'Normal Abnormal (symphony)'
+  -
+    type: live
+    file: "2025-06-01-000000.md"
+    title: "2025-06-01: BURGER NUDS - “Now 2“ at 下北沢近道"
+    date: "2025-06-01"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 6
+    raw_title: "Normal Abnormal"
 ---
 
 # Normal Abnormal

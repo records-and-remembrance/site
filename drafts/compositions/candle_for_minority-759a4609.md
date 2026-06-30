@@ -1,15 +1,16 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: 'Candle for minority'
+canonical_title: "Candle for minority"
 status: reviewed
 composition_id: null
-group_key: 'candle for minority'
+group_key: "candle for minority"
 aliases:
-  - 'Candle for minority'
-  - 'Candle for minority (BURGER NUDS)'
-  - 'Candle for minority (symphony)'
-  - 'Candle for minority (with 山田[Cho.])'
-  - 'Candle for minority (弾き語り)'
+  - "Candle for minority"
+  - "Candle for minority (BURGER NUDS)"
+  - "Candle for minority (symphony)"
+  - "Candle for minority (with 山田[Cho.])"
+  - "Candle for minority (弾き語り)"
+  - "Candle for minority (エレキギター弾き語り)"
 sources:
   - type: release
     file: '2003-08-27-000000.md'
@@ -403,7 +404,53 @@ sources:
     section: 'セットリスト'
     position: 1
     raw_title: 'Candle for minority (弾き語り)'
+  -
+    type: live
+    file: "2024-05-12-000000_1.md"
+    title: "2024-05-12: MONDEN MASAAKI - \\\"新代田環七フェスティバル 2024\\\" at 新代田Live bar crossing"
+    date: "2024-05-12"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "Candle for minority"
+  -
+    type: live
+    file: "2024-05-25-000000.md"
+    title: "2024-05-25: 門田匡陽 Instagram Live"
+    date: "2024-05-25"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 2
+    raw_title: "Candle for minority"
+  -
+    type: live
+    file: "2025-08-11-000000.md"
+    title: "2025-08-11: 門田匡陽 - \\\"599LIVE\\\" at 高尾599ミュージアム"
+    date: "2025-08-11"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 3
+    raw_title: "Candle for minority"
+  -
+    type: live
+    file: "2026-04-27-000000.md"
+    title: "2026-04-27: 門田匡陽 - \\\"Now 2\\\" at 下北沢近道"
+    date: "2026-04-27"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 8
+    raw_title: "Candle for minority"
+  -
+    type: live
+    file: "2024-04-26-000000.md"
+    title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
+    date: "2024-04-26"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 17
+    raw_title: "Candle for minority (エレキギター弾き語り)"
 ---
+
 
 # candle for minority
 
@@ -426,3 +473,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:20:14.178Z: merged sources from Candle*for_minority*(弾き語り)-fca08891.md
+
+## Merge Notes
+
+- 2026-06-30T13:25:47.339Z: merged sources from Candle_for_minority_(エレキギター弾き語り)-193df16f.md

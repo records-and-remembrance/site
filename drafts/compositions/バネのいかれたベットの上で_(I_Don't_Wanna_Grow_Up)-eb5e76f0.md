@@ -14,8 +14,9 @@ aliases:
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [with 弦楽四重奏]"
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [Lost Verse(s) ver.]"
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up)"
-  - 'バネのいかれたベッドの上で (I Don’t Wanna Grow Up)'
+  - "バネのいかれたベッドの上で (I Don’t Wanna Grow Up)"
   - "バネのいかれたベットの上で (I don't wonna grow up)"
+  - "バネのいかれたベッドの上で"
 sources:
   - type: live
     file: '2016-05-24-000000.md'
@@ -273,7 +274,17 @@ sources:
     section: 'セットリスト'
     position: 3
     raw_title: "バネのいかれたベットの上で (I don't wonna grow up)<br>"
+  -
+    type: live
+    file: "2026-04-27-000000.md"
+    title: "2026-04-27: 門田匡陽 - \\\"Now 2\\\" at 下北沢近道"
+    date: "2026-04-27"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "バネのいかれたベッドの上で"
 ---
+
 
 # バネのいかれたベットの上で (I Don't Wanna Grow Up)
 
@@ -316,3 +327,7 @@ sources:
 ## Merge Notes
 
 - 2026-06-14T11:54:52.225Z: merged sources from バネのいかれたベットの上で\_(I_don't_wonna_grow_up)-834a88bb.md
+
+## Merge Notes
+
+- 2026-06-30T13:25:47.344Z: merged sources from バネのいかれたベッドの上で-27ce2229.md

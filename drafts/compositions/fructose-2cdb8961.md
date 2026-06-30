@@ -147,6 +147,33 @@ sources:
     section: 'セットリスト'
     position: 8
     raw_title: 'Fructose [ギターのみ]'
+  -
+    type: live
+    file: "2024-03-08-000000.md"
+    title: "2024-03-08: 門田匡陽 - \\\"Once-in-a-lifetime 2024\\\" at 新代田FEVER"
+    date: "2024-03-08"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "fructose"
+  -
+    type: live
+    file: "2024-03-23-000000.md"
+    title: "2024-03-23: 門田匡陽 Instagram Live"
+    date: "2024-03-23"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 1
+    raw_title: "fructose"
+  -
+    type: live
+    file: "2024-04-19-000000.md"
+    title: "2024-04-19: MONDEN MASAAKI - \\\"プレ環七フェス 2024\\\" at 新代田FEVER"
+    date: "2024-04-19"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 7
+    raw_title: "fructose"
 ---
 
 # fructose

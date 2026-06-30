@@ -203,6 +203,24 @@ sources:
     section: 'セットリスト'
     position: 4
     raw_title: 'Alice (メトロノーム使用)'
+  -
+    type: live
+    file: "2024-04-19-000000.md"
+    title: "2024-04-19: MONDEN MASAAKI - \\\"プレ環七フェス 2024\\\" at 新代田FEVER"
+    date: "2024-04-19"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 3
+    raw_title: "Alice"
+  -
+    type: live
+    file: "2024-08-11-000000.md"
+    title: "2024-08-11: 門田匡陽 - \\\"599LIVE\\\" at 高尾599ミュージアム"
+    date: "2024-08-11"
+    project: "門田匡陽 (ソロ名義/2020-)"
+    section: "セットリスト"
+    position: 4
+    raw_title: "Alice"
 ---
 
 # Alice

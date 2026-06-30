@@ -616,6 +616,24 @@ sources:
     section: 'セットリスト'
     position: 19
     raw_title: 'ユートピア [w/伊藤]'
+  -
+    type: live
+    file: "2026-01-30-000000.md"
+    title: "2026-01-30: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 木屋町UrBANGUILD"
+    date: "2026-01-30"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 9
+    raw_title: "ユートピア"
+  -
+    type: live
+    file: "2026-02-15-000000.md"
+    title: "2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER"
+    date: "2026-02-15"
+    project: "Good Dog Happy Men"
+    section: "セットリスト"
+    position: 11
+    raw_title: "ユートピア"
 ---
 
 # ユートピア

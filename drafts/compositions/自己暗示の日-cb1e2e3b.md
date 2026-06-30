@@ -296,6 +296,96 @@ sources:
     section: 'セットリスト'
     position: 1
     raw_title: 'フラウ (自己暗示の日)'
+  -
+    type: live
+    file: "2002-05-03-000000.md"
+    title: "2002-05-03: BURGER NUDS - \\\"FLYING CIRCUS #10\\\" at 神戸パインフィールズ"
+    date: "2002-05-03"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2024-11-01-000000.md"
+    title: "2024-11-01: BURGER NUDS - FEVER 15th ANNIVERSARY \\\"LIVE FOR THE FUTURE\\\" at 新代田FEVER"
+    date: "2024-11-01"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 2
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2024-11-23-000000.md"
+    title: "2024-11-23: BURGER NUDS - tomoran presents せだい 2nd album release party \\\"四季 -momiji-\\\" at 下北沢近道"
+    date: "2024-11-23"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 6
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2025-01-19-000000.md"
+    title: "2025-01-19: BURGER NUDS - “Now 2 -近道2周年記念公演-“ at 下北沢近道"
+    date: "2025-01-19"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2025-02-08-000000.md"
+    title: "2025-02-08: BURGER NUDS - “ドガの都 Vol.1“ at 下北沢QLUB Que"
+    date: "2025-02-08"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2025-04-25-000000.md"
+    title: "2025-04-25: BURGER NUDS - “tabuz twelve“ at 新代田FEVER"
+    date: "2025-04-25"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 3
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2025-05-23-000000.md"
+    title: "2025-05-23: BURGER NUDS - “内山結愛 presents「tie in reaction vol.8」“ at 新宿MARZ"
+    date: "2025-05-23"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 2
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2025-06-01-000000.md"
+    title: "2025-06-01: BURGER NUDS - “Now 2“ at 下北沢近道"
+    date: "2025-06-01"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 10
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2025-12-25-000000.md"
+    title: " 2025-12-25: BURGER NUDS - \\\"chant de Noël 2025\\\" at 新代田FEVER"
+    date: "2025-12-25"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 6
+    raw_title: "自己暗示の日"
+  -
+    type: live
+    file: "2001-12-15-000000.md"
+    title: "2001-12-15: BURGER NUDS - KOKORAHEN!革命 vol.000 at 渋谷ON AIR WEST"
+    date: "2001-12-15"
+    project: "BURGER NUDS"
+    section: "セットリスト"
+    position: 5
+    raw_title: "フラウ (自己暗示の日)"
 ---
 
 # 自己暗示の日
