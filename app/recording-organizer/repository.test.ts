@@ -67,6 +67,8 @@ describe('recording organizer repository projections', () => {
 				assignmentFingerprint: null,
 				reviewedAt: null,
 				recordingId,
+				versionName: 'Album version',
+				versionDescription: 'ストリングスを加えたバージョン',
 				recordingYear: 2005,
 				type: 'studio',
 				recordedDate: null,
@@ -102,6 +104,8 @@ describe('recording organizer repository projections', () => {
 
 		expect(detail?.groups[0]).toMatchObject({
 			id: recordingId,
+			versionName: 'Album version',
+			versionDescription: 'ストリングスを加えたバージョン',
 			tracks: [{ releaseTitle: 'LOW NAME', releaseFormat: 'CD' }],
 			contributions: [{ personName: '門田匡陽', instrumentName: 'guitar' }],
 		});
@@ -122,5 +126,51 @@ describe('recording organizer repository projections', () => {
 
 		expect(queries[0]?.sql).toContain('where id in ($1::uuid, $2::uuid)');
 		expect(queries[0]?.sql).not.toContain('any(($1, $2)::uuid[])');
+	});
+
+	test('persists version details when recordings are merged or split', async () => {
+		const dialect = new PgDialect();
+		const queries: Array<{ sql: string; params: unknown[] }> = [];
+		const store = createRecordingOrganizerMutationStore({
+			async execute(statement) {
+				const query = dialect.sqlToQuery(statement);
+				queries.push(query);
+				return { rows: [] };
+			},
+		});
+		const metadata = {
+			versionName: 'Album version',
+			versionDescription: 'ストリングスを加えたバージョン',
+			recordingYear: 2005,
+			type: 'studio' as const,
+			recordedDate: null,
+			recordedFrom: null,
+			recordedTo: null,
+			releaseDate: '2005-06-01',
+			notes: null,
+		};
+
+		await store.applyMerge({
+			compositionId,
+			targetRecordingId: recordingId,
+			sourceRecordingIds: ['00000000-0000-4000-8000-000000000099'],
+			metadata,
+		});
+		const updateRecording = queries.find((query) => query.sql.includes('update recording'));
+		expect(updateRecording?.sql).toContain('version_name = $1');
+		expect(updateRecording?.sql).toContain('version_description = $2');
+		expect(updateRecording?.params.slice(0, 2)).toEqual(['Album version', 'ストリングスを加えたバージョン']);
+
+		queries.length = 0;
+		await store.applySplit({
+			compositionId,
+			sourceRecordingId: recordingId,
+			newRecordingId: '00000000-0000-4000-8000-000000000098',
+			trackIds: ['00000000-0000-4000-8000-000000000003'],
+			metadata,
+			contributionCopies: [],
+		});
+		expect(queries[0]?.sql).toContain('version_name, version_description');
+		expect(queries[0]?.params.slice(2, 4)).toEqual(['Album version', 'ストリングスを加えたバージョン']);
 	});
 });

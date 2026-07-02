@@ -98,6 +98,8 @@ describe('recording organizer API', () => {
 					trackIds: ['00000000-0000-4000-8000-000000000004'],
 					contributionIds: [],
 					metadata: {
+						versionName: null,
+						versionDescription: null,
 						recordingYear: null,
 						type,
 						recordedDate: null,
@@ -153,6 +155,8 @@ describe('recording organizer API', () => {
 				trackIds: ['00000000-0000-4000-8000-000000000004'],
 				contributionIds: [],
 				metadata: {
+					versionName: null,
+					versionDescription: null,
 					recordingYear: null,
 					type: 'studio',
 					recordedDate: null,
@@ -185,6 +189,8 @@ describe('recording organizer API', () => {
 				targetRecordingId: recordingId,
 				sourceRecordingIds: ['00000000-0000-4000-8000-000000000003'],
 				metadata: {
+					versionName: 'Live version',
+					versionDescription: 'テンポを上げたライブアレンジ',
 					recordingYear: null,
 					type: 'studio',
 					recordedDate: null,

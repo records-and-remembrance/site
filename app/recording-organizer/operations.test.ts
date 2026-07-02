@@ -7,6 +7,8 @@ const compositionId = '00000000-0000-4000-8000-000000000003';
 const newRecordingId = '00000000-0000-4000-8000-000000000004';
 const newContributionId = '00000000-0000-4000-8000-000000000005';
 const metadata: RecordingMetadata = {
+	versionName: 'Album version',
+	versionDescription: 'ストリングスを加えたバージョン',
 	recordingYear: 2005,
 	type: 'studio',
 	recordedDate: null,
@@ -95,7 +97,7 @@ describe('recording organizer operations', () => {
 					{
 						id: sourceId,
 						compositionId,
-						metadata: { ...metadata, type: 'live', recordingYear: 2006 },
+						metadata: { ...metadata, versionName: 'Single version', type: 'live', recordingYear: 2006 },
 					},
 				],
 			}),
@@ -111,7 +113,7 @@ describe('recording organizer operations', () => {
 			expect(isRecordingOrganizerError(error)).toBe(true);
 			expect(error).toMatchObject({
 				code: 'METADATA_CONFLICT',
-				details: { fields: ['recordingYear', 'type'] },
+				details: { fields: ['versionName', 'recordingYear', 'type'] },
 			});
 		}
 	});

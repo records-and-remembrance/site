@@ -188,6 +188,8 @@ describe('admin API', () => {
 		const app = testApp(repository);
 		const base = {
 			compositionId: generatedId,
+			versionName: 'Album version',
+			versionDescription: 'ストリングスを加えたバージョン',
 			recordingYear: null,
 			recordedDate: null,
 			recordedFrom: null,
@@ -203,6 +205,10 @@ describe('admin API', () => {
 				body: JSON.stringify({ ...base, type }),
 			});
 			expect(response.status).toBe(201);
+			expect(repository.calls.at(-1)?.value).toMatchObject({
+				versionName: 'Album version',
+				versionDescription: 'ストリングスを加えたバージョン',
+			});
 		}
 
 		for (const type of [null, 'unknown', 'acoustic']) {

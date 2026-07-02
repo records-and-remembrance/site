@@ -129,6 +129,8 @@ const labelRelation = z.strictObject({
 
 const recording = z.strictObject({
 	compositionId: uuid,
+	versionName: nullableText,
+	versionDescription: nullableText,
 	recordingYear: nullableInteger,
 	type: z.enum(recordingTypes).default('studio'),
 	recordedDate: nullableDate,

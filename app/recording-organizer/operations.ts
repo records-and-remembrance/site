@@ -44,7 +44,17 @@ interface OperationOptions {
 	now: () => string;
 }
 
-const metadataKeys = ['recordingYear', 'type', 'recordedDate', 'recordedFrom', 'recordedTo', 'releaseDate', 'notes'] as const satisfies readonly (keyof RecordingMetadata)[];
+const metadataKeys = [
+	'versionName',
+	'versionDescription',
+	'recordingYear',
+	'type',
+	'recordedDate',
+	'recordedFrom',
+	'recordedTo',
+	'releaseDate',
+	'notes',
+] as const satisfies readonly (keyof RecordingMetadata)[];
 
 function uniqueIds(ids: string[]): string[] {
 	return [...new Set(ids)];

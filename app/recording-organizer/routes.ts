@@ -7,6 +7,8 @@ const uuid = z.uuid();
 const nullableText = z.string().trim().nullable();
 const nullableDate = z.iso.date().nullable();
 const metadataSchema = z.strictObject({
+	versionName: nullableText,
+	versionDescription: nullableText,
 	recordingYear: z.number().int().nullable(),
 	type: z.enum(recordingTypes),
 	recordedDate: nullableDate,

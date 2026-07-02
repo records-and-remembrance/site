@@ -10,6 +10,8 @@ const detail: RecordingOrganizerDetail = {
 	groups: [
 		{
 			id: 'recording-a',
+			versionName: null,
+			versionDescription: null,
 			recordingYear: null,
 			type: 'studio',
 			recordedDate: null,
@@ -33,6 +35,8 @@ const detail: RecordingOrganizerDetail = {
 		},
 		{
 			id: 'recording-b',
+			versionName: null,
+			versionDescription: null,
 			recordingYear: null,
 			type: 'studio',
 			recordedDate: null,

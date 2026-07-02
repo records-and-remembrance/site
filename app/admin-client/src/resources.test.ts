@@ -87,6 +87,21 @@ describe('admin screen configuration', () => {
 		});
 	});
 
+	test('allows recording version details to be edited and viewed', () => {
+		expect(editorConfigs.recordings.fields).toEqual(
+			expect.arrayContaining([
+				{ key: 'versionName', label: 'バージョン名', type: 'text', span: 2 },
+				{ key: 'versionDescription', label: 'バージョンの特徴', type: 'textarea', span: 2 },
+			]),
+		);
+		expect(resourceConfigs.compositions.relations?.find((relation) => relation.resource === 'recordings')?.columns).toEqual(
+			expect.arrayContaining([
+				{ key: 'versionName', label: 'バージョン名' },
+				{ key: 'versionDescription', label: 'バージョンの特徴', kind: 'muted' },
+			]),
+		);
+	});
+
 	test('allows release edition lineage to be edited', () => {
 		expect(editorConfigs.releases.fields).toEqual(
 			expect.arrayContaining([

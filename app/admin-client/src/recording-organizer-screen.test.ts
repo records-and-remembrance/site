@@ -9,5 +9,7 @@ test('provides an accessible selection-based recording organizer', async () => {
 	expect(source).toContain('選択を別録音に分割');
 	expect(source).toContain('整理済みにする');
 	expect(source).toContain('次の未整理');
+	expect(source).toContain("label: 'バージョン名'");
+	expect(source).toContain("label: 'バージョンの特徴'");
 	expect(source).toContain('aria-live="polite"');
 });

@@ -22,6 +22,8 @@ const metadataFields: Array<{
 	label: string;
 	type: 'number' | 'date' | 'text' | 'textarea' | 'select';
 }> = [
+	{ key: 'versionName', label: 'バージョン名', type: 'text' },
+	{ key: 'versionDescription', label: 'バージョンの特徴', type: 'textarea' },
 	{ key: 'recordingYear', label: '録音年', type: 'number' },
 	{ key: 'type', label: '種別', type: 'select' },
 	{ key: 'recordedDate', label: '録音日', type: 'date' },
@@ -33,6 +35,8 @@ const metadataFields: Array<{
 
 function metadataFromGroup(group: RecordingGroup): RecordingMetadata {
 	return {
+		versionName: group.versionName,
+		versionDescription: group.versionDescription,
 		recordingYear: group.recordingYear,
 		type: group.type,
 		recordedDate: group.recordedDate,
@@ -48,7 +52,7 @@ function selectedKeysForGroup(group: RecordingGroup, selectedTrackIds: ReadonlyS
 }
 
 function metadataSummary(group: RecordingGroup): string {
-	return [group.recordingYear, group.type, group.recordedDate ?? group.recordedFrom].filter(Boolean).join(' · ');
+	return [group.versionName, group.recordingYear, group.type, group.recordedDate ?? group.recordedFrom].filter(Boolean).join(' · ');
 }
 
 export function RecordingOrganizerScreen() {
@@ -381,6 +385,7 @@ function RecordingGroupCard({
 				<div>
 					<p>録音 {String.fromCharCode(65 + index)}</p>
 					<h3>{metadataSummary(group) || '録音情報なし'}</h3>
+					{group.versionDescription ? <div className="recording-version-description">{group.versionDescription}</div> : null}
 					<small>{group.id}</small>
 				</div>
 				<div>

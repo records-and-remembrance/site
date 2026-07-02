@@ -216,6 +216,8 @@ COMMENT ON TABLE recording_review IS '楽曲ごとの録音割り当てレビュ
 CREATE TABLE recording (
     id UUID PRIMARY KEY,
     composition_id UUID NOT NULL REFERENCES composition(id),
+    version_name TEXT,
+    version_description TEXT,
     recording_year INT,
     type TEXT NOT NULL DEFAULT 'studio',
     recorded_date DATE,
@@ -228,6 +230,8 @@ CREATE TABLE recording (
 );
 
 COMMENT ON TABLE recording IS '録音単位（アレンジ・バージョン）';
+COMMENT ON COLUMN recording.version_name IS '録音バージョンの名称';
+COMMENT ON COLUMN recording.version_description IS '録音バージョンの特徴';
 
 CREATE TABLE track (
     id UUID PRIMARY KEY,

@@ -1306,6 +1306,15 @@ button {
 	font-size: 15px;
 }
 
+.recording-version-description {
+	max-width: 64ch;
+	margin-top: 4px;
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
 .recording-group > header small {
 	margin-top: 3px;
 	color: var(--muted);

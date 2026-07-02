@@ -4,6 +4,8 @@ export type RecordingReviewStatus = 'pending' | 'reviewed';
 export type RecordingReviewFilter = RecordingReviewStatus | 'all';
 
 export interface RecordingMetadata {
+	versionName: string | null;
+	versionDescription: string | null;
 	recordingYear: number | null;
 	type: RecordingType;
 	recordedDate: string | null;

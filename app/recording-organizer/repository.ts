@@ -38,6 +38,8 @@ export interface TrackRow {
 	assignmentFingerprint: string | null;
 	reviewedAt: string | null;
 	recordingId: string;
+	versionName: string | null;
+	versionDescription: string | null;
 	recordingYear: number | null;
 	type: RecordingType;
 	recordedDate: string | null;
@@ -98,6 +100,8 @@ export function buildOrganizerListResult(rows: CompositionRow[], query: Recordin
 
 function metadataFromTrackRow(row: TrackRow): RecordingMetadata {
 	return {
+		versionName: row.versionName,
+		versionDescription: row.versionDescription,
 		recordingYear: row.recordingYear,
 		type: row.type,
 		recordedDate: row.recordedDate,
@@ -208,6 +212,8 @@ const createDetail =
 					rr.assignment_fingerprint as "assignmentFingerprint",
 					rr.reviewed_at as "reviewedAt",
 					r.id as "recordingId",
+					r.version_name as "versionName",
+					r.version_description as "versionDescription",
 					r.recording_year as "recordingYear",
 					r.type,
 					r.recorded_date as "recordedDate",
@@ -257,6 +263,8 @@ const createDetail =
 
 function metadataFromRow(row: Record<string, unknown>): RecordingMetadata {
 	return {
+		versionName: row['versionName'] == null ? null : String(row['versionName']),
+		versionDescription: row['versionDescription'] == null ? null : String(row['versionDescription']),
 		recordingYear: row['recordingYear'] == null ? null : Number(row['recordingYear']),
 		type: String(row['type']) as RecordingType,
 		recordedDate: row['recordedDate'] == null ? null : String(row['recordedDate']),
@@ -278,6 +286,8 @@ function recordingStateFromRow(row: Record<string, unknown>): RecordingState {
 const recordingSelection = sql`
 	id,
 	composition_id as "compositionId",
+	version_name as "versionName",
+	version_description as "versionDescription",
 	recording_year as "recordingYear",
 	type,
 	recorded_date as "recordedDate",
@@ -337,6 +347,8 @@ export function createRecordingOrganizerMutationStore(database: QueryExecutor, t
 			await database.execute(sql`
 				update recording
 				set
+					version_name = ${input.metadata.versionName},
+					version_description = ${input.metadata.versionDescription},
 					recording_year = ${input.metadata.recordingYear},
 					type = ${input.metadata.type},
 					recorded_date = ${input.metadata.recordedDate},
@@ -380,11 +392,13 @@ export function createRecordingOrganizerMutationStore(database: QueryExecutor, t
 		applySplit: async (input) => {
 			await database.execute(sql`
 				insert into recording (
-					id, composition_id, recording_year, type, recorded_date,
+					id, composition_id, version_name, version_description,
+					recording_year, type, recorded_date,
 					recorded_from, recorded_to, release_date, notes
 				)
 				values (
 					${input.newRecordingId}, ${input.compositionId},
+					${input.metadata.versionName}, ${input.metadata.versionDescription},
 					${input.metadata.recordingYear}, ${input.metadata.type},
 					${input.metadata.recordedDate}, ${input.metadata.recordedFrom},
 					${input.metadata.recordedTo}, ${input.metadata.releaseDate},

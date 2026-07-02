@@ -228,6 +228,8 @@ export const recording = pgTable(
 		compositionId: uuid('composition_id')
 			.notNull()
 			.references(() => composition.id),
+		versionName: text('version_name'),
+		versionDescription: text('version_description'),
 		recordingYear: integer('recording_year'),
 		type: text('type').notNull().default('studio'),
 		recordedDate: dateString('recorded_date'),

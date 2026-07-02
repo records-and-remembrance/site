@@ -443,6 +443,8 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 				defaultSort: 'recordingYear',
 				defaultDirection: 'asc',
 				columns: [
+					{ key: 'versionName', label: 'バージョン名' },
+					{ key: 'versionDescription', label: 'バージョンの特徴', kind: 'muted' },
 					{ key: 'recordingYear', label: '年', kind: 'number' },
 					{ key: 'type', label: '種別' },
 					{ key: 'recordedDate', label: '録音日', kind: 'date' },
@@ -788,6 +790,8 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 				required: true,
 				span: 2,
 			},
+			{ key: 'versionName', label: 'バージョン名', type: 'text', span: 2 },
+			{ key: 'versionDescription', label: 'バージョンの特徴', type: 'textarea', span: 2 },
 			{ key: 'recordingYear', label: '録音年', type: 'number' },
 			{ key: 'type', label: '種別', type: 'select', required: true, options: recordingTypeOptions },
 			{ key: 'recordedDate', label: '録音日', type: 'date' },
