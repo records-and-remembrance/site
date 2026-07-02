@@ -9,17 +9,22 @@ import { createAdminRepository } from './admin/repository';
 import type { AdminRepository } from './admin/types';
 import { db } from './db';
 import { listDrafts, mergeDraft, readDraft, saveDraft, validateMergePayload, validateSavePayload } from './lib/compositionDrafts';
+import { createRecordingOrganizerRepository } from './recording-organizer/repository';
+import { createRecordingOrganizerRoutes } from './recording-organizer/routes';
+import type { RecordingOrganizerRepository } from './recording-organizer/types';
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const PUBLIC_DIR = join(ROOT, 'app', 'public');
 
 interface AppOptions {
 	adminRepository?: AdminRepository;
+	recordingOrganizerRepository?: RecordingOrganizerRepository;
 }
 
 export function createApp(options: AppOptions = {}) {
 	const app = new Hono();
 	const adminRepository = options.adminRepository ?? createAdminRepository(db);
+	const recordingOrganizerRepository = options.recordingOrganizerRepository ?? createRecordingOrganizerRepository(db);
 
 	app.get('/', async (c) => {
 		return c.html(await readPublicFile('index.html'));
@@ -57,6 +62,7 @@ export function createApp(options: AppOptions = {}) {
 	});
 
 	app.route('/api/admin', createAdminRoutes(adminRepository));
+	app.route('/api/recording-organizer', createRecordingOrganizerRoutes(recordingOrganizerRepository));
 
 	app.notFound((c) => c.json({ error: 'not found' }, 404));
 
@@ -81,4 +87,5 @@ if (import.meta.main) {
 
 	console.log(`Composition draft review UI: http://localhost:${port}`);
 	console.log(`Admin API: http://localhost:${port}/api/admin`);
+	console.log(`Recording organizer API: http://localhost:${port}/api/recording-organizer`);
 }

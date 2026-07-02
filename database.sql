@@ -205,6 +205,14 @@ CREATE TABLE composition (
 
 COMMENT ON TABLE composition IS '楽曲（抽象）';
 
+CREATE TABLE recording_review (
+    composition_id UUID PRIMARY KEY REFERENCES composition(id) ON DELETE CASCADE,
+    assignment_fingerprint TEXT NOT NULL,
+    reviewed_at TIMESTAMP NOT NULL
+);
+
+COMMENT ON TABLE recording_review IS '楽曲ごとの録音割り当てレビュー状態';
+
 CREATE TABLE recording (
     id UUID PRIMARY KEY,
     composition_id UUID NOT NULL REFERENCES composition(id),

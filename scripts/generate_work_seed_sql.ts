@@ -5,7 +5,7 @@ import { basename, dirname, extname, join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-type SourceArticle = {
+export type SourceArticle = {
 	path: string;
 	name: string;
 	stem: string;
@@ -32,7 +32,7 @@ const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DEFAULT_SOURCE_DIR = join(ROOT, 'rawData', 'articles');
 const DEFAULT_COMPOSITION_DRAFT_DIR = join(ROOT, 'drafts', 'compositions');
 
-type CompositionRef = {
+export type CompositionRef = {
 	id: string;
 	title: string;
 };
@@ -375,10 +375,13 @@ class SqlBuilder {
 		return compositionId;
 	}
 
-	recordingUpsert(params: { source: SourceArticle; compositionId: string; track: TrackSource }): string {
+	recordingUpsert(params: { source: SourceArticle; compositionId: string; trackId: string; track: TrackSource }): string {
 		const recordingId = stableUuid('recording', `${params.source.name}:${params.track.number}:${params.track.title}`);
 		this.line('INSERT INTO recording (id, composition_id, recording_year, type, recorded_date, recorded_from, recorded_to, release_date, notes)');
-		this.line(`VALUES (${sqlText(recordingId)}, ${sqlText(params.compositionId)}, NULL, ${sqlText('studio')}, NULL, NULL, NULL, ${sqlText(params.source.date)}, ${sqlText(params.track.notes)})`);
+		this.line(`SELECT ${sqlText(recordingId)}, ${sqlText(params.compositionId)}, NULL, ${sqlText('studio')}, NULL, NULL, NULL, ${sqlText(params.source.date)}, ${sqlText(params.track.notes)}`);
+		this.line('WHERE NOT EXISTS (');
+		this.line(`    SELECT 1 FROM track WHERE id = ${sqlText(params.trackId)}`);
+		this.line(')');
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET composition_id = EXCLUDED.composition_id,');
 		this.line('    release_date = COALESCE(recording.release_date, EXCLUDED.release_date),');
@@ -387,13 +390,11 @@ class SqlBuilder {
 		return recordingId;
 	}
 
-	trackUpsert(params: { source: SourceArticle; releaseId: string; recordingId: string; track: TrackSource }): void {
-		const trackId = stableUuid('track', `${params.source.name}:${params.track.number}`);
+	trackUpsert(params: { source: SourceArticle; releaseId: string; recordingId: string; trackId: string; track: TrackSource }): void {
 		this.line('INSERT INTO track (id, release_id, recording_id, track_number, recorded_date, notes)');
-		this.line(`VALUES (${sqlText(trackId)}, ${sqlText(params.releaseId)}, ${sqlText(params.recordingId)}, ${params.track.number}, NULL, ${sqlText(`source_file=${params.source.name}`)})`);
+		this.line(`VALUES (${sqlText(params.trackId)}, ${sqlText(params.releaseId)}, ${sqlText(params.recordingId)}, ${params.track.number}, NULL, ${sqlText(`source_file=${params.source.name}`)})`);
 		this.line('ON CONFLICT (id) DO UPDATE');
-		this.line('SET recording_id = EXCLUDED.recording_id,');
-		this.line('    track_number = EXCLUDED.track_number,');
+		this.line('SET track_number = EXCLUDED.track_number,');
 		this.line('    notes = EXCLUDED.notes;');
 		this.line();
 	}
@@ -424,14 +425,15 @@ function emitSource(builder: SqlBuilder, source: SourceArticle, compositionLooku
 		}
 
 		const compositionId = compositionRef ? compositionRef.id : builder.compositionUpsert(track.title, `fallback_source_file=${source.name}`);
-		const recordingId = builder.recordingUpsert({ source, compositionId, track });
-		builder.trackUpsert({ source, releaseId, recordingId, track });
+		const trackId = stableUuid('track', `${source.name}:${track.number}`);
+		const recordingId = builder.recordingUpsert({ source, compositionId, trackId, track });
+		builder.trackUpsert({ source, releaseId, recordingId, trackId, track });
 	}
 
 	return true;
 }
 
-function renderSql(sources: SourceArticle[], compositionLookup: Map<string, CompositionRef | null>): string {
+export function renderSql(sources: SourceArticle[], compositionLookup: Map<string, CompositionRef | null>): string {
 	const builder = new SqlBuilder();
 	const skipped: string[] = [];
 
@@ -477,4 +479,6 @@ async function main(): Promise<void> {
 	await writeFile(args.output, sql, 'utf8');
 }
 
-await main();
+if (import.meta.main) {
+	await main();
+}

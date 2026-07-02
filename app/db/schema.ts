@@ -211,6 +211,15 @@ export const composition = pgTable(
 	(table) => [unique('composition_title_unique').on(table.title)],
 );
 
+/** 楽曲ごとの録音割り当てレビュー状態 */
+export const recordingReview = pgTable('recording_review', {
+	compositionId: uuid('composition_id')
+		.primaryKey()
+		.references(() => composition.id, { onDelete: 'cascade' }),
+	assignmentFingerprint: text('assignment_fingerprint').notNull(),
+	reviewedAt: timestampString('reviewed_at').notNull(),
+});
+
 /** 録音単位（アレンジ・バージョン） */
 export const recording = pgTable(
 	'recording',

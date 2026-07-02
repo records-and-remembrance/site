@@ -29,6 +29,7 @@ export interface ApiErrorBody {
 		message: string;
 		fields?: Record<string, string[]>;
 		constraint?: string;
+		details?: Record<string, unknown>;
 	};
 }
 
@@ -75,7 +76,7 @@ export async function lookupRecords(resource: LookupResource, search: string): P
 	return response.data;
 }
 
-async function request<T>(url: string, init?: RequestInit): Promise<T> {
+export async function request<T>(url: string, init?: RequestInit): Promise<T> {
 	const response = await fetch(url, init);
 	const body = (await response.json()) as T | ApiErrorBody;
 	if (!response.ok) {

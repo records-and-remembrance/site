@@ -1,9 +1,9 @@
-import { BookOpenText, CalendarDays, ChevronRight, CircleUserRound, Database, FolderKanban, Handshake, Library, Menu, Music2, Settings2, X } from 'lucide-react';
+import { BookOpenText, CalendarDays, ChevronRight, CircleUserRound, Database, Disc3, FolderKanban, Handshake, Library, Menu, Music2, Settings2, X } from 'lucide-react';
 import { useQueryStates } from 'nuqs';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { MasterManager } from './MasterManager';
-import { adminSearchParams } from './navigation';
+import { adminSearchParams, type AdminSection } from './navigation';
 import { ResourceScreen } from './ResourceScreen';
 import { mainResourceOrder, resourceConfigs, type DetailTarget, type MainResource } from './resources';
 
@@ -17,6 +17,11 @@ const icons = {
 	contributions: Handshake,
 } satisfies Record<MainResource, typeof CircleUserRound>;
 
+const RecordingOrganizerScreen = lazy(async () => {
+	const module = await import('./RecordingOrganizerScreen');
+	return { default: module.RecordingOrganizerScreen };
+});
+
 export function App() {
 	const [navigation, setNavigation] = useQueryStates(adminSearchParams, {
 		history: 'push',
@@ -26,7 +31,7 @@ export function App() {
 	const { resource, detailResource, detailId } = navigation;
 	const detailTarget: DetailTarget | undefined = detailResource && detailId ? { resource: detailResource, id: detailId } : undefined;
 
-	const navigate = (next: MainResource) => {
+	const navigate = (next: AdminSection) => {
 		void setNavigation({
 			resource: next,
 			detailResource: null,
@@ -74,6 +79,12 @@ export function App() {
 							</Button>
 						);
 					})}
+					<p className="nav-heading organizer-nav-heading">Review</p>
+					<Button className={`nav-item ${resource === 'recording-organizer' ? 'is-active' : ''}`} onPress={() => navigate('recording-organizer')}>
+						<Disc3 size={18} />
+						<span>録音整理</span>
+						<ChevronRight className="nav-chevron" size={15} />
+					</Button>
 				</nav>
 
 				<div className="sidebar-footer">
@@ -95,7 +106,13 @@ export function App() {
 					</Button>
 					<span>Monden Archive</span>
 				</header>
-				<ResourceScreen key={resource} resource={resource} detailTarget={detailTarget} onOpenDetail={openDetail} onCloseDetail={closeDetail} />
+				{resource === 'recording-organizer' ? (
+					<Suspense fallback={<div className="empty-state">録音整理画面を読み込み中</div>}>
+						<RecordingOrganizerScreen />
+					</Suspense>
+				) : (
+					<ResourceScreen key={resource} resource={resource} detailTarget={detailTarget} onOpenDetail={openDetail} onCloseDetail={closeDetail} />
+				)}
 			</main>
 
 			{mastersOpen ? <MasterManager onClose={() => setMastersOpen(false)} /> : null}

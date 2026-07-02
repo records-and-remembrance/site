@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test';
 import type { AdminRepository } from './admin/types';
+import type { RecordingOrganizerRepository } from './recording-organizer/types';
 import { createApp } from './server';
 
 const repository: AdminRepository = {
@@ -20,8 +21,33 @@ const repository: AdminRepository = {
 	},
 };
 
+const recordingOrganizerRepository: RecordingOrganizerRepository = {
+	async list() {
+		return { items: [], total: 0, pending: 0, reviewed: 0 };
+	},
+	async detail() {
+		return null;
+	},
+	async merge() {
+		return { compositionId: '00000000-0000-4000-8000-000000000001' };
+	},
+	async split() {
+		return {
+			compositionId: '00000000-0000-4000-8000-000000000001',
+			recordingId: '00000000-0000-4000-8000-000000000002',
+		};
+	},
+	async review(compositionId) {
+		return {
+			compositionId,
+			assignmentFingerprint: 'fingerprint',
+			reviewedAt: '2026-07-01T00:00:00.000Z',
+		};
+	},
+};
+
 test('keeps the composition review UI and mounts the admin API', async () => {
-	const app = createApp({ adminRepository: repository });
+	const app = createApp({ adminRepository: repository, recordingOrganizerRepository });
 
 	const reviewResponse = await app.request('/');
 	expect(reviewResponse.status).toBe(200);
@@ -32,5 +58,12 @@ test('keeps the composition review UI and mounts the admin API', async () => {
 	expect(await adminResponse.json()).toEqual({
 		data: [],
 		meta: { page: 1, pageSize: 20, total: 0 },
+	});
+
+	const organizerResponse = await app.request('/api/recording-organizer/compositions');
+	expect(organizerResponse.status).toBe(200);
+	expect(await organizerResponse.json()).toMatchObject({
+		data: [],
+		meta: { pending: 0, reviewed: 0 },
 	});
 });

@@ -62,6 +62,7 @@ Main entities currently used:
 - `release`
 - `composition`
 - `recording`
+- `recording_review`
 - `track`
 - `venue`
 - `event`
