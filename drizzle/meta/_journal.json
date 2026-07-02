@@ -57,6 +57,13 @@
       "when": 1782916821223,
       "tag": "0007_ancient_zeigeist",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1782952574105,
+      "tag": "0008_goofy_harpoon",
+      "breakpoints": true
     }
   ]
 }

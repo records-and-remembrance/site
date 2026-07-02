@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { z, ZodError } from 'zod';
+import { recordingTypes } from '../recording/types';
 import { isRecordingOrganizerError, type RecordingOrganizerRepository } from './types';
 
 const uuid = z.uuid();
@@ -7,7 +8,7 @@ const nullableText = z.string().trim().nullable();
 const nullableDate = z.iso.date().nullable();
 const metadataSchema = z.strictObject({
 	recordingYear: z.number().int().nullable(),
-	type: nullableText,
+	type: z.enum(recordingTypes),
 	recordedDate: nullableDate,
 	recordedFrom: nullableDate,
 	recordedTo: nullableDate,

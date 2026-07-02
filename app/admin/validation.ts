@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { recordingTypes } from '../recording/types';
 import type { AdminResource } from './types';
 
 const emptyToNull = (value: unknown) => (value === '' ? null : value);
@@ -129,7 +130,7 @@ const labelRelation = z.strictObject({
 const recording = z.strictObject({
 	compositionId: uuid,
 	recordingYear: nullableInteger,
-	type: nullableText,
+	type: z.enum(recordingTypes).default('studio'),
 	recordedDate: nullableDate,
 	recordedFrom: nullableDate,
 	recordedTo: nullableDate,

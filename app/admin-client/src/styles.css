@@ -704,6 +704,7 @@ button {
 
 .field input,
 .field textarea,
+.field select,
 .select-trigger,
 .combo-control {
 	width: 100%;
@@ -715,12 +716,14 @@ button {
 }
 
 .field input,
+.field select,
 .select-trigger,
 .combo-control {
 	min-height: 41px;
 }
 
-.field input {
+.field input,
+.field select {
 	padding: 0 11px;
 }
 
@@ -732,6 +735,7 @@ button {
 
 .field[data-focus-within] input,
 .field[data-focus-within] textarea,
+.field select:focus,
 .field[data-focus] .select-trigger,
 .combo-control:focus-within {
 	border-color: var(--green-bright);

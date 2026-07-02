@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm';
 import type { AdminDb } from '../admin/repository/types';
 import { assignmentFingerprint, type RecordingAssignment } from './fingerprint';
+import type { RecordingType } from '../recording/types';
 import { createRecordingOrganizerOperations, type MergeState, type RecordingOrganizerMutationStore, type RecordingState, type SplitState } from './operations';
 import type {
 	RecordingContribution,
@@ -38,7 +39,7 @@ export interface TrackRow {
 	reviewedAt: string | null;
 	recordingId: string;
 	recordingYear: number | null;
-	type: string | null;
+	type: RecordingType;
 	recordedDate: string | null;
 	recordedFrom: string | null;
 	recordedTo: string | null;
@@ -257,7 +258,7 @@ const createDetail =
 function metadataFromRow(row: Record<string, unknown>): RecordingMetadata {
 	return {
 		recordingYear: row['recordingYear'] == null ? null : Number(row['recordingYear']),
-		type: row['type'] == null ? null : String(row['type']),
+		type: String(row['type']) as RecordingType,
 		recordedDate: row['recordedDate'] == null ? null : String(row['recordedDate']),
 		recordedFrom: row['recordedFrom'] == null ? null : String(row['recordedFrom']),
 		recordedTo: row['recordedTo'] == null ? null : String(row['recordedTo']),

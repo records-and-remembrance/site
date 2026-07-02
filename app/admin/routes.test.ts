@@ -183,6 +183,38 @@ describe('admin API', () => {
 		});
 	});
 
+	test('accepts only defined non-null recording types', async () => {
+		const repository = new FakeRepository();
+		const app = testApp(repository);
+		const base = {
+			compositionId: generatedId,
+			recordingYear: null,
+			recordedDate: null,
+			recordedFrom: null,
+			recordedTo: null,
+			releaseDate: null,
+			notes: null,
+		};
+
+		for (const type of ['studio', 'live', 'demo', 'rehearsal', 'other']) {
+			const response = await app.request('/api/admin/recordings', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ ...base, type }),
+			});
+			expect(response.status).toBe(201);
+		}
+
+		for (const type of [null, 'unknown', 'acoustic']) {
+			const response = await app.request('/api/admin/recordings', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ ...base, type }),
+			});
+			expect(response.status).toBe(400);
+		}
+	});
+
 	test('accepts release edition lineage', async () => {
 		const repository = new FakeRepository();
 		const response = await testApp(repository).request('/api/admin/releases', {

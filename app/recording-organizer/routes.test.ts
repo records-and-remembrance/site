@@ -88,6 +88,30 @@ describe('recording organizer API', () => {
 		});
 	});
 
+	test('rejects nullable and unsupported recording types', async () => {
+		for (const type of [null, 'unknown', 'acoustic']) {
+			const response = await testApp(fakeRepository()).request('/api/recording-organizer/split', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({
+					sourceRecordingId: recordingId,
+					trackIds: ['00000000-0000-4000-8000-000000000004'],
+					contributionIds: [],
+					metadata: {
+						recordingYear: null,
+						type,
+						recordedDate: null,
+						recordedFrom: null,
+						recordedTo: null,
+						releaseDate: null,
+						notes: null,
+					},
+				}),
+			});
+			expect(response.status).toBe(400);
+		}
+	});
+
 	test('returns metadata conflict details', async () => {
 		const response = await testApp(
 			fakeRepository({
@@ -130,7 +154,7 @@ describe('recording organizer API', () => {
 				contributionIds: [],
 				metadata: {
 					recordingYear: null,
-					type: null,
+					type: 'studio',
 					recordedDate: null,
 					recordedFrom: null,
 					recordedTo: null,
@@ -162,7 +186,7 @@ describe('recording organizer API', () => {
 				sourceRecordingIds: ['00000000-0000-4000-8000-000000000003'],
 				metadata: {
 					recordingYear: null,
-					type: null,
+					type: 'studio',
 					recordedDate: null,
 					recordedFrom: '2026-07-02',
 					recordedTo: '2026-07-01',

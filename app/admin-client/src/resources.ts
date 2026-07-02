@@ -1,3 +1,5 @@
+import { recordingTypes, type RecordingType } from '../../recording/types';
+
 export type MainResource = 'people' | 'projects' | 'works' | 'compositions' | 'events' | 'articles' | 'contributions';
 
 export type EditorResource =
@@ -163,6 +165,17 @@ const precisionOptions: SelectOption[] = [
 	{ value: 'year', label: '年' },
 	{ value: 'approximate', label: '概算' },
 ];
+const recordingTypeLabels: Record<RecordingType, string> = {
+	studio: 'スタジオ',
+	live: 'ライブ',
+	demo: 'デモ',
+	rehearsal: 'リハーサル',
+	other: 'その他',
+};
+export const recordingTypeOptions: SelectOption[] = recordingTypes.map((value) => ({
+	value,
+	label: recordingTypeLabels[value],
+}));
 
 export const mainResourceOrder: MainResource[] = ['people', 'projects', 'works', 'compositions', 'events', 'articles', 'contributions'];
 
@@ -755,7 +768,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 				span: 2,
 			},
 			{ key: 'recordingYear', label: '録音年', type: 'number' },
-			{ key: 'type', label: '種別', type: 'text' },
+			{ key: 'type', label: '種別', type: 'select', required: true, options: recordingTypeOptions },
 			{ key: 'recordedDate', label: '録音日', type: 'date' },
 			{ key: 'recordedFrom', label: '録音開始', type: 'date' },
 			{ key: 'recordedTo', label: '録音終了', type: 'date' },

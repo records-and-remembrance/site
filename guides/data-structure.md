@@ -256,6 +256,8 @@ Tables:
 - `track`
 
 `recording` is a specific recorded version of a `composition`.
+Its `type` is required, defaults to `studio`, and is one of `studio`, `live`,
+`demo`, `rehearsal`, or `other`.
 
 `track` places a `recording` on a `release` with `track_number`.
 

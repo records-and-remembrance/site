@@ -2,10 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Check, CircleAlert, GitMerge, LoaderCircle, Pencil, Scissors, Search, X } from 'lucide-react';
 import { useDeferredValue, useState } from 'react';
 import { Button, Cell, Checkbox, Column, Dialog, Heading, Input, Modal, ModalOverlay, Row, SearchField, Table, TableBody, TableHeader, type Selection } from 'react-aria-components';
+import type { RecordingType } from '../../recording/types';
 import type { RecordingGroup, RecordingMetadata, RecordingOrganizerDetail } from '../../recording-organizer/types';
 import { AdminApiError } from './api';
 import { getOrganizerComposition, listOrganizerCompositions, mergeOrganizerRecordings, reviewOrganizerComposition, splitOrganizerRecording, updateOrganizerRecording } from './recording-organizer-api';
 import { completeSourceRecordingIds, nextPendingCompositionId, splitSourceRecording } from './recording-organizer-state';
+import { recordingTypeOptions } from './resources';
 
 type ReviewFilter = 'pending' | 'reviewed' | 'all';
 
@@ -18,10 +20,10 @@ interface MetadataDialogState {
 const metadataFields: Array<{
 	key: keyof RecordingMetadata;
 	label: string;
-	type: 'number' | 'date' | 'text' | 'textarea';
+	type: 'number' | 'date' | 'text' | 'textarea' | 'select';
 }> = [
 	{ key: 'recordingYear', label: '録音年', type: 'number' },
-	{ key: 'type', label: '種別', type: 'text' },
+	{ key: 'type', label: '種別', type: 'select' },
 	{ key: 'recordedDate', label: '録音日', type: 'date' },
 	{ key: 'recordedFrom', label: '録音開始日', type: 'date' },
 	{ key: 'recordedTo', label: '録音終了日', type: 'date' },
@@ -587,6 +589,22 @@ function MetadataFields({ metadata, onChange }: { metadata: RecordingMetadata; o
 									})
 								}
 							/>
+						) : field.type === 'select' ? (
+							<select
+								value={String(value)}
+								onChange={(event) =>
+									onChange({
+										...metadata,
+										[field.key]: event.target.value as RecordingType,
+									})
+								}
+							>
+								{recordingTypeOptions.map((option) => (
+									<option key={option.value} value={option.value}>
+										{option.label}
+									</option>
+								))}
+							</select>
 						) : (
 							<input
 								type={field.type}

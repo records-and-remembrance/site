@@ -71,6 +71,22 @@ describe('admin screen configuration', () => {
 		});
 	});
 
+	test('uses the fixed recording type vocabulary', () => {
+		expect(editorConfigs.recordings.fields).toContainEqual({
+			key: 'type',
+			label: '種別',
+			type: 'select',
+			required: true,
+			options: [
+				{ value: 'studio', label: 'スタジオ' },
+				{ value: 'live', label: 'ライブ' },
+				{ value: 'demo', label: 'デモ' },
+				{ value: 'rehearsal', label: 'リハーサル' },
+				{ value: 'other', label: 'その他' },
+			],
+		});
+	});
+
 	test('allows release edition lineage to be edited', () => {
 		expect(editorConfigs.releases.fields).toEqual(
 			expect.arrayContaining([

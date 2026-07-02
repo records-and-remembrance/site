@@ -229,14 +229,17 @@ export const recording = pgTable(
 			.notNull()
 			.references(() => composition.id),
 		recordingYear: integer('recording_year'),
-		type: text('type'),
+		type: text('type').notNull().default('studio'),
 		recordedDate: dateString('recorded_date'),
 		recordedFrom: dateString('recorded_from'),
 		recordedTo: dateString('recorded_to'),
 		releaseDate: dateString('release_date'),
 		notes: text('notes'),
 	},
-	(table) => [check('recording_recorded_to_check', sql`${table.recordedTo} IS NULL OR ${table.recordedTo} >= ${table.recordedFrom}`)],
+	(table) => [
+		check('recording_recorded_to_check', sql`${table.recordedTo} IS NULL OR ${table.recordedTo} >= ${table.recordedFrom}`),
+		check('recording_type_check', sql`${table.type} IN ('studio', 'live', 'demo', 'rehearsal', 'other')`),
+	],
 );
 
 /** リリース内の曲順 */

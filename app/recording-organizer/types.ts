@@ -1,9 +1,11 @@
+import type { RecordingType } from '../recording/types';
+
 export type RecordingReviewStatus = 'pending' | 'reviewed';
 export type RecordingReviewFilter = RecordingReviewStatus | 'all';
 
 export interface RecordingMetadata {
 	recordingYear: number | null;
-	type: string | null;
+	type: RecordingType;
 	recordedDate: string | null;
 	recordedFrom: string | null;
 	recordedTo: string | null;

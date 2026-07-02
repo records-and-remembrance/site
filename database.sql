@@ -217,13 +217,14 @@ CREATE TABLE recording (
     id UUID PRIMARY KEY,
     composition_id UUID NOT NULL REFERENCES composition(id),
     recording_year INT,
-    type TEXT,
+    type TEXT NOT NULL DEFAULT 'studio',
     recorded_date DATE,
     recorded_from DATE,
     recorded_to DATE,
     release_date DATE,
     notes TEXT,
-    CHECK (recorded_to IS NULL OR recorded_to >= recorded_from)
+    CHECK (recorded_to IS NULL OR recorded_to >= recorded_from),
+    CONSTRAINT recording_type_check CHECK (type IN ('studio', 'live', 'demo', 'rehearsal', 'other'))
 );
 
 COMMENT ON TABLE recording IS '録音単位（アレンジ・バージョン）';
