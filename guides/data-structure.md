@@ -34,6 +34,58 @@ membership ── membership_role ── role
                               └─ instrument
 ```
 
+## Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    direction TB
+    person ||--o{ membership : "belongs through"
+    project ||--o{ membership : "has members"
+    membership ||--o{ membership_role : "has roles"
+    role ||--o{ membership_role : "defines"
+    instrument o|--o{ membership_role : "optionally specifies"
+
+    project ||--o{ work : "owns"
+    work ||--o{ work_project : "credits"
+    project ||--o{ work_project : "participates in"
+    work ||--o{ release : "has editions"
+    distributor o|--o{ release : "optionally distributes"
+    release o|--o{ release : "may be reissued as"
+    release ||--o{ label_relation : "has labels"
+    label ||--o{ label_relation : "is attached through"
+
+    composition ||--o{ recording : "is recorded as"
+    composition ||--o| recording_review : "has review state"
+    release ||--o{ track : "contains"
+    recording ||--o{ track : "appears as"
+
+    project ||--o{ event : "performs"
+    venue ||--o{ event : "hosts"
+    event ||--o{ event_performance : "has setlist entries"
+    composition ||--o{ event_performance : "is performed as"
+
+    person ||--o{ contribution : "contributes"
+    role ||--o{ contribution : "describes contribution"
+    instrument o|--o{ contribution : "optionally specifies"
+    recording o|--o{ contribution : "may receive"
+    release o|--o{ contribution : "may receive"
+    event o|--o{ contribution : "may receive"
+
+    publication ||--o{ publication_issue : "publishes"
+    publication_issue o|--o{ article : "optionally contains"
+    article ||--o{ article_mention_work : "mentions through"
+    work ||--o{ article_mention_work : "is mentioned"
+    article ||--o{ article_mention_event : "mentions through"
+    event ||--o{ article_mention_event : "is mentioned"
+    article ||--o{ article_mention_person : "mentions through"
+    person ||--o{ article_mention_person : "is mentioned"
+```
+
+`contribution` は `recording`、`release`、`event`
+のいずれか一つだけを対象にする。 この排他的な制約は Mermaid
+のカーディナリティでは表現できないため、データベースの
+`contribution_single_target_check` 制約で保証する。
+
 ## Project
 
 Table: `project`
