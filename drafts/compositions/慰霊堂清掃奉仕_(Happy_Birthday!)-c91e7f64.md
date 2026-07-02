@@ -162,6 +162,15 @@ sources:
     section: "セットリスト"
     position: 6
     raw_title: "慰霊堂清掃奉仕 (Happy Birthday!)"
+  -
+    type: release
+    file: "2010-01-27-000000.md"
+    title: "Good Dog Happy Men - The Light"
+    date: "2010-01-27"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 7
+    raw_title: "慰霊堂清掃奉仕 (Happy Birthday!)"
 ---
 
 # 慰霊堂清掃奉仕 (Happy Birthday!)

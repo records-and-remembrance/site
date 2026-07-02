@@ -5,7 +5,9 @@ const PERSON_ALIAS_ENTRIES: [string, string][] = [
 	['monden masaaki', '門田匡陽'],
 	['韮沢', '韮沢雄希'],
 	['内田', '内田武瑠'],
+	['rappa 内田', '内田武瑠'],
 	['伊藤', '伊藤大地'],
+	['bell 伊藤', '伊藤大地'],
 	['takeru uchida', '内田武瑠'],
 	['uchida takeru', '内田武瑠'],
 	['daichi ito', '伊藤大地'],
@@ -44,6 +46,7 @@ const PERSON_ALIAS_ENTRIES: [string, string][] = [
 	['後藤', '後藤浩之'],
 	['本野', '本野信介'],
 	['吉田', '吉田和也'],
+	['宇野', '宇野剛史'],
 ];
 
 const PERSON_ALIASES = new Map(PERSON_ALIAS_ENTRIES.map(([alias, canonical]) => [normalizePersonAliasKey(alias), canonical]));

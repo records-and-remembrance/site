@@ -243,11 +243,12 @@ function isIgnorableTitle(value: string): boolean {
 	return normalized.length === 0 || normalized === '不明' || normalized === 'unknown' || normalized === 'se' || normalized === '【encore break】' || normalized === 'encore break';
 }
 
-function parseListItems(section: string): Array<{ position: number; rawTitle: string }> {
+export function parseListItems(section: string): Array<{ position: number; rawTitle: string }> {
 	const items: Array<{ position: number; rawTitle: string }> = [];
 
 	for (const rawLine of section.split(/\r?\n/)) {
 		const line = rawLine.trimEnd();
+		if (line.trim() === '<!--/-->') break;
 		const ordered = line.match(/^\s*(\d+)[.)]\s+(.+)$/);
 		const bullet = line.match(/^[-*]\s+(.+)$/);
 

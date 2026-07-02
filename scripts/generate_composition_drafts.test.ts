@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { mergeDraftSources, mergedTargetFile, parseArgs, resolveMergedTargetFile } from './generate_composition_drafts';
+import { mergeDraftSources, mergedTargetFile, parseArgs, parseListItems, resolveMergedTargetFile } from './generate_composition_drafts';
 
 const existingDraft = `---
 # generated_by: scripts/generate_composition_drafts.ts
@@ -86,5 +86,23 @@ describe('parseArgs', () => {
 
 		expect(args.files).toEqual(['2023-12-25-000000.md', '2024-03-13-000000.md']);
 		expect(args.mergeSources).toBe(true);
+	});
+});
+
+describe('parseListItems', () => {
+	test('stops collecting song candidates at the article separator', () => {
+		const section = [
+			'1. SHINE A LIGHT',
+			'1. 間違い探し',
+			'',
+			'<!--/-->',
+			'* CD EXTRA',
+			'   1. 陽だまりを越えて (Music Video)',
+		].join('\n');
+
+		expect(parseListItems(section)).toEqual([
+			{ position: 1, rawTitle: 'SHINE A LIGHT' },
+			{ position: 2, rawTitle: '間違い探し' },
+		]);
 	});
 });

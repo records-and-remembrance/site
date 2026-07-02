@@ -316,6 +316,7 @@ function parseTrackList(section: string, source: SourceArticle): TrackSource[] {
 
 	for (const rawLine of section.split(/\r?\n/)) {
 		const line = rawLine.trimEnd();
+		if (line.trim() === '<!--/-->') break;
 		const trackMatch = line.match(/^\s*(\d+)[.)]\s+(.+)$/);
 		const bulletMatch = line.match(/^([-*])\s+(.+)$/);
 		if (trackMatch || bulletMatch) {

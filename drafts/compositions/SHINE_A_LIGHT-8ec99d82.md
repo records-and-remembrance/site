@@ -31,6 +31,15 @@ sources:
     section: 'セットリスト'
     position: 1
     raw_title: 'SHINE A LIGHT'
+  -
+    type: release
+    file: "2010-01-27-000000.md"
+    title: "Good Dog Happy Men - The Light"
+    date: "2010-01-27"
+    project: "Good Dog Happy Men"
+    section: "収録曲"
+    position: 1
+    raw_title: "SHINE A LIGHT"
 ---
 
 # SHINE A LIGHT

@@ -166,6 +166,8 @@ const INSTRUMENT_MULTI_ALIASES = new Map<string, string[]>([
 	['dr cho.', ['drums', 'chorus']],
 ]);
 
+const MATRIX_NON_PERSON_ANNOTATIONS = new Set(['hand clap', 'sneeze']);
+
 const RELEASE_ROLE_PATTERNS: {
 	pattern: RegExp;
 	name: string;
@@ -808,6 +810,7 @@ function parseMatrixCellPeople(value: string, fallbackInstrument: string | null,
 		if (!token) continue;
 		const hintMatch = token.match(/^(.+?)\(([^()]+)\)$/u);
 		const base = cleanText(hintMatch?.[1] ?? token);
+		if (MATRIX_NON_PERSON_ANNOTATIONS.has(base.toLowerCase())) continue;
 		const hint = hintMatch ? normalizeMatrixInstrument(hintMatch[2]!) : null;
 		const personName = canonicalPersonName(base);
 		if (!personName) continue;

@@ -38,6 +38,28 @@ describe('work seed recording assignments', () => {
 		expect(recordingInsert).toContain('WHERE NOT EXISTS');
 		expect(recordingInsert).toContain('track');
 	});
+
+	test('stops parsing tracks at the article separator', () => {
+		const sourceWithCdExtra: SourceArticle = {
+			...source,
+			body: [
+				'## 収録曲',
+				'',
+				'1. SHINE A LIGHT',
+				'1. 間違い探し',
+				'',
+				'<!--/-->',
+				'* CD EXTRA',
+				'   1. 陽だまりを越えて (Music Video)',
+			].join('\n'),
+		};
+
+		const sql = renderSql([sourceWithCdExtra], compositionLookup);
+
+		expect(sql.match(/^INSERT INTO recording/gm)).toHaveLength(2);
+		expect(sql).not.toContain('CD EXTRA');
+		expect(sql).not.toContain('Music Video');
+	});
 });
 
 describe('multi-work release sources', () => {

@@ -187,6 +187,15 @@ sources:
     section: "セットリスト"
     position: 5
     raw_title: "窮屈、退屈、卑屈 (A-halo)"
+  -
+    type: release
+    file: "2015-07-01-000000.md"
+    title: "Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-"
+    date: "2015-07-01"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 3
+    raw_title: "窮屈、退屈、卑屈 (A-halo)"
 ---
 
 # 窮屈、退屈、卑屈 (A-halo)

@@ -30,6 +30,14 @@ describe('parseMatrixOtherCell', () => {
 			{ personName: '伊藤大地', instrument: 'timpani' },
 		]);
 	});
+
+	test('演奏方法を人物から除外し、楽器名が付いた姓を名寄せする', () => {
+		expect(parseMatrixOtherCell('glockenspiel & rappa 内田, Perc. & Hand Clap & sneeze(くしゃみ) & bell 伊藤, Bass 宇野', [])).toEqual([
+			{ personName: '内田武瑠', instrument: 'glockenspiel' },
+			{ personName: '伊藤大地', instrument: 'percussion' },
+			{ personName: '宇野剛史', instrument: 'bass' },
+		]);
+	});
 });
 
 describe('renderSql', () => {

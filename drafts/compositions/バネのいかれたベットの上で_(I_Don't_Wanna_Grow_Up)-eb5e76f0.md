@@ -283,6 +283,15 @@ sources:
     section: "セットリスト"
     position: 4
     raw_title: "バネのいかれたベッドの上で"
+  -
+    type: release
+    file: "2015-07-01-000000.md"
+    title: "Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-"
+    date: "2015-07-01"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 1
+    raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up)"
 ---
 
 

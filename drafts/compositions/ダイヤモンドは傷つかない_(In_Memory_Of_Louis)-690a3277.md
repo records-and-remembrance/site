@@ -89,6 +89,15 @@ sources:
     section: 'セットリスト'
     position: 7
     raw_title: 'ダイヤモンドは傷つかない (In memory of Louis) [楢原→Vn.]'
+  -
+    type: release
+    file: "2015-07-01-000000.md"
+    title: "Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-"
+    date: "2015-07-01"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 6
+    raw_title: "ダイヤモンドは傷つかない (In Memory Of Louis)"
 ---
 
 # ダイヤモンドは傷つかない (In Memory Of Louis)

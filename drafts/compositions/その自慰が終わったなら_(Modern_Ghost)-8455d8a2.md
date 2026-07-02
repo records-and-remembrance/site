@@ -198,6 +198,15 @@ sources:
     section: "セットリスト"
     position: 5
     raw_title: "その自慰が終わったなら (Modern Ghost)"
+  -
+    type: release
+    file: "2015-07-01-000000.md"
+    title: "Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-"
+    date: "2015-07-01"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 2
+    raw_title: "その自慰が終わったなら (Modern Ghost)"
 ---
 
 # その自慰が終わったなら (Modern Ghost)

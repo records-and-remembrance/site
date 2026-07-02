@@ -162,6 +162,15 @@ sources:
     section: 'セットリスト'
     position: 7
     raw_title: '神の犬 (Do Justice To?) ◇'
+  -
+    type: release
+    file: "2015-07-01-000000.md"
+    title: "Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-"
+    date: "2015-07-01"
+    project: "Poet-type.M"
+    section: "収録曲"
+    position: 4
+    raw_title: "神の犬 (Do Justice To?)"
 ---
 
 # 神の犬 (Do Justice To?)
