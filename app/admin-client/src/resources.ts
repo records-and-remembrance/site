@@ -233,7 +233,7 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 		title: 'Projects',
 		singular: 'プロジェクト',
 		description: 'バンド、ソロ、ユニット',
-		defaultSort: 'name',
+		defaultSort: 'startDate',
 		columns: [
 			{ key: 'name', label: '名前', sortable: true },
 			{ key: 'type', label: '種別', sortable: true },
@@ -733,6 +733,27 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 			},
 			descriptionField,
 			notesField,
+		],
+		relations: [
+			{
+				key: 'tracks',
+				label: 'トラックリスト',
+				resource: 'tracks',
+				detailTarget: {
+					resource: 'compositions',
+					idKey: 'compositionId',
+					columnKey: 'compositionTitle',
+				},
+				parentField: 'releaseId',
+				defaultSort: 'trackNumber',
+				defaultDirection: 'asc',
+				columns: [
+					{ key: 'trackNumber', label: '#', kind: 'number' },
+					{ key: 'compositionTitle', label: '楽曲' },
+					{ key: 'recordedDate', label: '録音日', kind: 'date' },
+					{ key: 'notes', label: 'メモ', kind: 'muted' },
+				],
+			},
 		],
 	},
 	'label-relations': {

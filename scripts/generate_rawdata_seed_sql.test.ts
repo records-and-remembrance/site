@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { compilationProjectNames, releaseEditionType, workType, type SourceArticle } from './generate_rawdata_seed_sql';
+import { compilationProjectNames, releaseEditionType, renderSql, workType, type SourceArticle } from './generate_rawdata_seed_sql';
 
 const source = (overrides: Partial<SourceArticle>): SourceArticle => ({
 	path: 'release.md',
@@ -52,5 +52,50 @@ describe('release classification', () => {
 
 		expect(workType(value)).toBe('original');
 		expect(releaseEditionType(value)).toBe('reissue');
+	});
+});
+
+describe('release source expansion', () => {
+	test('splits The Night2 and The Lunch2 into separate works and releases', () => {
+		const value = source({
+			path: 'rawData/articles_by_category/release/2013-10-02-000000_1.md',
+			name: '2013-10-02-000000_1.md',
+			stem: '2013-10-02-000000_1',
+			title: 'Poet-type.M - The Lunch2 / The Night2 (CD-R)',
+			date: '2013-10-02',
+			tags: ['Release', 'Poet-type.M', 'Self-Release', 'Demo'],
+			body: [
+				'## 基本情報',
+				'',
+				'- リリース: 2013年10月02日',
+				'- 形態: CD-R',
+				'- 流通方法: TOWER RECORDS/DISKUNION店頭 (購入者特典)',
+				'',
+				'## 収録曲',
+				'',
+				'### The Night2',
+				'',
+				'1. パキシル',
+				'1. ワイン',
+				'',
+				'※DISKUNION 購入者特典',
+				'',
+				'### The Lunch2',
+				'',
+				'1. Blanket',
+				'1. Grace',
+				'',
+				'※TOWER RECORDS 購入者特典',
+			].join('\n'),
+		});
+
+		const sql = renderSql([value], ['release']);
+
+		expect(sql).toContain("'The Night2'");
+		expect(sql).toContain("'The Lunch2'");
+		expect(sql).not.toContain("'The Lunch2 / The Night2'");
+		expect(sql.match(/INSERT INTO release /g)).toHaveLength(2);
+		expect(sql).toContain('distribution_method=DISKUNION店頭 (購入者特典)');
+		expect(sql).toContain('distribution_method=TOWER RECORDS店頭 (購入者特典)');
 	});
 });

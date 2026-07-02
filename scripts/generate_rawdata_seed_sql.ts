@@ -4,6 +4,7 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { releaseIdentity, releaseSourceVariants } from './lib/releaseSourceVariants';
 
 type NormalizedType = 'release' | 'live' | 'event' | 'project';
 
@@ -498,6 +499,7 @@ class SqlBuilder {
 
 	releaseUpsert(params: {
 		source: SourceArticle;
+		identity: string;
 		workId: string;
 		releaseFormat: string;
 		catalogNumber: string | null;
@@ -507,7 +509,7 @@ class SqlBuilder {
 		distributorId: string | null;
 		editionType: 'original' | 'reissue';
 	}): string {
-		const releaseId = stableUuid('release', params.source.name);
+		const releaseId = stableUuid('release', params.identity);
 		this.line(
 			'INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id, edition_type, reissue_of_release_id)',
 		);
@@ -525,6 +527,13 @@ class SqlBuilder {
 		this.line('    edition_type = EXCLUDED.edition_type;');
 		this.line();
 		return releaseId;
+	}
+
+	deleteLegacyRelease(source: SourceArticle, workId: string): void {
+		const releaseId = stableUuid('release', source.name);
+		this.line(`DELETE FROM release WHERE id = ${sqlText(releaseId)};`);
+		this.line(`DELETE FROM work WHERE id = ${sqlText(workId)};`);
+		this.line();
 	}
 
 	labelRelationUpsert(releaseId: string, labelId: string): void {
@@ -629,30 +638,10 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
 
 	const releaseDate = parsePartialDate(basic['リリース'] ?? source.date, false);
 	const type = workType(source);
-	const workId = builder.workUpsert({
-		projectId,
-		title: releaseWorkTitle(source),
-		description: summarize(sections['その他'] || source.body),
-		releasedDate: releaseDate,
-		type,
-	});
-	if (type === 'compilation') {
-		const participantNames = compilationProjectNames(source);
-		for (const participantName of participantNames.length > 0 ? participantNames : [projectName]) {
-			const participantId =
-				participantName === projectName
-					? projectId
-					: builder.projectUpsert({
-							name: participantName,
-							kind: projectType(participantName),
-							description: null,
-							startDate: null,
-							endDate: null,
-						});
-			builder.workProjectUpsert(workId, participantId, 'participant');
-		}
-	} else {
-		builder.workProjectUpsert(workId, projectId, 'primary');
+	const variants = releaseSourceVariants(source, sections['収録曲'] ?? sections['曲リスト']);
+	if (variants.some((variant) => variant.key)) {
+		const legacyWorkId = stableUuid('work', `${projectId}:${releaseWorkTitle(source)}`);
+		builder.deleteLegacyRelease(source, legacyWorkId);
 	}
 
 	let labelName = basic['レーベル'] ?? basic['発売元'] ?? null;
@@ -668,22 +657,51 @@ function emitRelease(builder: SqlBuilder, source: SourceArticle): void {
 
 	const distributorId = builder.distributorUpsert(resolvedDistributorName);
 	const labelId = builder.labelUpsert(resolvedLabelName, labelName);
-	const releaseId = builder.releaseUpsert({
-		source,
-		workId,
-		releaseFormat: basic['形態'] ?? 'unknown',
-		catalogNumber: basic['品番'] ?? null,
-		releaseDate,
-		description: summarize(sections['その他'] || source.body),
-		notes: compactNotes(source, {
-			distribution_method: basic['流通方法'],
-			price: basic['定価'],
-		}),
-		distributorId,
-		editionType: releaseEditionType(source),
-	});
-	if (labelId) {
-		builder.labelRelationUpsert(releaseId, labelId);
+	for (const variant of variants) {
+		const workId = builder.workUpsert({
+			projectId,
+			title: variant.title ?? releaseWorkTitle(source),
+			description: summarize(sections['その他'] || source.body),
+			releasedDate: releaseDate,
+			type,
+		});
+		if (type === 'compilation') {
+			const participantNames = compilationProjectNames(source);
+			for (const participantName of participantNames.length > 0 ? participantNames : [projectName]) {
+				const participantId =
+					participantName === projectName
+						? projectId
+						: builder.projectUpsert({
+								name: participantName,
+								kind: projectType(participantName),
+								description: null,
+								startDate: null,
+								endDate: null,
+							});
+				builder.workProjectUpsert(workId, participantId, 'participant');
+			}
+		} else {
+			builder.workProjectUpsert(workId, projectId, 'primary');
+		}
+
+		const releaseId = builder.releaseUpsert({
+			source,
+			identity: releaseIdentity(source.name, variant.key),
+			workId,
+			releaseFormat: basic['形態'] ?? 'unknown',
+			catalogNumber: basic['品番'] ?? null,
+			releaseDate,
+			description: summarize(sections['その他'] || source.body),
+			notes: compactNotes(source, {
+				distribution_method: variant.distributionMethod ?? basic['流通方法'],
+				price: basic['定価'],
+			}),
+			distributorId,
+			editionType: releaseEditionType(source),
+		});
+		if (labelId) {
+			builder.labelRelationUpsert(releaseId, labelId);
+		}
 	}
 }
 
@@ -792,7 +810,7 @@ function emitProject(builder: SqlBuilder, source: SourceArticle): void {
 	});
 }
 
-function renderSql(sources: SourceArticle[], includeTypes: NormalizedType[]): string {
+export function renderSql(sources: SourceArticle[], includeTypes: NormalizedType[]): string {
 	const builder = new SqlBuilder();
 	const skipped: string[] = [];
 	const failed: string[] = [];

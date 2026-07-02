@@ -4,6 +4,7 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { releaseIdentity, releaseSourceVariants } from './lib/releaseSourceVariants';
 
 export type SourceArticle = {
 	path: string;
@@ -200,7 +201,7 @@ function sourceEntries(sourcesYaml: string): string[] {
 	let current: string[] = [];
 
 	for (const line of sourcesYaml.split(/\r?\n/)) {
-		if (/^\s*-\s*$/.test(line)) {
+		if (/^\s*-\s+/.test(line) || /^\s*-\s*$/.test(line)) {
 			if (current.length > 0) entries.push(current.join('\n'));
 			current = [line];
 			continue;
@@ -214,7 +215,7 @@ function sourceEntries(sourcesYaml: string): string[] {
 
 function extractSourceField(sourceEntry: string, key: string): string | null {
 	const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-	const match = sourceEntry.match(new RegExp(`^\\s*${escaped}:\\s*(.*)$`, 'm'));
+	const match = sourceEntry.match(new RegExp(`^\\s*(?:-\\s*)?${escaped}:\\s*(.*)$`, 'm'));
 	return match ? parseYamlScalar(match[1]!) : null;
 }
 
@@ -375,8 +376,8 @@ class SqlBuilder {
 		return compositionId;
 	}
 
-	recordingUpsert(params: { source: SourceArticle; compositionId: string; trackId: string; track: TrackSource }): string {
-		const recordingId = stableUuid('recording', `${params.source.name}:${params.track.number}:${params.track.title}`);
+	recordingUpsert(params: { source: SourceArticle; sourcePosition: number; compositionId: string; trackId: string; track: TrackSource }): string {
+		const recordingId = stableUuid('recording', `${params.source.name}:${params.sourcePosition}:${params.track.title}`);
 		this.line('INSERT INTO recording (id, composition_id, recording_year, type, recorded_date, recorded_from, recorded_to, release_date, notes)');
 		this.line(`SELECT ${sqlText(recordingId)}, ${sqlText(params.compositionId)}, NULL, ${sqlText('studio')}, NULL, NULL, NULL, ${sqlText(params.source.date)}, ${sqlText(params.track.notes)}`);
 		this.line('WHERE NOT EXISTS (');
@@ -394,7 +395,8 @@ class SqlBuilder {
 		this.line('INSERT INTO track (id, release_id, recording_id, track_number, recorded_date, notes)');
 		this.line(`VALUES (${sqlText(params.trackId)}, ${sqlText(params.releaseId)}, ${sqlText(params.recordingId)}, ${params.track.number}, NULL, ${sqlText(`source_file=${params.source.name}`)})`);
 		this.line('ON CONFLICT (id) DO UPDATE');
-		this.line('SET track_number = EXCLUDED.track_number,');
+		this.line('SET release_id = EXCLUDED.release_id,');
+		this.line('    track_number = EXCLUDED.track_number,');
 		this.line('    notes = EXCLUDED.notes;');
 		this.line();
 	}
@@ -409,28 +411,34 @@ function emitSource(builder: SqlBuilder, source: SourceArticle, compositionLooku
 	const trackSection = sections['収録曲'] ?? sections['曲リスト'];
 	if (!trackSection) return false;
 
-	const tracks = parseTrackList(trackSection, source);
-	if (tracks.length === 0) return false;
-
-	const releaseId = stableUuid('release', source.name);
 	builder.line(`-- source: ${source.path}`);
 	builder.line();
 
-	for (const track of tracks) {
-		const compositionRef = compositionLookup.get(compositionKey(source.name, track.title));
-		if (compositionRef === null) {
-			builder.line(`-- skipped ignored/split track: ${source.name} #${track.number} ${track.title}`);
-			builder.line();
-			continue;
-		}
+	let emitted = false;
+	let sourcePosition = 0;
+	for (const variant of releaseSourceVariants(source, trackSection)) {
+		const tracks = parseTrackList(variant.trackSection ?? '', source);
+		const identity = releaseIdentity(source.name, variant.key);
+		const releaseId = stableUuid('release', identity);
 
-		const compositionId = compositionRef ? compositionRef.id : builder.compositionUpsert(track.title, `fallback_source_file=${source.name}`);
-		const trackId = stableUuid('track', `${source.name}:${track.number}`);
-		const recordingId = builder.recordingUpsert({ source, compositionId, trackId, track });
-		builder.trackUpsert({ source, releaseId, recordingId, trackId, track });
+		for (const track of tracks) {
+			sourcePosition += 1;
+			const compositionRef = compositionLookup.get(compositionKey(source.name, track.title));
+			if (compositionRef === null) {
+				builder.line(`-- skipped ignored/split track: ${source.name} #${track.number} ${track.title}`);
+				builder.line();
+				continue;
+			}
+
+			const compositionId = compositionRef ? compositionRef.id : builder.compositionUpsert(track.title, `fallback_source_file=${source.name}`);
+			const trackId = stableUuid('track', `${source.name}:${sourcePosition}`);
+			const recordingId = builder.recordingUpsert({ source, sourcePosition, compositionId, trackId, track });
+			builder.trackUpsert({ source, releaseId, recordingId, trackId, track });
+			emitted = true;
+		}
 	}
 
-	return true;
+	return emitted;
 }
 
 export function renderSql(sources: SourceArticle[], compositionLookup: Map<string, CompositionRef | null>): string {

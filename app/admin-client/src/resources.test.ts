@@ -96,6 +96,24 @@ describe('admin screen configuration', () => {
 		);
 	});
 
+	test('shows the selected release track list in release details', () => {
+		expect(editorConfigs.releases.relations).toContainEqual(
+			expect.objectContaining({
+				key: 'tracks',
+				label: 'トラックリスト',
+				resource: 'tracks',
+				parentField: 'releaseId',
+				defaultSort: 'trackNumber',
+				defaultDirection: 'asc',
+				detailTarget: {
+					resource: 'compositions',
+					idKey: 'compositionId',
+					columnKey: 'compositionTitle',
+				},
+			}),
+		);
+	});
+
 	test('allows artists to be attached to multi-artist works', () => {
 		expect(resourceConfigs.works.relations).toContainEqual(
 			expect.objectContaining({

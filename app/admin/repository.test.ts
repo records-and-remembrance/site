@@ -45,7 +45,7 @@ describe('admin repository definitions', () => {
 	});
 
 	test('defines dedicated loaders only for resources with related detail data', () => {
-		expect(Object.keys(createRelatedLoaders({} as never)).sort()).toEqual(['articles', 'compositions', 'events', 'people', 'projects', 'works'].sort());
+		expect(Object.keys(createRelatedLoaders({} as never)).sort()).toEqual(['articles', 'compositions', 'events', 'people', 'projects', 'releases', 'works'].sort());
 	});
 
 	test('builds an empty search clause without binding a function parameter', async () => {
