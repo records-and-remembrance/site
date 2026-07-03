@@ -87,24 +87,22 @@ sources:
     section: 'セットリスト'
     position: 10
     raw_title: 'singing in the rain<br>'
-  -
-    type: live
-    file: "2026-04-27-000000.md"
+  - type: live
+    file: '2026-04-27-000000.md'
     title: "2026-04-27: 門田匡陽 - \\\"Now 2\\\" at 下北沢近道"
-    date: "2026-04-27"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2026-04-27'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 7
-    raw_title: "singing in the rain"
-  -
-    type: release
-    file: "2010-01-27-000000.md"
-    title: "Good Dog Happy Men - The Light"
-    date: "2010-01-27"
-    project: "Good Dog Happy Men"
-    section: "収録曲"
+    raw_title: 'singing in the rain'
+  - type: release
+    file: '2010-01-27-000000.md'
+    title: 'Good Dog Happy Men - The Light'
+    date: '2010-01-27'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
     position: 11
-    raw_title: "singing in the rain"
+    raw_title: 'singing in the rain'
 ---
 
 # singing in the rain

@@ -531,15 +531,14 @@ sources:
     section: 'セットリスト'
     position: 2
     raw_title: '蝙蝠警備隊 ("Sweet heart of moon" rearrange)'
-  -
-    type: live
-    file: "2024-12-25-000000.md"
+  - type: live
+    file: '2024-12-25-000000.md'
     title: "2024-12-25: MONDEN MASAAKI (BAND SET) - \\\"chant de Noël 2024\\\" at 新代田FEVER"
-    date: "2024-12-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-12-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 8
-    raw_title: "Sweet heart of moon"
+    raw_title: 'Sweet heart of moon'
 ---
 
 # Sweet heart of moon

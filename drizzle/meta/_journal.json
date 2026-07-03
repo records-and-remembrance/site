@@ -1,76 +1,76 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1782217208438,
-      "tag": "0000_initial_schema",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1782217222973,
-      "tag": "0001_membership_exclusion_constraint",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1782217570249,
-      "tag": "0002_schema_comments",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1782608928468,
-      "tag": "0003_sloppy_ser_duncan",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1782623546490,
-      "tag": "0004_chilly_charles_xavier",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1782649216187,
-      "tag": "0005_moaning_junta",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1782746494755,
-      "tag": "0006_bouncy_monster_badoon",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1782916821223,
-      "tag": "0007_ancient_zeigeist",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "7",
-      "when": 1782952574105,
-      "tag": "0008_goofy_harpoon",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "7",
-      "when": 1783001785400,
-      "tag": "0009_fuzzy_guardsmen",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1782217208438,
+			"tag": "0000_initial_schema",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1782217222973,
+			"tag": "0001_membership_exclusion_constraint",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1782217570249,
+			"tag": "0002_schema_comments",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1782608928468,
+			"tag": "0003_sloppy_ser_duncan",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1782623546490,
+			"tag": "0004_chilly_charles_xavier",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "7",
+			"when": 1782649216187,
+			"tag": "0005_moaning_junta",
+			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1782746494755,
+			"tag": "0006_bouncy_monster_badoon",
+			"breakpoints": true
+		},
+		{
+			"idx": 7,
+			"version": "7",
+			"when": 1782916821223,
+			"tag": "0007_ancient_zeigeist",
+			"breakpoints": true
+		},
+		{
+			"idx": 8,
+			"version": "7",
+			"when": 1782952574105,
+			"tag": "0008_goofy_harpoon",
+			"breakpoints": true
+		},
+		{
+			"idx": 9,
+			"version": "7",
+			"when": 1783001785400,
+			"tag": "0009_fuzzy_guardsmen",
+			"breakpoints": true
+		}
+	]
 }

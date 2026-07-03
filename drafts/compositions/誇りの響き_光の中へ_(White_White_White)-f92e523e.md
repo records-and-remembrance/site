@@ -169,24 +169,22 @@ sources:
     section: 'セットリスト'
     position: 6
     raw_title: '誇りの響き 光の中へ (White White White) [ギターのみ]<br>'
-  -
-    type: live
-    file: "2024-12-29-000000.md"
-    title: "2024-12-29: 門田匡陽 Instagram Live"
-    date: "2024-12-29"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+  - type: live
+    file: '2024-12-29-000000.md'
+    title: '2024-12-29: 門田匡陽 Instagram Live'
+    date: '2024-12-29'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 12
-    raw_title: "誇りの響き 光の中へ (White White White)"
-  -
-    type: live
-    file: "2025-08-11-000000.md"
+    raw_title: '誇りの響き 光の中へ (White White White)'
+  - type: live
+    file: '2025-08-11-000000.md'
     title: "2025-08-11: 門田匡陽 - \\\"599LIVE\\\" at 高尾599ミュージアム"
-    date: "2025-08-11"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2025-08-11'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 5
-    raw_title: "誇りの響き 光の中へ (White White White)"
+    raw_title: '誇りの響き 光の中へ (White White White)'
 ---
 
 # 誇りの響き 光の中へ (White White White)

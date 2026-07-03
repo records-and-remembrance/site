@@ -42,60 +42,54 @@ sources:
     section: '曲リスト'
     position: 2
     raw_title: '[過呼吸（Only you）初音ミクVer](https://www.youtube.com/watch?v=vsWU3kO56aM)'
-  -
-    type: release
-    file: "2024-03-13-000000.md"
-    title: "MONDEN MASAAKI - Pure"
-    date: "2024-03-13"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "収録曲"
+  - type: release
+    file: '2024-03-13-000000.md'
+    title: 'MONDEN MASAAKI - Pure'
+    date: '2024-03-13'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: '収録曲'
     position: 1
-    raw_title: "過呼吸 (ONLY YOU)"
-  -
-    type: live
-    file: "2023-12-25-000000.md"
+    raw_title: '過呼吸 (ONLY YOU)'
+  - type: live
+    file: '2023-12-25-000000.md'
     title: " 2023-12-25: MONDEN MASAAKI (BAND SET) - \\\"chant de Noël\\\" at 新代田FEVER"
-    date: "2023-12-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2023-12-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 3
-    raw_title: "過呼吸 (Only you)"
-  -
-    type: live
-    file: "2024-04-25-000000.md"
+    raw_title: '過呼吸 (Only you)'
+  - type: live
+    file: '2024-04-25-000000.md'
     title: "2024-04-25: MONDEN MASAAKI - \\\"KISS\\\" at 池下CLUB UPSET"
-    date: "2024-04-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-04-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "過呼吸 (ONLY YOU)"
-  -
-    type: live
-    file: "2024-04-26-000000.md"
+    raw_title: '過呼吸 (ONLY YOU)'
+  - type: live
+    file: '2024-04-26-000000.md'
     title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
-    date: "2024-04-26"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-04-26'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "過呼吸 (ONLY YOU)"
-  -
-    type: live
-    file: "2024-05-18-000000.md"
+    raw_title: '過呼吸 (ONLY YOU)'
+  - type: live
+    file: '2024-05-18-000000.md'
     title: "2024-05-18: MONDEN MASAAKI - \\\"KISS\\\" at 新代田FEVER"
-    date: "2024-05-18"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-18'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "過呼吸 (ONLY YOU)"
-  -
-    type: live
-    file: "2024-12-25-000000.md"
+    raw_title: '過呼吸 (ONLY YOU)'
+  - type: live
+    file: '2024-12-25-000000.md'
     title: "2024-12-25: MONDEN MASAAKI (BAND SET) - \\\"chant de Noël 2024\\\" at 新代田FEVER"
-    date: "2024-12-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-12-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "過呼吸 (ONLY YOU)"
+    raw_title: '過呼吸 (ONLY YOU)'
 ---
 
 # 過呼吸 (Only you)

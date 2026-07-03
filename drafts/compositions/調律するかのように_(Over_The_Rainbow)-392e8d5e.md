@@ -228,51 +228,46 @@ sources:
     section: 'セットリスト'
     position: 7
     raw_title: '調律するかの様に (Over The Rainbow)'
-  -
-    type: live
-    file: "2024-03-23-000000.md"
-    title: "2024-03-23: 門田匡陽 Instagram Live"
-    date: "2024-03-23"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+  - type: live
+    file: '2024-03-23-000000.md'
+    title: '2024-03-23: 門田匡陽 Instagram Live'
+    date: '2024-03-23'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 2
-    raw_title: "調律するかの様に (Over The Rainbow)"
-  -
-    type: live
-    file: "2024-05-12-000000_1.md"
+    raw_title: '調律するかの様に (Over The Rainbow)'
+  - type: live
+    file: '2024-05-12-000000_1.md'
     title: "2024-05-12: MONDEN MASAAKI - \\\"新代田環七フェスティバル 2024\\\" at 新代田Live bar crossing"
-    date: "2024-05-12"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-12'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 3
-    raw_title: "調律するかの様に (Over The Rainbow)"
-  -
-    type: live
-    file: "2024-08-11-000000.md"
+    raw_title: '調律するかの様に (Over The Rainbow)'
+  - type: live
+    file: '2024-08-11-000000.md'
     title: "2024-08-11: 門田匡陽 - \\\"599LIVE\\\" at 高尾599ミュージアム"
-    date: "2024-08-11"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-08-11'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 3
-    raw_title: "調律するかの様に (Over The Rainbow)"
-  -
-    type: live
-    file: "2025-08-11-000000.md"
+    raw_title: '調律するかの様に (Over The Rainbow)'
+  - type: live
+    file: '2025-08-11-000000.md'
     title: "2025-08-11: 門田匡陽 - \\\"599LIVE\\\" at 高尾599ミュージアム"
-    date: "2025-08-11"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2025-08-11'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 2
-    raw_title: "調律するかの様に (Over The Rainbow)"
-  -
-    type: live
-    file: "2024-05-21-000000.md"
+    raw_title: '調律するかの様に (Over The Rainbow)'
+  - type: live
+    file: '2024-05-21-000000.md'
     title: "2024-05-21: MONDEN MASAAKI - \\\"新代田で会おうよ。\\\" at 新代田Live bar crossing"
-    date: "2024-05-21"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-21'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "調律するかのように"
+    raw_title: '調律するかのように'
 ---
 
 # 調律するかのように (Over The Rainbow)

@@ -153,24 +153,22 @@ sources:
     section: 'セットリスト'
     position: 6
     raw_title: '慰霊堂清掃奉仕(Happy Birthday!)'
-  -
-    type: live
-    file: "2023-12-25-000000.md"
+  - type: live
+    file: '2023-12-25-000000.md'
     title: " 2023-12-25: MONDEN MASAAKI (BAND SET) - \\\"chant de Noël\\\" at 新代田FEVER"
-    date: "2023-12-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2023-12-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 6
-    raw_title: "慰霊堂清掃奉仕 (Happy Birthday!)"
-  -
-    type: release
-    file: "2010-01-27-000000.md"
-    title: "Good Dog Happy Men - The Light"
-    date: "2010-01-27"
-    project: "Good Dog Happy Men"
-    section: "収録曲"
+    raw_title: '慰霊堂清掃奉仕 (Happy Birthday!)'
+  - type: release
+    file: '2010-01-27-000000.md'
+    title: 'Good Dog Happy Men - The Light'
+    date: '2010-01-27'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
     position: 7
-    raw_title: "慰霊堂清掃奉仕 (Happy Birthday!)"
+    raw_title: '慰霊堂清掃奉仕 (Happy Birthday!)'
 ---
 
 # 慰霊堂清掃奉仕 (Happy Birthday!)

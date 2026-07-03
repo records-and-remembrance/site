@@ -91,14 +91,7 @@ describe('parseArgs', () => {
 
 describe('parseListItems', () => {
 	test('stops collecting song candidates at the article separator', () => {
-		const section = [
-			'1. SHINE A LIGHT',
-			'1. 間違い探し',
-			'',
-			'<!--/-->',
-			'* CD EXTRA',
-			'   1. 陽だまりを越えて (Music Video)',
-		].join('\n');
+		const section = ['1. SHINE A LIGHT', '1. 間違い探し', '', '<!--/-->', '* CD EXTRA', '   1. 陽だまりを越えて (Music Video)'].join('\n');
 
 		expect(parseListItems(section)).toEqual([
 			{ position: 1, rawTitle: 'SHINE A LIGHT' },

@@ -42,16 +42,7 @@ describe('work seed recording assignments', () => {
 	test('stops parsing tracks at the article separator', () => {
 		const sourceWithCdExtra: SourceArticle = {
 			...source,
-			body: [
-				'## 収録曲',
-				'',
-				'1. SHINE A LIGHT',
-				'1. 間違い探し',
-				'',
-				'<!--/-->',
-				'* CD EXTRA',
-				'   1. 陽だまりを越えて (Music Video)',
-			].join('\n'),
+			body: ['## 収録曲', '', '1. SHINE A LIGHT', '1. 間違い探し', '', '<!--/-->', '* CD EXTRA', '   1. 陽だまりを越えて (Music Video)'].join('\n'),
 		};
 
 		const sql = renderSql([sourceWithCdExtra], compositionLookup);

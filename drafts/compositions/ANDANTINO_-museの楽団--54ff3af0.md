@@ -189,15 +189,14 @@ sources:
     section: 'セットリスト'
     position: 1
     raw_title: 'museの楽団'
-  -
-    type: live
-    file: "2024-12-29-000000.md"
-    title: "2024-12-29: 門田匡陽 Instagram Live"
-    date: "2024-12-29"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+  - type: live
+    file: '2024-12-29-000000.md'
+    title: '2024-12-29: 門田匡陽 Instagram Live'
+    date: '2024-12-29'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 1
-    raw_title: "ANDANTINO -museの楽団-"
+    raw_title: 'ANDANTINO -museの楽団-'
 ---
 
 # ANDANTINO -museの楽団-

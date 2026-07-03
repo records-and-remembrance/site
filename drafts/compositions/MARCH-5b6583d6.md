@@ -450,33 +450,30 @@ sources:
     section: 'セットリスト'
     position: 2
     raw_title: 'マーチ'
-  -
-    type: live
-    file: "2025-01-19-000000.md"
-    title: "2025-01-19: BURGER NUDS - “Now 2 -近道2周年記念公演-“ at 下北沢近道"
-    date: "2025-01-19"
-    project: "BURGER NUDS"
-    section: "セットリスト"
+  - type: live
+    file: '2025-01-19-000000.md'
+    title: '2025-01-19: BURGER NUDS - “Now 2 -近道2周年記念公演-“ at 下北沢近道'
+    date: '2025-01-19'
+    project: 'BURGER NUDS'
+    section: 'セットリスト'
     position: 6
-    raw_title: "MARCH"
-  -
-    type: live
-    file: "2025-04-25-000000.md"
-    title: "2025-04-25: BURGER NUDS - “tabuz twelve“ at 新代田FEVER"
-    date: "2025-04-25"
-    project: "BURGER NUDS"
-    section: "セットリスト"
+    raw_title: 'MARCH'
+  - type: live
+    file: '2025-04-25-000000.md'
+    title: '2025-04-25: BURGER NUDS - “tabuz twelve“ at 新代田FEVER'
+    date: '2025-04-25'
+    project: 'BURGER NUDS'
+    section: 'セットリスト'
     position: 5
-    raw_title: "MARCH"
-  -
-    type: live
-    file: "2025-12-25-000000.md"
+    raw_title: 'MARCH'
+  - type: live
+    file: '2025-12-25-000000.md'
     title: " 2025-12-25: BURGER NUDS - \\\"chant de Noël 2025\\\" at 新代田FEVER"
-    date: "2025-12-25"
-    project: "BURGER NUDS"
-    section: "セットリスト"
+    date: '2025-12-25'
+    project: 'BURGER NUDS'
+    section: 'セットリスト'
     position: 7
-    raw_title: "MARCH"
+    raw_title: 'MARCH'
 ---
 
 # MARCH

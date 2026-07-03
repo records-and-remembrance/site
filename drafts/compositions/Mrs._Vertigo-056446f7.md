@@ -41,15 +41,14 @@ sources:
     section: 'セットリスト'
     position: 5
     raw_title: 'Mrs.Vertigo'
-  -
-    type: release
-    file: "2010-01-27-000000.md"
-    title: "Good Dog Happy Men - The Light"
-    date: "2010-01-27"
-    project: "Good Dog Happy Men"
-    section: "収録曲"
+  - type: release
+    file: '2010-01-27-000000.md'
+    title: 'Good Dog Happy Men - The Light'
+    date: '2010-01-27'
+    project: 'Good Dog Happy Men'
+    section: '収録曲'
     position: 8
-    raw_title: "Mrs. Vertigo"
+    raw_title: 'Mrs. Vertigo'
 ---
 
 # Mrs. Vertigo

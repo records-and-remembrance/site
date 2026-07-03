@@ -14,9 +14,9 @@ aliases:
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [with 弦楽四重奏]"
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up) [Lost Verse(s) ver.]"
   - "バネのいかれたベッドの上で (I Don't Wanna Grow Up)"
-  - "バネのいかれたベッドの上で (I Don’t Wanna Grow Up)"
+  - 'バネのいかれたベッドの上で (I Don’t Wanna Grow Up)'
   - "バネのいかれたベットの上で (I don't wonna grow up)"
-  - "バネのいかれたベッドの上で"
+  - 'バネのいかれたベッドの上で'
 sources:
   - type: live
     file: '2016-05-24-000000.md'
@@ -274,26 +274,23 @@ sources:
     section: 'セットリスト'
     position: 3
     raw_title: "バネのいかれたベットの上で (I don't wonna grow up)<br>"
-  -
-    type: live
-    file: "2026-04-27-000000.md"
+  - type: live
+    file: '2026-04-27-000000.md'
     title: "2026-04-27: 門田匡陽 - \\\"Now 2\\\" at 下北沢近道"
-    date: "2026-04-27"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2026-04-27'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 4
-    raw_title: "バネのいかれたベッドの上で"
-  -
-    type: release
-    file: "2015-07-01-000000.md"
-    title: "Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-"
-    date: "2015-07-01"
-    project: "Poet-type.M"
-    section: "収録曲"
+    raw_title: 'バネのいかれたベッドの上で'
+  - type: release
+    file: '2015-07-01-000000.md'
+    title: 'Poet-type.M - A Place, Dark & Dark -ダイヤモンドは傷つかない-'
+    date: '2015-07-01'
+    project: 'Poet-type.M'
+    section: '収録曲'
     position: 1
     raw_title: "バネのいかれたベッドの上で (I Don't Wanna Grow Up)"
 ---
-
 
 # バネのいかれたベットの上で (I Don't Wanna Grow Up)
 

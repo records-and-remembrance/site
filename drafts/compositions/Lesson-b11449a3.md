@@ -256,51 +256,46 @@ sources:
     section: 'セットリスト'
     position: 11
     raw_title: 'LESSON (BURGER NUDS)'
-  -
-    type: live
-    file: "2024-03-08-000000.md"
+  - type: live
+    file: '2024-03-08-000000.md'
     title: "2024-03-08: 門田匡陽 - \\\"Once-in-a-lifetime 2024\\\" at 新代田FEVER"
-    date: "2024-03-08"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-03-08'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 2
-    raw_title: "Lesson"
-  -
-    type: live
-    file: "2024-05-12-000000_1.md"
+    raw_title: 'Lesson'
+  - type: live
+    file: '2024-05-12-000000_1.md'
     title: "2024-05-12: MONDEN MASAAKI - \\\"新代田環七フェスティバル 2024\\\" at 新代田Live bar crossing"
-    date: "2024-05-12"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-12'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 5
-    raw_title: "Lesson"
-  -
-    type: live
-    file: "2024-11-01-000000.md"
+    raw_title: 'Lesson'
+  - type: live
+    file: '2024-11-01-000000.md'
     title: "2024-11-01: BURGER NUDS - FEVER 15th ANNIVERSARY \\\"LIVE FOR THE FUTURE\\\" at 新代田FEVER"
-    date: "2024-11-01"
-    project: "BURGER NUDS"
-    section: "セットリスト"
+    date: '2024-11-01'
+    project: 'BURGER NUDS'
+    section: 'セットリスト'
     position: 6
-    raw_title: "Lesson"
-  -
-    type: live
-    file: "2024-12-29-000000.md"
-    title: "2024-12-29: 門田匡陽 Instagram Live"
-    date: "2024-12-29"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    raw_title: 'Lesson'
+  - type: live
+    file: '2024-12-29-000000.md'
+    title: '2024-12-29: 門田匡陽 Instagram Live'
+    date: '2024-12-29'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 7
-    raw_title: "Lesson"
-  -
-    type: live
-    file: "2025-02-08-000000.md"
-    title: "2025-02-08: BURGER NUDS - “ドガの都 Vol.1“ at 下北沢QLUB Que"
-    date: "2025-02-08"
-    project: "BURGER NUDS"
-    section: "セットリスト"
+    raw_title: 'Lesson'
+  - type: live
+    file: '2025-02-08-000000.md'
+    title: '2025-02-08: BURGER NUDS - “ドガの都 Vol.1“ at 下北沢QLUB Que'
+    date: '2025-02-08'
+    project: 'BURGER NUDS'
+    section: 'セットリスト'
     position: 4
-    raw_title: "Lesson"
+    raw_title: 'Lesson'
 ---
 
 # Lesson

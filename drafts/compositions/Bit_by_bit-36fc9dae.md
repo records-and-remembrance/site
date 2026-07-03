@@ -592,60 +592,54 @@ sources:
     section: 'セットリスト'
     position: 14
     raw_title: 'Bit by Bit'
-  -
-    type: live
-    file: "2024-04-25-000000.md"
+  - type: live
+    file: '2024-04-25-000000.md'
     title: "2024-04-25: MONDEN MASAAKI - \\\"KISS\\\" at 池下CLUB UPSET"
-    date: "2024-04-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-04-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 15
-    raw_title: "Bit by bit"
-  -
-    type: live
-    file: "2024-04-26-000000.md"
+    raw_title: 'Bit by bit'
+  - type: live
+    file: '2024-04-26-000000.md'
     title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
-    date: "2024-04-26"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-04-26'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 15
-    raw_title: "Bit by bit"
-  -
-    type: live
-    file: "2024-05-18-000000.md"
+    raw_title: 'Bit by bit'
+  - type: live
+    file: '2024-05-18-000000.md'
     title: "2024-05-18: MONDEN MASAAKI - \\\"KISS\\\" at 新代田FEVER"
-    date: "2024-05-18"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-18'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 14
-    raw_title: "Bit by bit"
-  -
-    type: live
-    file: "2026-01-29-000000.md"
-    title: "2026-01-29: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 池下CLUB UPSET"
-    date: "2026-01-29"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: 'Bit by bit'
+  - type: live
+    file: '2026-01-29-000000.md'
+    title: '2026-01-29: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 池下CLUB UPSET'
+    date: '2026-01-29'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 9
-    raw_title: "Bit by Bit"
-  -
-    type: live
-    file: "2026-01-30-000000.md"
-    title: "2026-01-30: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 木屋町UrBANGUILD"
-    date: "2026-01-30"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: 'Bit by Bit'
+  - type: live
+    file: '2026-01-30-000000.md'
+    title: '2026-01-30: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 木屋町UrBANGUILD'
+    date: '2026-01-30'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 10
-    raw_title: "Bit by Bit"
-  -
-    type: live
-    file: "2026-02-15-000000.md"
-    title: "2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER"
-    date: "2026-02-15"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: 'Bit by Bit'
+  - type: live
+    file: '2026-02-15-000000.md'
+    title: '2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER'
+    date: '2026-02-15'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 9
-    raw_title: "Bit by Bit"
+    raw_title: 'Bit by Bit'
 ---
 
 # Bit by bit

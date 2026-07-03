@@ -1,23 +1,23 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "(can you feel?)～Most beautiful in the world～"
+canonical_title: '(can you feel?)～Most beautiful in the world～'
 status: reviewed
 composition_id: null
-group_key: "(can you feel?)～most beautiful in the world～"
+group_key: '(can you feel?)～most beautiful in the world～'
 aliases:
-  - "(can you feel?)～Most beautiful in the world～"
-  - "(can you feel?) ～most beautiful in the world～"
-  - "(can you feel?) ～Most beautiful in the world～ (Acoustic ver.)"
-  - "(can you feel?) ～Most beautiful in the world～ (セットリストには記載がない)"
-  - "(can you feel?) ～Most beautiful in the world～ (全員)"
-  - "(can you feel?) ～Most beautiful in the world～ (弾き語り)"
-  - "(Can you feel?) ～Most beautiful in the world～ [w/伊藤]"
-  - "(can you feel?) ～Most beautiful in the world～ [with 吹奏楽部]"
-  - "(can you feel?)～Most bautiful in the world～"
-  - "(can you feel?) ～Most beautful in the world～"
-  - "(can you feel?) ~Most beautiful in the world~"
-  - "(can you feel?)〜Most beautiful in the world〜"
-  - "(can you feel?)〜Most beautiful in the world〜 (エレキギター弾き語り)"
+  - '(can you feel?)～Most beautiful in the world～'
+  - '(can you feel?) ～most beautiful in the world～'
+  - '(can you feel?) ～Most beautiful in the world～ (Acoustic ver.)'
+  - '(can you feel?) ～Most beautiful in the world～ (セットリストには記載がない)'
+  - '(can you feel?) ～Most beautiful in the world～ (全員)'
+  - '(can you feel?) ～Most beautiful in the world～ (弾き語り)'
+  - '(Can you feel?) ～Most beautiful in the world～ [w/伊藤]'
+  - '(can you feel?) ～Most beautiful in the world～ [with 吹奏楽部]'
+  - '(can you feel?)～Most bautiful in the world～'
+  - '(can you feel?) ～Most beautful in the world～'
+  - '(can you feel?) ~Most beautiful in the world~'
+  - '(can you feel?)〜Most beautiful in the world〜'
+  - '(can you feel?)〜Most beautiful in the world〜 (エレキギター弾き語り)'
 sources:
   - type: release
     file: '2006-04-26-000000.md'
@@ -923,73 +923,63 @@ sources:
     section: 'セットリスト'
     position: 8
     raw_title: '(can you feel?) ～Most beautful in the world～'
-  -
-    type: live
-    file: "2024-03-23-000000.md"
-    title: "2024-03-23: 門田匡陽 Instagram Live"
-    date: "2024-03-23"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+  - type: live
+    file: '2024-03-23-000000.md'
+    title: '2024-03-23: 門田匡陽 Instagram Live'
+    date: '2024-03-23'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 5
-    raw_title: "(can you feel?)〜Most beautiful in the world〜"
-  -
-    type: live
-    file: "2025-07-19-000000.md"
-    title: "2025-07-19: Good Dog Happy Men - Instagram Live"
-    date: "2025-07-19"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: '(can you feel?)〜Most beautiful in the world〜'
+  - type: live
+    file: '2025-07-19-000000.md'
+    title: '2025-07-19: Good Dog Happy Men - Instagram Live'
+    date: '2025-07-19'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 4
-    raw_title: "(can you feel?)〜Most beautiful in the world〜"
-  -
-    type: live
-    file: "2026-02-15-000000.md"
-    title: "2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER"
-    date: "2026-02-15"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: '(can you feel?)〜Most beautiful in the world〜'
+  - type: live
+    file: '2026-02-15-000000.md'
+    title: '2026-02-15: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 新代田FEVER'
+    date: '2026-02-15'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 16
-    raw_title: "(can you feel?)〜Most beautiful in the world〜"
-  -
-    type: live
-    file: "2026-01-29-000000.md"
-    title: "2026-01-29: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 池下CLUB UPSET"
-    date: "2026-01-29"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: '(can you feel?)〜Most beautiful in the world〜'
+  - type: live
+    file: '2026-01-29-000000.md'
+    title: '2026-01-29: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 池下CLUB UPSET'
+    date: '2026-01-29'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 15
-    raw_title: "(can you feel?) ~Most beautiful in the world~"
-  -
-    type: live
-    file: "2026-01-30-000000.md"
-    title: "2026-01-30: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 木屋町UrBANGUILD"
-    date: "2026-01-30"
-    project: "Good Dog Happy Men"
-    section: "セットリスト"
+    raw_title: '(can you feel?) ~Most beautiful in the world~'
+  - type: live
+    file: '2026-01-30-000000.md'
+    title: '2026-01-30: Good Dog Happy Men - Good Dog Happy Men 独演会「Moon Light Medicine」 at 木屋町UrBANGUILD'
+    date: '2026-01-30'
+    project: 'Good Dog Happy Men'
+    section: 'セットリスト'
     position: 15
-    raw_title: "(can you feel?) ~Most beautiful in the world~"
-  -
-    type: live
-    file: "2024-04-26-000000.md"
+    raw_title: '(can you feel?) ~Most beautiful in the world~'
+  - type: live
+    file: '2024-04-26-000000.md'
     title: "2024-04-26: MONDEN MASAAKI - \\\"KISS\\\" at 福島2nd LINE"
-    date: "2024-04-26"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-04-26'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 20
-    raw_title: "(can you feel?)〜Most beautiful in the world〜 (エレキギター弾き語り)"
-  -
-    type: live
-    file: "2024-05-18-000000.md"
+    raw_title: '(can you feel?)〜Most beautiful in the world〜 (エレキギター弾き語り)'
+  - type: live
+    file: '2024-05-18-000000.md'
     title: "2024-05-18: MONDEN MASAAKI - \\\"KISS\\\" at 新代田FEVER"
-    date: "2024-05-18"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-18'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 20
-    raw_title: "(can you feel?)〜Most beautiful in the world〜 (エレキギター弾き語り)"
+    raw_title: '(can you feel?)〜Most beautiful in the world〜 (エレキギター弾き語り)'
 ---
-
-
-
 
 # (can you feel?)～Most beautiful in the world～
 
@@ -1031,12 +1021,12 @@ sources:
 
 ## Merge Notes
 
-- 2026-06-30T13:25:47.335Z: merged sources from (can_you_feel_)_~Most_beautiful_in_the_world~-cc636cab.md
+- 2026-06-30T13:25:47.335Z: merged sources from (can*you_feel*)\_~Most_beautiful_in_the_world~-cc636cab.md
 
 ## Merge Notes
 
-- 2026-06-30T13:25:47.336Z: merged sources from (can_you_feel_)〜Most_beautiful_in_the_world〜-74f65ce3.md
+- 2026-06-30T13:25:47.336Z: merged sources from (can*you_feel*)〜Most_beautiful_in_the_world〜-74f65ce3.md
 
 ## Merge Notes
 
-- 2026-06-30T13:25:47.338Z: merged sources from (can_you_feel_)〜Most_beautiful_in_the_world〜_(エレキギター弾き語り)-d713203c.md
+- 2026-06-30T13:25:47.338Z: merged sources from (can*you_feel*)〜Most*beautiful_in_the_world〜*(エレキギター弾き語り)-d713203c.md

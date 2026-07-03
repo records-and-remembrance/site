@@ -1,12 +1,12 @@
 ---
 # generated_by: scripts/generate_composition_drafts.ts
-canonical_title: "プリンスとプリンセス (Nursery Rhymes ep4)"
+canonical_title: 'プリンスとプリンセス (Nursery Rhymes ep4)'
 status: reviewed
 composition_id: null
-group_key: "プリンスとプリンセス (nursery rhymes ep4)"
+group_key: 'プリンスとプリンセス (nursery rhymes ep4)'
 aliases:
-  - "プリンスとプリンセス (Nursery Rhymes ep4)"
-  - "プリンスとプリンセス"
+  - 'プリンスとプリンセス (Nursery Rhymes ep4)'
+  - 'プリンスとプリンセス'
 sources:
   - type: release
     file: '2015-10-21-000000.md'
@@ -128,44 +128,39 @@ sources:
     section: 'セットリスト'
     position: 4
     raw_title: 'プリンスとプリンセス (Nursery Rhymes ep4)'
-  -
-    type: live
-    file: "2024-03-08-000000.md"
+  - type: live
+    file: '2024-03-08-000000.md'
     title: "2024-03-08: 門田匡陽 - \\\"Once-in-a-lifetime 2024\\\" at 新代田FEVER"
-    date: "2024-03-08"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-03-08'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 5
-    raw_title: "プリンスとプリンセス (Nursery Rhymes ep4)"
-  -
-    type: live
-    file: "2024-05-12-000000_1.md"
+    raw_title: 'プリンスとプリンセス (Nursery Rhymes ep4)'
+  - type: live
+    file: '2024-05-12-000000_1.md'
     title: "2024-05-12: MONDEN MASAAKI - \\\"新代田環七フェスティバル 2024\\\" at 新代田Live bar crossing"
-    date: "2024-05-12"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-05-12'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 2
-    raw_title: "プリンスとプリンセス (Nursery Rhymes ep4)"
-  -
-    type: live
-    file: "2024-12-25-000000.md"
+    raw_title: 'プリンスとプリンセス (Nursery Rhymes ep4)'
+  - type: live
+    file: '2024-12-25-000000.md'
     title: "2024-12-25: MONDEN MASAAKI (BAND SET) - \\\"chant de Noël 2024\\\" at 新代田FEVER"
-    date: "2024-12-25"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2024-12-25'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 7
-    raw_title: "プリンスとプリンセス (Nursery Rhymes ep4)"
-  -
-    type: live
-    file: "2026-04-27-000000.md"
+    raw_title: 'プリンスとプリンセス (Nursery Rhymes ep4)'
+  - type: live
+    file: '2026-04-27-000000.md'
     title: "2026-04-27: 門田匡陽 - \\\"Now 2\\\" at 下北沢近道"
-    date: "2026-04-27"
-    project: "門田匡陽 (ソロ名義/2020-)"
-    section: "セットリスト"
+    date: '2026-04-27'
+    project: '門田匡陽 (ソロ名義/2020-)'
+    section: 'セットリスト'
     position: 3
-    raw_title: "プリンスとプリンセス"
+    raw_title: 'プリンスとプリンセス'
 ---
-
 
 # プリンスとプリンセス (Nursery Rhymes ep4)
 
