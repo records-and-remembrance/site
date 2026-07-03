@@ -39,7 +39,7 @@ membership ── membership_role ── role
 
 ```mermaid
 erDiagram
-    direction TB
+    direction LR
     person ||--o{ membership : "belongs through"
     project ||--o{ membership : "has members"
     membership ||--o{ membership_role : "has roles"
@@ -327,6 +327,34 @@ Tables:
 `recording` is a specific recorded version of a `composition`. Its `type` is
 required, defaults to `studio`, and is one of `studio`, `live`, `demo`,
 `rehearsal`, or `other`.
+
+`composition.title` identifies the abstract composition. `recording.version_name`
+is the standalone display name of a particular variation and includes enough of
+the composition title to make sense without surrounding context. It is not only
+the qualifier inside parentheses or brackets.
+
+Examples:
+
+- `ANALYZE [Lost Verse(s) ver.]`
+- `Nightmare's Beginning (Acoustic ver.)`
+- `Kireigoto ("あのキラキラした綺麗事を (AGAIN)" rearrange)`
+
+Use a source alias as `version_name` when that alias expresses the full
+variation title. Do not store only `Lost Verse(s) ver.` or `Acoustic ver.`.
+`version_name` does not need to begin with the canonical `composition.title`
+when the source gives the variation a distinct standalone title such as
+`Kireigoto`.
+
+`recording.version_description` stores concise prose about characteristics that
+are not already clear from `version_name`, such as `2018 remix` or a distinctive
+arrangement or vocalist. It should not duplicate the version name, release
+title, provenance, or uncertain annotations. Leave both version fields null
+when the source does not identify a specific variation.
+
+`recording.type` and `version_name` are independent: `type` classifies how the
+recording was made, while `version_name` identifies which variation it is.
+Aliases are evidence for these fields, but proposals must be human-reviewed
+because aliases also contain spelling variants and live-performance notes.
 
 `track` places a `recording` on a `release` with `track_number`.
 

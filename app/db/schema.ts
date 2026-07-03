@@ -228,7 +228,9 @@ export const recording = pgTable(
 		compositionId: uuid('composition_id')
 			.notNull()
 			.references(() => composition.id),
+		/** 楽曲タイトルを含む、単独で意味が通る録音バージョンの表示名 */
 		versionName: text('version_name'),
+		/** バージョン名だけでは表せない録音固有の特徴 */
 		versionDescription: text('version_description'),
 		recordingYear: integer('recording_year'),
 		type: text('type').notNull().default('studio'),

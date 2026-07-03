@@ -125,6 +125,11 @@ bun run scripts/generate_work_seed_sql.ts \
   --output sql/release_tracks_seed.sql
 ```
 
+`recording.version_name` is a standalone variation title that includes the
+composition identity, not only a parenthetical or bracketed qualifier.
+Version proposals derived from composition aliases require human approval
+before updating recordings.
+
 ### Live / Event
 
 Generate live event data:

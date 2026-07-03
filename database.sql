@@ -230,8 +230,8 @@ CREATE TABLE recording (
 );
 
 COMMENT ON TABLE recording IS '録音単位（アレンジ・バージョン）';
-COMMENT ON COLUMN recording.version_name IS '録音バージョンの名称';
-COMMENT ON COLUMN recording.version_description IS '録音バージョンの特徴';
+COMMENT ON COLUMN recording.version_name IS '楽曲タイトルを含む、単独で意味が通る録音バージョンの表示名';
+COMMENT ON COLUMN recording.version_description IS 'バージョン名だけでは表せない録音固有の特徴';
 
 CREATE TABLE track (
     id UUID PRIMARY KEY,
