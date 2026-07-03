@@ -496,6 +496,18 @@ bun run scripts/generate_media_seed_sql.ts \
 Primary source:
 
 - `rawData/articles_by_category/media/`
+- `rawData/monden-magazine.tsv` (雑誌掲載情報。レビュー用JSONを経由し、直接SQL化しない)
+
+Generate the magazine review artifact:
+
+```bash
+bun run review:magazines:generate
+```
+
+This writes `drafts/magazines/monden-magazine.json`. It preserves all six raw
+TSV fields, separates exact and inferred classifications, and keeps uncertain
+or negative publication evidence out of the confirmed set. Month-only dates are
+not coerced to the first day of the month.
 
 Mapping rules:
 

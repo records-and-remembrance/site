@@ -186,6 +186,17 @@ bun run scripts/generate_media_seed_sql.ts \
 
 This represents each media Markdown source file as one `article` row, with `publication` as the durable program/index container and `publication_issue` as the broadcast date, publication date, or synthetic index issue. `article_mention_*` rows are intentionally not generated yet.
 
+Generate the review artifact for the separate magazine TSV:
+
+```bash
+bun run review:magazines:generate
+```
+
+This parses `rawData/monden-magazine.tsv` into
+`drafts/magazines/monden-magazine.json`. It does not generate SQL: uncertain,
+inferred, and negative publication evidence must remain reviewable before a
+later import step.
+
 ### Contribution
 
 Generate contribution data:
