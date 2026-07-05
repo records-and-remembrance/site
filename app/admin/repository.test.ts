@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { PgDialect } from 'drizzle-orm/pg-core';
+import { editorConfigs } from '../admin-client/src/resources';
 import { adminResources, lookupResources } from './types';
 import { createAdminRepository, createRelatedLoaders, joinedResourceDefinitions, lookupDefinitions, resourceTables, simpleResourceDefinitions } from './repository';
 import { createCompositionRelatedLoader } from './repository/compositions/load-related';
@@ -48,6 +49,20 @@ describe('admin repository definitions', () => {
 	test('recording read model exposes editable version metadata', () => {
 		expect(joinedResourceDefinitions.recordings.select['versionName']).toBeTruthy();
 		expect(joinedResourceDefinitions.recordings.select['versionDescription']).toBeTruthy();
+	});
+
+	test('read models expose every editable field', () => {
+		const missingFields: Record<string, string[]> = {};
+
+		for (const resource of adminResources.filter((resource) => resource !== 'article-mentions')) {
+			const definition = simpleResourceDefinitions[resource as keyof typeof simpleResourceDefinitions] ?? joinedResourceDefinitions[resource as keyof typeof joinedResourceDefinitions];
+			const editableFields = editorConfigs[resource].fields.filter((field) => field.type !== 'target').map((field) => field.key);
+			const missing = editableFields.filter((field) => !(field in definition.select));
+
+			if (missing.length > 0) missingFields[resource] = missing;
+		}
+
+		expect(missingFields).toEqual({});
 	});
 
 	test('composition detail exposes recording version metadata', async () => {

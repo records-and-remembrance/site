@@ -283,6 +283,8 @@ export const joinedResourceDefinitions: Record<JoinedAdminResource, ResourceRead
 			format: 'r.format',
 			catalogNumber: 'r.catalog_number',
 			releaseDate: 'r.release_date',
+			editionType: 'r.edition_type',
+			reissueOfReleaseId: 'r.reissue_of_release_id',
 			releaseDatePrecision: 'r.release_date_precision',
 			recordedFrom: 'r.recorded_from',
 			recordedTo: 'r.recorded_to',
