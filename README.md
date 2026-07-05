@@ -294,8 +294,10 @@ bun run db:generate:labels
 
 ### Composition / Recording / Track
 
-レビュー済みの `drafts/compositions/*.md` から `composition` を生成します。
+レビュー済みの `drafts/compositions/*.md` から `composition` と `composition_credit` を生成します。
 対象は `status: reviewed` のみです。
+クレジットは release source のプロジェクトと原資料の表記から解決し、バンド名義は当時のメンバーへ展開します。
+出典がライブだけの楽曲は推測で補完せず、原作者が明記されたカバー曲は必要な人物マスタも生成します。
 
 ```bash
 bun run scripts/generate_composition_seed_sql.ts \

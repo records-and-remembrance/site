@@ -301,6 +301,11 @@ bun run scripts/generate_composition_seed_sql.ts \
   --output sql/composition_seed.sql
 ```
 
+The generator also emits `composition_credit` rows from reviewed draft release
+sources. Collective band credits are expanded to the credited lineup in source
+order. Live-only songs are left uncredited rather than inferred. Writers named
+for sourced cover songs are added to the person seed when needed.
+
 Primary source:
 
 - `drafts/compositions/*.md`

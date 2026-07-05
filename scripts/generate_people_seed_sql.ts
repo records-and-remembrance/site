@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SUPPLEMENTAL_COMPOSITION_CREDIT_PEOPLE } from './lib/compositionCredits';
 import { resolvePersonAlias } from './lib/personAliases';
 
 type SourceArticle = {
@@ -15,7 +16,7 @@ type SourceArticle = {
 	body: string;
 };
 
-type PersonSeed = {
+export type PersonSeed = {
 	name: string;
 	birthDate: string | null;
 	descriptionParts: Set<string>;
@@ -337,6 +338,12 @@ function ensurePerson(people: Map<string, PersonSeed>, name: string): PersonSeed
 	return seed;
 }
 
+export function addCompositionCreditPeople(people: Map<string, PersonSeed>): void {
+	for (const { name, sourceFile } of SUPPLEMENTAL_COMPOSITION_CREDIT_PEOPLE) {
+		ensurePerson(people, name).descriptionParts.add(`source_file=rawData/articles_by_category/release/${sourceFile}`);
+	}
+}
+
 function addRelatedPeople(article: SourceArticle, people: Map<string, PersonSeed>): void {
 	const blocks = article.body.split(/^###\s+/gm).slice(1);
 	for (const block of blocks) {
@@ -589,6 +596,7 @@ async function main(): Promise<void> {
 	for (const article of biographyArticles) {
 		addBiographyMemberships(article, people, memberships);
 	}
+	addCompositionCreditPeople(people);
 
 	const sql = renderSql(people, memberships, biographyArticles);
 	await mkdir(dirname(args.output), { recursive: true });

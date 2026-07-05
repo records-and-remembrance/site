@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { renderSql, type MembershipSeed } from './generate_people_seed_sql';
+import { addCompositionCreditPeople, renderSql, type MembershipSeed } from './generate_people_seed_sql';
 
 describe('renderSql', () => {
 	test('プロジェクトの開始日と終了日を活動期間から出力する', () => {
@@ -58,5 +58,21 @@ describe('renderSql', () => {
 		expect(sql).toContain(", TRUE, 'source_file=test.md')");
 		expect(sql).toContain('support = EXCLUDED.support');
 		expect(sql).not.toContain('support; source_file=test.md');
+	});
+
+	test('人物記事にないBlue Moonの作詞・作曲者を追加する', () => {
+		const people = new Map();
+
+		addCompositionCreditPeople(people);
+		const sql = renderSql(people, [], []);
+
+		expect(sql).toContain("'Richard Rodgers'");
+		expect(sql).toContain("'Lorenz Hart'");
+		expect(sql).toContain("'立花瞳'");
+		expect(sql).toContain("'Bob Telson'");
+		expect(sql).toContain("'松浦雅也'");
+		expect(sql).toContain("'松尾由紀夫'");
+		expect(sql).toContain("'Troy Junius Arnall'");
+		expect(sql).toContain('source_file=rawData/articles_by_category/release/2012-04-14-000001.md');
 	});
 });
