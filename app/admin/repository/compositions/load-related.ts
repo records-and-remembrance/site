@@ -5,7 +5,19 @@ import type { AdminDb, RelatedLoader } from '../types';
 export const createCompositionRelatedLoader =
 	(database: AdminDb): RelatedLoader =>
 	async (compositionId) => {
-		const [recordings, releaseAppearances, eventAppearances] = await Promise.all([
+		const [credits, recordings, releaseAppearances, eventAppearances] = await Promise.all([
+			database
+				.select({
+					id: schema.compositionCredit.id,
+					personId: schema.compositionCredit.personId,
+					personName: schema.person.name,
+					creditType: schema.compositionCredit.creditType,
+					orderIndex: schema.compositionCredit.orderIndex,
+				})
+				.from(schema.compositionCredit)
+				.innerJoin(schema.person, eq(schema.person.id, schema.compositionCredit.personId))
+				.where(eq(schema.compositionCredit.compositionId, compositionId))
+				.orderBy(schema.compositionCredit.creditType, schema.compositionCredit.orderIndex),
 			database
 				.select({
 					id: schema.recording.id,
@@ -59,5 +71,5 @@ export const createCompositionRelatedLoader =
 			})),
 		].sort((left, right) => left.label.localeCompare(right.label, 'ja'));
 
-		return { recordings, appearances };
+		return { credits, recordings, appearances };
 	};

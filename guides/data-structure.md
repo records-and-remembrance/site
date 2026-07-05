@@ -1,7 +1,8 @@
 # Data Structure
 
-This document describes the intended relational data structure in `database.sql`
-and how generated seed data maps into it.
+This document describes the relational data structure defined in
+`app/db/schema.ts` and applied through the migrations under `drizzle/`, and how
+generated seed data maps into it.
 
 ## High-Level Model
 
@@ -13,6 +14,7 @@ The database separates these concepts:
 - `work`: an abstract released work or product concept.
 - `release`: a concrete release/package of a work.
 - `composition`: an abstract song/composition.
+- `composition_credit`: a composer or lyricist credited for a composition.
 - `recording`: a specific recording/version of a composition.
 - `track`: a track position on a release.
 - `event`: a live event/performance date.
@@ -56,6 +58,8 @@ erDiagram
     label ||--o{ label_relation : "is attached through"
 
     composition ||--o{ recording : "is recorded as"
+    composition ||--o{ composition_credit : "has credits"
+    person ||--o{ composition_credit : "is credited"
     composition ||--o| recording_review : "has review state"
     release ||--o{ track : "contains"
     recording ||--o{ track : "appears as"
@@ -270,10 +274,19 @@ Overview:
 
 ## Composition
 
-Table: `composition`
+Tables:
+
+- `composition`
+- `composition_credit`
 
 Represents an abstract song/composition independent of recording, release, or
 performance.
+
+`composition_credit` links a composition to a `person`. `credit_type` is either
+`composer` or `lyricist`, and `order_index` preserves the displayed credit
+order within each type. A person may hold both credit types for the same
+composition, while duplicate people or duplicate positions within one type are
+rejected.
 
 Examples:
 

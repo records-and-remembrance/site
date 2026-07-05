@@ -40,6 +40,37 @@ describe('admin screen configuration', () => {
 		expect(resourceConfigs.contributions.fields.map((field) => field.type)).toContain('target');
 	});
 
+	test('edits ordered composers and lyricists in separate composition sections', () => {
+		const creditRelations = resourceConfigs.compositions.relations?.filter((relation) => relation.resource === 'composition-credits');
+
+		expect(creditRelations).toEqual([
+			expect.objectContaining({
+				key: 'composers',
+				sourceKey: 'credits',
+				label: '作曲者',
+				parentField: 'compositionId',
+				filter: { key: 'creditType', value: 'composer' },
+				defaults: { creditType: 'composer' },
+				defaultSort: 'orderIndex',
+			}),
+			expect.objectContaining({
+				key: 'lyricists',
+				sourceKey: 'credits',
+				label: '作詞者',
+				parentField: 'compositionId',
+				filter: { key: 'creditType', value: 'lyricist' },
+				defaults: { creditType: 'lyricist' },
+				defaultSort: 'orderIndex',
+			}),
+		]);
+		expect(editorConfigs['composition-credits'].fields).toEqual([
+			{ key: 'compositionId', label: '楽曲', type: 'combobox', lookup: 'composition', required: true },
+			{ key: 'personId', label: '人物', type: 'combobox', lookup: 'person', required: true },
+			expect.objectContaining({ key: 'creditType', type: 'select', required: true }),
+			{ key: 'orderIndex', label: '表示順', type: 'number', required: true },
+		]);
+	});
+
 	test('provides human-readable lookups for every target type', () => {
 		expect(['work', 'event', 'person']).toEqual(expect.arrayContaining(['work', 'event', 'person']));
 	});

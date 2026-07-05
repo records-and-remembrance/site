@@ -7,6 +7,7 @@ export type EditorResource =
 	| 'memberships'
 	| 'membership-roles'
 	| 'work-projects'
+	| 'composition-credits'
 	| 'releases'
 	| 'label-relations'
 	| 'recordings'
@@ -436,6 +437,46 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 		fields: [{ key: 'title', label: 'タイトル', type: 'text', required: true, span: 2 }, descriptionField],
 		relations: [
 			{
+				key: 'composers',
+				sourceKey: 'credits',
+				label: '作曲者',
+				resource: 'composition-credits',
+				detailTarget: {
+					resource: 'people',
+					idKey: 'personId',
+					columnKey: 'personName',
+				},
+				parentField: 'compositionId',
+				filter: { key: 'creditType', value: 'composer' },
+				defaults: { creditType: 'composer' },
+				defaultSort: 'orderIndex',
+				defaultDirection: 'asc',
+				columns: [
+					{ key: 'orderIndex', label: '#', kind: 'number' },
+					{ key: 'personName', label: '人物' },
+				],
+			},
+			{
+				key: 'lyricists',
+				sourceKey: 'credits',
+				label: '作詞者',
+				resource: 'composition-credits',
+				detailTarget: {
+					resource: 'people',
+					idKey: 'personId',
+					columnKey: 'personName',
+				},
+				parentField: 'compositionId',
+				filter: { key: 'creditType', value: 'lyricist' },
+				defaults: { creditType: 'lyricist' },
+				defaultSort: 'orderIndex',
+				defaultDirection: 'asc',
+				columns: [
+					{ key: 'orderIndex', label: '#', kind: 'number' },
+					{ key: 'personName', label: '人物' },
+				],
+			},
+			{
 				key: 'recordings',
 				label: '録音',
 				resource: 'recordings',
@@ -694,6 +735,28 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 					{ value: 'participant', label: '参加アーティスト' },
 				],
 			},
+		],
+	},
+	'composition-credits': {
+		title: 'Composition credits',
+		singular: '楽曲クレジット',
+		description: '',
+		defaultSort: 'orderIndex',
+		columns: [],
+		fields: [
+			{ key: 'compositionId', label: '楽曲', type: 'combobox', lookup: 'composition', required: true },
+			{ key: 'personId', label: '人物', type: 'combobox', lookup: 'person', required: true },
+			{
+				key: 'creditType',
+				label: '種別',
+				type: 'select',
+				required: true,
+				options: [
+					{ value: 'composer', label: '作曲' },
+					{ value: 'lyricist', label: '作詞' },
+				],
+			},
+			{ key: 'orderIndex', label: '表示順', type: 'number', required: true },
 		],
 	},
 	releases: {

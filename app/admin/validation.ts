@@ -65,6 +65,13 @@ const composition = z.strictObject({
 	description: nullableText,
 });
 
+const compositionCredit = z.strictObject({
+	compositionId: uuid,
+	personId: uuid,
+	creditType: z.enum(['composer', 'lyricist']),
+	orderIndex: positiveInteger,
+});
+
 const article = z.strictObject({
 	publicationIssueId: nullableUuid,
 	title: requiredText,
@@ -204,6 +211,7 @@ export const resourceSchemas: Record<AdminResource, z.ZodObject | z.ZodPipe> = {
 	'work-projects': workProject,
 	events: event,
 	compositions: composition,
+	'composition-credits': compositionCredit,
 	articles: article,
 	contributions: contribution,
 	memberships: membership,

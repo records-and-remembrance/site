@@ -5,6 +5,7 @@ export const adminResources = [
 	'work-projects',
 	'events',
 	'compositions',
+	'composition-credits',
 	'articles',
 	'contributions',
 	'memberships',

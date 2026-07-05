@@ -46,11 +46,11 @@ DB tables and raw data categories that exist but are not fully covered by seed-g
 
 ## Medium Priority
 
-- [~] Introduce Drizzle as the typed DB layer.
-  - Add `app/db/schema.ts` mirroring `database.sql`.
+- [x] Introduce Drizzle as the typed DB layer and migration owner.
+  - Add `app/db/schema.ts` as the schema source of truth.
   - Add `drizzle.config.ts`.
   - Add generated initial Drizzle migrations under `drizzle/`.
-  - Keep `database.sql` as bootstrap source until migration ownership is explicitly moved.
+  - Initialize and update databases through Drizzle migrations.
   - Decide later whether seed generators should emit SQL files, execute through Drizzle, or support both.
 
 - [x] Expand `role` / `instrument` vocabulary for contributions.

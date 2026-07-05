@@ -105,6 +105,50 @@ describe('admin API', () => {
 		expect(rejected.status).toBe(400);
 	});
 
+	test('accepts ordered composer and lyricist credits for a composition', async () => {
+		const repository = new FakeRepository();
+		const app = testApp(repository);
+		const compositionId = '00000000-0000-4000-8000-000000000002';
+		const personId = '00000000-0000-4000-8000-000000000003';
+
+		for (const creditType of ['composer', 'lyricist']) {
+			const response = await app.request('/api/admin/composition-credits', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ compositionId, personId, creditType, orderIndex: 1 }),
+			});
+
+			expect(response.status).toBe(201);
+		}
+
+		expect(repository.calls.map((call) => call.value)).toEqual([
+			{ id: generatedId, compositionId, personId, creditType: 'composer', orderIndex: 1 },
+			{ id: generatedId, compositionId, personId, creditType: 'lyricist', orderIndex: 1 },
+		]);
+	});
+
+	test('rejects unsupported composition credit types and non-positive order', async () => {
+		const app = testApp(new FakeRepository());
+		const base = {
+			compositionId: '00000000-0000-4000-8000-000000000002',
+			personId: '00000000-0000-4000-8000-000000000003',
+		};
+
+		const invalidType = await app.request('/api/admin/composition-credits', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ ...base, creditType: 'arranger', orderIndex: 1 }),
+		});
+		const invalidOrder = await app.request('/api/admin/composition-credits', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ ...base, creditType: 'composer', orderIndex: 0 }),
+		});
+
+		expect(invalidType.status).toBe(400);
+		expect(invalidOrder.status).toBe(400);
+	});
+
 	test('uses the platform UUID generator when no generator is injected', async () => {
 		const repository = new FakeRepository();
 		const app = new Hono();

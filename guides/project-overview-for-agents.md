@@ -4,7 +4,9 @@ This repository builds a structured PostgreSQL database from Markdown source dat
 
 ## Purpose
 
-The main goal is to convert semi-structured Markdown files under `rawData/articles_by_category/` into normalized relational data defined by `database.sql`.
+The main goal is to convert semi-structured Markdown files under
+`rawData/articles_by_category/` into normalized relational data defined by
+`app/db/schema.ts` and the migrations under `drizzle/`.
 
 The current pipeline is intentionally incremental:
 
@@ -51,9 +53,10 @@ The current pipeline is intentionally incremental:
 
 ## Core Schema
 
-Defined in `database.sql`.
-
-`app/db/schema.ts` mirrors the current PostgreSQL schema for typed Drizzle access. `drizzle/` contains generated migrations for future Drizzle-managed databases. At this stage, `database.sql` remains the Docker bootstrap source; do not run Drizzle migrations against a database already initialized from `database.sql`.
+`app/db/schema.ts` is the schema source of truth for typed Drizzle access.
+`drizzle/` contains the migration history used to initialize and update every
+database. Run `bun run db:setup` to start the local PostgreSQL container and
+apply pending migrations.
 
 PostgreSQL comments are mirrored in `app/db/schema.ts` as TSDoc comments. Drizzle Kit does not consume those comments, so comment DDL must remain in custom migrations.
 
@@ -332,7 +335,8 @@ Drizzle Kit metadata can be checked with:
 bun run db:check
 ```
 
-`bun run db:migrate` intentionally requires `DRIZZLE_DATABASE_URL`; do not point it at the Docker database initialized from `database.sql`.
+`bun run db:migrate` applies pending migrations to `DATABASE_URL`, or to the
+default local Docker URL when the variable is unset.
 
 ## Docker Notes
 

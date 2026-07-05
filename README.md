@@ -4,13 +4,14 @@
 
 ## Setup
 
-PostgreSQL は Docker Compose で起動します。
+PostgreSQL の起動と Drizzle migration の適用をまとめて実行します。
 
 ```bash
-docker compose up -d
+bun run db:setup
 ```
 
-初回起動時に `database.sql` が読み込まれ、schema が作成されます。
+`db:setup` は PostgreSQL の起動完了を待ってから、`drizzle/` の
+migration を適用します。
 
 接続情報:
 
@@ -42,7 +43,8 @@ Generated Drizzle migrations live in:
 drizzle/
 ```
 
-For now, `database.sql` remains the Docker bootstrap source. Use Drizzle as the typed access layer and schema mirror first. The checked-in Drizzle migrations are for future Drizzle-managed databases; do not run `db:migrate` against a database that was already initialized from `database.sql`.
+`app/db/schema.ts` is the schema source of truth. Generate and commit migrations
+under `drizzle/`, and use them to initialize and update databases.
 
 PostgreSQL comments are mirrored in `app/db/schema.ts` as TSDoc comments, but Drizzle Kit does not generate `COMMENT ON ...` statements from TSDoc. Keep comment DDL in custom migrations.
 
@@ -64,13 +66,11 @@ Generate a migration after changing `app/db/schema.ts`:
 bun run db:generate
 ```
 
-Apply migrations only to a fresh Drizzle-managed database:
+Apply pending migrations:
 
 ```bash
-DRIZZLE_DATABASE_URL=postgres://... bun run db:migrate
+bun run db:migrate
 ```
-
-`db:migrate` intentionally requires `DRIZZLE_DATABASE_URL` so it is not accidentally run against the Docker database that was initialized from `database.sql`.
 
 The default connection URL is:
 
@@ -79,6 +79,17 @@ postgres://monden:monden@localhost:5432/monden
 ```
 
 Set `DATABASE_URL` to override it.
+
+### Migrating from the former `database.sql` bootstrap
+
+A Docker volume initialized by the former `database.sql` flow has no Drizzle
+migration history. Back up any local data that must be retained, then recreate
+the local volume once before running the new setup:
+
+```bash
+docker compose down -v
+bun run db:setup
+```
 
 ## Frontend Admin
 
@@ -89,11 +100,11 @@ guides/frontend-admin-requirements.md
 guides/frontend-admin-todo.md
 ```
 
-Install dependencies and start PostgreSQL before launching the admin:
+Install dependencies and set up PostgreSQL before launching the admin:
 
 ```bash
 bun install
-docker compose up -d
+bun run db:setup
 bun run admin:dev
 ```
 

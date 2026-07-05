@@ -1,6 +1,6 @@
 import { defineConfig } from 'drizzle-kit';
 
-const databaseUrl = process.env.DRIZZLE_DATABASE_URL ?? process.env.DATABASE_URL ?? 'postgres://monden:monden@localhost:5432/monden';
+const databaseUrl = process.env.DATABASE_URL ?? process.env.DRIZZLE_DATABASE_URL ?? 'postgres://monden:monden@localhost:5432/monden';
 
 export default defineConfig({
 	out: './drizzle',

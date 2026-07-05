@@ -211,6 +211,28 @@ export const composition = pgTable(
 	(table) => [unique('composition_title_unique').on(table.title)],
 );
 
+/** 楽曲の作曲者・作詞者クレジット */
+export const compositionCredit = pgTable(
+	'composition_credit',
+	{
+		id: uuid('id').primaryKey(),
+		compositionId: uuid('composition_id')
+			.notNull()
+			.references(() => composition.id, { onDelete: 'cascade' }),
+		personId: uuid('person_id')
+			.notNull()
+			.references(() => person.id),
+		creditType: text('credit_type').notNull(),
+		orderIndex: integer('order_index').notNull(),
+	},
+	(table) => [
+		unique('composition_credit_person_type_unique').on(table.compositionId, table.personId, table.creditType),
+		unique('composition_credit_order_unique').on(table.compositionId, table.creditType, table.orderIndex),
+		check('composition_credit_type_check', sql`${table.creditType} IN ('composer', 'lyricist')`),
+		check('composition_credit_order_index_check', sql`${table.orderIndex} > 0`),
+	],
+);
+
 /** 楽曲ごとの録音割り当てレビュー状態 */
 export const recordingReview = pgTable('recording_review', {
 	compositionId: uuid('composition_id')
