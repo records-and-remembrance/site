@@ -44,6 +44,7 @@ describe('admin repository definitions', () => {
 		expect(joinedResourceDefinitions.contributions.select['personName']).toBeTruthy();
 		expect(joinedResourceDefinitions.contributions.select['roleName']).toBeTruthy();
 		expect(joinedResourceDefinitions.articles.select['publicationName']).toBeTruthy();
+		expect(joinedResourceDefinitions.tracks.select['recordingName']).toBeTruthy();
 	});
 
 	test('recording read model exposes editable version metadata', () => {

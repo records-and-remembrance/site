@@ -27,6 +27,8 @@ interface LookupDefinition {
 }
 
 const raw = (value: string) => sql.raw(value);
+const recordingLabel = (recordingAlias: string, compositionAlias: string) =>
+	`coalesce(nullif(${recordingAlias}.version_name, ''), ${compositionAlias}.title || coalesce(' (' || ${recordingAlias}.type || ')', ''))`;
 const joinedResource = (from: string, select: Record<string, string>, searchColumns: string[], sortColumns: Record<string, string>, defaultSort: string): ResourceReadDefinition => ({
 	from: raw(from),
 	select: Object.fromEntries(Object.entries(select).map(([key, value]) => [key, raw(value)])),
@@ -337,6 +339,7 @@ export const joinedResourceDefinitions: Record<JoinedAdminResource, ResourceRead
 			releaseId: 't.release_id',
 			releaseName: "w.title || ' (' || rel.format || ')'",
 			recordingId: 't.recording_id',
+			recordingName: recordingLabel('rec', 'c'),
 			compositionTitle: 'c.title',
 			trackNumber: 't.track_number',
 			recordedDate: 't.recorded_date',
@@ -405,14 +408,7 @@ export const lookupDefinitions: Record<LookupResource, LookupDefinition> = {
 	composition: lookup(schema.composition, 'composition c', 'c.id', 'c.title', ['c.title'], 'c.description'),
 	work: lookup(schema.work, 'work w join project p on p.id = w.project_id', 'w.id', "w.title || ' — ' || p.name", ['w.title', 'p.name'], 'p.name'),
 	release: lookup(schema.release, 'release r join work w on w.id = r.work_id', 'r.id', "w.title || ' (' || r.format || ')'", ['w.title', 'r.format', 'r.catalog_number'], 'r.catalog_number'),
-	recording: lookup(
-		schema.recording,
-		'recording r join composition c on c.id = r.composition_id',
-		'r.id',
-		"c.title || coalesce(' (' || r.type || ')', '')",
-		['c.title', 'r.type', 'r.notes'],
-		'r.notes',
-	),
+	recording: lookup(schema.recording, 'recording r join composition c on c.id = r.composition_id', 'r.id', recordingLabel('r', 'c'), ['r.version_name', 'c.title', 'r.type', 'r.notes'], 'r.notes'),
 	event: lookup(
 		schema.event,
 		'event e join project p on p.id = e.project_id',
