@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
-import type { MagazineReviewListRecord } from '../../magazine-review/types';
-import { filterMagazineReviewRecords, nextPendingMagazineRecord } from './magazine-review-state';
+import type { MagazineReviewListRecord } from '../../../../magazine-review/types';
+import { filterMagazineReviewRecords, nextPendingMagazineRecord } from './state';
 
 function record(
 	sourceKey: string,

@@ -1,5 +1,5 @@
-import type { HumanReviewStatus, MagazineReviewListRecord } from '../../magazine-review/types';
-import type { ReviewStatus } from '../../../scripts/lib/magazineTsv';
+import type { HumanReviewStatus, MagazineReviewListRecord } from '../../../../magazine-review/types';
+import type { ReviewStatus } from '../../../../../scripts/lib/magazineTsv';
 
 export interface MagazineReviewFilter {
 	search: string;

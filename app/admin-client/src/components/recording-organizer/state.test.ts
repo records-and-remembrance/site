@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
-import { completeSourceRecordingIds, nextPendingCompositionId, splitSourceRecording } from './recording-organizer-state';
-import type { RecordingOrganizerDetail, RecordingOrganizerListItem } from '../../recording-organizer/types';
+import type { RecordingOrganizerDetail, RecordingOrganizerListItem } from '../../../../recording-organizer/types';
+import { completeSourceRecordingIds, nextPendingCompositionId, splitSourceRecording } from './state';
 
 const detail: RecordingOrganizerDetail = {
 	id: 'composition',

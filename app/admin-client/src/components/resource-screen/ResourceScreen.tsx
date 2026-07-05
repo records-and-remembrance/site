@@ -2,11 +2,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from 'react-aria-components';
-import { getRecord } from './api';
-import { ResourceDetailPanel, type ResourceEditorState } from './components/ResourceDetailPanel';
-import { ResourceTable } from './components/ResourceTable';
-import { EditorDialog } from './EditorDialog';
-import { resourceConfigs, type DetailTarget, type EditorResource, type MainResource } from './resources';
+import { getRecord } from '../../api';
+import { resourceConfigs, type DetailTarget, type EditorResource, type MainResource } from '../../resources';
+import { EditorDialog } from '../editor-dialog/EditorDialog';
+import { ResourceDetailPanel, type ResourceEditorState } from './ResourceDetailPanel';
+import { ResourceTable } from './ResourceTable';
 
 export function ResourceScreen({
 	resource,

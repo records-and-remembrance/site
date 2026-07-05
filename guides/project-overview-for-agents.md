@@ -31,8 +31,14 @@ The current pipeline is intentionally incremental:
   This directory is ignored by git via `sql/*`.
 
 - `app/`
-  Hono review UI for composition drafts.
+  Hono APIs and the React admin/review UI.
   Drizzle schema and database access helpers live under `app/db/`.
+
+- `app/admin-client/src/components/`
+  Admin UI code grouped by screen component. Each screen directory keeps its
+  component, API adapter, state helpers, and tests together. Shared API,
+  navigation, resource configuration, styles, and the application entry point
+  remain directly under `app/admin-client/src/`.
 
 - `guides/`
   Human/agent-facing guidance documents.

@@ -2,9 +2,9 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle, Pencil, Plus, Settings2, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button, Dialog, Modal, ModalOverlay, Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
-import { listRecords } from './api';
-import { EditorDialog } from './EditorDialog';
-import { editorConfigs, masterResources, type EditorResource } from './resources';
+import { listRecords } from '../../api';
+import { editorConfigs, masterResources, type EditorResource } from '../../resources';
+import { EditorDialog } from '../editor-dialog/EditorDialog';
 
 export function MasterManager({ onClose }: { onClose: () => void }) {
 	const queryClient = useQueryClient();

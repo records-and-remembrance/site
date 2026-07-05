@@ -1,5 +1,5 @@
-import type { MagazineReviewDataset, MagazineReviewDecision, MagazineReviewDecisionInput } from '../../magazine-review/types';
-import { request } from './api';
+import type { MagazineReviewDataset, MagazineReviewDecision, MagazineReviewDecisionInput } from '../../../../magazine-review/types';
+import { request } from '../../api';
 
 export async function getMagazineReviewDataset(): Promise<MagazineReviewDataset> {
 	const response = await request<{ data: MagazineReviewDataset }>('/api/magazine-review');

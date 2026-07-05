@@ -2,12 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Check, CircleAlert, GitMerge, LoaderCircle, Pencil, Scissors, Search, X } from 'lucide-react';
 import { useDeferredValue, useState } from 'react';
 import { Button, Cell, Checkbox, Column, Dialog, Heading, Input, Modal, ModalOverlay, Row, SearchField, Table, TableBody, TableHeader, type Selection } from 'react-aria-components';
-import type { RecordingType } from '../../recording/types';
-import type { RecordingGroup, RecordingMetadata, RecordingOrganizerDetail } from '../../recording-organizer/types';
-import { AdminApiError } from './api';
-import { getOrganizerComposition, listOrganizerCompositions, mergeOrganizerRecordings, reviewOrganizerComposition, splitOrganizerRecording, updateOrganizerRecording } from './recording-organizer-api';
-import { completeSourceRecordingIds, nextPendingCompositionId, splitSourceRecording } from './recording-organizer-state';
-import { recordingTypeOptions } from './resources';
+import type { RecordingType } from '../../../../recording/types';
+import type { RecordingGroup, RecordingMetadata, RecordingOrganizerDetail } from '../../../../recording-organizer/types';
+import { AdminApiError } from '../../api';
+import { recordingTypeOptions } from '../../resources';
+import { getOrganizerComposition, listOrganizerCompositions, mergeOrganizerRecordings, reviewOrganizerComposition, splitOrganizerRecording, updateOrganizerRecording } from './api';
+import { completeSourceRecordingIds, nextPendingCompositionId, splitSourceRecording } from './state';
 
 type ReviewFilter = 'pending' | 'reviewed' | 'all';
 

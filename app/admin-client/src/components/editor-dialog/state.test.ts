@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
-import { buildInitialValues, buildPayload, hasUnsavedChanges, withParentValue } from './form-state';
-import { editorConfigs } from './resources';
+import { editorConfigs } from '../../resources';
+import { buildInitialValues, buildPayload, hasUnsavedChanges, withParentValue } from './state';
 
 describe('admin form state', () => {
 	test('normalizes database nulls and checkbox values for editing', () => {

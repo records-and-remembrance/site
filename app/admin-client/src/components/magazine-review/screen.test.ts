@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test';
 
 test('provides an accessible magazine review workspace', async () => {
 	const source = await Bun.file(new URL('./MagazineReviewScreen.tsx', import.meta.url)).text();
-	const styles = await Bun.file(new URL('./styles.css', import.meta.url)).text();
+	const styles = await Bun.file(new URL('../../styles.css', import.meta.url)).text();
 
 	expect(source).toContain('role="list"');
 	expect(source).toContain('onPress={() => selectRecordKey(record.sourceKey)}');

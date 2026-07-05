@@ -1,6 +1,6 @@
 import { LoaderCircle, Pencil, Plus, X } from 'lucide-react';
 import { Button } from 'react-aria-components';
-import { editorConfigs, relationDetailColumnKey, relationDetailTarget, selectRelationRows, type DetailTarget, type EditorResource, type RelationConfig } from '../resources';
+import { editorConfigs, relationDetailColumnKey, relationDetailTarget, selectRelationRows, type DetailTarget, type EditorResource, type RelationConfig } from '../../resources';
 import { CellValue, EmptyState, formatValue, primaryLabel, resolvedDisplayValue } from './ResourceDisplay';
 
 export interface ResourceEditorState {

@@ -26,9 +26,9 @@ import {
 	TextField,
 	TimeField,
 } from 'react-aria-components';
-import { AdminApiError, lookupRecords, saveRecord, type LookupOption } from './api';
-import { buildInitialValues, buildPayload, hasUnsavedChanges, type FormValues } from './form-state';
-import { editorConfigs, type EditorResource, type FieldConfig, type LookupResource } from './resources';
+import { AdminApiError, lookupRecords, saveRecord, type LookupOption } from '../../api';
+import { editorConfigs, type EditorResource, type FieldConfig, type LookupResource } from '../../resources';
+import { buildInitialValues, buildPayload, hasUnsavedChanges, type FormValues } from './state';
 
 interface EditorDialogProps {
 	resource: EditorResource;

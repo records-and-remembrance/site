@@ -1,4 +1,4 @@
-import type { RecordingGroup, RecordingOrganizerDetail, RecordingOrganizerListItem } from '../../recording-organizer/types';
+import type { RecordingGroup, RecordingOrganizerDetail, RecordingOrganizerListItem } from '../../../../recording-organizer/types';
 
 export function completeSourceRecordingIds(detail: RecordingOrganizerDetail, selectedTrackIds: ReadonlySet<string>, targetRecordingId: string): string[] {
 	const target = detail.groups.find((group) => group.id === targetRecordingId);

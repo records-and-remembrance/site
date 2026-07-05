@@ -3,8 +3,8 @@ import { flexRender, getCoreRowModel, useReactTable, type ColumnDef, type Sortin
 import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, CircleAlert, LoaderCircle, Search, X } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
 import { Button, Input, SearchField } from 'react-aria-components';
-import { listRecords } from '../api';
-import { resourceConfigs, type DetailTarget, type MainResource } from '../resources';
+import { listRecords } from '../../api';
+import { resourceConfigs, type DetailTarget, type MainResource } from '../../resources';
 import { CellValue, EmptyState } from './ResourceDisplay';
 
 const EMPTY_RECORDS: Array<Record<string, unknown>> = [];

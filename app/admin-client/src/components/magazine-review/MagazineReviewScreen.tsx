@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, Check, CircleAlert, ExternalLink, FileQuestion, LoaderCircle, Search, X } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
 import { Button, Input, Label, RadioButton, RadioField, RadioGroup, SearchField, TextArea, TextField } from 'react-aria-components';
-import type { HumanReviewDecisionStatus, HumanReviewStatus, MagazineReviewDecisionInput, MagazineReviewListRecord } from '../../magazine-review/types';
-import type { ReviewStatus } from '../../../scripts/lib/magazineTsv';
-import { getMagazineReviewDataset, saveMagazineReviewDecision } from './magazine-review-api';
-import { filterMagazineReviewRecords, nextPendingMagazineRecord } from './magazine-review-state';
+import type { HumanReviewDecisionStatus, HumanReviewStatus, MagazineReviewDecisionInput, MagazineReviewListRecord } from '../../../../magazine-review/types';
+import type { ReviewStatus } from '../../../../../scripts/lib/magazineTsv';
+import { getMagazineReviewDataset, saveMagazineReviewDecision } from './api';
+import { filterMagazineReviewRecords, nextPendingMagazineRecord } from './state';
 
 const parseStatusLabels: Record<ReviewStatus, string> = {
 	confirmed: '確定候補',

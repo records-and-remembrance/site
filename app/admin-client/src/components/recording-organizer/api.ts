@@ -1,5 +1,12 @@
-import type { MergeRecordingsInput, RecordingOrganizerDetail, RecordingOrganizerListItem, RecordingOrganizerListQuery, RecordingMetadata, SplitRecordingInput } from '../../recording-organizer/types';
-import { request, saveRecord } from './api';
+import type {
+	MergeRecordingsInput,
+	RecordingOrganizerDetail,
+	RecordingOrganizerListItem,
+	RecordingOrganizerListQuery,
+	RecordingMetadata,
+	SplitRecordingInput,
+} from '../../../../recording-organizer/types';
+import { request, saveRecord } from '../../api';
 
 interface OrganizerListResponse {
 	data: RecordingOrganizerListItem[];

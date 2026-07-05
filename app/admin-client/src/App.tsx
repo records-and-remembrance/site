@@ -2,9 +2,9 @@ import { BookOpenText, CalendarDays, ChevronRight, CircleUserRound, Database, Di
 import { useQueryStates } from 'nuqs';
 import { lazy, Suspense, useState } from 'react';
 import { Button } from 'react-aria-components';
-import { MasterManager } from './MasterManager';
+import { MasterManager } from './components/master-manager/MasterManager';
 import { adminSearchParams, type AdminSection } from './navigation';
-import { ResourceScreen } from './ResourceScreen';
+import { ResourceScreen } from './components/resource-screen/ResourceScreen';
 import { mainResourceOrder, resourceConfigs, type DetailTarget, type MainResource } from './resources';
 
 const icons = {
@@ -18,12 +18,12 @@ const icons = {
 } satisfies Record<MainResource, typeof CircleUserRound>;
 
 const RecordingOrganizerScreen = lazy(async () => {
-	const module = await import('./RecordingOrganizerScreen');
+	const module = await import('./components/recording-organizer/RecordingOrganizerScreen');
 	return { default: module.RecordingOrganizerScreen };
 });
 
 const MagazineReviewScreen = lazy(async () => {
-	const module = await import('./MagazineReviewScreen');
+	const module = await import('./components/magazine-review/MagazineReviewScreen');
 	return { default: module.MagazineReviewScreen };
 });
 

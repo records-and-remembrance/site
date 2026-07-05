@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ColumnConfig } from '../resources';
+import type { ColumnConfig } from '../../resources';
 
 export function CellValue({ value, column }: { value: unknown; column: ColumnConfig }) {
 	return <span className={column.kind === 'muted' ? 'muted-value' : undefined}>{formatValue(value, column.kind)}</span>;

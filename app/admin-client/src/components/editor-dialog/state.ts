@@ -1,4 +1,4 @@
-import type { FieldConfig } from './resources';
+import type { FieldConfig } from '../../resources';
 
 export type FormValues = Record<string, string | boolean>;
 
