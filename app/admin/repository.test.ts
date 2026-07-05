@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { PgDialect } from 'drizzle-orm/pg-core';
 import { adminResources, lookupResources } from './types';
 import { createAdminRepository, createRelatedLoaders, joinedResourceDefinitions, lookupDefinitions, resourceTables, simpleResourceDefinitions } from './repository';
+import { createCompositionRelatedLoader } from './repository/compositions/load-related';
 
 describe('admin repository definitions', () => {
 	test('separates persistence tables from read models', () => {
@@ -42,6 +43,55 @@ describe('admin repository definitions', () => {
 		expect(joinedResourceDefinitions.contributions.select['personName']).toBeTruthy();
 		expect(joinedResourceDefinitions.contributions.select['roleName']).toBeTruthy();
 		expect(joinedResourceDefinitions.articles.select['publicationName']).toBeTruthy();
+	});
+
+	test('recording read model exposes editable version metadata', () => {
+		expect(joinedResourceDefinitions.recordings.select['versionName']).toBeTruthy();
+		expect(joinedResourceDefinitions.recordings.select['versionDescription']).toBeTruthy();
+	});
+
+	test('composition detail exposes recording version metadata', async () => {
+		const fixture: Record<string, unknown> = {
+			id: '00000000-0000-4000-8000-000000000001',
+			personId: '00000000-0000-4000-8000-000000000002',
+			personName: '門田匡陽',
+			creditType: 'composer',
+			orderIndex: 1,
+			versionName: 'ANALYZE [Lost Verse(s) ver.]',
+			versionDescription: '2018 remix',
+			recordingYear: 2018,
+			type: 'studio',
+			recordedDate: null,
+			recordedFrom: null,
+			recordedTo: null,
+			releaseDate: null,
+			notes: null,
+			title: 'BEST',
+			format: 'CD',
+			eventName: 'Test event',
+			eventDate: '2018-01-01',
+		};
+		const database = {
+			select(selection: Record<string, unknown>) {
+				const row = Object.fromEntries(Object.keys(selection).map((key) => [key, fixture[key]]));
+				const builder = Object.assign(Promise.resolve([row]), {
+					from: () => builder,
+					innerJoin: () => builder,
+					where: () => builder,
+					orderBy: () => builder,
+				});
+				return builder;
+			},
+		};
+
+		const related = await createCompositionRelatedLoader(database as never)('00000000-0000-4000-8000-000000000003');
+
+		expect(related['recordings']).toEqual([
+			expect.objectContaining({
+				versionName: 'ANALYZE [Lost Verse(s) ver.]',
+				versionDescription: '2018 remix',
+			}),
+		]);
 	});
 
 	test('defines dedicated loaders only for resources with related detail data', () => {

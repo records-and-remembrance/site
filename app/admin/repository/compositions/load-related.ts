@@ -21,6 +21,8 @@ export const createCompositionRelatedLoader =
 			database
 				.select({
 					id: schema.recording.id,
+					versionName: schema.recording.versionName,
+					versionDescription: schema.recording.versionDescription,
 					recordingYear: schema.recording.recordingYear,
 					type: schema.recording.type,
 					recordedDate: schema.recording.recordedDate,
