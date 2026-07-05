@@ -197,6 +197,11 @@ This parses `rawData/monden-magazine.tsv` into
 inferred, and negative publication evidence must remain reviewable before a
 later import step.
 
+Review the artifact in the admin client with `bun run admin:dev`, then open
+`/admin/?resource=magazine-review`. Human decisions are stored separately in
+`drafts/magazines/monden-magazine-decisions.json`; regenerating the artifact
+does not overwrite them.
+
 ### Contribution
 
 Generate contribution data:

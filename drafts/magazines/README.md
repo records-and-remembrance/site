@@ -12,6 +12,21 @@ bun run review:magazines:generate
 
 - `monden-magazine.json`
 
+## レビュー画面
+
+```bash
+bun run admin:dev
+```
+
+`http://localhost:5173/admin/?resource=magazine-review` を開くと、媒体名・号数・
+掲載内容の検索、機械判定と人手判定による絞り込み、原文と構造化候補の比較が
+できます。
+
+人手判定は `approved`（承認）、`needs_changes`（要修正）、`excluded`（対象外）
+の3種類です。判定と確認メモは `monden-magazine-decisions.json` に保存され、
+生成物の `monden-magazine.json` は変更しません。未保存のレコードは
+`pending`（未確認）として表示します。
+
 ## Review status
 
 - `confirmed`: 分類と掲載情報に未確定表現がない

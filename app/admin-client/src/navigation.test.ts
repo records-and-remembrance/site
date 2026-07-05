@@ -5,6 +5,7 @@ describe('admin navigation query parsers', () => {
 	test('accepts configured main resources', () => {
 		expect(adminSearchParams.resource.parse('works')).toBe('works');
 		expect(adminSearchParams.resource.parse('recording-organizer')).toBe('recording-organizer');
+		expect(adminSearchParams.resource.parse('magazine-review')).toBe('magazine-review');
 		expect(adminSearchParams.resource.parse('unknown')).toBeNull();
 	});
 

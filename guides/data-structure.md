@@ -509,6 +509,12 @@ TSV fields, separates exact and inferred classifications, and keeps uncertain
 or negative publication evidence out of the confirmed set. Month-only dates are
 not coerced to the first day of the month.
 
+The admin route `/admin/?resource=magazine-review` reads this artifact through
+`GET /api/magazine-review`. Human decisions are written by
+`PUT /api/magazine-review/records/:sourceKey/decision` to
+`drafts/magazines/monden-magazine-decisions.json`, keeping parser output and
+reviewer input separate.
+
 Mapping rules:
 
 - `publication` is the durable container: radio program, TV program/special,

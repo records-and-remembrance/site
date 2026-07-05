@@ -12,6 +12,9 @@ import { listDrafts, mergeDraft, readDraft, saveDraft, validateMergePayload, val
 import { createRecordingOrganizerRepository } from './recording-organizer/repository';
 import { createRecordingOrganizerRoutes } from './recording-organizer/routes';
 import type { RecordingOrganizerRepository } from './recording-organizer/types';
+import { createMagazineReviewRepository } from './magazine-review/repository';
+import { createMagazineReviewRoutes } from './magazine-review/routes';
+import type { MagazineReviewRepository } from './magazine-review/types';
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const PUBLIC_DIR = join(ROOT, 'app', 'public');
@@ -19,12 +22,19 @@ const PUBLIC_DIR = join(ROOT, 'app', 'public');
 interface AppOptions {
 	adminRepository?: AdminRepository;
 	recordingOrganizerRepository?: RecordingOrganizerRepository;
+	magazineReviewRepository?: MagazineReviewRepository;
 }
 
 export function createApp(options: AppOptions = {}) {
 	const app = new Hono();
 	const adminRepository = options.adminRepository ?? createAdminRepository(db);
 	const recordingOrganizerRepository = options.recordingOrganizerRepository ?? createRecordingOrganizerRepository(db);
+	const magazineReviewRepository =
+		options.magazineReviewRepository ??
+		createMagazineReviewRepository({
+			artifactPath: join(ROOT, 'drafts', 'magazines', 'monden-magazine.json'),
+			decisionsPath: join(ROOT, 'drafts', 'magazines', 'monden-magazine-decisions.json'),
+		});
 
 	app.get('/', async (c) => {
 		return c.html(await readPublicFile('index.html'));
@@ -63,6 +73,7 @@ export function createApp(options: AppOptions = {}) {
 
 	app.route('/api/admin', createAdminRoutes(adminRepository));
 	app.route('/api/recording-organizer', createRecordingOrganizerRoutes(recordingOrganizerRepository));
+	app.route('/api/magazine-review', createMagazineReviewRoutes(magazineReviewRepository));
 
 	app.notFound((c) => c.json({ error: 'not found' }, 404));
 
@@ -88,4 +99,5 @@ if (import.meta.main) {
 	console.log(`Composition draft review UI: http://localhost:${port}`);
 	console.log(`Admin API: http://localhost:${port}/api/admin`);
 	console.log(`Recording organizer API: http://localhost:${port}/api/recording-organizer`);
+	console.log(`Magazine review API: http://localhost:${port}/api/magazine-review`);
 }

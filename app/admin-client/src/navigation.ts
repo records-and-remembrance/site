@@ -2,7 +2,7 @@ import { parseAsString, parseAsStringLiteral } from 'nuqs';
 import { editorConfigs, mainResourceOrder, type EditorResource } from './resources';
 
 const editorResourceOrder = Object.keys(editorConfigs) as EditorResource[];
-export const adminSectionOrder = [...mainResourceOrder, 'recording-organizer'] as const;
+export const adminSectionOrder = [...mainResourceOrder, 'recording-organizer', 'magazine-review'] as const;
 export type AdminSection = (typeof adminSectionOrder)[number];
 
 export const adminSearchParams = {
