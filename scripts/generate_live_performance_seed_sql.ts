@@ -5,7 +5,7 @@ import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-type SourceArticle = {
+export type SourceArticle = {
 	path: string;
 	name: string;
 	title: string;
@@ -14,10 +14,11 @@ type SourceArticle = {
 	body: string;
 };
 
-type SetlistItem = {
+export type SetlistItem = {
 	orderIndex: number;
 	rawTitle: string;
 	cleanedTitle: string;
+	identityTitle: string;
 	section: string;
 	encore: boolean;
 };
@@ -173,11 +174,34 @@ function stripMarkdown(value: string): string {
 		.trim();
 }
 
-function cleanTitle(value: string): string {
+function legacyCleanTitle(value: string): string {
 	return stripMarkdown(value)
 		.replace(/\s+【[^】]+のみ収録】$/u, '')
 		.replace(/\s+\(bonus track\)$/i, '')
 		.trim();
+}
+
+function cleanTitle(value: string): string {
+	return legacyCleanTitle(value)
+		.replace(/\s+encore(?:\s+(?:break|mc))?(?:\s*→\s*mc)?$/i, '')
+		.replace(/\s+\(encore\)$/i, '')
+		.trim();
+}
+
+function isEncoreBreak(value: string): boolean {
+	const normalized = stripMarkdown(value)
+		.replace(/^[【([]\s*/u, '')
+		.replace(/\s*[】)]$/u, '')
+		.trim();
+	return /^(?:encore(?:\s+(?:break|mc))?(?:\s*→\s*mc)?|アンコール)$/i.test(normalized);
+}
+
+function splitTrailingEncoreBreak(value: string): { title: string; hasBreak: boolean } {
+	const breakMatch = value.match(/^(.*)<br\s*\/?>\s*(.+)$/i);
+	if (!breakMatch || !isEncoreBreak(breakMatch[2]!)) {
+		return { title: value, hasBreak: false };
+	}
+	return { title: breakMatch[1]!.trimEnd(), hasBreak: true };
 }
 
 function isIgnorableTitle(value: string): boolean {
@@ -185,30 +209,38 @@ function isIgnorableTitle(value: string): boolean {
 	return normalized.length === 0 || normalized === '不明' || normalized === 'unknown' || normalized === 'se' || normalized === '【encore break】' || normalized === 'encore break';
 }
 
-function parseSetlist(source: SourceArticle): SetlistItem[] {
+export function parseSetlist(source: SourceArticle): SetlistItem[] {
 	const sections = parseSections(source.body);
 	const items: SetlistItem[] = [];
 
 	for (const [section, content] of Object.entries(sections)) {
 		if (!section.startsWith('セットリスト')) continue;
-		const encore = /encore|アンコール/i.test(section);
+		let afterEncoreBreak = /encore|アンコール/i.test(section);
 
 		for (const rawLine of content.split(/\r?\n/)) {
 			const line = rawLine.trimEnd();
+			if (isEncoreBreak(line)) {
+				afterEncoreBreak = true;
+				continue;
+			}
+
 			const ordered = line.match(/^\s*(\d+)[.)]\s+(.+)$/);
 			const bullet = line.match(/^[-*]\s+(.+)$/);
 			if (!ordered && !bullet) continue;
 
 			const rawTitle = (ordered?.[2] ?? bullet?.[1] ?? '').trim();
-			if (isIgnorableTitle(rawTitle)) continue;
+			const { title, hasBreak } = splitTrailingEncoreBreak(rawTitle);
+			if (isIgnorableTitle(title)) continue;
 
 			items.push({
 				orderIndex: items.length + 1,
 				rawTitle,
-				cleanedTitle: cleanTitle(rawTitle),
+				cleanedTitle: cleanTitle(title),
+				identityTitle: legacyCleanTitle(rawTitle),
 				section,
-				encore,
+				encore: afterEncoreBreak || /\(encore\)\s*$/i.test(rawTitle),
 			});
+			if (hasBreak) afterEncoreBreak = true;
 		}
 	}
 
@@ -268,12 +300,12 @@ function extractDraftBlock(frontMatter: string, key: string): string {
 	return block.join('\n').replace(/\s+$/u, '');
 }
 
-function sourceEntries(sourcesYaml: string): string[] {
+export function sourceEntries(sourcesYaml: string): string[] {
 	const entries: string[] = [];
 	let current: string[] = [];
 
 	for (const line of sourcesYaml.split(/\r?\n/)) {
-		if (/^\s*-\s*$/.test(line)) {
+		if (/^\s*-\s+/.test(line) || /^\s*-\s*$/.test(line)) {
 			if (current.length > 0) entries.push(current.join('\n'));
 			current = [line];
 			continue;
@@ -287,7 +319,7 @@ function sourceEntries(sourcesYaml: string): string[] {
 
 function extractSourceField(sourceEntry: string, key: string): string | null {
 	const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-	const match = sourceEntry.match(new RegExp(`^\\s*${escaped}:\\s*(.*)$`, 'm'));
+	const match = sourceEntry.match(new RegExp(`^\\s*(?:-\\s*)?${escaped}:\\s*(.*)$`, 'm'));
 	return match ? parseYamlScalar(match[1]!) : null;
 }
 
@@ -359,7 +391,7 @@ function renderSql(sources: SourceArticle[], compositionLookup: Map<string, Comp
 				continue;
 			}
 
-			const performanceId = stableUuid('event_performance', `${source.name}:${item.orderIndex}:${item.cleanedTitle}`);
+			const performanceId = stableUuid('event_performance', `${source.name}:${item.orderIndex}:${item.identityTitle}`);
 			const variationNote = item.cleanedTitle === compositionRef.title ? null : item.rawTitle;
 			const notes = [`source_file=${source.name}`, `section=${item.section}`].join('\n');
 			lines.push('INSERT INTO event_performance (id, event_id, composition_id, order_index, encore, variation_note, notes)');
@@ -405,4 +437,6 @@ async function main(): Promise<void> {
 	console.log(`Wrote ${args.output}`);
 }
 
-await main();
+if (import.meta.main) {
+	await main();
+}
