@@ -5,8 +5,10 @@ import { Button, Dialog, Modal, ModalOverlay, Tab, TabList, TabPanel, Tabs } fro
 import { listRecords } from '../../api';
 import { editorConfigs, masterResources, type EditorResource } from '../../resources';
 import { EditorDialog } from '../editor-dialog/EditorDialog';
+import { useCloseOnEscape } from '../overlay/escape-dismissal';
 
 export function MasterManager({ onClose }: { onClose: () => void }) {
+	useCloseOnEscape(onClose);
 	const queryClient = useQueryClient();
 	const [resource, setResource] = useState<EditorResource>(masterResources[0]!.resource);
 	const [editorRecord, setEditorRecord] = useState<Record<string, unknown> | null>();
@@ -25,7 +27,7 @@ export function MasterManager({ onClose }: { onClose: () => void }) {
 
 	return (
 		<>
-			<ModalOverlay isOpen isDismissable className="modal-overlay" onOpenChange={onClose}>
+			<ModalOverlay isOpen isDismissable isKeyboardDismissDisabled className="modal-overlay" onOpenChange={onClose}>
 				<Modal className="master-modal">
 					<Dialog aria-label="マスタデータ管理" className="dialog master-dialog">
 						<header className="dialog-header">

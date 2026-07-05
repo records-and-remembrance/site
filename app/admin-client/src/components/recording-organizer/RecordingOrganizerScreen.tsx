@@ -6,6 +6,7 @@ import type { RecordingType } from '../../../../recording/types';
 import type { RecordingGroup, RecordingMetadata, RecordingOrganizerDetail } from '../../../../recording-organizer/types';
 import { AdminApiError } from '../../api';
 import { recordingTypeOptions } from '../../resources';
+import { useCloseOnEscape } from '../overlay/escape-dismissal';
 import { getOrganizerComposition, listOrganizerCompositions, mergeOrganizerRecordings, reviewOrganizerComposition, splitOrganizerRecording, updateOrganizerRecording } from './api';
 import { completeSourceRecordingIds, nextPendingCompositionId, splitSourceRecording } from './state';
 
@@ -457,11 +458,13 @@ function RecordingGroupCard({
 
 function MetadataDialog({ state, isSaving, onClose, onSave }: { state: MetadataDialogState; isSaving: boolean; onClose: () => void; onSave: (metadata: RecordingMetadata) => void }) {
 	const [metadata, setMetadata] = useState<RecordingMetadata>(() => metadataFromGroup(state.group));
+	useCloseOnEscape(onClose);
 	return (
 		<ModalOverlay
 			className="modal-overlay"
 			isOpen
 			isDismissable={!isSaving}
+			isKeyboardDismissDisabled
 			onOpenChange={(open) => {
 				if (!open) onClose();
 			}}
@@ -509,11 +512,13 @@ function SplitDialog({
 }) {
 	const [metadata, setMetadata] = useState<RecordingMetadata>(() => metadataFromGroup(group));
 	const [contributionIds, setContributionIds] = useState<Set<string>>(() => new Set());
+	useCloseOnEscape(onClose);
 	return (
 		<ModalOverlay
 			className="modal-overlay"
 			isOpen
 			isDismissable={!isSaving}
+			isKeyboardDismissDisabled
 			onOpenChange={(open) => {
 				if (!open) onClose();
 			}}

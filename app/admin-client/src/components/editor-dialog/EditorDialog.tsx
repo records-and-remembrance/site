@@ -28,6 +28,7 @@ import {
 } from 'react-aria-components';
 import { AdminApiError, lookupRecords, saveRecord, type LookupOption } from '../../api';
 import { editorConfigs, type EditorResource, type FieldConfig, type LookupResource } from '../../resources';
+import { useCloseOnEscape } from '../overlay/escape-dismissal';
 import { buildInitialValues, buildPayload, hasUnsavedChanges, type FormValues } from './state';
 
 interface EditorDialogProps {
@@ -64,6 +65,7 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 		}
 		onClose();
 	};
+	useCloseOnEscape(requestClose);
 
 	const setValue = (key: string, value: string | boolean) => {
 		setValues((current) => ({ ...current, [key]: value }));
@@ -73,6 +75,7 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 		<ModalOverlay
 			isOpen
 			isDismissable
+			isKeyboardDismissDisabled
 			className="modal-overlay"
 			onOpenChange={(isOpen) => {
 				if (!isOpen) requestClose();

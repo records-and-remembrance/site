@@ -1,6 +1,7 @@
 import { LoaderCircle, Pencil, Plus, X } from 'lucide-react';
 import { Button } from 'react-aria-components';
 import { editorConfigs, relationDetailColumnKey, relationDetailTarget, selectRelationRows, type DetailTarget, type EditorResource, type RelationConfig } from '../../resources';
+import { useCloseOnEscape } from '../overlay/escape-dismissal';
 import { CellValue, EmptyState, formatValue, primaryLabel, resolvedDisplayValue } from './ResourceDisplay';
 
 export interface ResourceEditorState {
@@ -26,6 +27,7 @@ export function ResourceDetailPanel({
 	onEditRelated: (state: ResourceEditorState) => void;
 	onOpenDetail: (target: DetailTarget) => void;
 }) {
+	useCloseOnEscape(onClose);
 	const config = editorConfigs[resource];
 	const related = (record?.related ?? {}) as Record<string, Array<Record<string, unknown>>>;
 
