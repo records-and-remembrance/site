@@ -863,6 +863,27 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 			{ key: 'releaseDate', label: '公開日', type: 'date' },
 			notesField,
 		],
+		relations: [
+			{
+				key: 'releases',
+				label: '収録リリース',
+				readonly: true,
+				detailTarget: {
+					resource: 'releases',
+					idKey: 'releaseId',
+					columnKey: 'releaseTitle',
+				},
+				defaultSort: 'releaseDate',
+				defaultDirection: 'asc',
+				columns: [
+					{ key: 'releaseTitle', label: '作品' },
+					{ key: 'format', label: '形式' },
+					{ key: 'catalogNumber', label: '品番' },
+					{ key: 'releaseDate', label: '発売日', kind: 'date' },
+					{ key: 'trackNumber', label: '#', kind: 'number' },
+				],
+			},
+		],
 	},
 	tracks: {
 		title: 'Tracks',

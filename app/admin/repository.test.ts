@@ -4,6 +4,7 @@ import { editorConfigs } from '../admin-client/src/resources';
 import { adminResources, lookupResources } from './types';
 import { createAdminRepository, createRelatedLoaders, joinedResourceDefinitions, lookupDefinitions, resourceTables, simpleResourceDefinitions } from './repository';
 import { createCompositionRelatedLoader } from './repository/compositions/load-related';
+import { createRecordingRelatedLoader } from './repository/recordings/load-related';
 
 describe('admin repository definitions', () => {
 	test('separates persistence tables from read models', () => {
@@ -110,8 +111,46 @@ describe('admin repository definitions', () => {
 		]);
 	});
 
+	test('recording detail exposes the releases containing the recording', async () => {
+		const fixture: Record<string, unknown> = {
+			id: '00000000-0000-4000-8000-000000000001',
+			releaseId: '00000000-0000-4000-8000-000000000002',
+			releaseTitle: 'ANALYZE',
+			format: 'CD',
+			catalogNumber: 'TEST-001',
+			releaseDate: '2018-01-01',
+			trackNumber: 3,
+		};
+		const database = {
+			select(selection: Record<string, unknown>) {
+				const row = Object.fromEntries(Object.keys(selection).map((key) => [key, fixture[key]]));
+				const builder = Object.assign(Promise.resolve([row]), {
+					from: () => builder,
+					innerJoin: () => builder,
+					where: () => builder,
+					orderBy: () => builder,
+				});
+				return builder;
+			},
+		};
+
+		const related = await createRecordingRelatedLoader(database as never)('00000000-0000-4000-8000-000000000003');
+
+		expect(related['releases']).toEqual([
+			{
+				id: '00000000-0000-4000-8000-000000000001',
+				releaseId: '00000000-0000-4000-8000-000000000002',
+				releaseTitle: 'ANALYZE',
+				format: 'CD',
+				catalogNumber: 'TEST-001',
+				releaseDate: '2018-01-01',
+				trackNumber: 3,
+			},
+		]);
+	});
+
 	test('defines dedicated loaders only for resources with related detail data', () => {
-		expect(Object.keys(createRelatedLoaders({} as never)).sort()).toEqual(['articles', 'compositions', 'events', 'people', 'projects', 'releases', 'works'].sort());
+		expect(Object.keys(createRelatedLoaders({} as never)).sort()).toEqual(['articles', 'compositions', 'events', 'people', 'projects', 'recordings', 'releases', 'works'].sort());
 	});
 
 	test('builds an empty search clause without binding a function parameter', async () => {

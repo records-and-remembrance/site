@@ -160,6 +160,30 @@ describe('admin screen configuration', () => {
 		);
 	});
 
+	test('shows containing releases in recording details', () => {
+		expect(editorConfigs.recordings.relations).toContainEqual(
+			expect.objectContaining({
+				key: 'releases',
+				label: '収録リリース',
+				readonly: true,
+				defaultSort: 'releaseDate',
+				defaultDirection: 'asc',
+				detailTarget: {
+					resource: 'releases',
+					idKey: 'releaseId',
+					columnKey: 'releaseTitle',
+				},
+				columns: [
+					{ key: 'releaseTitle', label: '作品' },
+					{ key: 'format', label: '形式' },
+					{ key: 'catalogNumber', label: '品番' },
+					{ key: 'releaseDate', label: '発売日', kind: 'date' },
+					{ key: 'trackNumber', label: '#', kind: 'number' },
+				],
+			}),
+		);
+	});
+
 	test('allows artists to be attached to multi-artist works', () => {
 		expect(resourceConfigs.works.relations).toContainEqual(
 			expect.objectContaining({
