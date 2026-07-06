@@ -16,6 +16,7 @@ type BandReleaseSeed = {
 	distributorName: string | null;
 	description: string | null;
 	notes: string | null;
+	trackTitle?: string;
 };
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -129,6 +130,7 @@ const SEEDS: BandReleaseSeed[] = [
 		distributorName: 'I WILL MUSIC',
 		description: null,
 		notes: 'source_file=rawData/articles/band_PtM.md',
+		trackTitle: '光の粒子 埃の中で (Departures)',
 	},
 	{
 		projectName: 'Poet-type.M',
@@ -141,6 +143,7 @@ const SEEDS: BandReleaseSeed[] = [
 		distributorName: 'Lantis',
 		description: null,
 		notes: 'source_file=rawData/articles/band_PtM.md',
+		trackTitle: 'イプシロンは泣いてたよ (A Boy In The Avenge)',
 	},
 	{
 		projectName: 'Poet-type.M',
@@ -153,6 +156,7 @@ const SEEDS: BandReleaseSeed[] = [
 		distributorName: 'HIGHWAY STAR INC.',
 		description: null,
 		notes: 'source_file=rawData/articles/band_PtM.md',
+		trackTitle: '瓦礫のオルフェオ (Ombra mai fù)',
 	},
 	{
 		projectName: 'Poet-type.M',
@@ -165,6 +169,7 @@ const SEEDS: BandReleaseSeed[] = [
 		distributorName: 'HIGHWAY STAR INC.',
 		description: null,
 		notes: 'source_file=rawData/articles/band_PtM.md',
+		trackTitle: 'MoYuRu',
 	},
 	{
 		projectName: 'Poet-type.M',
@@ -177,6 +182,7 @@ const SEEDS: BandReleaseSeed[] = [
 		distributorName: 'HIGHWAY STAR INC.',
 		description: null,
 		notes: 'source_file=rawData/articles/band_PtM.md',
+		trackTitle: '光の言語 (Absolute Blue)',
 	},
 	{
 		projectName: '門田匡陽 (ソロ名義/2020-)',
@@ -256,7 +262,7 @@ class SqlBuilder {
 		return distributorId;
 	}
 
-	releaseUpsert(params: { workId: string; format: string; catalogNumber: string | null; releaseDate: string; description: string | null; notes: string | null; distributorId: string | null }): void {
+	releaseUpsert(params: { workId: string; format: string; catalogNumber: string | null; releaseDate: string; description: string | null; notes: string | null; distributorId: string | null }): string {
 		const releaseId = stableUuid('release', `${params.workId}:${params.format}:${params.releaseDate}`);
 		this.line(
 			'INSERT INTO release (id, work_id, format, catalog_number, release_date, release_date_precision, recorded_from, recorded_to, description, notes, distributor_id, edition_type, reissue_of_release_id)',
@@ -272,6 +278,41 @@ class SqlBuilder {
 		this.line('    description = COALESCE(release.description, EXCLUDED.description),');
 		this.line('    notes = COALESCE(release.notes, EXCLUDED.notes),');
 		this.line('    distributor_id = EXCLUDED.distributor_id;');
+		this.line();
+		return releaseId;
+	}
+
+	compositionUpsert(title: string): string {
+		const compositionId = stableUuid('composition', title);
+		this.line('INSERT INTO composition (id, title, description)');
+		this.line(`VALUES (${sqlText(compositionId)}, ${sqlText(title)}, NULL)`);
+		this.line('ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title;');
+		this.line();
+		return compositionId;
+	}
+
+	recordingUpsert(params: { releaseId: string; compositionId: string; trackId: string; trackTitle: string; releaseDate: string; notes: string | null }): string {
+		const recordingId = stableUuid('recording', `band-release:${params.releaseId}:1:${params.trackTitle}`);
+		this.line('INSERT INTO recording (id, composition_id, recording_year, type, recorded_date, recorded_from, recorded_to, release_date, notes)');
+		this.line(`SELECT ${sqlText(recordingId)}, ${sqlText(params.compositionId)}, NULL, 'studio', NULL, NULL, NULL, ${sqlText(params.releaseDate)}, ${sqlText(params.notes)}`);
+		this.line('WHERE NOT EXISTS (');
+		this.line(`    SELECT 1 FROM track WHERE id = ${sqlText(params.trackId)}`);
+		this.line(')');
+		this.line('ON CONFLICT (id) DO UPDATE');
+		this.line('SET composition_id = EXCLUDED.composition_id,');
+		this.line('    release_date = COALESCE(recording.release_date, EXCLUDED.release_date),');
+		this.line('    notes = EXCLUDED.notes;');
+		this.line();
+		return recordingId;
+	}
+
+	trackUpsert(params: { trackId: string; releaseId: string; recordingId: string; notes: string | null }): void {
+		this.line('INSERT INTO track (id, release_id, recording_id, track_number, recorded_date, notes)');
+		this.line(`VALUES (${sqlText(params.trackId)}, ${sqlText(params.releaseId)}, ${sqlText(params.recordingId)}, 1, NULL, ${sqlText(params.notes)})`);
+		this.line('ON CONFLICT (id) DO UPDATE');
+		this.line('SET release_id = EXCLUDED.release_id,');
+		this.line('    track_number = EXCLUDED.track_number,');
+		this.line('    notes = EXCLUDED.notes;');
 		this.line();
 	}
 }
@@ -300,7 +341,7 @@ export function renderSql(): string {
 		});
 		builder.workProjectUpsert(workId, projectId, seed.workType === 'compilation' ? 'participant' : 'primary');
 		const distributorId = builder.distributorUpsert(seed.distributorName);
-		builder.releaseUpsert({
+		const releaseId = builder.releaseUpsert({
 			workId,
 			format: seed.format,
 			catalogNumber: seed.catalogNumber,
@@ -309,6 +350,19 @@ export function renderSql(): string {
 			notes: seed.notes,
 			distributorId,
 		});
+		if (seed.trackTitle) {
+			const compositionId = builder.compositionUpsert(seed.trackTitle);
+			const trackId = stableUuid('track', `${releaseId}:1`);
+			const recordingId = builder.recordingUpsert({
+				releaseId,
+				compositionId,
+				trackId,
+				trackTitle: seed.trackTitle,
+				releaseDate: seed.releaseDate,
+				notes: seed.notes,
+			});
+			builder.trackUpsert({ trackId, releaseId, recordingId, notes: seed.notes });
+		}
 	}
 
 	builder.line('COMMIT;');
