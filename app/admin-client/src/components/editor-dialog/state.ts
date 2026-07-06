@@ -69,6 +69,12 @@ export function hasUnsavedChanges(initial: FormValues, current: FormValues): boo
 	return JSON.stringify(initial) !== JSON.stringify(current);
 }
 
+export function resolvedLookupLabel(record: Record<string, unknown> | undefined, key: string): string {
+	if (!record) return '';
+	const baseKey = key.replace(/Id$/, '');
+	return String(record[`${baseKey}Name`] ?? record[`${baseKey}Title`] ?? '');
+}
+
 function targetFromRecord(record: Record<string, unknown>): { type: string; id: string } {
 	if (record.targetType && record.targetId) {
 		return { type: String(record.targetType), id: String(record.targetId) };

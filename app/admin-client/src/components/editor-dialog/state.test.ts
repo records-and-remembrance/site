@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { editorConfigs } from '../../resources';
-import { buildInitialValues, buildPayload, hasUnsavedChanges, withParentValue } from './state';
+import { buildInitialValues, buildPayload, hasUnsavedChanges, resolvedLookupLabel, withParentValue } from './state';
 
 describe('admin form state', () => {
 	test('normalizes database nulls and checkbox values for editing', () => {
@@ -58,5 +58,11 @@ describe('admin form state', () => {
 		expect(initial).toEqual({ personId: 'person-1' });
 		expect(hasUnsavedChanges(initial, { personId: 'person-1' })).toBe(false);
 		expect(hasUnsavedChanges(initial, { personId: 'person-2' })).toBe(true);
+	});
+
+	test('resolves the current lookup label from either a name or a title', () => {
+		expect(resolvedLookupLabel({ projectName: 'BURGER NUDS' }, 'projectId')).toBe('BURGER NUDS');
+		expect(resolvedLookupLabel({ compositionTitle: 'ANALYZE' }, 'compositionId')).toBe('ANALYZE');
+		expect(resolvedLookupLabel(undefined, 'compositionId')).toBe('');
 	});
 });

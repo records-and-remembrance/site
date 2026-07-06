@@ -29,7 +29,7 @@ import {
 import { AdminApiError, lookupRecords, saveRecord, type LookupOption } from '../../api';
 import { editorConfigs, type EditorResource, type FieldConfig, type LookupResource } from '../../resources';
 import { useCloseOnEscape } from '../overlay/escape-dismissal';
-import { buildInitialValues, buildPayload, hasUnsavedChanges, type FormValues } from './state';
+import { buildInitialValues, buildPayload, hasUnsavedChanges, resolvedLookupLabel, type FormValues } from './state';
 
 interface EditorDialogProps {
 	resource: EditorResource;
@@ -159,7 +159,7 @@ function Field({ field, resource, record, values, error, onChange }: FieldProps)
 				label={field.label}
 				lookup={field.lookup}
 				value={String(values[field.key] ?? '')}
-				initialLabel={resolvedLabel(record, field.key)}
+				initialLabel={resolvedLookupLabel(record, field.key)}
 				required={field.required}
 				error={error}
 				onChange={(value) => onChange(field.key, value)}
@@ -403,12 +403,6 @@ function TargetField({
 			<LookupField className="field" label="対象" lookup={lookup} value={String(values.targetId ?? '')} required error={error} onChange={(value) => onChange('targetId', value)} />
 		</div>
 	);
-}
-
-function resolvedLabel(record: Record<string, unknown> | undefined, key: string): string {
-	if (!record) return '';
-	const nameKey = key.replace(/Id$/, 'Name');
-	return String(record[nameKey] ?? '');
 }
 
 function actionableError(error: AdminApiError): string {
