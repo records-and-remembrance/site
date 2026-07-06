@@ -9,6 +9,7 @@ type BandReleaseSeed = {
 	projectName: string;
 	projectType: 'band' | 'solo';
 	workTitle: string;
+	workType: 'original' | 'compilation';
 	releaseDate: string;
 	format: string;
 	catalogNumber: string | null;
@@ -25,6 +26,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'BURGER NUDS',
 		projectType: 'band',
 		workTitle: 'D★SELDOM 其の6',
+		workType: 'compilation',
 		releaseDate: '2003-09-25',
 		format: 'CD',
 		catalogNumber: null,
@@ -36,6 +38,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'BURGER NUDS',
 		projectType: 'band',
 		workTitle: 'WORLD COMPILATION ALBUM "BIRTH vol.1"',
+		workType: 'compilation',
 		releaseDate: '2003-10-22',
 		format: 'CD',
 		catalogNumber: 'TBCD-1010',
@@ -47,6 +50,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'Good Dog Happy Men',
 		projectType: 'band',
 		workTitle: 'Quip Sampler CD vol.23',
+		workType: 'compilation',
 		releaseDate: '2005-04-15',
 		format: 'CD',
 		catalogNumber: null,
@@ -58,6 +62,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'Good Dog Happy Men',
 		projectType: 'band',
 		workTitle: 'HI-STYLE VOL.10',
+		workType: 'compilation',
 		releaseDate: '2005-10-19',
 		format: 'CD',
 		catalogNumber: 'HIST-0014',
@@ -69,6 +74,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'Good Dog Happy Men',
 		projectType: 'band',
 		workTitle: 'Quip Sampler CD vol.27',
+		workType: 'compilation',
 		releaseDate: '2006-04-21',
 		format: 'CD',
 		catalogNumber: null,
@@ -80,6 +86,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'Good Dog Happy Men',
 		projectType: 'band',
 		workTitle: 'JUNGLE★LIFE+ Vol.3',
+		workType: 'compilation',
 		releaseDate: '2008-09-03',
 		format: 'Book+DVD',
 		catalogNumber: 'YOUTH3003',
@@ -91,6 +98,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: '門田匡陽 (ソロ名義/2010)',
 		projectType: 'solo',
 		workTitle: 'POPTOP / UNDER FLOWER / ZENiTH COMPILATION Vol.1 "WHAT ABOUT US?"',
+		workType: 'compilation',
 		releaseDate: '2011-10-19',
 		format: 'CD',
 		catalogNumber: 'ZPOP-002',
@@ -102,6 +110,7 @@ const SEEDS: BandReleaseSeed[] = [
 		projectName: 'Poet-type.M',
 		projectType: 'solo',
 		workTitle: 'SD√SELDOM vol.3',
+		workType: 'compilation',
 		releaseDate: '2015-02-25',
 		format: 'CD',
 		catalogNumber: null,
@@ -110,9 +119,70 @@ const SEEDS: BandReleaseSeed[] = [
 		notes: 'source_file=rawData/articles/band_PtM.md',
 	},
 	{
+		projectName: 'Poet-type.M',
+		projectType: 'solo',
+		workTitle: '光の粒子 埃の中で (Departures)',
+		workType: 'original',
+		releaseDate: '2013-09-25',
+		format: 'Digital',
+		catalogNumber: null,
+		distributorName: 'I WILL MUSIC',
+		description: null,
+		notes: 'source_file=rawData/articles/band_PtM.md',
+	},
+	{
+		projectName: 'Poet-type.M',
+		projectType: 'solo',
+		workTitle: 'イプシロンは泣いてたよ (A Boy In The Avenge)',
+		workType: 'original',
+		releaseDate: '2018-03-23',
+		format: 'Digital',
+		catalogNumber: 'LZC-1339',
+		distributorName: 'Lantis',
+		description: null,
+		notes: 'source_file=rawData/articles/band_PtM.md',
+	},
+	{
+		projectName: 'Poet-type.M',
+		projectType: 'solo',
+		workTitle: '瓦礫のオルフェオ (Ombra mai fù)',
+		workType: 'original',
+		releaseDate: '2018-11-07',
+		format: 'Digital',
+		catalogNumber: null,
+		distributorName: 'HIGHWAY STAR INC.',
+		description: null,
+		notes: 'source_file=rawData/articles/band_PtM.md',
+	},
+	{
+		projectName: 'Poet-type.M',
+		projectType: 'solo',
+		workTitle: 'MoYuRu',
+		workType: 'original',
+		releaseDate: '2018-12-05',
+		format: 'Digital',
+		catalogNumber: null,
+		distributorName: 'HIGHWAY STAR INC.',
+		description: null,
+		notes: 'source_file=rawData/articles/band_PtM.md',
+	},
+	{
+		projectName: 'Poet-type.M',
+		projectType: 'solo',
+		workTitle: '光の言語 (Absolute Blue)',
+		workType: 'original',
+		releaseDate: '2019-03-06',
+		format: 'Digital',
+		catalogNumber: null,
+		distributorName: 'HIGHWAY STAR INC.',
+		description: null,
+		notes: 'source_file=rawData/articles/band_PtM.md',
+	},
+	{
 		projectName: '門田匡陽 (ソロ名義/2020-)',
 		projectType: 'solo',
 		workTitle: 'Xtalline : 001',
+		workType: 'compilation',
 		releaseDate: '2023-07-21',
 		format: 'Digital',
 		catalogNumber: 'ENEI:0001',
@@ -154,10 +224,10 @@ class SqlBuilder {
 		return projectId;
 	}
 
-	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null }): string {
+	workUpsert(params: { projectId: string; title: string; description: string | null; releasedDate: string | null; type: 'original' | 'compilation' }): string {
 		const workId = stableUuid('work', `${params.projectId}:${params.title}`);
 		this.line('INSERT INTO work (id, project_id, title, description, created_date, released_date, type)');
-		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)}, 'compilation')`);
+		this.line(`VALUES (${sqlText(workId)}, ${sqlText(params.projectId)}, ${sqlText(params.title)}, ${sqlText(params.description)}, NULL, ${sqlText(params.releasedDate)}, ${sqlText(params.type)})`);
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET project_id = EXCLUDED.project_id,');
 		this.line('    title = EXCLUDED.title,');
@@ -168,10 +238,10 @@ class SqlBuilder {
 		return workId;
 	}
 
-	workProjectUpsert(workId: string, projectId: string): void {
+	workProjectUpsert(workId: string, projectId: string, relationType: 'primary' | 'participant'): void {
 		const relationId = stableUuid('work_project', `${workId}:${projectId}`);
 		this.line('INSERT INTO work_project (id, work_id, project_id, relation_type)');
-		this.line(`VALUES (${sqlText(relationId)}, ${sqlText(workId)}, ${sqlText(projectId)}, 'participant')`);
+		this.line(`VALUES (${sqlText(relationId)}, ${sqlText(workId)}, ${sqlText(projectId)}, ${sqlText(relationType)})`);
 		this.line('ON CONFLICT (work_id, project_id) DO UPDATE SET relation_type = EXCLUDED.relation_type;');
 		this.line();
 	}
@@ -206,10 +276,10 @@ class SqlBuilder {
 	}
 }
 
-async function main(): Promise<void> {
-	const output = process.argv.includes('--output') ? resolve(process.argv[process.argv.indexOf('--output') + 1] ?? DEFAULT_OUTPUT) : DEFAULT_OUTPUT;
+export function renderSql(): string {
 	const builder = new SqlBuilder();
 
+	builder.line('-- Generated by scripts/generate_band_release_seed_sql.ts');
 	builder.line('BEGIN;');
 	builder.line();
 
@@ -226,8 +296,9 @@ async function main(): Promise<void> {
 			title: seed.workTitle,
 			description: seed.description,
 			releasedDate: seed.releaseDate,
+			type: seed.workType,
 		});
-		builder.workProjectUpsert(workId, projectId);
+		builder.workProjectUpsert(workId, projectId, seed.workType === 'compilation' ? 'participant' : 'primary');
 		const distributorId = builder.distributorUpsert(seed.distributorName);
 		builder.releaseUpsert({
 			workId,
@@ -242,9 +313,13 @@ async function main(): Promise<void> {
 
 	builder.line('COMMIT;');
 	builder.line();
-
-	await mkdir(resolve(output, '..'), { recursive: true });
-	await writeFile(output, `${builder.lines.join('\n')}`, 'utf8');
+	return builder.lines.join('\n');
 }
 
-await main();
+async function main(): Promise<void> {
+	const output = process.argv.includes('--output') ? resolve(process.argv[process.argv.indexOf('--output') + 1] ?? DEFAULT_OUTPUT) : DEFAULT_OUTPUT;
+	await mkdir(resolve(output, '..'), { recursive: true });
+	await writeFile(output, renderSql(), 'utf8');
+}
+
+if (import.meta.main) await main();
