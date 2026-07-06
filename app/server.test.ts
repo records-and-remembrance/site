@@ -17,6 +17,9 @@ const repository: AdminRepository = {
 	async update(_resource, id, value) {
 		return { id, ...value };
 	},
+	async delete() {
+		return true;
+	},
 	async lookup() {
 		return [];
 	},

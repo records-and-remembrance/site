@@ -70,6 +70,10 @@ export async function saveRecord(resource: ApiResource, payload: Record<string, 
 	return response.data;
 }
 
+export async function deleteRecord(resource: ApiResource, id: string): Promise<void> {
+	await request<void>(`/api/admin/${resource}/${id}`, { method: 'DELETE' });
+}
+
 export async function lookupRecords(resource: LookupResource, search: string): Promise<LookupOption[]> {
 	const query = new URLSearchParams({ search });
 	const response = await request<{ data: LookupOption[] }>(`/api/admin/lookups/${resource}?${query}`);
@@ -78,6 +82,7 @@ export async function lookupRecords(resource: LookupResource, search: string): P
 
 export async function request<T>(url: string, init?: RequestInit): Promise<T> {
 	const response = await fetch(url, init);
+	if (response.status === 204) return undefined as T;
 	const body = (await response.json()) as T | ApiErrorBody;
 	if (!response.ok) {
 		const error = body as ApiErrorBody;

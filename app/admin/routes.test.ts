@@ -28,6 +28,11 @@ class FakeRepository implements AdminRepository {
 		return { id, ...value };
 	}
 
+	async delete(resource: AdminResource, id: string) {
+		this.calls.push({ method: 'delete', resource, value: id });
+		return true;
+	}
+
 	async lookup(resource: LookupResource, search: string) {
 		this.calls.push({ method: 'lookup', resource, value: search });
 		return [{ id: generatedId, label: 'BURGER NUDS' }];
@@ -46,6 +51,20 @@ function testApp(repository: AdminRepository) {
 }
 
 describe('admin API', () => {
+	test('deletes a track by id', async () => {
+		const repository = new FakeRepository();
+		const response = await testApp(repository).request(`/api/admin/tracks/${generatedId}`, {
+			method: 'DELETE',
+		});
+
+		expect(response.status).toBe(204);
+		expect(repository.calls).toContainEqual({
+			method: 'delete',
+			resource: 'tracks',
+			value: generatedId,
+		});
+	});
+
 	test('passes normalized list state to the repository', async () => {
 		const repository = new FakeRepository();
 		const response = await testApp(repository).request('/api/admin/people?search=%E9%96%80%E7%94%B0&page=2&pageSize=25&sort=name&direction=desc');

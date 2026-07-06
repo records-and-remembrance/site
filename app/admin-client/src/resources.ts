@@ -102,6 +102,7 @@ export interface ResourceConfig {
 	title: string;
 	singular: string;
 	description: string;
+	deletable?: boolean;
 	defaultSort: string;
 	defaultDirection?: 'asc' | 'desc';
 	columns: ColumnConfig[];
@@ -889,6 +890,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 		title: 'Tracks',
 		singular: '収録曲',
 		description: '',
+		deletable: true,
 		defaultSort: 'releaseName',
 		columns: [],
 		fields: [

@@ -61,6 +61,16 @@ export function createAdminRoutes(repository: AdminRepository, options: AdminRou
 		return c.json({ data: result });
 	});
 
+	app.delete('/:resource/:id', async (c) => {
+		const resource = parseAdminResource(c.req.param('resource'));
+		const id = parseUuid(c.req.param('id'));
+		const deleted = await repository.delete(resource, id);
+		if (!deleted) {
+			return c.json({ error: { code: 'NOT_FOUND', message: `${resource} record was not found` } }, 404);
+		}
+		return c.body(null, 204);
+	});
+
 	app.notFound((c) => c.json({ error: { code: 'NOT_FOUND', message: 'Admin API route was not found' } }, 404));
 
 	app.onError((error, c) => {

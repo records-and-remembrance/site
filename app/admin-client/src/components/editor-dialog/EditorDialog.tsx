@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { parseDate, parseTime } from '@internationalized/date';
-import { AlertCircle, Check, ChevronDown, LoaderCircle, Minus, Plus, X } from 'lucide-react';
+import { AlertCircle, Check, ChevronDown, LoaderCircle, Minus, Plus, Trash2, X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
 	Button,
@@ -26,7 +26,7 @@ import {
 	TextField,
 	TimeField,
 } from 'react-aria-components';
-import { AdminApiError, lookupRecords, saveRecord, type LookupOption } from '../../api';
+import { AdminApiError, deleteRecord, lookupRecords, saveRecord, type LookupOption } from '../../api';
 import { editorConfigs, type EditorResource, type FieldConfig, type LookupResource } from '../../resources';
 import { useCloseOnEscape } from '../overlay/escape-dismissal';
 import { buildInitialValues, buildPayload, hasUnsavedChanges, resolvedLookupLabel, type FormValues } from './state';
@@ -37,9 +37,10 @@ interface EditorDialogProps {
 	defaults?: Record<string, string | boolean> | undefined;
 	onClose: () => void;
 	onSaved: (record: Record<string, unknown>) => void;
+	onDeleted?: (() => void) | undefined;
 }
 
-export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved }: EditorDialogProps) {
+export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved, onDeleted }: EditorDialogProps) {
 	const config = editorConfigs[resource];
 	const initialValues = useMemo(() => ({ ...buildInitialValues(config.fields, record), ...defaults }), [config.fields, defaults, record]);
 	const [values, setValues] = useState<FormValues>(initialValues);
@@ -47,7 +48,13 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 		mutationFn: () => saveRecord(resource, buildPayload(config.fields, values), record?.id ? String(record.id) : undefined),
 		onSuccess: onSaved,
 	});
-	const error = mutation.error instanceof AdminApiError ? mutation.error : null;
+	const deleteMutation = useMutation({
+		mutationFn: () => deleteRecord(resource, String(record?.id)),
+		onSuccess: () => onDeleted?.(),
+	});
+	const errorSource = mutation.error ?? deleteMutation.error;
+	const error = errorSource instanceof AdminApiError ? errorSource : null;
+	const isPending = mutation.isPending || deleteMutation.isPending;
 
 	useEffect(() => {
 		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -69,6 +76,10 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 
 	const setValue = (key: string, value: string | boolean) => {
 		setValues((current) => ({ ...current, [key]: value }));
+	};
+	const requestDelete = () => {
+		if (!record?.id || !window.confirm(`この${config.singular}を削除しますか？この操作は取り消せません。`)) return;
+		deleteMutation.mutate();
 	};
 
 	return (
@@ -114,17 +125,23 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 							<div className="form-error" role="alert">
 								<AlertCircle size={18} />
 								<div>
-									<strong>保存できませんでした</strong>
+									<strong>{deleteMutation.isError ? '削除できませんでした' : '保存できませんでした'}</strong>
 									<p>{actionableError(error)}</p>
 								</div>
 							</div>
 						) : null}
 
 						<footer className="dialog-actions">
+							{record && config.deletable && onDeleted ? (
+								<Button type="button" className="button danger" isDisabled={isPending} onPress={requestDelete}>
+									<Trash2 size={18} />
+									削除
+								</Button>
+							) : null}
 							<Button type="button" className="button secondary" onPress={requestClose}>
 								キャンセル
 							</Button>
-							<Button type="submit" className="button primary" isDisabled={mutation.isPending}>
+							<Button type="submit" className="button primary" isDisabled={isPending}>
 								{mutation.isPending ? <LoaderCircle className="spin" size={18} /> : <Check size={18} />}
 								保存
 							</Button>

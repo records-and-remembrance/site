@@ -184,6 +184,12 @@ describe('admin screen configuration', () => {
 		);
 	});
 
+	test('allows only tracks to be deleted from the editor', () => {
+		expect(editorConfigs.tracks.deletable).toBe(true);
+		expect(editorConfigs.recordings.deletable).toBeUndefined();
+		expect(editorConfigs.releases.deletable).toBeUndefined();
+	});
+
 	test('allows artists to be attached to multi-artist works', () => {
 		expect(resourceConfigs.works.relations).toContainEqual(
 			expect.objectContaining({

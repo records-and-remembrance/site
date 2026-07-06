@@ -508,6 +508,15 @@ const updateRecord = (database: AdminDb) => async (resourceName: GenericAdminRes
 	return (rows[0] as Record<string, unknown> | undefined) ?? null;
 };
 
+const deleteRecord = (database: AdminDb) => async (resourceName: GenericAdminResource, id: string) => {
+	const table = resourceTables[resourceName];
+	const rows = await database
+		.delete(table)
+		.where(sql`${tableId(table)} = ${id}`)
+		.returning();
+	return rows.length > 0;
+};
+
 const createLookup =
 	(database: AdminDb) =>
 	async (resourceName: LookupResource, search: string): Promise<LookupOption[]> => {
@@ -533,6 +542,7 @@ export function createAdminRepository(database: AdminDb): AdminRepository {
 	const detail = createDetail(database)(relatedLoaders);
 	const create = createRecord(database);
 	const update = updateRecord(database);
+	const remove = deleteRecord(database);
 	const lookup = createLookup(database);
 	const articleMentions = createArticleMentionRepository(database);
 
@@ -541,6 +551,7 @@ export function createAdminRepository(database: AdminDb): AdminRepository {
 		detail: (resource, id) => (resource === 'article-mentions' ? articleMentions.detail(id) : detail(resource, id)),
 		create: (resource, value) => (resource === 'article-mentions' ? articleMentions.create(value) : create(resource, value)),
 		update: (resource, id, value) => (resource === 'article-mentions' ? articleMentions.update(id, value) : update(resource, id, value)),
+		delete: (resource, id) => (resource === 'tracks' ? remove(resource, id) : Promise.resolve(false)),
 		lookup,
 	};
 }

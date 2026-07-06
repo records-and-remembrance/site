@@ -177,10 +177,26 @@ describe('admin repository definitions', () => {
 		expect(queries[0]?.sql).not.toContain('$1 order by');
 	});
 
+	test('deletes a track through the bound repository', async () => {
+		const database = {
+			delete() {
+				const builder = {
+					where: () => builder,
+					returning: async () => [{ id: '00000000-0000-4000-8000-000000000001' }],
+				};
+				return builder;
+			},
+		};
+		const repository = createAdminRepository(database as never);
+
+		expect(await repository.delete('tracks', '00000000-0000-4000-8000-000000000001')).toBe(true);
+		expect(await repository.delete('recordings', '00000000-0000-4000-8000-000000000001')).toBe(false);
+	});
+
 	test('composes a repository from functions after binding the database dependency', () => {
 		const repository = createAdminRepository({} as never);
 
-		expect(Object.keys(repository).sort()).toEqual(['create', 'detail', 'list', 'lookup', 'update']);
+		expect(Object.keys(repository).sort()).toEqual(['create', 'delete', 'detail', 'list', 'lookup', 'update']);
 		for (const operation of Object.values(repository)) {
 			expect(typeof operation).toBe('function');
 		}

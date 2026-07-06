@@ -37,6 +37,11 @@ export function ResourceScreen({
 		}
 	};
 
+	const handleDeleted = async () => {
+		setEditor(undefined);
+		await queryClient.invalidateQueries({ queryKey: ['admin'] });
+	};
+
 	const openRelatedEditor = async (state: ResourceEditorState) => {
 		if (state.record?.id) {
 			const completeRecord = await getRecord(state.resource, String(state.record.id));
@@ -74,7 +79,9 @@ export function ResourceScreen({
 				/>
 			) : null}
 
-			{editor ? <EditorDialog resource={editor.resource} record={editor.record} defaults={editor.defaults} onClose={() => setEditor(undefined)} onSaved={handleSaved} /> : null}
+			{editor ? (
+				<EditorDialog resource={editor.resource} record={editor.record} defaults={editor.defaults} onClose={() => setEditor(undefined)} onSaved={handleSaved} onDeleted={handleDeleted} />
+			) : null}
 		</div>
 	);
 }
