@@ -190,10 +190,12 @@ Generate media/article data:
 ```bash
 bun run scripts/generate_media_seed_sql.ts \
   --source-dir rawData/articles_by_category/media \
+  --candidate-dir rawData/article_candidates \
   --output sql/media_seed.sql
 ```
 
 This represents each media Markdown source file as one `article` row, with `publication` as the durable program/index container and `publication_issue` as the broadcast date, publication date, or synthetic index issue. `article_mention_*` rows are intentionally not generated yet.
+Approved rows in `rawData/article_candidates/*.tsv` are also generated as individual Web article rows.
 
 Generate the review artifact for the separate magazine TSV:
 

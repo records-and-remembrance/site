@@ -9,7 +9,7 @@ import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-type SourceArticle = {
+export type SourceArticle = {
 	path: string;
 	name: string;
 	title: string;
@@ -21,6 +21,7 @@ type SourceArticle = {
 type ParsedArgs = {
 	output: string;
 	sourceDir: string;
+	candidateDir: string;
 	files: string[] | null;
 };
 
@@ -40,6 +41,24 @@ type MediaSeed = {
 	notes: string | null;
 };
 
+export type ArticleCandidateSeed = {
+	candidateFile: string;
+	sourceFile: string;
+	sourceHeading: string;
+	sourceGroup: string | null;
+	publicationName: string;
+	publicationType: string;
+	articleTitle: string;
+	articleType: string;
+	publishedDate: string | null;
+	datePrecision: string | null;
+	url: string;
+	mentionProject: string | null;
+	mentionKind: string | null;
+	summary: string | null;
+	notes: string | null;
+};
+
 type MarkdownNode = {
 	type: string;
 	value?: string;
@@ -56,6 +75,7 @@ type ListItemNode = MarkdownNode & {
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DEFAULT_SOURCE_DIR = join(ROOT, 'rawData', 'articles_by_category', 'media');
+const DEFAULT_CANDIDATE_DIR = join(ROOT, 'rawData', 'article_candidates');
 const DEFAULT_OUTPUT = join(ROOT, 'sql', 'media_seed.sql');
 const MARKDOWN_PROCESSOR = unified().use(remarkParse).use(remarkGfm);
 
@@ -109,6 +129,7 @@ const PROGRAM_PATTERNS: Array<{
 function parseArgs(argv: string[]): ParsedArgs {
 	let output = DEFAULT_OUTPUT;
 	let sourceDir = DEFAULT_SOURCE_DIR;
+	let candidateDir = DEFAULT_CANDIDATE_DIR;
 	let files: string[] | null = null;
 
 	for (let i = 0; i < argv.length; i += 1) {
@@ -119,6 +140,10 @@ function parseArgs(argv: string[]): ParsedArgs {
 		}
 		if (arg === '--source-dir') {
 			sourceDir = resolve(argv[++i] ?? DEFAULT_SOURCE_DIR);
+			continue;
+		}
+		if (arg === '--candidate-dir') {
+			candidateDir = resolve(argv[++i] ?? DEFAULT_CANDIDATE_DIR);
 			continue;
 		}
 		if (arg === '--files') {
@@ -132,7 +157,7 @@ function parseArgs(argv: string[]): ParsedArgs {
 		throw new Error(`Unknown argument: ${arg}`);
 	}
 
-	return { output, sourceDir, files };
+	return { output, sourceDir, candidateDir, files };
 }
 
 function parseScalar(value: string): string {
@@ -201,6 +226,109 @@ async function loadSources(sourceDir: string): Promise<SourceArticle[]> {
 	return sources;
 }
 
+async function loadArticleCandidates(candidateDir: string): Promise<ArticleCandidateSeed[]> {
+	let files: string[];
+	try {
+		const entries = await readdir(candidateDir, { withFileTypes: true });
+		files = entries
+			.filter((entry) => entry.isFile() && entry.name.endsWith('.tsv') && !entry.name.startsWith('.'))
+			.map((entry) => entry.name)
+			.sort((a, b) => a.localeCompare(b, 'ja'));
+	} catch (error) {
+		if ((error as { code?: string }).code === 'ENOENT') return [];
+		throw error;
+	}
+
+	const candidates: ArticleCandidateSeed[] = [];
+	for (const file of files) {
+		const path = join(candidateDir, file);
+		candidates.push(...parseApprovedArticleCandidates(await readFile(path, 'utf8'), relativePath(path)));
+	}
+	return candidates;
+}
+
+export function parseApprovedArticleCandidates(source: string, candidateFile: string): ArticleCandidateSeed[] {
+	const lines = source
+		.replace(/^\uFEFF/u, '')
+		.replaceAll('\r\n', '\n')
+		.replaceAll('\r', '\n')
+		.split('\n')
+		.filter((line) => line.trim() && !line.startsWith('#'));
+	if (lines.length === 0) return [];
+
+	const header = lines[0]!.split('\t');
+	const columnIndex = new Map(header.map((column, index) => [column, index]));
+	const requiredColumns = [
+		'review_status',
+		'source_file',
+		'source_heading',
+		'publication_name',
+		'publication_type',
+		'article_title',
+		'article_type',
+		'url',
+	];
+	for (const column of requiredColumns) {
+		if (!columnIndex.has(column)) throw new Error(`Missing article candidate column: ${column} (${candidateFile})`);
+	}
+
+	const valueAt = (columns: string[], name: string): string => {
+		const index = columnIndex.get(name);
+		return index == null ? '' : (columns[index] ?? '').trim();
+	};
+	const nullable = (value: string): string | null => value || null;
+
+	return lines.slice(1).flatMap((line, lineIndex) => {
+		const columns = line.split('\t');
+		if (valueAt(columns, 'review_status') !== 'approved') return [];
+
+		const publicationName = valueAt(columns, 'publication_name');
+		const articleTitle = valueAt(columns, 'article_title');
+		const url = valueAt(columns, 'url');
+		if (!publicationName || !articleTitle || !url) {
+			throw new Error(`Approved article candidate is missing required data: ${candidateFile}:${lineIndex + 2}`);
+		}
+
+		const sourceFile = valueAt(columns, 'source_file');
+		const sourceHeading = valueAt(columns, 'source_heading');
+		const sourceGroup = nullable(valueAt(columns, 'source_group'));
+		const datePrecision = nullable(valueAt(columns, 'date_precision'));
+		const mentionProject = nullable(valueAt(columns, 'mention_project'));
+		const mentionKind = nullable(valueAt(columns, 'mention_kind'));
+		const rawNotes = nullable(valueAt(columns, 'notes'));
+		const metadataNotes = [
+			`candidate_file=${candidateFile}`,
+			`source_file=${sourceFile}`,
+			sourceHeading ? `source_heading=${sourceHeading}` : null,
+			sourceGroup ? `source_group=${sourceGroup}` : null,
+			mentionProject ? `mention_project=${mentionProject}` : null,
+			mentionKind ? `mention_kind=${mentionKind}` : null,
+			datePrecision ? `date_precision=${datePrecision}` : null,
+			rawNotes ? `candidate_notes=${rawNotes}` : null,
+		].filter((value): value is string => value != null);
+
+		return [
+			{
+				candidateFile,
+				sourceFile,
+				sourceHeading,
+				sourceGroup,
+				publicationName,
+				publicationType: valueAt(columns, 'publication_type') || 'web',
+				articleTitle,
+				articleType: valueAt(columns, 'article_type') || 'web_article',
+				publishedDate: nullable(valueAt(columns, 'published_date')),
+				datePrecision,
+				url,
+				mentionProject,
+				mentionKind,
+				summary: nullable(valueAt(columns, 'summary')),
+				notes: metadataNotes.join('\n') || null,
+			},
+		];
+	});
+}
+
 function stableUuid(namespace: string, value: string): string {
 	const hash = createHash('sha1').update(`mondenDatabase/${namespace}/${value}`).digest('hex');
 	const chars = hash.slice(0, 32).split('');
@@ -213,6 +341,11 @@ function stableUuid(namespace: string, value: string): string {
 function sqlText(value: string | null): string {
 	if (value == null) return 'NULL';
 	return `'${value.replaceAll("'", "''")}'`;
+}
+
+function relativePath(path: string): string {
+	const relative = path.startsWith(ROOT) ? path.slice(ROOT.length + 1) : path;
+	return relative.replaceAll('\\', '/');
 }
 
 function cleanText(value: string): string {
@@ -459,14 +592,50 @@ class SqlBuilder {
 		this.line('    updated_at = CURRENT_TIMESTAMP;');
 		this.line();
 	}
+
+	candidateIssueUpsert(candidate: ArticleCandidateSeed, publicationId: string): string {
+		const id = stableUuid('publication_issue', `article_candidate/${candidate.url}`);
+		this.line('INSERT INTO publication_issue (id, publication_id, issue_number, volume, published_date, description)');
+		this.line(
+			`VALUES (${sqlText(id)}, ${sqlText(publicationId)}, ${sqlText(candidate.publishedDate)}, NULL, ${sqlText(candidate.publishedDate)}, ${sqlText(candidate.summary)})`,
+		);
+		this.line('ON CONFLICT (id) DO UPDATE');
+		this.line('SET publication_id = EXCLUDED.publication_id,');
+		this.line('    issue_number = EXCLUDED.issue_number,');
+		this.line('    volume = EXCLUDED.volume,');
+		this.line('    published_date = EXCLUDED.published_date,');
+		this.line('    description = EXCLUDED.description;');
+		this.line();
+		return id;
+	}
+
+	candidateArticleUpsert(candidate: ArticleCandidateSeed, issueId: string): void {
+		const id = stableUuid('article', `article_candidate/${candidate.url}`);
+		const summary = [candidate.summary, candidate.notes].filter(Boolean).join('\n\n') || null;
+		this.line('INSERT INTO article (id, publication_issue_id, title, type, published_date, summary, content, url)');
+		this.line(
+			`VALUES (${sqlText(id)}, ${sqlText(issueId)}, ${sqlText(candidate.articleTitle)}, ${sqlText(candidate.articleType)}, ${sqlText(candidate.publishedDate)}, ${sqlText(summary)}, NULL, ${sqlText(candidate.url)})`,
+		);
+		this.line('ON CONFLICT (id) DO UPDATE');
+		this.line('SET publication_issue_id = EXCLUDED.publication_issue_id,');
+		this.line('    title = EXCLUDED.title,');
+		this.line('    type = EXCLUDED.type,');
+		this.line('    published_date = EXCLUDED.published_date,');
+		this.line('    summary = EXCLUDED.summary,');
+		this.line('    content = EXCLUDED.content,');
+		this.line('    url = EXCLUDED.url,');
+		this.line('    updated_at = CURRENT_TIMESTAMP;');
+		this.line();
+	}
 }
 
-function renderSql(sources: SourceArticle[]): string {
+export function renderSql(sources: SourceArticle[], articleCandidates: ArticleCandidateSeed[] = []): string {
 	const builder = new SqlBuilder();
 	const mediaSources = sources.filter((source) => source.tags[0] === 'Media');
 
 	builder.line('-- Generated by scripts/generate_media_seed_sql.ts');
 	builder.line(`-- media_sources: ${mediaSources.length}`);
+	builder.line(`-- approved_article_candidates: ${articleCandidates.length}`);
 	builder.line('BEGIN;');
 	builder.line();
 
@@ -478,6 +647,37 @@ function renderSql(sources: SourceArticle[]): string {
 		const publicationId = builder.publicationUpsert(seed);
 		const issueId = builder.issueUpsert(seed, publicationId, source);
 		builder.articleUpsert(seed, issueId, source);
+	}
+
+	const publicationIds = new Map<string, string>();
+	for (const candidate of articleCandidates) {
+		builder.line(`-- candidate: ${candidate.candidateFile}`);
+		builder.line(`-- source: ${candidate.sourceFile}`);
+		builder.line(`-- publication: ${candidate.publicationName}`);
+		builder.line();
+
+		let publicationId = publicationIds.get(candidate.publicationName);
+		if (!publicationId) {
+			publicationId = builder.publicationUpsert({
+				publicationName: candidate.publicationName,
+				publicationType: candidate.publicationType,
+				publisher: null,
+				issueNumber: null,
+				volume: null,
+				publishedDate: null,
+				issueDescription: null,
+				articleTitle: candidate.articleTitle,
+				articleType: candidate.articleType,
+				summary: candidate.summary,
+				content: null,
+				url: candidate.url,
+				notes: candidate.notes,
+			});
+			publicationIds.set(candidate.publicationName, publicationId);
+		}
+
+		const issueId = builder.candidateIssueUpsert(candidate, publicationId);
+		builder.candidateArticleUpsert(candidate, issueId);
 	}
 
 	const skipped = sources.filter((source) => source.tags[0] !== 'Media');
@@ -497,16 +697,20 @@ function renderSql(sources: SourceArticle[]): string {
 async function main(): Promise<void> {
 	const args = parseArgs(Bun.argv.slice(2));
 	let sources = await loadSources(args.sourceDir);
+	const articleCandidates = await loadArticleCandidates(args.candidateDir);
 	if (args.files && args.files.length > 0) {
 		const wanted = new Set(args.files);
 		sources = sources.filter((source) => wanted.has(source.name));
 	}
 
-	const sql = renderSql(sources);
+	const sql = renderSql(sources, articleCandidates);
 	await mkdir(dirname(args.output), { recursive: true });
 	await writeFile(args.output, sql, 'utf8');
 	console.log(`Wrote ${args.output}`);
 	console.log(`Media sources: ${sources.filter((source) => source.tags[0] === 'Media').length}`);
+	console.log(`Approved article candidates: ${articleCandidates.length}`);
 }
 
-await main();
+if (import.meta.main) {
+	await main();
+}
