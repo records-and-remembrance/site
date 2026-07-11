@@ -1,8 +1,8 @@
 # 門田匡陽データベース 閲覧サイト設計書
 
-status: draft（レビュー待ち）
+status: revised draft（レビューコメント反映済み、再レビュー待ち）
 audience: レビュー後にこのサイトを実装するエージェント / 人間レビュアー
-data source: ローカル PostgreSQL（`postgres://monden:monden@localhost:5432/monden`、read-only）
+data source: ビルド時にローカル PostgreSQL（`postgres://monden:monden@localhost:5432/monden`）から静的データを書き出す。実行時（閲覧時）の DB アクセスはゼロ
 schema SSoT: `app/db/schema.ts`
 
 ---
@@ -23,76 +23,112 @@ DB実データが支える3つの発見軸:
 
 ## 2. 技術構成と配置
 
-既存の admin アプリの規約（`routes.ts` + `repository.ts` + `types.ts`、React 19 + Vite + TanStack Query）を踏襲する。**読み取り専用**。
+既存 admin アプリ（`app/`、Hono + React 19 + Vite + TanStack Query）の規約は踏襲しない。公開サイトは要件が別物であり、独立したスタックを新設する。方針は **完全静的生成（SSG）+ Cloudflare で完結**。
+
+- **実行時の DB アクセスはゼロ**。データはパイプラインでバッチ更新されるため、ビルド時にローカル PostgreSQL から静的データを書き出す。生成した HTML・JSON・アセットはすべて Cloudflare の CDN キャッシュに乗る。キャッシュ最優先・軽量表示・「彷徨う」体験を妨げないことを最優先の設計原則とする。
+- フレームワークは **Astro**（SSG ファースト、デフォルト JS ゼロ）。年表フィルタ・network グラフ・Dig などの対話要素だけを island として実装し、それ以外は静的 HTML のみで完結させる。
+- ホスティングは **Cloudflare Workers の static assets**（`wrangler deploy`）。API サーバーは作らない（旧設計にあった `/api/site/*` 集約エンドポイント方針は廃止）。
 
 ```
-app/site/                  # Hono API（/api/site 配下に app/server.ts でマウント）
-  routes.ts                # エンドポイント定義
-  repository.ts            # read-only クエリ（Drizzle）
-  types.ts                 # API レスポンス型
-  routes.test.ts
-app/site-client/           # Vite React クライアント（:5174、/api を :3000 にプロキシ）
-  index.html
-  vite.config.ts
+site/                        # リポジトリ直下に新設。admin の app/ とは独立
+  astro.config.mjs
+  wrangler.jsonc
+  export/                    # `app/db/schema.ts` を import し、ローカル DB から静的スナップショットを書き出す Bun スクリプト
+    export.ts                # -> site/src/data/*.json（schema.ts が引き続き SSoT）
   src/
-    main.tsx / App.tsx / router.tsx
-    theme/tokens.css       # §7 のデザイントークン
-    components/<screen>/   # 画面ごとに UI + api.ts + state + テスト同梱（admin-client と同じ構成）
-    components/shared/     # EntityLink, DateText(精度対応), TimelineBand, StatTile 等
+    pages/                   # ファイルベースルーティング（§3.2 ルート一覧に対応）
+    components/              # 画面ごとの Astro コンポーネント + island（*.tsx）
+    styles/tokens.css         # §7 のデザイントークン
+    data/                    # export.ts が生成する JSON スナップショット（git 管理外）
 ```
 
-package.json に追加するスクリプト: `site:client`（Vite :5174）、`site:dev`（admin:server + site:client 並行）、`site:build`（→ dist/site）。
+動的に見える機能はすべてビルド時静的化する:
 
-API 設計方針: 画面 1 つにつき集約エンドポイント 1 本（例 `GET /api/site/songs/:id` が楽曲+クレジット+録音+収録リリース+演奏履歴をまとめて返す）。N+1 をクライアントに持ち込まない。ランダム系は `GET /api/site/dig`（後述）。
+- **Dig（ランダム到達）**: ビルド時に生成する軽量インデックス JSON（全エンティティの slug + 種別 + 一言）を export し、クライアント JS がランダムに 1 件選んで遷移する。
+- **この日なんの日**: MM-DD をキーにした JSON をビルド時に生成し、クライアントが今日の日付でルックアップする。
+- **検索**: Pagefind 等のビルド時インデックスによるクライアントサイド検索（サーバーへの問い合わせなし）。
+
+キャッシュ方針: ハッシュ付きアセット（JS/CSS/画像）は `immutable`、HTML はデプロイのたびに更新される。**データ更新 = 再ビルド & 再デプロイ**。package.json に `site:export`（DB→JSON）/ `site:build`（Astro ビルド）/ `site:deploy`（wrangler deploy）を追加し、`bun run site:export && bun run site:build && bun run site:deploy` でまとめて更新できるようにする。
+
+画像（ジャケット）は **Cloudflare R2** に保管し、`<img>` に `width` / `height` を明示（レイアウトシフト防止）+ `loading="lazy"` + Cloudflare Images のリサイズ変換で配信する。R2 の URL は `release.artworkUrl` に保存する（§10）。
 
 ## 3. 情報アーキテクチャ
 
-### 3.1 ルート一覧
+### 3.1 ことばの整理（サイトに登場する概念）
+
+DB のテーブル名とサイト上の表記は一致しない。実装エージェントがコードとコピーで混同しないよう対応をここで固定する。
+
+| DB概念 | サイト表記 | 説明 |
+|---|---|---|
+| project | プロジェクト | バンド・ソロなどの名義 |
+| person | 人物 | |
+| composition | 楽曲 | 曲そのもの。録音や演奏を束ねる単位 |
+| recording | バージョン | 楽曲の個々の録音（スタジオ/ライブ/デモ…）。サイト上で「録音」とは言わない |
+| work | 作品 | アルバム・シングルなどのまとまり |
+| release | 版 | 作品の具体的な出し方（初回盤 / 再発 / 配信など）。独立ページにしない |
+| track | （表記なし） | 作品ページのトラックリストの行 |
+| event | ライブ | |
+| event_performance | セットリスト | |
+| venue | 会場 | |
+| composition_credit / contribution | クレジット | |
+| label | レーベル | |
+| distributor | 流通 | |
+| publication / publication_issue / article | 媒体 / 号 / 記事 | 資料室 |
+
+**閲覧者に work / release / discography の3概念を見せない。** DB上は work（抽象作品）と release（具体的な出し方）が分かれているが、閲覧者にとってその違いは判別しづらい。公開UIは **ディスコグラフィ一覧 → 作品ページ の2段**に統合する。release は独立ページを持たせず、作品ページ内のセクション（「版」、アンカー `#edition-<slug>`）として表現する。
+
+### 3.2 ルート一覧
 
 | path | 画面名 | 主データ（テーブル） |
 |---|---|---|
 | `/` | ホーム | 全域の集約 + ランダム |
 | `/timeline` | 年表 | release, event, membership, project |
 | `/projects` | プロジェクト一覧 | project |
-| `/projects/:id` | プロジェクト詳細 | project, membership(+role/instrument), work, release, event |
+| `/projects/:slug` | プロジェクト詳細 | project, membership(+role/instrument), work, release, event |
 | `/people` | 人物一覧 | person, membership, contribution |
-| `/people/:id` | 人物詳細 | person, membership(+membership_role), contribution, composition_credit |
-| `/discography` | ディスコグラフィ | work, work_project, release, label_relation |
-| `/works/:id` | 作品詳細 | work, work_project, release |
-| `/releases/:id` | リリース詳細 | release, track, recording, composition, label, distributor, contribution |
+| `/people/:slug` | 人物詳細 | person, membership(+membership_role), contribution, composition_credit |
+| `/discography` | ディスコグラフィ一覧 | work, work_project, release, label_relation |
+| `/discography/:slug` | 作品詳細（版セクション含む） | work, work_project, release, label_relation, track |
 | `/songs` | 楽曲一覧 | composition, recording, event_performance |
-| `/songs/:id` | 楽曲詳細 | composition, composition_credit, recording, track, release, event_performance |
+| `/songs/:slug` | 楽曲詳細 | composition, composition_credit, recording, track, release, event_performance |
 | `/lives` | ライブ一覧 | event, venue, project |
-| `/lives/:id` | ライブ詳細 | event, event_performance, composition, venue, contribution |
+| `/lives/:slug` | ライブ詳細 | event, event_performance, composition, venue, contribution |
 | `/venues` | 会場一覧 | venue, event |
-| `/venues/:id` | 会場詳細 | venue, event, event_performance |
+| `/venues/:slug` | 会場詳細 | venue, event, event_performance |
 | `/network` | 人物相関 | person, membership, project |
 | `/library` | 資料室 | publication, publication_issue, article |
 | `/about` | About | 静的 + 件数集計 |
 
-ID は DB の uuid をそのまま使う（slug 生成はしない。エージェント実装が単純になり、名寄せ問題を避けられる）。
+`/works/:id` と `/releases/:id` は廃止し、`/discography` と `/discography/:slug` に統合した（理由は §3.1）。
 
-### 3.2 リンク関係（回遊グラフ）
+### 3.3 slug 方針
+
+公開URLに uuid は使わない。すべて人間可読な slug にする。
+
+- **project / person / composition / work / venue**: DB に `slug` text 列（unique, 当面 nullable）を追加する（§10）。生成はパイプライン側 — 英字タイトルは kebab-case、日本語はヘボン式ローマ字化の初期案を機械生成し**人手レビューで確定**する（compositions の draft レビュー文化と同じ流儀）。例: 黄金の鐘 → `ougon-no-kane`、ANALYZE → `analyze`。
+- **event**: `YYYY-MM-DD-<venue-slug>` の合成 slug。`(project_id, venue_id, event_date)` の unique 制約により決定的に生成できる。同日衝突時は `-2` の連番を振る。DB に `slug` 列を持たせ、パイプラインが埋める。
+- 衝突時は共通して `-2` サフィックスを振る。**一度公開した slug は変更しない**。変更が必要な場合は旧 slug から静的リダイレクトページを生成する。
+
+### 3.4 リンク関係（回遊グラフ）
 
 ```mermaid
 graph LR
   Home["/"] --> Timeline["/timeline"]
-  Home --> Project["/projects/:id"]
-  Home --> Song["/songs/:id"]
-  Home --> Live["/lives/:id"]
-  Timeline --> Project & Release["/releases/:id"] & Live
-  Project --> Person["/people/:id"] & Work["/works/:id"] & Live & Song
-  Work --> Release
-  Release --> Song & Person & Work
-  Song --> Release & Live & Person
-  Live --> Song & Venue["/venues/:id"] & Person & Project
+  Home --> Project["/projects/:slug"]
+  Home --> Song["/songs/:slug"]
+  Home --> Live["/lives/:slug"]
+  Timeline --> Project & Discography["作品 /discography/:slug"] & Live
+  Project --> Person["/people/:slug"] & Discography & Live & Song
+  Discography --> Song & Person
+  Song --> Discography & Live & Person
+  Live --> Song & Venue["/venues/:slug"] & Person & Project
   Venue --> Live
-  Person --> Project & Release & Live & Song & Network["/network"]
+  Person --> Project & Discography & Live & Song & Network["/network"]
   Network --> Person & Project
-  Library["/library"] -.将来: mention.-> Person & Work & Live
+  Library["/library"] -.将来: mention.-> Person & Discography & Live
 ```
 
-**リンク規約**: 画面上に現れるエンティティ名（人物・プロジェクト・楽曲・リリース・会場）は例外なくリンクにする。各詳細画面の末尾に「つながり」セクションを置き、隣接エンティティへの導線を必ず 2 系統以上確保する（例: 楽曲詳細 → 収録リリース群 + 演奏されたライブ群）。行き止まりページを作らない。
+**リンク規約**: 画面上に現れるエンティティ名（人物・プロジェクト・楽曲・作品・会場）は例外なくリンクにする。各詳細画面の末尾に「つながり」セクションを置き、隣接エンティティへの導線を必ず 2 系統以上確保する（例: 楽曲詳細 → 収録作品群 + 演奏されたライブ群）。行き止まりページを作らない。
 
 ## 4. 画面別仕様
 
@@ -101,81 +137,90 @@ graph LR
 ### 4.1 `/` ホーム — 「アーカイブの入口と、今日の偶然」
 
 - **キャリアリバー**（ヒーロー）: 1994–現在の横軸に 8 プロジェクトの活動期間を帯で描く。帯はプロジェクトカラー（§7.3）。クリックでプロジェクト詳細へ。これがサイトの「地図」であり、以後全画面のプロジェクトカラーの意味をここで学習させる。
-- **数字タイル**: 楽曲 218 / リリース 68 / ライブ 395 / 人物 112 / 会場 156 / 記事 350（DB から動的集計、tabular-nums）。各タイルは一覧画面へのリンク。
-- **今日の発見（Dig カード ×3）**: `GET /api/site/dig` がランダムに返す (a) ある日のセットリスト（event 1件 + 演奏曲数）、(b) ある曲の旅（複数録音 or 複数リリース収録の composition）、(c) ある会場の歴史（公演数上位からランダム）。リロードごとに変わる。
-- **この日なんの日**: 今日と同じ月日の過去イベント・リリース（`to_char(event_date,'MM-DD')` 一致）。該当なしの日はブロック自体を出さない。
+- **数字タイル**: 楽曲 218 / 作品 64 / ライブ 395 / 人物 112 / 会場 156 / 記事 350（ビルド時に DB から集計し JSON に埋め込んだものを描画、tabular-nums）。各タイルは一覧画面へのリンク（作品のタイルは `/discography` へ）。
+- **今日の発見（Dig カード ×3）**: ビルド時に生成する Dig インデックス JSON（全エンティティの slug + 種別 + 一言）から、クライアント JS がランダムに (a) ある日のセットリスト（event 1件 + 演奏曲数）、(b) ある曲の旅（複数録音 or 複数版に収録の composition）、(c) ある会場の歴史（公演数上位からランダム）を選び描画する。再抽選ボタンで表示中のページ内で候補を引き直せる。
+- **この日なんの日**: MM-DD をキーにしたビルド時生成 JSON をクライアントで参照し、今日と同じ月日の過去イベント・リリースを表示する。該当なしの日はブロック自体を出さない。
 - 未来のイベント（eventDate >= today、2026年に6件存在）があれば最上部に「予定」バナー。
 
 ### 4.2 `/timeline` 年表 — 「30年を1本のスクロールに」
 
-- 縦スクロールの統合年表。年見出しごとに: リリース（◆ + タイトル、format chip）、ライブ（月単位に集約したカウント + 主要公演。全395件を個別に並べると2006–2007年が破綻するため「n本」集約 + 展開）、メンバー加入・脱退（membership の from/to）、プロジェクト開始・終了。
+- 縦スクロールの統合年表。年見出しごとに: 発売（◆ + 作品タイトル、format chip。release 単位）、ライブ（月単位に集約したカウント + 主要公演。全395件を個別に並べると2006–2007年が破綻するため「n本」集約 + 展開）、メンバー加入・脱退（membership の from/to）、プロジェクト開始・終了。
 - 左端にプロジェクトカラーの帯を通し、どの名義の時代かを常時可視化。
-- フィルタ: プロジェクト（複数選択）、種別（リリース / ライブ / 人事）。URL クエリで状態保持（nuqs、admin-client と同じ）。
+- フィルタ: プロジェクト（複数選択）、種別（発売 / ライブ / 人事）。URL クエリで状態保持する。**URLを直接開いた際に完全に状態復帰できることを受け入れ基準とする**（SSGのためフィルタは client island として実装し、初期化時にURLクエリを読んで状態を復元する。実装後に直リンクでの復帰をE2Eで確認する）。この受け入れ基準は /lives・/discography など、フィルタを持つ全画面に適用する。
 - 日付精度（`releaseDatePrecision` 等）に従い「1999年」「1999年3月」「1999年3月10日」を出し分ける（§8）。
+- 年・月のすべての日付セクション見出しに安定したアンカーid（例 `#y1999`, `#y1999-03`）を付与し、見出しホバー（モバイルではタップ）でアンカーリンクをコピーできる。すべての日付セクションがユニークURLで直接開ける。
 
-### 4.3 `/projects/:id` プロジェクト詳細 — 「ひとつの名義の全体像」
+### 4.3 `/projects/:slug` プロジェクト詳細 — 「ひとつの名義の全体像」
 
 - ヘッダ: 名前 / type / 活動期間 / description。プロジェクトカラーをヘッダ罫線に使用。
-- **メンバー在籍図（Gantt）**: membership の fromDate–toDate を人物ごとの横棒で。`support = true` は破線・薄色。membership_role から役割・楽器をツールチップ表示。人物名 → `/people/:id`。
-- ディスコグラフィ: work（type: original/best/live/compilation でグループ）→ 配下 release。
+- **メンバー在籍図（Gantt）**: membership の fromDate–toDate を人物ごとの横棒で。`support = true` は破線・薄色。membership_role から役割・楽器をツールチップ表示。人物名 → `/people/:slug`。
+- ディスコグラフィ: work（type: original/best/live/compilation でグループ）ごとに `/discography/:slug` 作品ページへのリンク一覧。個々の release への直接リンクは持たない（版は作品ページ内のセクション）。
 - ライブ活動: 年別本数の棒グラフ + 会場上位5 + 全公演リストへのリンク（`/lives?project=`）。
-- **よく演奏された曲 Top 10**: event_performance を project の event で絞って集計。→ `/songs/:id`。
+- **よく演奏された曲 Top 10**: event_performance を project の event で絞って集計。→ `/songs/:slug`。
 
-### 4.4 `/people/:id` 人物詳細 — 「この人はどこで門田と交差したか」
+### 4.4 `/people/:slug` 人物詳細 — 「この人はどこで門田と交差したか」
 
 - ヘッダ: 名前 / description / 活動期間（**person.activeFrom/To は全件 NULL のため、membership と contribution の最小日〜最大日から導出**）。
 - **所属タイムライン**: 複数プロジェクトへの在籍を 1 本の横軸に重ねて表示（兼任・移籍が一目でわかる。伊藤大地・内田武瑠で最も映える画面）。
 - 役割サマリ: contribution を role.category ごとに集計したチップ群（performer 75回 / recording_engineer 12回 など）。
-- 作った曲: composition_credit（composer / lyricist 別）。
+- 作った曲: composition_credit（composer / lyricist 別）。曲名 → `/songs/:slug`。
 - 関与一覧: contribution を対象別タブ（リリース / ライブ / 録音）で。※ recordingId を使う contribution は現状ほぼ無い → タブは件数 0 なら非表示。
 - **共演者**: 同じプロジェクトに在籍期間が重なる人物、または同じ event に contribution した人物の上位。→ 回遊の要。
 
-### 4.5 `/discography` + `/works/:id` + `/releases/:id`
+### 4.5 `/discography` + `/discography/:slug` 作品
 
-- `/discography`: work 単位のタイポグラフィックカードのグリッド（ジャケット画像は無いため、タイトル + 年 + format chip + catalog# をカードのデザイン要素として扱う）。フィルタ: プロジェクト / format / 年代 / editionType。work_project の `participant` はコンピレーション参加として区別表示。
-- `/works/:id`: work の説明 + type + 配下の全 release（初版と reissue を系譜表示）。
-- `/releases/:id`: **トラックリストが主役**。track_number 順に dotted leader（LP ジャケ裏風）で `曲名 …… recording の versionName / type バッジ`。曲名 → `/songs/:id`。クレジット（contribution where releaseId、role 別グループ）。label / distributor / catalogNumber / 発売日（精度対応）。`reissueOfReleaseId` があれば「このリリースは◯◯の再発」リンク、逆方向（再発盤一覧）も表示。
+- `/discography` 一覧: **大判ジャケットグリッドが主役**。ジャケットは正方形もジュエルケース型等の長方形もあるため、実画像の縦横比（artworkWidth/Height）を保って表示し、無理に正方形に切り抜かない。画像が無い作品は従来案のタイポグラフィックカード（タイトル + 年 + format chip + catalog#）にフォールバックする。フィルタ（プロジェクト / format / 年代 / editionType）とURL状態復帰は §4.2 の基準に従う。work_project の `participant` はコンピレーション参加として区別表示。
+- `/discography/:slug` 作品ページ: ヘッダに大きめのジャケット + work情報（description / type / releasedDate）。**トラックリスト**（dotted leader、LP ジャケ裏風、初版基準）が主役で、`曲名 …… recording の versionName / type バッジ`。曲名 → `/songs/:slug`。クレジット（contribution where releaseId、role 別グループ）。
+  - **版セクション**: その作品の全 release（初回盤 / 再発 / 配信）を時系列に並べ、それぞれに `#edition-<slug>` アンカーを付与して列挙する。catalogNumber・label・distributor・発売日（精度対応）・版ごとの収録差分（trackが異なる場合のみ差分表示）・`reissueOfReleaseId` による再発系譜を版セクション内で双方向リンクする。
+- **ジャケット画像の仕組み**: 画像ファイルは admin UI からアップロードして Cloudflare R2 に保存し、その URL を DB に保存する運用にする。DB拡張（§10参照）: `release` に `artworkUrl` / `artworkWidth` / `artworkHeight` 列を追加。作品の代表ジャケットは主たる版（初版）のものを使う。
 
-### 4.6 `/songs` + `/songs/:id` 楽曲 — 発見機能の中核画面
+### 4.6 `/songs` + `/songs/:slug` 楽曲 — 発見機能の中核画面
 
-- `/songs` 一覧: タイトル / 作曲・作詞者 / 録音数 / 収録リリース数 / 演奏回数 / 初出年。ソート可能（「演奏回数順」が最初の発見装置になる）。
-- `/songs/:id` 詳細:
+- `/songs` 一覧: タイトル / 作曲・作詞者 / 録音数 / 収録作品数 / 演奏回数 / 初出年。ソート可能（「演奏回数順」が最初の発見装置になる）。
+- `/songs/:slug` 詳細:
   - クレジット（composition_credit、orderIndex 順）。
-  - **録音バージョン一覧**: recording を type バッジ（studio / live / demo / rehearsal / other）+ versionName で。各録音の収録先リリース（track 経由）を紐付け表示。**recordingYear は全件 NULL のため、年は初出リリースの releaseDate で代替**。
-  - **曲の旅（収録史）**: この曲を収録した全リリースを時系列に並べ、プロジェクトカラーで名義を示す。「ANALYZE」なら 7 リリース・名義を跨ぐ旅が 1 本の線で見える。
+  - **録音バージョン一覧**: recording を type バッジ（studio / live / demo / rehearsal / other）+ versionName で。各バージョンの収録先を紐付け表示し、作品ページの該当版アンカー（`/discography/:slug#edition-<slug>`）へリンクする。**recordingYear は全件 NULL のため、年は初出リリースの releaseDate で代替**。
+  - **曲の旅（収録史）**: この曲を収録した全ての版を時系列に並べ、それぞれ作品ページの該当版アンカーへリンクする。プロジェクトカラーで名義を示す。「ANALYZE」なら 7 つの版・名義を跨ぐ旅が 1 本の線で見える。
   - **演奏史**: event_performance から (a) 初演 / 最終演奏、(b) 総演奏回数とアンコール率、(c) 年別演奏回数のヒートストリップ（1999–2026 の横帯）、(d) **「◯年ぶり」ギャップバッジ** — 演奏日の間隔が 3 年以上空いた復活演奏を自動検出して明示。これがこの画面最大の発見装置。
   - 録音 0 件の曲（30曲存在）は「ライブでのみ演奏された曲」として演奏史のみで成立させる。
 
-### 4.7 `/lives` + `/lives/:id` + `/venues/:id`
+### 4.7 `/lives` + `/lives/:slug` + `/venues/:slug`
 
-- `/lives`: 年セレクタ（年別件数付き）+ プロジェクト / 会場フィルタ + リスト（日付 / イベント名 / 会場 / 演奏曲数）。
-- `/lives/:id`: セットリスト（orderIndex 順、encore は罫線で区切り「アンコール」見出し、variationNote 併記）。曲名 → `/songs/:id`。サポートメンバー（contribution where eventId）。会場リンク。**前後の公演ナビ**（同プロジェクトの直前・直後の event）で年表的に歩ける。startTime / ticketPrice はほぼ NULL のため、値がある時のみ表示。
-- `/venues/:id`: 公演履歴（年別 + プロジェクト内訳）、**この会場での定番曲**（event_performance 集計 Top 5）。孤立 venue 8 件は「記録上の公演なし」と正直に表示。
+- `/lives`: 年セレクタ（年別件数付き）+ プロジェクト / 会場フィルタ + リスト（日付 / イベント名 / 会場 / 演奏曲数）。フィルタとURL状態復帰は §4.2 の基準に従う。
+- `/lives/:slug`: セットリスト（orderIndex 順、encore は罫線で区切り「アンコール」見出し）。**variationNote がある行はそれを主表記とし、補足として元の楽曲名を小さく添える**（例: 主表記「ミナソコ (weakened ver.)」/ 補足「ミナソコ」。リンクは元の楽曲ページ `/songs/:slug` へ）。サポートメンバー（contribution where eventId）。会場リンク。**前後の公演ナビ**（同プロジェクトの直前・直後の event）で年表的に歩ける。startTime / ticketPrice はほぼ NULL のため、値がある時のみ表示。
+- `/venues/:slug`: 公演履歴（年別 + プロジェクト内訳）、**この会場での定番曲**（event_performance 集計 Top 5）。孤立 venue 8 件は「記録上の公演なし」と正直に表示。
 
 ### 4.8 `/network` 人物相関 — 「彷徨う」ためのビジュアル
 
 - person × project の二部グラフ。中央にプロジェクト 8 ノード（プロジェクトカラー）、周囲に人物ノード。2 プロジェクト以上に在籍する人物（10人）を強調し、1 プロジェクトのみの人物は初期状態で薄く。エッジは membership（support は破線）。
-- 実装は d3-force か手書き SVG レイアウトで十分（ノード数 ~120）。ホバーで当該人物の全エッジをハイライト、クリックで `/people/:id`。
+- 実装は d3-force か手書き SVG レイアウトで十分（ノード数 ~120）。ホバーで当該人物の全エッジをハイライト、クリックで `/people/:slug`。
 - トグル: サポートメンバーを含む / 除く。
+
+**拡張ロードマップ（初期リリース後）**:
+
+- 将来像: 門田と関わった人物が他にやっているバンド、さらにそのバンドのメンバーのバンド…と辿れる相関図へ拡張する。
+- DB拡張（§10参照）: `project` に `scope` text 列（`'monden' | 'external'`、default `'monden'`）を追加する。外部バンドも同じ project テーブル + membership 構造に載せるため、グラフ探索・在籍期間・役割の既存ロジックがそのまま使える。既存の門田名義クエリは `scope = 'monden'` でフィルタする。
+- UI: 初期表示は現行の門田プロジェクト中心の depth 1。人物ノードをクリックすると外部プロジェクトが展開される段階的探索（初期ロードは depth 2 まで、以降はクリック展開）。外部プロジェクトはプロジェクトカラーを持たず muted なグレー系スタイルで区別する。
+- データ投入ガイドライン: スコープ爆発を防ぐため「**門田と直接在籍が重なった or 共演（contribution共起）した人物の、主要な他バンドに限る**」。rawData には外部バンド情報がほぼ無いため、新規のリサーチ・手入力領域であり admin UI の編集対象とする。実装は P3 以降。
 
 ### 4.9 `/library` 資料室
 
-- publication（97誌）→ publication_issue（335号）→ article（350件）の階層ブラウズ + 記事タイトル横断検索。
+- publication（97誌）→ publication_issue（335号）→ article（350件）の階層ブラウズ + 記事タイトル横断検索（Pagefind、§2参照）。
 - **article_mention_\* は 3 テーブルとも 0 件**のため、現段階では独立したアーカイブとして提示し、エンティティへの相互リンクは「将来拡張」と設計書上も UI 上も明示する（実装エージェントはリンク UI を作らないこと）。content / url / publishedDate は NULL が 40–60% ある → ある項目だけ描画。
 
 ### 4.10 `/about`
 
-§6 の掲載文 + データ提供元の説明 + 件数フッター（DB から動的集計、「2026年7月時点」のような static な文言は書かない）+ リポジトリへの言及。
+§6 の掲載文 + データ提供元の説明 + 件数フッター（ビルド時に DB から集計、「2026年7月時点」のような static な文言は書かない）+ リポジトリへの言及。
 
 ## 5. 横断ディスカバリー機能
 
 | 機能 | 置き場所 | 実装 |
 |---|---|---|
-| **Dig（ランダム到達）** | ヘッダ常設ボタン | `GET /api/site/dig?type=` が song/live/person/release からランダム 1 件の詳細 URL を返す。「調べる」導線と対になる「彷徨う」導線 |
-| ◯年ぶり演奏バッジ | 楽曲詳細・ライブ詳細 | event_performance の日付間隔 ≥3年 を検出 |
-| 曲の旅 | 楽曲詳細 | track → release → work_project を時系列連結 |
-| この日なんの日 | ホーム | 月日一致の event / release |
-| 再発系譜 | リリース詳細 | reissueOfReleaseId の双方向表示 |
+| **Dig（ランダム到達）** | ヘッダ常設ボタン | ビルド時生成の Dig インデックス JSON（song/live/person/work の slug + 種別 + 一言）からクライアントJSがランダムに1件を選び遷移。「調べる」導線と対になる「彷徨う」導線 |
+| ◯年ぶり演奏バッジ | 楽曲詳細・ライブ詳細 | event_performance の日付間隔 ≥3年 を export 時に計算し JSON へ埋め込む |
+| 曲の旅 | 楽曲詳細 | track → release → work を時系列連結し、作品ページの版アンカーへリンク |
+| この日なんの日 | ホーム | 月日一致をビルド時に事前計算した JSON |
+| 再発系譜 | 作品ページ（版セクション） | reissueOfReleaseId の双方向表示 |
 | 共演者 | 人物詳細 | membership 期間重複 + event 共起 |
 | 前後の公演ナビ | ライブ詳細 | 同 project の隣接 event |
 | 定番曲 | 会場詳細・プロジェクト詳細 | event_performance 集計 |
@@ -245,6 +290,14 @@ graph LR
 - 許可する演出: (1) 年表・Gantt 要素のスクロール時 fade + 8px slide（初回のみ）、(2) Dig ボタン押下時のカード差し替え crossfade 200ms、(3) network のホバーハイライト。
 - 禁止: パララックス、無限ループアニメ、ページ遷移演出（遷移は即時）。`prefers-reduced-motion` で全て無効化。
 
+### 7.6 スマートフォン / レスポンシブ方針
+
+- モバイルファーストで実装する。ブレークポイント: 〜640px（1カラム）/ 640–1024px（2カラム可）/ 1024px〜（フルレイアウト、シェル最大1200px）。
+- 横長の可視化はモバイルで形を変える: **キャリアリバーは縦タイムライン化**する（プロジェクト帯を縦に並べる）。**メンバーGanttは人物ごとの行リスト + 小さな期間バー**に変える。年別ヒートストリップとトラックリストはコンテナ横スクロールを容認する（開始位置を最新側に制御しスクロールヒントを表示）。network はピンチズーム可能にし、代替として同内容のリスト表示を併設する。
+- hover 依存を禁止する: ツールチップ・アンカーリンク表示はタップで開閉できるようにする。タップターゲットは最小44px。
+- 型スケールはモバイルで一段縮小する（34→28、24→20）。本文15pxは維持。
+- テーブルは横スクロール or 縦積み（definition list 化）を画面ごとに選択し、§4の各画面仕様に従う。
+
 ## 8. データ粗密と表示ルール（実装エージェント必読）
 
 | 事実 | 表示ルール |
@@ -262,8 +315,20 @@ graph LR
 
 ## 9. 実装フェーズ提案
 
-1. **P1 骨格**: `app/site` API + ルーティング + 共有コンポーネント（EntityLink / DateText / チップ類）+ 一覧・詳細の主要 6 画面（projects / people / discography+releases / songs / lives / venues）。プレーンなリストで良いのでリンク規約（§3.2）を完成させる。
-2. **P2 発見装置**: ホーム（キャリアリバー + Dig）、/timeline、楽曲詳細の演奏史・曲の旅、◯年ぶりバッジ。
-3. **P3 仕上げ**: /network、/library、/about、モーション、ダークテーマ微調整。
+1. **P0（前提）**: DB拡張マイグレーション（§10）+ slug 充足パイプライン（機械生成 → 人手レビュー）+ ジャケットアップロード機構（admin側、R2アップロード + `release.artworkUrl` 等の保存）。
+2. **P1 骨格**: `site/` の Astro プロジェクト立ち上げ + export スクリプト（DB → JSON）+ 主要一覧・詳細ページ（projects / people / discography / songs / lives / venues）でリンク規約（§3.4）を完成させる + Cloudflare デプロイ導線（wrangler deploy）。
+3. **P2 発見装置**: ホーム（キャリアリバー + Dig island）、/timeline（フィルタ island + アンカー）、楽曲詳細の演奏史・曲の旅、◯年ぶりバッジ。
+4. **P3 仕上げ**: /network（拡張基盤含む）、/library、/about、モバイル微調整、Pagefind 検索。
 
-各フェーズ末に `bun run typecheck` / `bun test` / 実画面のスクリーンショット確認を通すこと。
+各フェーズ末に `bun run typecheck` / `bun test` / 実画面のスクリーンショット確認 + **フィルタ付き画面のURL直開き復帰確認** を通すこと。
+
+## 10. DB拡張ロードマップ
+
+本サイトのために `app/db/schema.ts` へ加える拡張の一覧（マイグレーション適用は別作業。schema.ts がスキーマの唯一の情報源である原則は不変）。
+
+1. **slug 列**: `project` / `person` / `composition` / `work` / `venue` に `slug text unique`（当面 nullable、パイプライン生成 + 人手レビューで順次充足）。`event` は `(project_id, venue_id, event_date)` から決定的に生成する合成 slug を同じく `slug` 列に保持する。
+   目的: 公開URLからuuidを排除するため（§3.3 / c_67dcc3）。
+2. **ジャケット**: `release.artworkUrl text` / `artworkWidth integer` / `artworkHeight integer`（Cloudflare R2 のURL。admin UIからアップロード・登録）。
+   目的: /discography のジャケットグリッドと作品ページのヘッダ画像のため（§4.5 / c_bcdec2）。
+3. **相関図拡張**: `project.scope text NOT NULL default 'monden'`（`'monden' | 'external'` の CHECK 付き）。
+   目的: /network を外部バンドまで辿れる相関図に拡張するため（§4.8 / c_794b1d）。
