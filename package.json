@@ -11,6 +11,7 @@
 		"db:generate:band-releases": "bun scripts/generate_band_release_seed_sql.ts",
 		"db:generate:labels": "bun scripts/generate_label_seed_sql.ts",
 		"db:generate:magazines": "bun scripts/generate_magazine_seed_sql.ts",
+		"db:apply:slug-reviews": "bun scripts/apply_slug_reviews.ts",
 		"review:compositions": "bun run app/server.ts",
 		"review:magazines:generate": "bun scripts/generate_magazine_review.ts",
 		"site:build": "astro build --root site",
