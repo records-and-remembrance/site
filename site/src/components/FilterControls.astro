@@ -1,0 +1,112 @@
+---
+import { parseFilterQuery } from '../lib/url-filters';
+
+type FilterOption = { value: string; label: string };
+type FilterGroup = { key: string; label: string; options: readonly FilterOption[] };
+
+interface Props {
+	path: string;
+	groups: readonly FilterGroup[];
+	selected: ReturnType<typeof parseFilterQuery>;
+}
+
+const { path, groups, selected } = Astro.props;
+const schema = Object.fromEntries(groups.map((group) => [group.key, group.options.map((option) => option.value)]));
+---
+
+<form class="filter-controls" data-filter-form data-filter-path={path} data-filter-schema={JSON.stringify(schema)}>
+	{groups.map((group) => (
+		<fieldset>
+			<legend>{group.label}</legend>
+			<div class="filter-controls__options">
+				{group.options.map((option) => (
+					<label>
+						<input type="checkbox" name={group.key} value={option.value} checked={selected[group.key]?.includes(option.value)} />
+						<span>{option.label}</span>
+					</label>
+				))}
+			</div>
+		</fieldset>
+	))}
+	<div class="filter-controls__actions">
+		<button type="submit">絞り込む</button>
+		<a href={path}>すべて表示</a>
+	</div>
+</form>
+
+<script>
+	import { matchesFilterValues, normalizeFilterUrl, parseFilterQuery, serializeFilterUrl, type FilterSchema } from '../lib/url-filters';
+
+	const form = document.querySelector<HTMLFormElement>('[data-filter-form]');
+	if (form) {
+		const schema = JSON.parse(form.dataset.filterSchema ?? '{}') as FilterSchema;
+
+		const updateView = (url: string) => {
+			const state = parseFilterQuery(url, schema);
+			for (const input of form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')) {
+				input.checked = state[input.name]?.includes(input.value) ?? false;
+			}
+			for (const item of document.querySelectorAll<HTMLElement>('[data-filter-item]')) {
+				try {
+					item.hidden = !matchesFilterValues(JSON.parse(item.dataset.filterValues ?? '{}'), state);
+				} catch {
+					item.hidden = false;
+				}
+			}
+		};
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const state = Object.fromEntries(
+				Object.keys(schema).map((key) => [key, [...form.querySelectorAll<HTMLInputElement>(`input[name="${key}"]:checked`)].map((input) => input.value)]),
+			);
+			const nextUrl = serializeFilterUrl(window.location.href, state, schema);
+			window.history.pushState({}, '', nextUrl);
+			updateView(nextUrl);
+		});
+		window.addEventListener('popstate', () => updateView(window.location.href));
+		const normalizedUrl = normalizeFilterUrl(window.location.href, schema);
+		if (normalizedUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) window.history.replaceState({}, '', normalizedUrl);
+		updateView(normalizedUrl);
+	}
+</script>
+
+<style>
+	.filter-controls {
+		display: grid;
+		gap: var(--space-3);
+		margin-block: var(--space-5);
+		padding: var(--space-4);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.filter-controls fieldset {
+		border: 0;
+		margin: 0;
+		padding: 0;
+	}
+
+	.filter-controls legend {
+		font-weight: 700;
+	}
+
+	.filter-controls__options {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-4);
+		margin-block-start: var(--space-2);
+	}
+
+	.filter-controls__options label {
+		display: inline-flex;
+		gap: var(--space-1);
+		align-items: center;
+	}
+
+	.filter-controls__actions {
+		display: flex;
+		gap: var(--space-3);
+		align-items: center;
+	}
+</style>

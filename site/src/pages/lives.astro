@@ -2,12 +2,15 @@
 import type { SiteRow } from '../../export/export';
 import DateText from '../components/DateText.astro';
 import EntityLink from '../components/EntityLink.astro';
+import FilterControls from '../components/FilterControls.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { siteData, siteTableRows } from '../data';
+import { matchesFilterValues, parseFilterQuery } from '../lib/url-filters';
 
 type LiveFilter = {
-	projectSlug?: string;
-	venueSlug?: string;
+	projectSlugs?: readonly string[];
+	venueSlugs?: readonly string[];
+	years?: readonly string[];
 };
 
 type LiveListItem = {
@@ -22,6 +25,7 @@ type LiveListItem = {
 	venueSlug: string | null;
 	performanceCount: number;
 	isUpcoming: boolean;
+	filterValues: { project: readonly string[]; venue: readonly string[]; year: readonly string[] };
 };
 
 const stringValue = (value: unknown): string => (typeof value === 'string' ? value : '');
@@ -59,8 +63,14 @@ const buildLiveItems = (filter: LiveFilter = {}): LiveListItem[] => {
 			if (!eventDate || !project || !venue) return undefined;
 			const projectSlug = nullableStringValue(project.slug);
 			const venueSlug = nullableStringValue(venue.slug);
-			if (filter.projectSlug && filter.projectSlug !== projectSlug) return undefined;
-			if (filter.venueSlug && filter.venueSlug !== venueSlug) return undefined;
+			const filterValues = {
+				project: projectSlug ? [projectSlug] : [],
+				venue: venueSlug ? [venueSlug] : [],
+				year: eventDate.slice(0, 4) ? [eventDate.slice(0, 4)] : [],
+			};
+			if (filter.projectSlugs?.length && !filterValues.project.some((value) => filter.projectSlugs?.includes(value))) return undefined;
+			if (filter.venueSlugs?.length && !filterValues.venue.some((value) => filter.venueSlugs?.includes(value))) return undefined;
+			if (filter.years?.length && !filterValues.year.some((value) => filter.years?.includes(value))) return undefined;
 			return {
 				eventId: stringValue(event.id),
 				eventName: stringValue(event.eventName) || '名称未登録',
@@ -71,8 +81,9 @@ const buildLiveItems = (filter: LiveFilter = {}): LiveListItem[] => {
 				projectSlug,
 				venueName: stringValue(venue.name) || '名称未登録',
 				venueSlug,
-				performanceCount: performanceCounts.get(stringValue(event.id)) ?? 0,
-				isUpcoming: eventDate >= snapshotDate,
+					performanceCount: performanceCounts.get(stringValue(event.id)) ?? 0,
+					isUpcoming: eventDate >= snapshotDate,
+					filterValues,
 			};
 		})
 		.filter((item): item is LiveListItem => item !== undefined)
@@ -86,13 +97,22 @@ const buildLiveItems = (filter: LiveFilter = {}): LiveListItem[] => {
 		);
 };
 
-const filter: LiveFilter = {
-	projectSlug: Astro.url.searchParams.get('project') ?? undefined,
-	venueSlug: Astro.url.searchParams.get('venue') ?? undefined,
+const allLives = buildLiveItems();
+const filterSchema = {
+	project: [...new Set(allLives.flatMap((live) => live.filterValues.project))].sort(),
+	venue: [...new Set(allLives.flatMap((live) => live.filterValues.venue))].sort(),
+	year: [...new Set(allLives.flatMap((live) => live.filterValues.year))].sort(),
 };
-const lives = buildLiveItems(filter);
+const selected = parseFilterQuery(Astro.url.searchParams, filterSchema);
+const lives = allLives;
+const visibleLives = lives.filter((live) => matchesFilterValues(live.filterValues, selected));
 const years = [...new Set(lives.map((live) => live.eventDate.slice(0, 4)))].sort((left, right) => right.localeCompare(left));
 const livesByYear = new Map(years.map((year) => [year, lives.filter((live) => live.eventDate.startsWith(`${year}-`))]));
+const filterGroups = [
+	{ key: 'project', label: 'プロジェクト', options: filterSchema.project.map((value) => ({ value, label: siteTableRows('project').find((project) => project.slug === value)?.name ?? value })) },
+	{ key: 'venue', label: '会場', options: filterSchema.venue.map((value) => ({ value, label: siteTableRows('venue').find((venue) => venue.slug === value)?.name ?? value })) },
+	{ key: 'year', label: '年', options: filterSchema.year.map((value) => ({ value, label: `${value}年` })) },
+];
 const pageDescription = '公演日、名義、会場、セットリスト件数からライブ記録をたどれます。';
 ---
 
@@ -101,13 +121,15 @@ const pageDescription = '公演日、名義、会場、セットリスト件数�
 		<header class="lives-index__header">
 			<p class="lives-index__eyebrow">LIVE ARCHIVE</p>
 			<h1 id="lives-page-title">ライブ</h1>
-			<p>{pageDescription}</p>
-		</header>
+				<p>{pageDescription}</p>
+			</header>
+			<FilterControls path="/lives" groups={filterGroups} selected={selected} />
 
-		{lives.length === 0 ? (
-			<p class="lives-index__empty">ライブの記録はありません。</p>
-		) : (
-			<>
+			{lives.length === 0 ? (
+				<p class="lives-index__empty">ライブの記録はありません。</p>
+			) : (
+				<>
+					<p class="lives-index__empty" data-filter-empty hidden={visibleLives.length > 0}>条件に一致するライブはありません。</p>
 				<nav class="lives-index__years" aria-label="年別に見る">
 					<strong>年別に見る</strong>
 					<ul>
@@ -132,7 +154,7 @@ const pageDescription = '公演日、名義、会場、セットリスト件数�
 								</header>
 								<ul class="lives-index__list">
 									{yearLives.map((live) => (
-										<li class="lives-index__item" data-event-id={live.eventId} data-event-type={live.eventType}>
+											<li class="lives-index__item" data-event-id={live.eventId} data-event-type={live.eventType} data-filter-item data-filter-values={JSON.stringify(live.filterValues)} hidden={!matchesFilterValues(live.filterValues, selected)}>
 											<div class="lives-index__item-main">
 												<div class="lives-index__item-title">
 													<EntityLink type="event" slug={live.eventSlug} label={live.eventName} />

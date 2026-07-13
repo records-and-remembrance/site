@@ -1,24 +1,45 @@
 ---
 import Artwork from '../components/Artwork.astro';
 import DateText from '../components/DateText.astro';
+import FilterControls from '../components/FilterControls.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { siteTableRows } from '../data';
 import { buildDiscographyCards } from '../lib/discography';
+import { matchesFilterValues, parseFilterQuery } from '../lib/url-filters';
 
 const cards = buildDiscographyCards(siteTableRows('work'), siteTableRows('release'), siteTableRows('project'));
 const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean);
+const filterSchema = {
+	project: [...new Set(cards.flatMap((card) => card.filterValues.project))].sort(),
+	format: [...new Set(cards.flatMap((card) => card.filterValues.format))].sort(),
+	decade: [...new Set(cards.flatMap((card) => card.filterValues.decade))].sort(),
+	editionType: [...new Set(cards.flatMap((card) => card.filterValues.editionType))].sort(),
+};
+const selected = parseFilterQuery(Astro.url.searchParams, filterSchema);
+const filterGroups = [
+	{ key: 'project', label: 'プロジェクト', options: filterSchema.project.map((value) => ({ value, label: siteTableRows('project').find((project) => project.slug === value)?.name ?? value })) },
+	{ key: 'format', label: 'フォーマット', options: filterSchema.format.map((value) => ({ value, label: value })) },
+	{ key: 'decade', label: '年代', options: filterSchema.decade.map((value) => ({ value, label: value.replace('s', '年代') })) },
+	{ key: 'editionType', label: '版種別', options: filterSchema.editionType.map((value) => ({ value, label: value })) },
+];
 ---
 
 <SiteLayout title="作品" breadcrumbs={[{ label: '作品' }]}>
 	<section aria-labelledby="discography-title">
-		<h1 id="discography-title">作品</h1>
-		<p>作品と版を、発表順にたどる。</p>
-		{cards.length === 0 ? (
+			<h1 id="discography-title">作品</h1>
+			<p>作品と版を、発表順にたどる。</p>
+			<FilterControls path="/discography" groups={filterGroups} selected={selected} />
+			{cards.length === 0 ? (
 			<p>作品データはまだありません。</p>
 		) : (
 			<div class="discography-grid">
-				{cards.map((card) => (
-					<article class="discography-card">
+					{cards.map((card) => (
+						<article
+							class="discography-card"
+							data-filter-item
+							data-filter-values={JSON.stringify(card.filterValues)}
+							hidden={!matchesFilterValues(card.filterValues, selected)}
+						>
 						<Artwork url={card.artworkUrl} width={card.artworkWidth} height={card.artworkHeight} alt={`${card.title}のジャケット`} allowedOrigins={artworkOrigins} />
 						<div class="discography-card__body">
 							<h2>
