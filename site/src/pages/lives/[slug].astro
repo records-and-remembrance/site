@@ -1,0 +1,113 @@
+---
+import ConnectionLinks from '../../components/ConnectionLinks.astro';
+import DateText from '../../components/DateText.astro';
+import EntityLink from '../../components/EntityLink.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { siteTableRows } from '../../data';
+import { buildLiveDetail, type LiveDetailSource } from '../../lib/live-detail';
+import { buildEntityHref } from '../../lib/site-foundation';
+
+const source: LiveDetailSource = {
+	event: siteTableRows('event'),
+	eventPerformance: siteTableRows('eventPerformance'),
+	composition: siteTableRows('composition'),
+	project: siteTableRows('project'),
+	venue: siteTableRows('venue'),
+	person: siteTableRows('person'),
+	contribution: siteTableRows('contribution'),
+};
+
+export function getStaticPaths() {
+	return siteTableRows('event')
+		.filter((event) => buildEntityHref('event', typeof event.slug === 'string' ? event.slug : undefined))
+		.map((event) => ({ params: { slug: event.slug as string } }));
+}
+
+const detail = buildLiveDetail(source, Astro.params.slug);
+if (!detail) throw new Error(`Live not found: ${Astro.params.slug ?? '(missing slug)'}`);
+
+const precision = detail.event.datePrecision === 'year' || detail.event.datePrecision === 'month' || detail.event.datePrecision === 'day' || detail.event.datePrecision === 'uncertain' ? detail.event.datePrecision : 'day';
+---
+
+<SiteLayout title={detail.event.name} currentPath="/lives" breadcrumbs={[{ label: 'ライブ', href: '/lives' }, { label: detail.event.name }] }>
+	<article class="live-detail" aria-labelledby="live-title">
+		<header>
+			<p class="eyebrow">LIVE</p>
+			<h1 id="live-title">{detail.event.name}</h1>
+			<p><DateText value={detail.event.date} precision={precision} /> · {detail.event.type}</p>
+			<p><EntityLink type="project" slug={detail.project.slug} label={detail.project.name} /> · <EntityLink type="venue" slug={detail.venue.slug} label={detail.venue.name} /></p>
+			{detail.event.startTime && <p>開演: {detail.event.startTime}</p>}
+			{detail.event.ticketPrice !== undefined && <p>チケット: {detail.event.ticketPrice}円</p>}
+		</header>
+
+		<section aria-labelledby="setlist-title">
+			<h2 id="setlist-title">セットリスト</h2>
+			{detail.performances.length === 0 ? (
+				<p>セットリスト未登録</p>
+			) : (
+				<ol class="live-setlist">
+					{detail.performances.map((performance, index) => (
+						<li>
+							{performance.encore && !detail.performances[index - 1]?.encore && <h3>アンコール</h3>}
+							<span class="live-setlist__number">{performance.orderIndex}</span>
+							{performance.href ? <a href={performance.href}>{performance.title}</a> : <span>{performance.title}</span>}
+							{performance.variationNote && <small>（原曲: {performance.title}）</small>}
+						</li>
+					))}
+				</ol>
+			)}
+		</section>
+
+		<section aria-labelledby="live-participants-title">
+			<h2 id="live-participants-title">関与した人物</h2>
+			{detail.participants.length > 0 ? <ul>{detail.participants.map((person) => <li><EntityLink type="person" slug={person.href?.split('/').pop()} label={person.name} />{person.role && `（${person.role}）`}</li>)}</ul> : <p>人物の参加記録はありません。</p>}
+		</section>
+
+		<nav class="live-adjacent" aria-label="前後の公演">
+			{detail.previous && <a href={detail.previous.href ?? '#'}>← 前の公演: {detail.previous.label}</a>}
+			{detail.next && <a href={detail.next.href ?? '#'}>次の公演: {detail.next.label} →</a>}
+		</nav>
+		<ConnectionLinks links={[{ label: `${detail.project.name}（プロジェクト）`, href: detail.project.href }, { label: `${detail.venue.name}（会場）`, href: detail.venue.href }, ...detail.performances.map((performance) => ({ label: `${performance.title}（楽曲）`, href: performance.href }))]} />
+	</article>
+</SiteLayout>
+
+<style>
+	.live-detail header,
+	.live-detail section,
+	.live-adjacent {
+		margin-block-end: var(--space-6);
+	}
+
+	.live-setlist {
+		display: grid;
+		gap: var(--space-2);
+		padding-inline-start: 0;
+		list-style: none;
+	}
+
+	.live-setlist li {
+		display: grid;
+		grid-template-columns: 3rem minmax(0, 1fr);
+		gap: var(--space-2);
+		align-items: baseline;
+		padding: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.live-setlist h3 {
+		grid-column: 1 / -1;
+		margin: var(--space-3) 0 0;
+	}
+
+	.live-setlist__number {
+		font-variant-numeric: tabular-nums;
+		color: var(--ink-muted);
+	}
+
+	.live-adjacent {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: var(--space-3);
+	}
+</style>
