@@ -315,12 +315,23 @@ graph LR
 
 ## 9. 実装フェーズ提案
 
-1. **P0（前提）**: DB拡張マイグレーション（§10）+ slug 充足パイプライン（機械生成 → 人手レビュー）+ ジャケットアップロード機構（admin側、R2アップロード + `release.artworkUrl` 等の保存）。
-2. **P1 骨格**: `site/` の Astro プロジェクト立ち上げ + export スクリプト（DB → JSON）+ 主要一覧・詳細ページ（projects / people / discography / songs / lives / venues）でリンク規約（§3.4）を完成させる + Cloudflare デプロイ導線（wrangler deploy）。
-3. **P2 発見装置**: ホーム（キャリアリバー + Dig island）、/timeline（フィルタ island + アンカー）、楽曲詳細の演奏史・曲の旅、◯年ぶりバッジ。
-4. **P3 仕上げ**: /network（拡張基盤含む）、/library、/about、モバイル微調整、Pagefind 検索。
+実装単位を、設計・テスト・受け入れが独立する大きさ（目安: 「DB拡張マイグレーション（§10）」1本相当）まで分解した。画面一式や「仕上げ」のように完了条件が広すぎる作業は一つのチケットにまとめない。各チケットの詳細は [`guides/public-site-tickets/README.md`](public-site-tickets/README.md) と個別Markdownを参照する。
 
-各フェーズ末に `bun run typecheck` / `bun test` / 実画面のスクリーンショット確認 + **フィルタ付き画面のURL直開き復帰確認** を通すこと。
+| フェーズ | 実装の責務 | チケット | フェーズ完了条件 |
+| --- | --- | --- | --- |
+| **P0 データ準備** | DB契約、slug、ジャケット登録 | [PST-001](public-site-tickets/PST-001-db-extension.md)〜[PST-004](public-site-tickets/PST-004-artwork-storage.md) | slugがレビュー可能で、DBと画像メタデータをexportできる |
+| **P1 サイト基盤** | Astro、export、共通layout、URL・日付表示 | [PST-005](public-site-tickets/PST-005-site-bootstrap.md)〜[PST-008](public-site-tickets/PST-008-date-url-foundation.md) | DBなしで静的buildでき、共通表示規則が確定する |
+| **P2 基本アーカイブ** | プロジェクト、人物、作品、楽曲、ライブ、会場、フィルタ | [PST-009](public-site-tickets/PST-009-project-pages.md)〜[PST-018](public-site-tickets/PST-018-shared-filters.md) | 基本エンティティをslugリンクで相互に辿れ、URL直開きでフィルタが復帰する |
+| **P3 発見機能** | ホーム、Dig、年表、曲の旅・演奏史 | [PST-019](public-site-tickets/PST-019-home.md)〜[PST-022](public-site-tickets/PST-022-song-discovery.md) | 発見機能が静的データだけで動き、日付anchorとギャップ判定が安定する |
+| **P4 拡張・資料** | network、外部scope、library、Pagefind、About | [PST-023](public-site-tickets/PST-023-network.md)〜[PST-027](public-site-tickets/PST-027-about.md) | 外部scopeを制御して展開でき、資料・検索・説明ページが統合される |
+| **P5 公開品質** | レスポンシブ、アクセシビリティ、Cloudflare、総合確認 | [PST-028](public-site-tickets/PST-028-responsive-accessibility.md)〜[PST-030](public-site-tickets/PST-030-release-regression.md) | 本番CDN上で主要導線・モバイル・URL復帰・DBアクセスゼロを確認できる |
+
+### チケットの共通完了条件
+
+- テスト方針に従い、振る舞い・データ契約のテストを先に書いてから実装・リファクタリングする。
+- `bun run typecheck`、`bun test`、対象画面のスクリーンショット確認を通す。
+- フィルタ付き画面はURLを直接開いた場合の状態復帰をE2Eで確認する。
+- 欠損データ、NULL、日付精度、未来event、空状態を設計書 §8の規則で確認する。
 
 ## 10. DB拡張ロードマップ
 
