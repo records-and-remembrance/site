@@ -50,15 +50,15 @@ const fixtureRows = (): SiteDatabaseRows =>
 	});
 
 const fixtureSnapshot = (withTodayEntries = true): SiteSnapshot => {
-		const rows = fixtureRows();
-		return createSnapshot(rows, {
-			counts: { composition: 0, work: 12, event: 2, person: 34, venue: 5, article: 0 },
-			monthDay: withTodayEntries
-				? {
+	const rows = fixtureRows();
+	return createSnapshot(rows, {
+		counts: { composition: 0, work: 12, event: 2, person: 34, venue: 5, article: 0 },
+		monthDay: withTodayEntries
+			? {
 					'07-13': [{ type: 'event', date: '2020-07-13', label: '今日の記録', href: '/lives/2020-07-13-venue-1', slug: '2020-07-13-venue-1' }],
 				}
-				: {},
-		});
+			: {},
+	});
 };
 
 const runStaticBuild = async (snapshot: SiteSnapshot): Promise<string> => {

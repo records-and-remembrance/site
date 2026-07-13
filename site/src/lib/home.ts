@@ -67,7 +67,7 @@ const yearValue = (value: string | undefined): number | undefined => {
 
 const compareText = (left: string | undefined, right: string | undefined): number => (left ?? '').localeCompare(right ?? '', 'ja');
 
-const projectColorToken = (slug: string | undefined): string => (slug ? PROJECT_COLOR_TOKENS[slug] ?? 'var(--project-other)' : 'var(--project-other)');
+const projectColorToken = (slug: string | undefined): string => (slug ? (PROJECT_COLOR_TOKENS[slug] ?? 'var(--project-other)') : 'var(--project-other)');
 
 const projectPeriodLabel = (startDate: string | undefined, endDate: string | undefined): string => `${yearValue(startDate) ?? '活動期間不明'}〜${yearValue(endDate) ?? '現在'}`;
 
