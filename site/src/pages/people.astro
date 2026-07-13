@@ -1,0 +1,27 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import { buildPeopleList } from '../lib/people';
+
+const people = buildPeopleList(siteTableRows('person'));
+---
+
+<SiteLayout title="人物" currentPath="/people" breadcrumbs={[{ label: '人物' }]}>
+	<section aria-labelledby="people-title">
+		<h1 id="people-title">人物</h1>
+		{people.length === 0 ? (
+			<p>人物データはありません。</p>
+		) : (
+			<ul>
+				{people.map((person) => {
+					return (
+						<li>
+							{person.href ? <a href={person.href}>{person.name}</a> : <span>{person.name}</span>}
+							{person.description && <p>{person.description}</p>}
+						</li>
+					);
+				})}
+			</ul>
+		)}
+	</section>
+</SiteLayout>

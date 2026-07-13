@@ -1,0 +1,166 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import DateText from '../../components/DateText.astro';
+import { siteTableRows } from '../../data';
+import { buildPersonPageModel, type SiteRow } from '../../lib/people';
+import { buildEntityHref } from '../../lib/site-foundation';
+
+export function getStaticPaths() {
+	const people = siteTableRows('person');
+	return people.flatMap((person) => {
+		const slug = typeof person.slug === 'string' ? person.slug : '';
+		return buildEntityHref('person', slug) ? [{ params: { slug }, props: { person } }] : [];
+	});
+}
+
+const people = siteTableRows('person');
+const { person: personProp } = Astro.props as { person?: SiteRow };
+const selectedPerson = personProp ?? people.find((person) => person.slug === Astro.params.slug);
+const model = selectedPerson
+	? buildPersonPageModel({
+		person: selectedPerson,
+		people,
+		projects: siteTableRows('project'),
+		memberships: siteTableRows('membership'),
+		membershipRoles: siteTableRows('membershipRole'),
+		roles: siteTableRows('role'),
+		instruments: siteTableRows('instrument'),
+		compositions: siteTableRows('composition'),
+		compositionCredits: siteTableRows('compositionCredit'),
+		releases: siteTableRows('release'),
+		works: siteTableRows('work'),
+		recordings: siteTableRows('recording'),
+		events: siteTableRows('event'),
+		contributions: siteTableRows('contribution'),
+	})
+	: undefined;
+const slug = Astro.params.slug ?? '';
+---
+
+<SiteLayout
+	title={model?.name ?? '人物'}
+	currentPath={`/people/${slug}`}
+	breadcrumbs={[{ label: '人物', href: '/people' }, { label: model?.name ?? '人物' }]}
+>
+	{model ? (
+		<article aria-labelledby="person-title">
+			<header>
+				<h1 id="person-title">{model.name}</h1>
+				{model.description && <p>{model.description}</p>}
+				{(model.activityPeriod.from || model.activityPeriod.to) && (
+					<p>
+						活動期間:{' '}
+						{model.activityPeriod.from && <DateText value={model.activityPeriod.from} precision={model.activityPeriod.fromPrecision} />}
+						{model.activityPeriod.from && model.activityPeriod.to && ' – '}
+						{model.activityPeriod.to && <DateText value={model.activityPeriod.to} precision={model.activityPeriod.toPrecision} />}
+						{(model.activityPeriod.fromDerived || model.activityPeriod.toDerived) && <small>（記録から導出）</small>}
+					</p>
+				)}
+			</header>
+
+			{model.memberships.length > 0 && (
+				<section aria-labelledby="memberships-title">
+					<h2 id="memberships-title">在籍・参加</h2>
+					<ol>
+						{model.memberships.map((membership) => (
+							<li>
+								<h3>
+									{membership.projectHref ? <a href={membership.projectHref}>{membership.projectName}</a> : <span>{membership.projectName}</span>}
+									{membership.support && <small>（サポート）</small>}
+								</h3>
+								<p>
+									在籍期間:{' '}
+									{membership.fromDate && <DateText value={membership.fromDate} precision={membership.fromDatePrecision} />}
+									{membership.fromDate && membership.toDate && ' – '}
+									{membership.toDate ? <DateText value={membership.toDate} precision={membership.toDatePrecision} /> : <span>現在</span>}
+								</p>
+								{membership.roles.length > 0 && (
+									<p>
+										役割: {membership.roles.join('、')}
+									</p>
+								)}
+							</li>
+						))}
+					</ol>
+				</section>
+			)}
+
+			{model.credits.length > 0 && (
+				<section aria-labelledby="credits-title">
+					<h2 id="credits-title">作曲・作詞クレジット</h2>
+					<ul>
+						{model.credits.map((credit) => (
+							<li>
+								{credit.typeLabel}: {credit.href ? <a href={credit.href}>{credit.label}</a> : <span>{credit.label}</span>}
+							</li>
+						))}
+					</ul>
+				</section>
+			)}
+
+			{(model.contributions.releases.length > 0 || model.contributions.events.length > 0 || model.contributions.recordings.length > 0) && (
+				<section aria-labelledby="contributions-title">
+					<h2 id="contributions-title">関与</h2>
+					{model.contributions.releases.length > 0 && (
+						<div>
+							<h3>リリース参加</h3>
+							<ul>
+								{model.contributions.releases.map((contribution) => (
+									<li>
+										{contribution.href ? <a href={contribution.href}>{contribution.label}</a> : <span>{contribution.label}</span>}
+										{contribution.date && <DateText value={contribution.date} precision="day" />}
+										{(contribution.roleLabel || contribution.instrumentLabel) && <small>（{[contribution.roleLabel, contribution.instrumentLabel].filter(Boolean).join(' / ')}）</small>}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+					{model.contributions.events.length > 0 && (
+						<div>
+							<h3>ライブ参加</h3>
+							<ul>
+								{model.contributions.events.map((contribution) => (
+									<li>
+										{contribution.href ? <a href={contribution.href}>{contribution.label}</a> : <span>{contribution.label}</span>}
+										{contribution.date && <DateText value={contribution.date} precision="day" />}
+										{(contribution.roleLabel || contribution.instrumentLabel) && <small>（{[contribution.roleLabel, contribution.instrumentLabel].filter(Boolean).join(' / ')}）</small>}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+					{model.contributions.recordings.length > 0 && (
+						<div>
+							<h3>録音参加</h3>
+							<ul>
+								{model.contributions.recordings.map((contribution) => (
+									<li>
+										{contribution.href ? <a href={contribution.href}>{contribution.label}</a> : <span>{contribution.label}</span>}
+										{contribution.date && <DateText value={contribution.date} precision="day" />}
+										{(contribution.roleLabel || contribution.instrumentLabel) && <small>（{[contribution.roleLabel, contribution.instrumentLabel].filter(Boolean).join(' / ')}）</small>}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+				</section>
+			)}
+
+			{model.coPerformers.length > 0 && (
+				<section aria-labelledby="co-performers-title">
+					<h2 id="co-performers-title">共演・共活動</h2>
+					<ul>
+						{model.coPerformers.map((coPerformer) => (
+							<li>
+								{coPerformer.href ? <a href={coPerformer.href}>{coPerformer.name}</a> : <span>{coPerformer.name}</span>}
+								<small>（根拠: {coPerformer.reasons.join('、')}）</small>
+							</li>
+						))}
+					</ul>
+				</section>
+			)}
+		</article>
+	) : (
+		<p>人物が見つかりません。</p>
+	)}
+</SiteLayout>
