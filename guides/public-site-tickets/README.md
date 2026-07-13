@@ -13,40 +13,73 @@
 - 画面チケットは、空データ・NULL・日付精度・モバイル幅のうち、対象画面に関係する欠損ケースを必ず含める。
 - 各チケットの受け入れ時に、対象テスト、`bun run typecheck`、`bun test`、対象画面のスクリーンショット確認を行う。フィルタを持つ画面はURL直開きからの状態復帰も確認する。
 
+## 進捗管理
+
+最終更新日: 2026-07-13
+
+### 状態の記入ルール
+
+- `未着手`: 作業を開始していない
+- `進行中`: 実装またはテストを作業中
+- `レビュー待ち`: 実装者の確認が終わり、レビュー待ち
+- `受け入れ待ち`: 受け入れ条件の確認待ち
+- `完了`: 受け入れ条件を満たし、関連コミットが確定
+- `保留`: ブロッカーにより作業を止めている
+
+`担当`、`着手日`、`完了日`、`コミット／PR`、`ブロッカー`は各チケットの着手時・状態変更時に記入する。`—`は未記入を表す。
+
+### 全体メモ
+
+- 次に着手するチケット: —
+- 次のマイルストーン: —
+- 現在のリスク／確認事項: —
+
 ## チケット一覧
 
-| ID | フェーズ | チケット | 依存 |
-| --- | --- | --- | --- |
-| [PST-001](PST-001-db-extension.md) | P0 | DB拡張マイグレーションと契約確認 | - |
-| [PST-002](PST-002-slug-candidate-pipeline.md) | P0 | slug候補生成 | PST-001 |
-| [PST-003](PST-003-slug-review-persistence.md) | P0 | slugレビュー・確定値反映 | PST-002 |
-| [PST-004](PST-004-artwork-storage.md) | P0 | ジャケット画像のR2・admin登録 | PST-001 |
-| [PST-005](PST-005-site-bootstrap.md) | P1 | Astroサイトとビルド導線 | - |
-| [PST-006](PST-006-export-contract.md) | P1 | DB→静的JSON export契約 | PST-001, PST-003, PST-005 |
-| [PST-007](PST-007-site-shell.md) | P1 | 共通レイアウト・テーマ・ナビゲーション | PST-005 |
-| [PST-008](PST-008-date-url-foundation.md) | P1 | URL・日付・画像の共通表示基盤 | PST-003, PST-006, PST-007 |
-| [PST-009](PST-009-project-pages.md) | P2 | プロジェクト一覧・詳細 | PST-008 |
-| [PST-010](PST-010-people-pages.md) | P2 | 人物一覧・詳細 | PST-008 |
-| [PST-011](PST-011-discography-index.md) | P2 | ディスコグラフィ一覧 | PST-004, PST-008 |
-| [PST-012](PST-012-discography-detail.md) | P2 | 作品詳細・版セクション | PST-011 |
-| [PST-013](PST-013-songs-index.md) | P2 | 楽曲一覧 | PST-008 |
-| [PST-014](PST-014-song-detail.md) | P2 | 楽曲詳細の基本表示 | PST-012, PST-013 |
-| [PST-015](PST-015-lives-index.md) | P2 | ライブ一覧 | PST-008 |
-| [PST-016](PST-016-live-detail.md) | P2 | ライブ詳細 | PST-014, PST-015 |
-| [PST-017](PST-017-venue-pages.md) | P2 | 会場一覧・詳細 | PST-008, PST-015 |
-| [PST-018](PST-018-shared-filters.md) | P2 | フィルタとURL状態復帰 | PST-011, PST-015 |
-| [PST-019](PST-019-home.md) | P3 | ホームの集約表示 | PST-009, PST-011, PST-013, PST-015 |
-| [PST-020](PST-020-dig.md) | P3 | Dig・この日なんの日 | PST-006, PST-019 |
-| [PST-021](PST-021-timeline.md) | P3 | 年表 | PST-009, PST-012, PST-015, PST-018 |
-| [PST-022](PST-022-song-discovery.md) | P3 | 曲の旅・演奏史・復活演奏 | PST-014, PST-016, PST-021 |
-| [PST-023](PST-023-network.md) | P4 | 人物相関図 | PST-003, PST-010 |
-| [PST-024](PST-024-network-external-scope.md) | P4 | 外部scopeの入力・段階展開 | PST-023 |
-| [PST-025](PST-025-library.md) | P4 | 資料室 | PST-006, PST-007 |
-| [PST-026](PST-026-search.md) | P4 | Pagefind検索 | PST-025 |
-| [PST-027](PST-027-about.md) | P4 | Aboutと件数フッター | PST-006, PST-007 |
-| [PST-028](PST-028-responsive-accessibility.md) | P5 | レスポンシブ・アクセシビリティ・性能 | PST-009〜PST-027 |
-| [PST-029](PST-029-production-deploy.md) | P5 | Cloudflare本番デプロイ | PST-005, PST-006, PST-028 |
-| [PST-030](PST-030-release-regression.md) | P5 | リリース候補の総合確認 | PST-018, PST-021, PST-029 |
+| ID | フェーズ | チケット | 依存 | 状態 | 担当 | 着手日 | 完了日 | コミット／PR | ブロッカー |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [PST-001](PST-001-db-extension.md) | P0 | DB拡張マイグレーションと契約確認 | - | 受け入れ待ち | — | — | — | `b11ec0d` | migration適用確認 |
+| [PST-002](PST-002-slug-candidate-pipeline.md) | P0 | slug候補生成 | PST-001 | 未着手 | — | — | — | — | — |
+| [PST-003](PST-003-slug-review-persistence.md) | P0 | slugレビュー・確定値反映 | PST-002 | 未着手 | — | — | — | — | — |
+| [PST-004](PST-004-artwork-storage.md) | P0 | ジャケット画像のR2・admin登録 | PST-001 | 未着手 | — | — | — | — | — |
+| [PST-005](PST-005-site-bootstrap.md) | P1 | Astroサイトとビルド導線 | - | 未着手 | — | — | — | — | — |
+| [PST-006](PST-006-export-contract.md) | P1 | DB→静的JSON export契約 | PST-001, PST-003, PST-005 | 未着手 | — | — | — | — | — |
+| [PST-007](PST-007-site-shell.md) | P1 | 共通レイアウト・テーマ・ナビゲーション | PST-005 | 未着手 | — | — | — | — | — |
+| [PST-008](PST-008-date-url-foundation.md) | P1 | URL・日付・画像の共通表示基盤 | PST-003, PST-006, PST-007 | 未着手 | — | — | — | — | — |
+| [PST-009](PST-009-project-pages.md) | P2 | プロジェクト一覧・詳細 | PST-008 | 未着手 | — | — | — | — | — |
+| [PST-010](PST-010-people-pages.md) | P2 | 人物一覧・詳細 | PST-008 | 未着手 | — | — | — | — | — |
+| [PST-011](PST-011-discography-index.md) | P2 | ディスコグラフィ一覧 | PST-004, PST-008 | 未着手 | — | — | — | — | — |
+| [PST-012](PST-012-discography-detail.md) | P2 | 作品詳細・版セクション | PST-011 | 未着手 | — | — | — | — | — |
+| [PST-013](PST-013-songs-index.md) | P2 | 楽曲一覧 | PST-008 | 未着手 | — | — | — | — | — |
+| [PST-014](PST-014-song-detail.md) | P2 | 楽曲詳細の基本表示 | PST-012, PST-013 | 未着手 | — | — | — | — | — |
+| [PST-015](PST-015-lives-index.md) | P2 | ライブ一覧 | PST-008 | 未着手 | — | — | — | — | — |
+| [PST-016](PST-016-live-detail.md) | P2 | ライブ詳細 | PST-014, PST-015 | 未着手 | — | — | — | — | — |
+| [PST-017](PST-017-venue-pages.md) | P2 | 会場一覧・詳細 | PST-008, PST-015 | 未着手 | — | — | — | — | — |
+| [PST-018](PST-018-shared-filters.md) | P2 | フィルタとURL状態復帰 | PST-011, PST-015 | 未着手 | — | — | — | — | — |
+| [PST-019](PST-019-home.md) | P3 | ホームの集約表示 | PST-009, PST-011, PST-013, PST-015 | 未着手 | — | — | — | — | — |
+| [PST-020](PST-020-dig.md) | P3 | Dig・この日なんの日 | PST-006, PST-019 | 未着手 | — | — | — | — | — |
+| [PST-021](PST-021-timeline.md) | P3 | 年表 | PST-009, PST-012, PST-015, PST-018 | 未着手 | — | — | — | — | — |
+| [PST-022](PST-022-song-discovery.md) | P3 | 曲の旅・演奏史・復活演奏 | PST-014, PST-016, PST-021 | 未着手 | — | — | — | — | — |
+| [PST-023](PST-023-network.md) | P4 | 人物相関図 | PST-003, PST-010 | 未着手 | — | — | — | — | — |
+| [PST-024](PST-024-network-external-scope.md) | P4 | 外部scopeの入力・段階展開 | PST-023 | 未着手 | — | — | — | — | — |
+| [PST-025](PST-025-library.md) | P4 | 資料室 | PST-006, PST-007 | 未着手 | — | — | — | — | — |
+| [PST-026](PST-026-search.md) | P4 | Pagefind検索 | PST-025 | 未着手 | — | — | — | — | — |
+| [PST-027](PST-027-about.md) | P4 | Aboutと件数フッター | PST-006, PST-007 | 未着手 | — | — | — | — | — |
+| [PST-028](PST-028-responsive-accessibility.md) | P5 | レスポンシブ・アクセシビリティ・性能 | PST-009〜PST-027 | 未着手 | — | — | — | — | — |
+| [PST-029](PST-029-production-deploy.md) | P5 | Cloudflare本番デプロイ | PST-005, PST-006, PST-028 | 未着手 | — | — | — | — | — |
+| [PST-030](PST-030-release-regression.md) | P5 | リリース候補の総合確認 | PST-018, PST-021, PST-029 | 未着手 | — | — | — | — | — |
+
+### フェーズ別集計
+
+| フェーズ | 件数 | 未着手 | 進行中 | レビュー待ち | 受け入れ待ち | 完了 | 保留 | 次の判断／メモ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| P0 | 4 | — | — | — | — | — | — | — |
+| P1 | 4 | — | — | — | — | — | — | — |
+| P2 | 10 | — | — | — | — | — | — | — |
+| P3 | 4 | — | — | — | — | — | — | — |
+| P4 | 5 | — | — | — | — | — | — | — |
+| P5 | 3 | — | — | — | — | — | — | — |
+| 合計 | 30 | — | — | — | — | — | — | — |
 
 ## フェーズ完了ゲート
 
