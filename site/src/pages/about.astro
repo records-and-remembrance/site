@@ -1,0 +1,82 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData } from '../data';
+import { buildPublicCounts, snapshotLabel } from '../lib/about';
+
+const counts = buildPublicCounts(siteData);
+const generatedLabel = snapshotLabel(siteData.snapshotGeneratedAt);
+const repositoryUrl = import.meta.env.PUBLIC_REPOSITORY_URL ?? 'https://github.com/t-skgm/mondenDatabase';
+---
+
+<SiteLayout title="このサイトについて" currentPath="/about" breadcrumbs={[{ label: 'このサイトについて' }]}>
+	<article class="about-page" aria-labelledby="about-title">
+		<header>
+			<p class="eyebrow">ABOUT</p>
+			<h1 id="about-title">このサイトについて</h1>
+		</header>
+		<section aria-labelledby="about-purpose-title">
+			<h2 id="about-purpose-title">このアーカイブについて</h2>
+			<p>門田匡陽データベースは、音楽家・門田匡陽の活動を記録する非公式のファンメイド・アーカイブです。sweet girls、サンチェスター・ユナイテッドFC、BURGER NUDS、Good Dog Happy Men、ソロ名義、Poet-type.M——名義を変えながら続いてきた30年あまりの活動を、リリース・楽曲・ライブ・そして関わった人々のつながりとして正規化されたデータベースに収め、横断して辿れるようにしています。</p>
+			<p>名義が変わっても、曲は旅を続けます。あるバンドの解散をまたいで再録される曲があり、十数年ぶりにステージへ戻ってくる曲がある。同じ音楽家たちが、別のプロジェクトで何度も合流する。このアーカイブが大切にしているのは、個々の記録の正確さと同時に、そうした「点と点のあいだの線」を見えるようにすることです。</p>
+			<p>収録データは雑誌記事・フライヤー・当時のウェブサイトなどの資料から人手のレビューを経て整理したものですが、日付の精度が年単位に留まるもの、出典を確認しきれていないものも含みます。記録の欠けや誤りにお気づきの際は、ご指摘・情報提供をいただけると嬉しいです。</p>
+		</section>
+
+		<section aria-labelledby="about-counts-title">
+			<h2 id="about-counts-title">収録件数</h2>
+			{generatedLabel && <p>{generatedLabel}</p>}
+			<ul class="about-counts">
+				{counts.map((count) => (
+					<li><a href={count.href}><span>{count.label}</span><strong>{count.value}</strong></a></li>
+				))}
+			</ul>
+		</section>
+
+		<section aria-labelledby="about-links-title">
+			<h2 id="about-links-title">関連リンク</h2>
+			<ul>
+				<li><a href="/projects">プロジェクト</a></li>
+				<li><a href="/discography">作品</a></li>
+				<li><a href="/songs">楽曲</a></li>
+				<li><a href="/lives">ライブ</a></li>
+				<li><a href="/library">資料室</a></li>
+				<li><a href={repositoryUrl} target="_blank" rel="noreferrer">ソースリポジトリ</a></li>
+			</ul>
+		</section>
+	</article>
+</SiteLayout>
+
+<style>
+	.about-page {
+		max-width: 70ch;
+	}
+
+	.about-page section {
+		margin-block-start: var(--space-6);
+	}
+
+	.about-page p {
+		line-height: 1.9;
+	}
+
+	.about-counts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: var(--space-2);
+		max-width: none;
+		padding: 0;
+		list-style: none;
+	}
+
+	.about-counts a {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding: var(--space-3);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.about-counts strong {
+		font-variant-numeric: tabular-nums;
+	}
+</style>

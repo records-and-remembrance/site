@@ -1,6 +1,14 @@
+---
+import { siteData } from '../data';
+import { buildPublicCounts } from '../lib/about';
+
+const counts = buildPublicCounts(siteData);
+---
+
 <footer class="site-footer">
 	<div class="site-footer__inner">
 		<p class="site-footer__meta">門田匡陽の活動と作品をたどる公開アーカイブ。</p>
+		{counts.length > 0 && <p class="site-footer__counts">{counts.map((count) => `${count.label} ${count.value}`).join(' · ')}</p>}
 		<ul class="site-footer__links">
 			<li><a href="/about">このサイトについて</a></li>
 			<li><a href="/library">資料室</a></li>
