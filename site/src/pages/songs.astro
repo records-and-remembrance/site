@@ -1,0 +1,179 @@
+---
+import DateText from '../components/DateText.astro';
+import EntityLink from '../components/EntityLink.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import type { SiteRow } from '../../export/export';
+
+type Credit = {
+	name: string;
+	slug: string | null;
+};
+
+type Song = {
+	id: string;
+	title: string;
+	slug: string | null;
+	composers: Credit[];
+	lyricists: Credit[];
+	recordingCount: number;
+	workCount: number;
+	performanceCount: number;
+	firstReleaseDate: string | null;
+};
+
+const stringValue = (value: unknown): string => (typeof value === 'string' ? value : '');
+const nullableString = (value: unknown): string | null => (typeof value === 'string' && value.length > 0 ? value : null);
+const numberValue = (value: unknown): number => (typeof value === 'number' && Number.isFinite(value) ? value : 0);
+
+const compareText = (left: string, right: string): number => left.localeCompare(right, 'ja');
+const identifier = (row: SiteRow): string => stringValue(row.id);
+
+const peopleById = new Map(siteTableRows('person').map((person) => [identifier(person), person] as const));
+const releasesById = new Map(siteTableRows('release').map((release) => [identifier(release), release] as const));
+const tracksByRecordingId = new Map<string, SiteRow[]>();
+for (const track of siteTableRows('track')) {
+	const recordingId = stringValue(track.recordingId);
+	const tracks = tracksByRecordingId.get(recordingId) ?? [];
+	tracks.push(track);
+	tracksByRecordingId.set(recordingId, tracks);
+}
+
+const recordingsByCompositionId = new Map<string, Set<string>>();
+for (const recording of siteTableRows('recording')) {
+	const compositionId = stringValue(recording.compositionId);
+	const recordings = recordingsByCompositionId.get(compositionId) ?? new Set<string>();
+	recordings.add(identifier(recording));
+	recordingsByCompositionId.set(compositionId, recordings);
+}
+
+const performanceCountByCompositionId = new Map<string, number>();
+for (const performance of siteTableRows('eventPerformance')) {
+	const compositionId = stringValue(performance.compositionId);
+	performanceCountByCompositionId.set(compositionId, (performanceCountByCompositionId.get(compositionId) ?? 0) + 1);
+}
+
+const creditsByCompositionId = new Map<string, SiteRow[]>();
+for (const credit of siteTableRows('compositionCredit')) {
+	const compositionId = stringValue(credit.compositionId);
+	const credits = creditsByCompositionId.get(compositionId) ?? [];
+	credits.push(credit);
+	creditsByCompositionId.set(compositionId, credits);
+}
+
+const sortCredits = (left: SiteRow, right: SiteRow): number => {
+	const orderDifference = numberValue(left.orderIndex) - numberValue(right.orderIndex);
+	return orderDifference || compareText(identifier(left), identifier(right));
+};
+
+const buildCredits = (credits: readonly SiteRow[], creditType: string): Credit[] =>
+	credits
+		.filter((credit) => stringValue(credit.creditType) === creditType)
+		.sort(sortCredits)
+		.map((credit) => {
+			const person = peopleById.get(stringValue(credit.personId));
+			return {
+				name: stringValue(person?.name) || '人物未確定',
+				slug: nullableString(person?.slug),
+			};
+		});
+
+const buildFirstReleaseDate = (recordingIds: ReadonlySet<string>): string | null => {
+	const releaseDates = new Set<string>();
+	for (const recordingId of recordingIds) {
+		for (const track of tracksByRecordingId.get(recordingId) ?? []) {
+			const releaseDate = nullableString(releasesById.get(stringValue(track.releaseId))?.releaseDate);
+			if (releaseDate) releaseDates.add(releaseDate);
+		}
+	}
+	return [...releaseDates].sort(compareText)[0] ?? null;
+};
+
+const buildWorkCount = (recordingIds: ReadonlySet<string>): number => {
+	const workIds = new Set<string>();
+	for (const recordingId of recordingIds) {
+		for (const track of tracksByRecordingId.get(recordingId) ?? []) {
+			const release = releasesById.get(stringValue(track.releaseId));
+			const workId = nullableString(release?.workId);
+			if (workId) workIds.add(workId);
+		}
+	}
+	return workIds.size;
+};
+
+const songRows: Song[] = siteTableRows('composition')
+	.map((composition) => {
+		const id = identifier(composition);
+		const recordingIds = recordingsByCompositionId.get(id) ?? new Set<string>();
+		const credits = creditsByCompositionId.get(id) ?? [];
+		return {
+			id,
+			title: stringValue(composition.title) || '無題',
+			slug: nullableString(composition.slug),
+			composers: buildCredits(credits, 'composer'),
+			lyricists: buildCredits(credits, 'lyricist'),
+			recordingCount: recordingIds.size,
+			workCount: buildWorkCount(recordingIds),
+			performanceCount: performanceCountByCompositionId.get(id) ?? 0,
+			firstReleaseDate: buildFirstReleaseDate(recordingIds),
+		};
+	})
+	.sort(
+		(left, right) =>
+			right.performanceCount - left.performanceCount ||
+			compareText(left.title, right.title) ||
+			compareText(left.slug ?? '', right.slug ?? '') ||
+			compareText(left.id, right.id),
+	);
+---
+
+<SiteLayout title="楽曲" breadcrumbs={[{ label: '楽曲' }]}>
+	<section aria-labelledby="songs-title">
+		<h1 id="songs-title">楽曲</h1>
+		<p>演奏回数の多い順に、録音・収録作品・演奏の記録をたどる。</p>
+		<p id="songs-sort">初期表示: 演奏回数の多い順</p>
+
+		{songRows.length === 0 ? (
+			<p>楽曲の記録はありません。</p>
+		) : (
+			<div class="song-table-wrapper">
+				<table class="song-table" aria-describedby="songs-sort">
+					<caption class="visually-hidden">楽曲一覧。演奏回数の多い順。</caption>
+					<thead>
+						<tr>
+							<th scope="col">タイトル</th>
+							<th scope="col">作曲・作詞者</th>
+							<th scope="col">録音数</th>
+							<th scope="col">収録作品数</th>
+							<th scope="col">演奏回数</th>
+							<th scope="col">初出年</th>
+						</tr>
+					</thead>
+					<tbody>
+						{songRows.map((song) => (
+							<tr>
+								<th scope="row">
+									<EntityLink type="composition" slug={song.slug} label={song.title} />
+									{song.slug === null && <small>（slug未確定）</small>}
+								</th>
+								<td>
+									<div>作曲: {song.composers.length > 0 ? song.composers.map((credit) => <EntityLink type="person" slug={credit.slug} label={credit.name} />) : '—'}</div>
+									<div>作詞: {song.lyricists.length > 0 ? song.lyricists.map((credit) => <EntityLink type="person" slug={credit.slug} label={credit.name} />) : '—'}</div>
+								</td>
+								<td>{song.recordingCount}</td>
+								<td>{song.workCount}</td>
+								<td>
+									{song.performanceCount}
+									{song.recordingCount === 0 && <small>（ライブ演奏のみ）</small>}
+								</td>
+								<td>
+									{song.firstReleaseDate ? <DateText value={song.firstReleaseDate} precision="year" /> : '—'}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		)}
+	</section>
+</SiteLayout>
