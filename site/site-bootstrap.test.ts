@@ -38,14 +38,19 @@ describe('PST-005 site bootstrap', () => {
 	});
 
 	test('DBなしのfixture exportが静的データを生成する', async () => {
-		const result = await runBun('run', 'site:export');
+		const result = await runBun('run', 'site:export', '--', '--fixture', '--snapshot-generated-at', '2026-07-13T00:00:00.000Z');
 
 		expect(result.exitCode, result.output).toBe(0);
 
-		const fixture = JSON.parse(await readFile(join(root, 'site/fixtures/site.json'), 'utf8'));
 		const generated = JSON.parse(await readFile(join(root, 'site/src/data/site.generated.json'), 'utf8'));
 
-		expect(generated).toEqual(fixture);
+		expect(generated).toMatchObject({
+			title: '門田匡陽アーカイブ',
+			schemaVersion: 1,
+			snapshotGeneratedAt: '2026-07-13T00:00:00.000Z',
+			manifest: { schemaVersion: 1, errors: [] },
+		});
+		expect(generated.tables.project).toEqual([]);
 	});
 
 	test('fixtureだけでAstroの静的indexをbuildでき、DB/API実行時依存を含めない', async () => {
