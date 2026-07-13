@@ -65,4 +65,24 @@ describe('admin form state', () => {
 		expect(resolvedLookupLabel({ compositionTitle: 'ANALYZE' }, 'compositionId')).toBe('ANALYZE');
 		expect(resolvedLookupLabel(undefined, 'compositionId')).toBe('');
 	});
+
+	test('keeps artwork upload out of the regular release JSON payload', () => {
+		const payload = buildPayload(editorConfigs.releases.fields, {
+			workId: 'work-id',
+			format: 'CD',
+			catalogNumber: '',
+			releaseDate: '',
+			editionType: 'original',
+			reissueOfReleaseId: '',
+			releaseDatePrecision: '',
+			recordedFrom: '',
+			recordedTo: '',
+			distributorId: '',
+			description: '',
+			notes: '',
+			artworkUrl: 'https://cdn.example/old.jpg',
+		});
+
+		expect(payload).not.toHaveProperty('artworkUrl');
+	});
 });

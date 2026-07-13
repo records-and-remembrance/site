@@ -6,6 +6,7 @@ export function buildInitialValues(fields: FieldConfig[], record: Record<string,
 	const values: FormValues = {};
 
 	for (const field of fields) {
+		if (field.type === 'artwork') continue;
 		if (field.type === 'target') {
 			const target = targetFromRecord(record);
 			values.targetType = target.type;
@@ -30,6 +31,7 @@ export function buildPayload(fields: FieldConfig[], values: FormValues): Record<
 	const payload: Record<string, unknown> = {};
 
 	for (const field of fields) {
+		if (field.type === 'artwork') continue;
 		if (field.type === 'target') {
 			continue;
 		}

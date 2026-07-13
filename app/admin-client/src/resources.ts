@@ -58,7 +58,7 @@ export interface SelectOption {
 export interface FieldConfig {
 	key: string;
 	label: string;
-	type: 'text' | 'textarea' | 'date' | 'time' | 'number' | 'url' | 'select' | 'combobox' | 'checkbox' | 'target';
+	type: 'text' | 'textarea' | 'date' | 'time' | 'number' | 'url' | 'select' | 'combobox' | 'checkbox' | 'target' | 'artwork';
 	required?: boolean;
 	lookup?: LookupResource;
 	options?: SelectOption[];
@@ -797,6 +797,7 @@ export const editorConfigs: Record<EditorResource, ResourceConfig> = {
 				lookup: 'distributor',
 				span: 2,
 			},
+			{ key: 'artworkUrl', label: 'ジャケット画像', type: 'artwork', span: 2 },
 			descriptionField,
 			notesField,
 		],

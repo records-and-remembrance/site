@@ -740,6 +740,21 @@ button {
 	resize: vertical;
 }
 
+.artwork-field img {
+	display: block;
+	max-width: 100%;
+	max-height: 240px;
+	height: auto;
+	object-fit: contain;
+}
+
+.artwork-field input[type='file'] {
+	min-height: auto;
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+
 .field[data-focus-within] input,
 .field[data-focus-within] textarea,
 .field select:focus,

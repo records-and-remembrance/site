@@ -29,6 +29,8 @@ import {
 import { AdminApiError, deleteRecord, lookupRecords, saveRecord, type LookupOption } from '../../api';
 import { editorConfigs, type EditorResource, type FieldConfig, type LookupResource } from '../../resources';
 import { useCloseOnEscape } from '../overlay/escape-dismissal';
+import { ArtworkField } from './ArtworkField';
+import { initialArtworkState, type ArtworkUploadState } from './artwork-state';
 import { buildInitialValues, buildPayload, hasUnsavedChanges, resolvedLookupLabel, type FormValues } from './state';
 
 interface EditorDialogProps {
@@ -44,6 +46,7 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 	const config = editorConfigs[resource];
 	const initialValues = useMemo(() => ({ ...buildInitialValues(config.fields, record), ...defaults }), [config.fields, defaults, record]);
 	const [values, setValues] = useState<FormValues>(initialValues);
+	const [artworkState, setArtworkState] = useState<ArtworkUploadState>(() => initialArtworkState(record));
 	const mutation = useMutation({
 		mutationFn: () => saveRecord(resource, buildPayload(config.fields, values), record?.id ? String(record.id) : undefined),
 		onSuccess: onSaved,
@@ -55,6 +58,10 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 	const errorSource = mutation.error ?? deleteMutation.error;
 	const error = errorSource instanceof AdminApiError ? errorSource : null;
 	const isPending = mutation.isPending || deleteMutation.isPending;
+
+	useEffect(() => {
+		setArtworkState(initialArtworkState(record));
+	}, [record]);
 
 	useEffect(() => {
 		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -116,7 +123,17 @@ export function EditorDialog({ resource, record, defaults = {}, onClose, onSaved
 						<div className="form-grid">
 							{config.fields.map((field) =>
 								defaults[field.key] !== undefined ? null : (
-									<Field key={field.key} field={field} resource={resource} record={record} values={values} error={error?.body?.error.fields?.[field.key]?.join('、')} onChange={setValue} />
+									<Field
+										key={field.key}
+										field={field}
+										resource={resource}
+										record={record}
+										values={values}
+										error={error?.body?.error.fields?.[field.key]?.join('、')}
+										onChange={setValue}
+										artworkState={artworkState}
+										onArtworkStateChange={setArtworkState}
+									/>
 								),
 							)}
 						</div>
@@ -160,13 +177,19 @@ interface FieldProps {
 	values: FormValues;
 	error?: string | undefined;
 	onChange: (key: string, value: string | boolean) => void;
+	artworkState: ArtworkUploadState;
+	onArtworkStateChange: (state: ArtworkUploadState) => void;
 }
 
-function Field({ field, resource, record, values, error, onChange }: FieldProps) {
+function Field({ field, resource, record, values, error, onChange, artworkState, onArtworkStateChange }: FieldProps) {
 	const className = field.span === 2 ? 'field span-2' : 'field';
 
 	if (field.type === 'target') {
 		return <TargetField className={className} resource={resource} values={values} error={error} onChange={onChange} />;
+	}
+
+	if (field.type === 'artwork') {
+		return <ArtworkField releaseId={String(record?.id ?? '')} state={artworkState} onStateChange={onArtworkStateChange} />;
 	}
 
 	if (field.type === 'combobox' && field.lookup) {

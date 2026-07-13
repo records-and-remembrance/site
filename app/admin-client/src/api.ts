@@ -70,6 +70,16 @@ export async function saveRecord(resource: ApiResource, payload: Record<string, 
 	return response.data;
 }
 
+export async function uploadReleaseArtwork(id: string, file: File): Promise<Record<string, unknown>> {
+	const form = new FormData();
+	form.append('artwork', file);
+	const response = await request<{ data: Record<string, unknown> }>(`/api/admin/releases/${id}/artwork`, {
+		method: 'POST',
+		body: form,
+	});
+	return response.data;
+}
+
 export async function deleteRecord(resource: ApiResource, id: string): Promise<void> {
 	await request<void>(`/api/admin/${resource}/${id}`, { method: 'DELETE' });
 }
