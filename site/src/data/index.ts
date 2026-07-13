@@ -1,11 +1,10 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import fixtureData from './site.json';
 import type { SiteDatabaseRows, SiteSnapshot as ExportSiteSnapshot, SiteTableName } from '../../export/export';
 
 export type SiteSnapshot = ExportSiteSnapshot;
 
-const generatedPath = fileURLToPath(new URL('./site.generated.json', import.meta.url));
 const TABLE_NAMES: readonly SiteTableName[] = [
 	'project',
 	'person',
@@ -35,6 +34,9 @@ const TABLE_NAMES: readonly SiteTableName[] = [
 	'articleMentionEvent',
 	'articleMentionPerson',
 ];
+
+const generatedPathCandidates = (): string[] =>
+	[process.env.SITE_DATA_PATH, join(process.cwd(), 'site/src/data/site.generated.json'), join(process.cwd(), 'src/data/site.generated.json')].filter((path): path is string => Boolean(path));
 
 const isSiteSnapshot = (value: unknown): value is SiteSnapshot => {
 	if (typeof value !== 'object' || value === null) return false;
@@ -81,10 +83,13 @@ const fixtureSnapshot = (): SiteSnapshot => {
 };
 
 const loadGeneratedData = (): SiteSnapshot | undefined => {
-	if (!existsSync(generatedPath)) return undefined;
-	const parsed: unknown = JSON.parse(readFileSync(generatedPath, 'utf8'));
-	if (!isSiteSnapshot(parsed) || parsed.schemaVersion !== 1) throw new Error(`Invalid site snapshot: ${generatedPath}`);
-	return parsed;
+	for (const generatedPath of generatedPathCandidates()) {
+		if (!existsSync(generatedPath)) continue;
+		const parsed: unknown = JSON.parse(readFileSync(generatedPath, 'utf8'));
+		if (!isSiteSnapshot(parsed) || parsed.schemaVersion !== 1) throw new Error(`Invalid site snapshot: ${generatedPath}`);
+		return parsed;
+	}
+	return undefined;
 };
 
 export const siteData: SiteSnapshot = loadGeneratedData() ?? fixtureSnapshot();
