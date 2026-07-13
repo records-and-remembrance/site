@@ -1,0 +1,109 @@
+---
+import EntityLink from '../components/EntityLink.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import { buildNetworkModel } from '../lib/network';
+
+const model = buildNetworkModel(siteTableRows('project'), siteTableRows('person'), siteTableRows('membership'));
+const projectNodes = model.nodes.filter((node) => node.type === 'project');
+const personNodes = model.nodes.filter((node) => node.type === 'person');
+const projectPositions = new Map(projectNodes.map((node, index) => [node.id, { x: 150 + (index % 4) * 210, y: 80 + Math.floor(index / 4) * 150 }]));
+const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 80 + (index % 6) * 145, y: 390 + Math.floor(index / 6) * 90 }]));
+---
+
+<SiteLayout title="人物相関" currentPath="/network" breadcrumbs={[{ label: '人物相関' }]}>
+	<section class="network-page" aria-labelledby="network-title">
+		<header>
+			<p class="eyebrow">NETWORK</p>
+			<h1 id="network-title">人物相関</h1>
+			<p>門田に関わるプロジェクトと人物のつながりをたどる。</p>
+		</header>
+		<label class="network-toggle"><input id="network-support-toggle" type="checkbox" checked /> サポート参加を含める</label>
+		{model.nodes.length === 0 ? (
+			<p class="empty-state">相関データはありません。</p>
+		) : (
+			<>
+				<svg class="network-graph" viewBox="0 0 1100 700" role="img" aria-label="人物とプロジェクトの相関図">
+					{model.edges.map((edge) => {
+						const project = projectPositions.get(edge.projectId);
+						const person = personPositions.get(edge.personId);
+						return project && person ? <line data-network-edge data-support={edge.support} x1={project.x} y1={project.y} x2={person.x} y2={person.y} /> : null;
+					})}
+					{projectNodes.map((node) => {
+						const position = projectPositions.get(node.id);
+						return position ? <a href={node.href}><circle data-network-node cx={position.x} cy={position.y} r="26" fill={node.color} /><text x={position.x} y={position.y + 45} text-anchor="middle">{node.label}</text></a> : null;
+					})}
+					{personNodes.map((node) => {
+						const position = personPositions.get(node.id);
+						return position ? <a href={node.href}><circle data-network-node data-muted={node.muted} cx={position.x} cy={position.y} r="18" /><text x={position.x} y={position.y + 34} text-anchor="middle">{node.label}</text></a> : null;
+					})}
+				</svg>
+				<section aria-labelledby="network-list-title">
+					<h2 id="network-list-title">一覧</h2>
+					<ul class="network-list">
+						{personNodes.map((person) => (
+							<li data-network-person={person.id} data-project-count={person.projectCount}>
+								<EntityLink type="person" slug={person.slug} label={person.label} />
+								<span>{person.projectCount}プロジェクト</span>
+							</li>
+						))}
+					</ul>
+				</section>
+			</>
+		)}
+	</section>
+</SiteLayout>
+
+<script>
+	const toggle = document.querySelector<HTMLInputElement>('#network-support-toggle');
+	toggle?.addEventListener('change', () => {
+		for (const edge of document.querySelectorAll<SVGLineElement>('[data-network-edge]')) edge.hidden = edge.dataset.support === 'true' && !toggle.checked;
+	});
+</script>
+
+<style>
+	.network-graph {
+		display: block;
+		width: 100%;
+		min-height: 420px;
+		margin-block: var(--space-5);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.network-graph line {
+		stroke: var(--rule);
+		stroke-width: 2;
+	}
+
+	.network-graph circle {
+		stroke: var(--ink);
+		stroke-width: 2;
+	}
+
+	.network-graph circle[data-muted='true'] {
+		opacity: 0.55;
+	}
+
+	.network-graph text {
+		fill: var(--ink);
+		font-size: 13px;
+	}
+
+	.network-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: var(--space-2);
+		max-width: none;
+		padding: 0;
+		list-style: none;
+	}
+
+	.network-list li {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-2);
+		padding: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+</style>
