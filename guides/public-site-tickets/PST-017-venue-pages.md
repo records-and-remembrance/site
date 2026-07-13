@@ -12,7 +12,8 @@
 ## 実装範囲
 
 - `/venues` の会場一覧、location、slug、event件数。
-- `/venues/:slug` の年別公演履歴、project内訳、定番曲Top 5。
+- `/venues/:slug` の年別公演履歴、project内訳、定番曲Top 5。同数時はcomposition title、slugで
+  順位を決める。
 - event・project・composition・liveへのリンク。
 - event 0件の会場8件の空状態。
 
@@ -30,6 +31,7 @@
 - 定番曲Top 5から楽曲詳細へ遷移できる。
 - event 0件の場合、「記録上の公演なし」と表示し、架空の件数を出さない。
 - 会場名の名寄せをサイト表示時に行わない。
+- Top 5の順位がDBの返却順で変わらない。
 
 ## 対象外
 

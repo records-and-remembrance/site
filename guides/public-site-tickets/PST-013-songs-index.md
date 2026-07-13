@@ -13,7 +13,9 @@
 
 - `/songs` のタイトル、作曲・作詞者、録音数、収録作品数、演奏回数、初出年。
 - 初期ソートを演奏回数順とし、ソート対象を明示する。
-- 初出年を初出releaseのreleaseDateで導出する。
+- 初出年を、trackで結ばれたreleaseのうち日付が最も早いもののreleaseDateで導出する。
+  演奏回数はevent_performance行数、録音数はrecordingのdistinct件数、収録作品数はworkの
+  distinct件数とする。
 - 録音0件の楽曲を「ライブ演奏のみ」として表示する。
 - 楽曲slugへのリンク。
 
@@ -31,6 +33,7 @@
 - recording 0件の曲が欠損扱いにならず、ライブ演奏のみと表示される。
 - recordingYearがNULLでも、利用可能な初出releaseDateを年として表示する。
 - 初期一覧が演奏回数の多い順に並ぶ。
+- 同数時はtitle、slugの順で決まり、DBの返却順で変わらない。
 
 ## 対象外
 

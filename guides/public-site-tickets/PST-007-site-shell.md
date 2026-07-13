@@ -15,6 +15,10 @@
 - §7.1〜7.5のカラートークン、書体、型スケール、罫線、控えめなmotion。
 - light/darkテーマ、`prefers-color-scheme`、`data-theme`上書き。
 - キーボード操作、focus表示、skip link、各ページのtitle/descriptionの共通枠。
+- テーマ選択は小さな専用scriptだけで復元し、サイト全体をclient island化しない。JS無効時は
+  `prefers-color-scheme` を既定値にする。
+- DigはPST-020まで `/#dig` へ遷移する「準備中」の通常リンクとして表示し、存在しないrouteへ
+  飛ばさない。
 
 ## テスト方針
 
@@ -29,6 +33,7 @@
 - light/dark双方で本文とリンクのコントラスト、focus表示、44px以上の操作領域を満たす。
 - headerのDig導線はPST-020実装前も壊れたリンクにならず、未実装状態を明示できる。
 - ページ固有のスタイルが共通トークンを上書きして視認性を壊さない。
+- テーマ切替の保存値が壊れている場合でも、`prefers-color-scheme`へ安全に戻る。
 
 ## 対象外
 

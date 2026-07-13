@@ -13,21 +13,23 @@ workとreleaseの違いを内部に保ちつつ、閲覧者には一つの作品
 
 - `/discography/:slug` のworkヘッダ、代表ジャケット、description、type、releasedDate。
 - 初版基準のトラックリスト、recordingのversionName/type、楽曲リンク。
-- releaseごとの `#edition-<slug>` セクション、catalog、label、distributor、発売日精度。
+- releaseごとの `#edition-<editionKey>` セクション、catalog、label、distributor、発売日精度。
+  `editionKey` はPST-006がexportする安定した公開用anchor keyで、release UUIDは使わない。
 - track差分がある場合だけ差分表示、`reissueOfReleaseId`の双方向リンク。
 - release-level contributionのrole別表示。
 
 ## テスト方針
 
 - 初版のみ、再発あり、track差分あり、track 0件のfixtureを先にテストする。
-- edition anchor、曲リンク、再発元／再発先リンクをhref契約として検証する。
+- edition anchor、曲リンク、再発元／再発先リンクをhref契約として検証する。anchorは、releaseの
+  並び替えやDB返却順で変わらないことを検証する。
 - track 0件では「収録曲情報未登録」を表示し、空のリストと混同しないことを確認する。
 - releaseDatePrecisionとNULLメタデータの表示規則を共通基盤と結合して検証する。
 
 ## 受け入れ条件
 
 - releaseを独立ページにせず、作品ページ内の版セクションへ集約する。
-- `/discography/:slug#edition-<slug>` が直接開ける。
+- `/discography/:slug#edition-<editionKey>` が直接開ける。
 - トラック番号順に曲名と録音versionを表示し、曲名から楽曲詳細へ遷移できる。
 - 再発系譜が元と再発の双方から辿れる。
 - 版ごとに存在するlabel・distributorだけを表示する。

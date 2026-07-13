@@ -14,8 +14,10 @@
 - 640px未満、640〜1024px、1024px以上のレイアウト調整。
 - キャリアリバー、Gantt、networkのモバイル代替表示。
 - 横スクロール領域の開始位置、スクロールヒント、44px操作領域。
-- reduced-motion、focus、コントラスト、画像lazy loading。
-- 静的HTML、JS量、画像サイズ、CLSを確認する性能調整。
+- reduced-motion、focus、コントラスト、画像読み込み方針。LCP候補画像はlazy loadingしない、
+  画面外画像は寸法を指定してlazy loadingする。
+- 静的HTML、JS量、画像サイズ、CLSを確認する性能調整。静的画面へ不要なhydrateを追加せず、
+  Pagefindとnetworkの初期bundleを他routeへ混入させない。
 
 ## テスト方針
 
@@ -31,6 +33,8 @@
 - すべてのinteractive要素にfocus表示と44px以上のタップ領域がある。
 - reduced-motionで許可演出が停止し、本文コントラストがlight/dark双方でAA相当になる。
 - `<img>` にwidth/heightと必要なlazy loadingがあり、CLSを抑制する。
+- 計測対象route・端末条件・JS/画像/CLSの上限値をリリース記録に先に固定し、測定結果とともに
+  残す。
 
 ## 対象外
 

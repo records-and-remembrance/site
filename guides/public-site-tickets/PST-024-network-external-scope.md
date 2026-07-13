@@ -13,9 +13,13 @@
 
 - adminで`project.scope = external`のprojectとmembershipを編集できる契約。
 - rawDataに依存せず、人手入力した外部project情報をexportする経路。
-- personクリック時の外部project展開、depth 1初期表示、depth 2までの遅延展開。
+- 初期描画はmonden graphだけにし、personクリックで直接のexternal project（depth 1）を表示、
+  external projectクリックでそのmembership（depth 2）を表示する。ここでの遅延はDOM展開であり、
+  閲覧時にAPIへ問い合わせない。
 - 外部projectをmuted grayで表示し、既存門田名義クエリは`scope = 'monden'`で絞る。
 - 探索対象を「直接在籍重複またはevent共起した人物の主要バンド」に限定する運用表示。
+- external projectを公開する前にslugレビューを通し、採用根拠をmembershipのnoteまたは運用記録に
+  残す。
 
 ## テスト方針
 

@@ -11,9 +11,11 @@ export→build→Cloudflare static assetsへのデプロイを、再現可能な
 
 ## 実装範囲
 
-- `wrangler deploy`の環境設定、project名、static assets、必要なR2／Images参照設定。
+- `wrangler deploy`の環境設定、project名、static assets、404設定、公開画像originの設定。
+  静的サイトWorkerにはR2の書込bindingやadmin用secretを渡さない。
 - hash付きJS/CSS/画像のimmutable cache、HTMLの更新方針。
-- データ更新時の一括コマンドと、失敗時に古い公開物を壊さない順序。
+- データ更新時の `site:release`（export → build → check → deploy）と、失敗時に古い公開物を
+  壊さない順序。`site:deploy` 自体は検証済みの `site/dist` だけを公開する。
 - deploy前の未解決slug・broken link・buildエラー検査。
 - deploy後の代表URL smoke check。
 
@@ -26,9 +28,11 @@ export→build→Cloudflare static assetsへのデプロイを、再現可能な
 
 ## 受け入れ条件
 
-- `bun run site:export && bun run site:build && bun run site:deploy` が実運用手順になる。
+- `bun run site:release` が export → build → check → deploy を順に実行する実運用手順になる。
+  `site:deploy` は検証済み成果物の再公開だけに単独利用できる。
 - 閲覧時にPostgreSQLやHono APIへ接続しない。
 - hash付きassetとHTMLのcache方針が設定どおりになる。
+- hash付きassetはimmutable、HTMLは再検証可能な短いcache方針である。
 - `/`、主要一覧、代表詳細、`/about`、404がCloudflare上で表示される。
 - データ更新は再ビルド・再デプロイで反映され、手動DB接続を要求しない。
 

@@ -13,14 +13,15 @@
 
 - `/songs/:slug` のタイトルとcomposition_creditの順序付き表示。
 - recordingのtype、versionName、versionDescription、初出release年。
-- track→release→workの収録先と版アンカーへのリンク。
+- track→release→workの収録先と `#edition-<editionKey>` 版アンカーへのリンク。
 - event_performanceの演奏一覧、event・project・venueへのリンク。
 - 録音0件でも演奏史ブロックだけで成立する基本画面。
 
 ## テスト方針
 
 - 作曲／作詞の順序、録音type、versionName NULL、収録版なしをfixtureテストする。
-- 版アンカーとライブ詳細へのhrefが正しいことを契約テストする。
+- 版アンカーとライブ詳細へのhrefが正しいことを契約テストする。録音の初出は、日付を持つ
+  track→releaseの最小releaseDateを優先し、欠落時は年を捏造しない。
 - live-only曲、演奏も録音もない空データ、variationNoteありを確認する。
 - 詳細ページを複数slugで静的生成し、関連リンクの404を検出する。
 

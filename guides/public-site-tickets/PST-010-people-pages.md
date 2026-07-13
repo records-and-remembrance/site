@@ -13,9 +13,11 @@
 
 - `/people` の人物一覧と基本メタデータ。
 - `/people/:slug` のdescription、membershipタイムライン、役割サマリ。
-- `activeFrom/To`がNULLの場合のmembership・contribution由来期間。
+- `activeFrom/To`がNULLの場合のmembership・日付を持つevent/release contribution由来期間。
+  導出値はperson列へ書き戻さず、「記録から導出」と明記して日付精度を保つ。
 - composition_credit、contributionの対象別一覧、0件タブの非表示。
-- 期間重複・event共起による共演者一覧と隣接リンク。
+- 期間重複・event共起による共演者一覧と隣接リンク。期間重複は比較可能な両端を持つ
+  membershipだけで判定し、根拠種別を人物ごとに表示する。
 
 ## テスト方針
 
@@ -31,6 +33,7 @@
 - personの活動期間がNULLでも、関連データから導出した期間を表示できる。
 - recording対象のcontributionが0件でも空タブを表示しない。
 - 共演者の根拠がmembership期間重複またはevent共起のどちらかで説明可能である。
+- external projectを含むmembershipはPST-024まで人物詳細の通常集計に含めない。
 
 ## 対象外
 

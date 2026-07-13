@@ -16,6 +16,7 @@
 - variationNoteを主表記、元のcomposition名を補足表示し、元曲へリンク。
 - eventIdのcontribution、会場リンク、同projectの直前・直後event。
 - startTime、ticketPriceの存在時のみ表示、予定event・空セットリスト。
+- 前後eventはeventDate、event slugの順で決める。同日でもDBの返却順に依存しない。
 
 ## テスト方針
 

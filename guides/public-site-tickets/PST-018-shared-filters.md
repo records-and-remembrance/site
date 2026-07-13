@@ -11,14 +11,18 @@
 
 ## 実装範囲
 
-- project複数選択、format、年代、editionType、年、venueのquery schema。
+- query schemaを固定する。`/discography` は繰り返し可能な `project` / `format` /
+  `decade` / `editionType`、`/lives` は `project` / `venue` / `year`、`/timeline` は
+  `project` / `kind` を使う。entity値はslug、`kind` は `release` / `event` /
+  `membership` / `project` のみを許可する。
 - client island初期化時のURL読み取り、操作時のURL更新、戻る／進む対応。
 - `/discography`、`/lives`への適用と、後続の`/timeline`に使える共通adapter。
-- 未知・不正なqueryの無視と既定値への復帰。
+- 未知・不正なqueryの無視と既定値への復帰。複数値は重複を除き辞書順で直列化し、
+  query正規化時にも現在のhash fragmentを保持する。
 
 ## テスト方針
 
-- queryのparse／serializeを先に純粋関数でテストし、順序・複数値・空値を検証する。
+- queryのparse／serializeを先に純粋関数でテストし、順序・複数値・空値・hash保持を検証する。
 - 直リンク、操作、ブラウザ戻る／進む、未知queryをブラウザテストする。
 - 同じ条件で同じ一覧になることをfixtureで確認する。
 - queryがない初期表示と、選択解除後のURLが契約どおりになることを検証する。
