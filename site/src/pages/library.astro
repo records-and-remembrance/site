@@ -1,0 +1,162 @@
+---
+import DateText from '../components/DateText.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import { buildLibraryTree } from '../lib/library';
+
+const publications = buildLibraryTree({
+	publication: siteTableRows('publication'),
+	publicationIssue: siteTableRows('publicationIssue'),
+	article: siteTableRows('article'),
+});
+
+const issueLabel = (issueNumber?: string, volume?: string): string => {
+	const values = [issueNumber ? `第${issueNumber}号` : undefined, volume ? `${volume}巻` : undefined].filter(Boolean);
+	return values.join('・') || '号';
+};
+---
+
+<SiteLayout title="資料室" currentPath="/library" breadcrumbs={[{ label: '資料室' }]}>
+	<section aria-labelledby="library-title">
+		<p class="eyebrow">LIBRARY</p>
+		<h1 id="library-title">資料室</h1>
+		<p>媒体、号、記事の順に、記録された資料をたどれます。</p>
+		<p class="library-note">記事から人物・作品・ライブへのリンクは、資料の関連付けを確認した後の将来拡張です。</p>
+
+		{publications.length > 0 ? (
+			<div class="library-tree">
+				{publications.map((publication) => (
+					<section class="library-publication" id={publication.anchor} aria-labelledby={publication.anchor ? `${publication.anchor}-title` : undefined}>
+						<header class="library-publication__header">
+							<h2 id={publication.anchor ? `${publication.anchor}-title` : undefined}>{publication.name}</h2>
+							{publication.type && <span>{publication.type}</span>}
+							{publication.publisher && <span>{publication.publisher}</span>}
+							{publication.description && <p>{publication.description}</p>}
+						</header>
+
+						{publication.issues.length > 0 ? (
+							<div class="library-issues">
+								{publication.issues.map((issue) => (
+									<section class="library-issue" id={issue.anchor} aria-labelledby={issue.anchor ? `${issue.anchor}-title` : undefined}>
+										<header class="library-issue__header">
+											<h3 id={issue.anchor ? `${issue.anchor}-title` : undefined}>
+												<a href={issue.anchor ? `#${issue.anchor}` : undefined}>{issueLabel(issue.issueNumber, issue.volume)}</a>
+											</h3>
+											{issue.publishedDate && <DateText value={issue.publishedDate} />}
+											{issue.description && <p>{issue.description}</p>}
+										</header>
+
+										{issue.articles.length > 0 ? (
+											<div class="library-articles">
+												{issue.articles.map((article) => (
+													<article
+															class="library-article"
+															id={article.anchor}
+															data-pagefind-body
+															data-pagefind-filter="type:article"
+															data-library-canonical-href={article.anchor ? `/library#${article.anchor}` : undefined}
+													>
+														<p class="library-article__context">
+															<span data-pagefind-meta="publication">{publication.name}</span>
+															<span data-pagefind-meta="issue">{issueLabel(issue.issueNumber, issue.volume)}</span>
+														</p>
+														<h4 data-pagefind-meta="title">
+															<a href={article.anchor ? `#${article.anchor}` : undefined}>{article.title}</a>
+														</h4>
+														{article.type && <p class="library-article__type">{article.type}</p>}
+														{article.publishedDate && <DateText value={article.publishedDate} />}
+														{article.summary && <p>{article.summary}</p>}
+														{article.content && <p>{article.content}</p>}
+														{article.url && <p><a href={article.url} rel="noreferrer">外部記事を開く</a></p>}
+													</article>
+												))}
+											</div>
+										) : (
+											<p class="empty-state">記事はありません。</p>
+										)}
+									</section>
+								))}
+							</div>
+						) : (
+							<p class="empty-state">号はありません。</p>
+						)}
+					</section>
+				))}
+			</div>
+		) : (
+			<p class="empty-state">資料はありません。</p>
+		)}
+	</section>
+</SiteLayout>
+
+<style>
+	.library-note {
+		color: var(--ink-muted);
+	}
+
+	.library-tree,
+	.library-issues,
+	.library-articles {
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.library-publication,
+	.library-issue,
+	.library-article {
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.library-publication {
+		padding: var(--space-4);
+	}
+
+	.library-issues {
+		margin-block-start: var(--space-4);
+		padding-inline-start: var(--space-4);
+	}
+
+	.library-issue {
+		padding: var(--space-3);
+	}
+
+	.library-articles {
+		margin-block-start: var(--space-3);
+		padding-inline-start: var(--space-3);
+	}
+
+	.library-article {
+		padding: var(--space-3);
+		scroll-margin-block-start: var(--space-4);
+	}
+
+	.library-publication__header,
+	.library-issue__header,
+	.library-article h4,
+	.library-article p {
+		margin-block: 0 var(--space-2);
+	}
+
+	.library-publication__header > span,
+	.library-article__type {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.library-article__context {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.library-article h4 {
+		font-size: 18px;
+	}
+
+	.library-article h4 a,
+	.library-issue h3 a {
+		min-block-size: 44px;
+		display: inline-flex;
+		align-items: center;
+	}
+</style>
