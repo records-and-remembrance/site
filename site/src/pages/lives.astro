@@ -1,0 +1,324 @@
+---
+import type { SiteRow } from '../../export/export';
+import DateText from '../components/DateText.astro';
+import EntityLink from '../components/EntityLink.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData, siteTableRows } from '../data';
+
+type LiveFilter = {
+	projectSlug?: string;
+	venueSlug?: string;
+};
+
+type LiveListItem = {
+	eventId: string;
+	eventName: string;
+	eventDate: string;
+	eventSlug: string | null;
+	eventType: string;
+	projectName: string;
+	projectSlug: string | null;
+	venueName: string;
+	venueSlug: string | null;
+	performanceCount: number;
+	isUpcoming: boolean;
+};
+
+const stringValue = (value: unknown): string => (typeof value === 'string' ? value : '');
+const nullableStringValue = (value: unknown): string | null => {
+	const result = stringValue(value);
+	return result || null;
+};
+
+const compareText = (left: string, right: string): number => left.localeCompare(right, 'ja');
+
+const eventTypeLabel = (value: string): string =>
+	(
+		{
+			live: 'ライブ',
+			exhibition: '展示',
+			listening_event: '試聴会',
+		} satisfies Record<string, string>
+	)[value] ?? value;
+
+const buildLiveItems = (filter: LiveFilter = {}): LiveListItem[] => {
+	const projects = new Map(siteTableRows('project').map((row) => [stringValue(row.id), row]));
+	const venues = new Map(siteTableRows('venue').map((row) => [stringValue(row.id), row]));
+	const performanceCounts = new Map<string, number>();
+	for (const performance of siteTableRows('eventPerformance')) {
+		const eventId = stringValue(performance.eventId);
+		performanceCounts.set(eventId, (performanceCounts.get(eventId) ?? 0) + 1);
+	}
+
+	const snapshotDate = siteData.snapshotGeneratedAt.slice(0, 10) || new Date().toISOString().slice(0, 10);
+	return siteTableRows('event')
+		.map((event): LiveListItem | undefined => {
+			const project = projects.get(stringValue(event.projectId));
+			const venue = venues.get(stringValue(event.venueId));
+			const eventDate = stringValue(event.eventDate);
+			if (!eventDate || !project || !venue) return undefined;
+			const projectSlug = nullableStringValue(project.slug);
+			const venueSlug = nullableStringValue(venue.slug);
+			if (filter.projectSlug && filter.projectSlug !== projectSlug) return undefined;
+			if (filter.venueSlug && filter.venueSlug !== venueSlug) return undefined;
+			return {
+				eventId: stringValue(event.id),
+				eventName: stringValue(event.eventName) || '名称未登録',
+				eventDate,
+				eventSlug: nullableStringValue(event.slug),
+				eventType: stringValue(event.type) || 'live',
+				projectName: stringValue(project.name) || '名称未登録',
+				projectSlug,
+				venueName: stringValue(venue.name) || '名称未登録',
+				venueSlug,
+				performanceCount: performanceCounts.get(stringValue(event.id)) ?? 0,
+				isUpcoming: eventDate >= snapshotDate,
+			};
+		})
+		.filter((item): item is LiveListItem => item !== undefined)
+		.sort(
+			(left, right) =>
+				right.eventDate.localeCompare(left.eventDate) ||
+				compareText(left.projectName, right.projectName) ||
+				compareText(left.venueName, right.venueName) ||
+				compareText(left.eventSlug ?? '', right.eventSlug ?? '') ||
+				compareText(left.eventId, right.eventId),
+		);
+};
+
+const filter: LiveFilter = {
+	projectSlug: Astro.url.searchParams.get('project') ?? undefined,
+	venueSlug: Astro.url.searchParams.get('venue') ?? undefined,
+};
+const lives = buildLiveItems(filter);
+const years = [...new Set(lives.map((live) => live.eventDate.slice(0, 4)))].sort((left, right) => right.localeCompare(left));
+const livesByYear = new Map(years.map((year) => [year, lives.filter((live) => live.eventDate.startsWith(`${year}-`))]));
+const pageDescription = '公演日、名義、会場、セットリスト件数からライブ記録をたどれます。';
+---
+
+<SiteLayout title="ライブ" description={pageDescription} currentPath="/lives" breadcrumbs={[{ label: 'ライブ' }]}>
+	<section class="lives-index" aria-labelledby="lives-page-title">
+		<header class="lives-index__header">
+			<p class="lives-index__eyebrow">LIVE ARCHIVE</p>
+			<h1 id="lives-page-title">ライブ</h1>
+			<p>{pageDescription}</p>
+		</header>
+
+		{lives.length === 0 ? (
+			<p class="lives-index__empty">ライブの記録はありません。</p>
+		) : (
+			<>
+				<nav class="lives-index__years" aria-label="年別に見る">
+					<strong>年別に見る</strong>
+					<ul>
+						{years.map((year) => (
+							<li>
+								<a href={`#year-${year}`}>
+									{year} ({livesByYear.get(year)?.length ?? 0})
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+
+				<div class="lives-index__years-list">
+					{years.map((year) => {
+						const yearLives = livesByYear.get(year) ?? [];
+						return (
+							<section id={`year-${year}`} aria-labelledby={`year-title-${year}`}>
+								<header class="lives-index__year-header">
+									<h2 id={`year-title-${year}`}>{year}年</h2>
+									<span>{yearLives.length}件</span>
+								</header>
+								<ul class="lives-index__list">
+									{yearLives.map((live) => (
+										<li class="lives-index__item" data-event-id={live.eventId} data-event-type={live.eventType}>
+											<div class="lives-index__item-main">
+												<div class="lives-index__item-title">
+													<EntityLink type="event" slug={live.eventSlug} label={live.eventName} />
+													{live.isUpcoming && <span class="lives-index__badge">予定</span>}
+												</div>
+												<span class="lives-index__type">{eventTypeLabel(live.eventType)}</span>
+											</div>
+											<dl class="lives-index__metadata">
+												<div>
+													<dt>日付</dt>
+													<dd><DateText value={live.eventDate} precision="day" /></dd>
+												</div>
+												<div>
+													<dt>名義</dt>
+													<dd><EntityLink type="project" slug={live.projectSlug} label={live.projectName} /></dd>
+												</div>
+												<div>
+													<dt>会場</dt>
+													<dd><EntityLink type="venue" slug={live.venueSlug} label={live.venueName} /></dd>
+												</div>
+												<div>
+													<dt>セットリスト</dt>
+													<dd>
+														{live.performanceCount}曲
+														{live.performanceCount === 0 && <span class="lives-index__unregistered">（セットリスト未登録）</span>}
+													</dd>
+												</div>
+											</dl>
+										</li>
+									))}
+								</ul>
+							</section>
+						);
+					})}
+				</div>
+			</>
+		)}
+	</section>
+</SiteLayout>
+
+<style>
+	.lives-index__header {
+		margin-block-end: var(--space-5);
+	}
+
+	.lives-index__eyebrow {
+		margin: 0;
+		color: var(--accent);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+	}
+
+	.lives-index__header h1 {
+		margin-block: var(--space-2) var(--space-3);
+	}
+
+	.lives-index__header p:last-child {
+		margin-block: 0;
+		color: var(--ink-muted);
+	}
+
+	.lives-index__years {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-4);
+		align-items: baseline;
+		margin-block-end: var(--space-6);
+		padding-block: var(--space-3);
+		border-block: 1px solid var(--rule);
+	}
+
+	.lives-index__years ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.lives-index__years a {
+		display: inline-flex;
+		align-items: center;
+		padding-inline: var(--space-2);
+	}
+
+	.lives-index__years-list {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.lives-index__year-header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+		border-block-end: 2px solid var(--ink);
+	}
+
+	.lives-index__year-header h2 {
+		margin-block: 0 var(--space-2);
+	}
+
+	.lives-index__year-header span,
+	.lives-index__type,
+	.lives-index__unregistered {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.lives-index__list {
+		display: grid;
+		gap: var(--space-2);
+		max-width: none;
+		margin: var(--space-3) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.lives-index__item {
+		display: grid;
+		gap: var(--space-3);
+		padding: var(--space-3);
+		border: 1px solid var(--rule);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	.lives-index__item-main {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2) var(--space-3);
+	}
+
+	.lives-index__item-title {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		font-size: 18px;
+		font-weight: 700;
+	}
+
+	.lives-index__badge {
+		border-radius: 999px;
+		padding: 2px var(--space-2);
+		background: var(--accent);
+		color: var(--accent-ink);
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	.lives-index__metadata {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--space-2) var(--space-4);
+		margin: 0;
+	}
+
+	.lives-index__metadata div {
+		min-width: 0;
+	}
+
+	.lives-index__metadata dt {
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	.lives-index__metadata dd {
+		margin: 0;
+		overflow-wrap: anywhere;
+	}
+
+	.lives-index__empty {
+		margin: 0;
+		padding: var(--space-5);
+		border: 1px dashed var(--rule);
+		color: var(--ink-muted);
+		text-align: center;
+	}
+
+	@media (max-width: 640px) {
+		.lives-index__metadata {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>
