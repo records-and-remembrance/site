@@ -1,0 +1,119 @@
+---
+import DateText from '../components/DateText.astro';
+import EntityLink from '../components/EntityLink.astro';
+import FilterControls from '../components/FilterControls.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import { matchesFilterValues, parseFilterQuery } from '../lib/url-filters';
+import { buildTimeline } from '../lib/timeline';
+
+const entries = buildTimeline({ project: siteTableRows('project'), release: siteTableRows('release'), work: siteTableRows('work'), event: siteTableRows('event'), membership: siteTableRows('membership'), person: siteTableRows('person') });
+const filterSchema = {
+	project: [...new Set(entries.flatMap((entry) => entry.filterValues.project))].sort(),
+	kind: ['event', 'membership', 'project', 'release'],
+};
+const selected = parseFilterQuery(Astro.url.searchParams, filterSchema);
+const groups = [
+	{ key: 'project', label: 'プロジェクト', options: filterSchema.project.map((value) => ({ value, label: siteTableRows('project').find((project) => project.slug === value)?.name ?? value })) },
+	{ key: 'kind', label: '種別', options: filterSchema.kind.map((value) => ({ value, label: { event: 'ライブ', membership: '在籍', project: 'プロジェクト', release: '発売' }[value] ?? value })) },
+];
+const years = [...new Set(entries.map((entry) => entry.year))].sort();
+---
+
+<SiteLayout title="年表" currentPath="/timeline" breadcrumbs={[{ label: '年表' }]}>
+	<section class="timeline-page" aria-labelledby="timeline-title">
+		<header>
+			<p class="eyebrow">TIMELINE</p>
+			<h1 id="timeline-title">年表</h1>
+			<p>発売、ライブ、人の移動、プロジェクトの期間を一つの流れでたどる。</p>
+		</header>
+		<FilterControls path="/timeline" groups={groups} selected={selected} />
+		{years.length === 0 ? (
+			<p class="empty-state">年表の記録はありません。</p>
+		) : (
+			<div class="timeline-years">
+				{years.map((year) => {
+					const yearEntries = entries.filter((entry) => entry.year === year);
+					const months = [...new Set(yearEntries.map((entry) => entry.month))].sort();
+					return (
+						<section id={`y${year}`} aria-labelledby={`y${year}-title`}>
+							<h2 id={`y${year}-title`}><a href={`#y${year}`}>{year}年</a></h2>
+							{months.map((month) => {
+								const monthEntries = yearEntries.filter((entry) => entry.month === month);
+								return (
+									<section id={`y${month}`} aria-labelledby={`y${month}-title`}>
+										<h3 id={`y${month}-title`}><a href={`#y${month}`}>{month.slice(5)}月</a></h3>
+										<ul>
+											{monthEntries.map((entry) => (
+												<li data-filter-item data-filter-values={JSON.stringify(entry.filterValues)} hidden={!matchesFilterValues(entry.filterValues, selected)} data-kind={entry.kind}>
+													<span class="timeline-entry__kind">{entry.kind}</span>
+													<DateText value={entry.date} precision={entry.date.length === 4 ? 'year' : entry.date.length === 7 ? 'month' : 'day'} />
+													{entry.href ? <a href={entry.href}>{entry.label}</a> : <span>{entry.label}</span>}
+													{entry.detail && <small>{entry.detail}</small>}
+													{entry.aggregated && <small>（2006–2007は月集約）</small>}
+												</li>
+											))}
+										</ul>
+									</section>
+								);
+							})}
+						</section>
+					);
+				})}
+			</div>
+		)}
+	</section>
+</SiteLayout>
+
+<style>
+	.timeline-years {
+		display: grid;
+		gap: var(--space-5);
+	}
+
+	.timeline-years > section {
+		border-block-start: 2px solid var(--ink);
+	}
+
+	.timeline-years h2,
+	.timeline-years h3 {
+		margin-block: var(--space-2);
+	}
+
+	.timeline-years h3 {
+		font-size: 18px;
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.timeline-years ul {
+		display: grid;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.timeline-years li {
+		display: grid;
+		grid-template-columns: 5rem 8rem minmax(0, 1fr) auto;
+		gap: var(--space-2);
+		align-items: baseline;
+		padding: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.timeline-entry__kind,
+	.timeline-years small {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	@media (max-width: 640px) {
+		.timeline-years li {
+			grid-template-columns: 4rem 1fr;
+		}
+
+		.timeline-years li > :nth-child(n + 3) {
+			grid-column: 2;
+		}
+	}
+</style>
