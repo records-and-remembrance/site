@@ -22,8 +22,9 @@ export const person = pgTable(
 		activeFrom: dateString('active_from'),
 		/** 活動終了時期 */
 		activeTo: dateString('active_to'),
+		slug: text('slug'),
 	},
-	(table) => [unique('person_name_unique').on(table.name)],
+	(table) => [unique('person_name_unique').on(table.name), unique('person_slug_unique').on(table.slug)],
 );
 
 /** 活動単位（バンド、ソロ、ユニット） */
@@ -37,8 +38,15 @@ export const project = pgTable(
 		description: text('description'),
 		startDate: dateString('start_date'),
 		endDate: dateString('end_date'),
+		slug: text('slug'),
+		scope: text('scope').notNull().default('monden'),
 	},
-	(table) => [unique('project_name_unique').on(table.name), check('project_end_date_check', sql`${table.endDate} IS NULL OR ${table.endDate} >= ${table.startDate}`)],
+	(table) => [
+		unique('project_name_unique').on(table.name),
+		unique('project_slug_unique').on(table.slug),
+		check('project_end_date_check', sql`${table.endDate} IS NULL OR ${table.endDate} >= ${table.startDate}`),
+		check('project_scope_check', sql`${table.scope} IN ('monden', 'external')`),
+	],
 );
 
 /** プロジェクトへの参加期間 */
@@ -118,8 +126,13 @@ export const work = pgTable(
 		createdDate: dateString('created_date'),
 		releasedDate: dateString('released_date'),
 		type: text('type').notNull().default('original'),
+		slug: text('slug'),
 	},
-	(table) => [unique('work_project_title_unique').on(table.projectId, table.title), check('work_type_check', sql`${table.type} IN ('original', 'compilation', 'best', 'live')`)],
+	(table) => [
+		unique('work_project_title_unique').on(table.projectId, table.title),
+		unique('work_slug_unique').on(table.slug),
+		check('work_type_check', sql`${table.type} IN ('original', 'compilation', 'best', 'live')`),
+	],
 );
 
 /** 作品に関係するプロジェクト（主名義、参加アーティスト） */
@@ -167,6 +180,9 @@ export const release = pgTable(
 		distributorId: uuid('distributor_id').references(() => distributor.id),
 		editionType: text('edition_type').notNull().default('original'),
 		reissueOfReleaseId: uuid('reissue_of_release_id').references((): AnyPgColumn => release.id),
+		artworkUrl: text('artwork_url'),
+		artworkWidth: integer('artwork_width'),
+		artworkHeight: integer('artwork_height'),
 	},
 	(table) => [
 		unique('release_work_format_release_date_unique').on(table.workId, table.format, table.releaseDate),
@@ -207,8 +223,9 @@ export const composition = pgTable(
 		id: uuid('id').primaryKey(),
 		title: text('title').notNull(),
 		description: text('description'),
+		slug: text('slug'),
 	},
-	(table) => [unique('composition_title_unique').on(table.title)],
+	(table) => [unique('composition_title_unique').on(table.title), unique('composition_slug_unique').on(table.slug)],
 );
 
 /** 楽曲の作曲者・作詞者クレジット */
@@ -293,8 +310,9 @@ export const venue = pgTable(
 		name: text('name').notNull(),
 		location: text('location'),
 		description: text('description'),
+		slug: text('slug'),
 	},
-	(table) => [unique('venue_name_location_unique').on(table.name, table.location)],
+	(table) => [unique('venue_name_location_unique').on(table.name, table.location), unique('venue_slug_unique').on(table.slug)],
 );
 
 /** ライブ・公演 */
@@ -312,6 +330,7 @@ export const event = pgTable(
 		type: text('type').notNull().default('live'),
 		eventName: text('event_name'),
 		eventDate: dateString('event_date').notNull(),
+		slug: text('slug'),
 		startTime: timeString('start_time'),
 		endTime: timeString('end_time'),
 		doorsOpenTime: timeString('doors_open_time'),
@@ -319,7 +338,7 @@ export const event = pgTable(
 		description: text('description'),
 		notes: text('notes'),
 	},
-	(table) => [unique('event_project_venue_event_date_unique').on(table.projectId, table.venueId, table.eventDate)],
+	(table) => [unique('event_project_venue_event_date_unique').on(table.projectId, table.venueId, table.eventDate), unique('event_slug_unique').on(table.slug)],
 );
 
 /** セットリスト */

@@ -78,6 +78,13 @@
 			"when": 1783225049620,
 			"tag": "0010_damp_peter_quill",
 			"breakpoints": true
+		},
+		{
+			"idx": 11,
+			"version": "7",
+			"when": 1783948509882,
+			"tag": "0011_aromatic_carnage",
+			"breakpoints": true
 		}
 	]
 }
