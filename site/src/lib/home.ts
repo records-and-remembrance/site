@@ -1,5 +1,6 @@
 import type { SiteMonthDayEntry, SiteRow, SiteSnapshot, SiteTableName } from '../../export/export';
 import { buildEntityHref } from './site-foundation';
+import { buildDigCandidates, pickDigCards, type DigCard, type DigCandidates } from './dig';
 
 export type HomeProject = {
 	id: string;
@@ -38,6 +39,8 @@ export type HomeModel = {
 	countTiles: HomeCountTile[];
 	upcomingEvents: HomeUpcomingEvent[];
 	todayEntries: SiteMonthDayEntry[];
+	dig: DigCard[];
+	digCandidates: DigCandidates;
 };
 
 const PROJECT_COLOR_TOKENS: Record<string, string> = {
@@ -166,5 +169,7 @@ export const buildHomeModel = (snapshot: SiteSnapshot, today = snapshot.snapshot
 		countTiles: buildCountTiles(snapshot),
 		upcomingEvents: buildUpcomingEvents(snapshot.tables, today),
 		todayEntries: buildTodayEntries(snapshot, today),
+		digCandidates: buildDigCandidates(snapshot),
+		dig: pickDigCards(buildDigCandidates(snapshot), () => 0),
 	};
 };

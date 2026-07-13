@@ -133,11 +133,22 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			</section>
 		)}
 
-		<section id="dig" class="home-dig" aria-labelledby="dig-title">
-			<p class="home-eyebrow">DIG</p>
-			<h2 id="dig-title">Dig</h2>
-			<p>Digは準備中です。ランダムに記録をめぐる機能は後日追加します。</p>
-		</section>
+			<section id="dig" class="home-dig" aria-labelledby="dig-title">
+				<p class="home-eyebrow">DIG</p>
+				<h2 id="dig-title">Dig</h2>
+				<p>調べるのとは別の入口から、記録をめぐる。</p>
+				{home.dig.length === 0 ? (
+					<p>Digは準備中です。</p>
+				) : (
+					<>
+						<div class="home-dig__cards" data-dig-cards>
+							{home.dig.map((card) => <article data-dig-card data-dig-type={card.type}><p>{card.type}</p><h3><a href={card.href}>{card.label}</a></h3><p>{card.summary}</p></article>)}
+						</div>
+						<button type="button" data-dig-reroll>もう一度Digする</button>
+						<p data-dig-status aria-live="polite"></p>
+					</>
+				)}
+			</section>
 	</div>
 </SiteLayout>
 
@@ -377,7 +388,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		align-items: baseline;
 	}
 
-	.home-dig {
+		.home-dig {
 		padding: var(--space-5);
 		border: 1px dashed var(--rule);
 		background: var(--surface);
@@ -435,5 +446,40 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		.home-counts__grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
-	}
-</style>
+		}
+
+		.home-dig__cards {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: var(--space-3);
+		}
+
+		.home-dig__cards article {
+			padding: var(--space-3);
+			border: 1px solid var(--rule);
+			background: var(--surface);
+		}
+
+		@media (max-width: 640px) {
+			.home-dig__cards {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+
+	<script define:vars={{ candidates: home.digCandidates }}>
+		const reroll = document.querySelector('[data-dig-reroll]');
+		const status = document.querySelector('[data-dig-status]');
+		reroll?.addEventListener('click', () => {
+			for (const card of document.querySelectorAll('[data-dig-card]')) {
+				const list = candidates[card.dataset.digType] ?? [];
+				const next = list[Math.floor(Math.random() * list.length)];
+				if (!next) continue;
+				const link = card.querySelector('a');
+				const summary = card.querySelector('p:last-child');
+				if (link) { link.href = next.href; link.textContent = next.label; }
+				if (summary) summary.textContent = next.summary;
+			}
+			if (status) status.textContent = 'Digの候補を更新しました。';
+		});
+	</script>
