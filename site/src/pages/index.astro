@@ -1,20 +1,12 @@
 ---
 import { siteData } from '../data';
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<!doctype html>
-<html lang="ja">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content={siteData.description} />
-		<title>{siteData.title}</title>
-	</head>
-	<body>
-		<main>
-			<h1>{siteData.title}</h1>
-			<p>{siteData.description}</p>
-			<p>注目プロジェクト: {siteData.featuredProject}</p>
-		</main>
-	</body>
-</html>
+<SiteLayout currentPath="/">
+	<section aria-labelledby="page-title">
+		<h1 id="page-title">{siteData.title}</h1>
+		<p>{siteData.description}</p>
+		<p>注目プロジェクト: {siteData.featuredProject}</p>
+	</section>
+</SiteLayout>

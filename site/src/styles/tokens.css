@@ -1,0 +1,75 @@
+:root {
+	color-scheme: light;
+	--ground: #f5f5f1;
+	--surface: #ffffff;
+	--ink: #1c1e22;
+	--ink-muted: #5c5f66;
+	--rule: #d8d8d2;
+	--accent: #9a6b1f;
+	--accent-ink: #ffffff;
+	--focus-ring: #9a6b1f;
+	--project-sweet-girls: #6b7f4f;
+	--project-sanchester: #b3823c;
+	--project-burger-nuds: #4a5d8a;
+	--project-good-dog-happy-men: #6e5687;
+	--project-kadota-2010: #3f7e70;
+	--project-poet-type-m: #8c3a4b;
+	--project-kadota-2020: #2f6b4f;
+	--project-other: #757570;
+	--content-max-width: 1200px;
+	--reading-width: 65ch;
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 16px;
+	--space-4: 24px;
+	--space-5: 32px;
+	--space-6: 48px;
+	--space-7: 64px;
+	--radius: 4px;
+	--motion-duration: 180ms;
+	--motion-ease: ease-out;
+}
+
+:root[data-theme='light'] {
+	color-scheme: light;
+	--ground: #f5f5f1;
+	--surface: #ffffff;
+	--ink: #1c1e22;
+	--ink-muted: #5c5f66;
+	--rule: #d8d8d2;
+	--accent: #9a6b1f;
+	--accent-ink: #ffffff;
+	--focus-ring: #9a6b1f;
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--ground: #15171c;
+	--surface: #1d2027;
+	--ink: #e8e6df;
+	--ink-muted: #9a9ca3;
+	--rule: #2e323b;
+	--accent: #d9a441;
+	--accent-ink: #15171c;
+	--focus-ring: #d9a441;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme]) {
+		color-scheme: dark;
+		--ground: #15171c;
+		--surface: #1d2027;
+		--ink: #e8e6df;
+		--ink-muted: #9a9ca3;
+		--rule: #2e323b;
+		--accent: #d9a441;
+		--accent-ink: #15171c;
+		--focus-ring: #d9a441;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--motion-duration: 0ms;
+	}
+}

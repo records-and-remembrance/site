@@ -1,0 +1,36 @@
+---
+import { isNavigationItemActive, PRIMARY_NAVIGATION } from './site-shell';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+	currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<header class="site-header">
+	<div class="site-header__inner">
+		<a class="site-brand" href="/">門田匡陽アーカイブ</a>
+
+		<nav class="site-nav" aria-label="主要ナビゲーション">
+			<ul class="site-nav__list">
+				{PRIMARY_NAVIGATION.map((item) => {
+					const active = isNavigationItemActive(item.href, currentPath);
+					return (
+						<li>
+							<a class="site-nav__link" href={item.href} aria-current={active ? 'page' : undefined}>
+								<span>{item.label}</span>
+								{item.pending && <span class="site-nav__pending">準備中</span>}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</nav>
+
+		<div class="site-header__tools">
+			<ThemeToggle />
+		</div>
+	</div>
+</header>

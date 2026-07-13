@@ -1,0 +1,40 @@
+---
+import { siteData } from '../data';
+import Breadcrumbs, { type Breadcrumb } from '../components/Breadcrumbs.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import '../styles/global.css';
+import '../styles/tokens.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	currentPath?: string;
+	breadcrumbs?: readonly Breadcrumb[];
+}
+
+const { title = siteData.title, description = siteData.description, currentPath = Astro.url.pathname, breadcrumbs = [] } = Astro.props;
+const pageTitle = title === siteData.title ? title : `${title} | ${siteData.title}`;
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#F5F5F1" />
+		<title>{pageTitle}</title>
+	</head>
+	<body>
+		<div class="site-shell">
+			<a class="skip-link" href="#main-content">本文へスキップ</a>
+			<SiteHeader currentPath={currentPath} />
+			<main id="main-content" class="site-main">
+				<Breadcrumbs items={breadcrumbs} />
+				<slot />
+			</main>
+			<SiteFooter />
+		</div>
+	</body>
+</html>

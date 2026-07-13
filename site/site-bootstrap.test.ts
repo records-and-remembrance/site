@@ -61,6 +61,9 @@ describe('PST-005 site bootstrap', () => {
 		const html = await readFile(join(root, 'site/dist/index.html'), 'utf8');
 		expect(html).toContain('<title>門田匡陽アーカイブ</title>');
 		expect(html).toMatch(/<main\b[^>]*>/);
+		expect(html).toContain('本文へスキップ');
+		expect(html).toContain('主要ナビゲーション');
+		expect(html).toContain('href="/#dig"');
 		expect(html).not.toContain('/api/site/');
 	});
 
