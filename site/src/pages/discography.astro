@@ -1,0 +1,69 @@
+---
+import Artwork from '../components/Artwork.astro';
+import DateText from '../components/DateText.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import { buildDiscographyCards } from '../lib/discography';
+
+const cards = buildDiscographyCards(siteTableRows('work'), siteTableRows('release'), siteTableRows('project'));
+const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean);
+---
+
+<SiteLayout title="作品" breadcrumbs={[{ label: '作品' }]}>
+	<section aria-labelledby="discography-title">
+		<h1 id="discography-title">作品</h1>
+		<p>作品と版を、発表順にたどる。</p>
+		{cards.length === 0 ? (
+			<p>作品データはまだありません。</p>
+		) : (
+			<div class="discography-grid">
+				{cards.map((card) => (
+					<article class="discography-card">
+						<Artwork url={card.artworkUrl} width={card.artworkWidth} height={card.artworkHeight} alt={`${card.title}のジャケット`} allowedOrigins={artworkOrigins} />
+						<div class="discography-card__body">
+							<h2>
+								{card.href ? <a href={card.href}>{card.title}</a> : <span>{card.title}</span>}
+							</h2>
+							{card.projectName && <p>{card.projectName}</p>}
+							<p>
+								{card.format && <span>{card.format}</span>}
+								{card.releaseDate && <DateText value={card.releaseDate} precision={card.releaseDatePrecision as 'year' | 'month' | 'day' | null} />}
+							</p>
+						</div>
+					</article>
+				))}
+			</div>
+		)}
+	</section>
+</SiteLayout>
+
+<style>
+	.discography-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: var(--space-5);
+	}
+
+	.discography-card {
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.discography-card img,
+	.discography-card .artwork-fallback {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		object-fit: contain;
+	}
+
+	.discography-card__body {
+		padding: var(--space-3);
+	}
+
+	.discography-card__body h2,
+	.discography-card__body p {
+		margin-block: 0 var(--space-2);
+	}
+</style>
