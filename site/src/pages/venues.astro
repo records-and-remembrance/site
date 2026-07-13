@@ -1,0 +1,40 @@
+---
+import EntityLink from '../components/EntityLink.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteTableRows } from '../data';
+import { buildVenueList, type VenueRows } from '../lib/venues';
+
+const rows = {
+	venue: siteTableRows('venue'),
+	event: siteTableRows('event'),
+	eventPerformance: siteTableRows('eventPerformance'),
+	project: siteTableRows('project'),
+	composition: siteTableRows('composition'),
+} satisfies VenueRows;
+const venues = buildVenueList(rows);
+---
+
+<SiteLayout title="会場" currentPath="/venues" breadcrumbs={[{ label: '会場' }]}>
+	<section aria-labelledby="venues-title">
+		<p class="eyebrow">VENUES</p>
+		<h1 id="venues-title">会場</h1>
+		<p>公演記録に登場する会場を、記録された行単位でたどれます。</p>
+
+		{venues.length > 0 ? (
+			<ul class="venue-list">
+				{venues.map((item) => (
+					<li class="venue-card">
+						<h2>
+							<EntityLink type="venue" slug={item.venue.slug} label={item.venue.name} />
+						</h2>
+						{item.venue.location && <p class="venue-card__location">{item.venue.location}</p>}
+						<p class="venue-card__count">公演記録: {item.eventCount}件</p>
+						{item.venue.slug ? <p class="venue-card__slug">/{item.venue.slug}</p> : <p class="venue-card__unpublished">公開URL未確定</p>}
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="empty-state">会場の記録はありません。</p>
+		)}
+	</section>
+</SiteLayout>

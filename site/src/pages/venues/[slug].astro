@@ -1,0 +1,106 @@
+---
+import ConnectionLinks from '../../components/ConnectionLinks.astro';
+import DateText from '../../components/DateText.astro';
+import EntityLink from '../../components/EntityLink.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { siteTableRows } from '../../data';
+import { buildVenueDetail, type VenueRows } from '../../lib/venues';
+
+const rows = {
+	venue: siteTableRows('venue'),
+	event: siteTableRows('event'),
+	eventPerformance: siteTableRows('eventPerformance'),
+	project: siteTableRows('project'),
+	composition: siteTableRows('composition'),
+} satisfies VenueRows;
+
+export function getStaticPaths() {
+	return siteTableRows('venue')
+		.filter((venue) => typeof venue.slug === 'string' && venue.slug.length > 0)
+		.map((venue) => ({ params: { slug: venue.slug as string } }));
+}
+
+const slug = Astro.params.slug;
+const detail = slug ? buildVenueDetail(rows, slug) : undefined;
+if (!detail) throw new Error(`Venue not found: ${slug ?? '(missing slug)'}`);
+
+const relatedLinks = [
+	...detail.projectCounts.map((project) => ({ label: `${project.label}（プロジェクト）`, href: project.href })),
+	...detail.topSongs.map((song) => ({ label: `${song.label}（楽曲）`, href: song.href })),
+	...detail.events.map((event) => ({ label: `${event.label}（ライブ）`, href: event.href })),
+];
+---
+
+<SiteLayout title={detail.venue.name} currentPath="/venues" breadcrumbs={[{ label: '会場', href: '/venues' }, { label: detail.venue.name }]}>
+	<article aria-labelledby="venue-title">
+		<header>
+			<p class="eyebrow">VENUE</p>
+			<h1 id="venue-title">{detail.venue.name}</h1>
+			{detail.venue.location && <p>{detail.venue.location}</p>}
+			{detail.venue.description && <p>{detail.venue.description}</p>}
+			<p>公演記録: {detail.events.length}件</p>
+		</header>
+
+		<section aria-labelledby="venue-years-title">
+			<h2 id="venue-years-title">年別公演履歴</h2>
+			{detail.yearCounts.length > 0 ? (
+				<ul>
+					{detail.yearCounts.map((year) => <li>{year.year}年: {year.count}件</li>)}
+				</ul>
+			) : (
+				<p>年別の公演記録はありません。</p>
+			)}
+		</section>
+
+		<section aria-labelledby="venue-events-title">
+			<h2 id="venue-events-title">イベント履歴</h2>
+			{detail.events.length > 0 ? (
+				<ol>
+					{detail.events.map((event) => (
+						<li>
+							{event.href ? <a href={event.href}>{event.label}</a> : <span>{event.label}</span>}
+							{' · '}
+							{event.date ? <DateText value={event.date} precision={event.datePrecision} /> : <span>日付未登録</span>}
+							{' · '}
+							{event.projectHref ? <a href={event.projectHref}>{event.projectName}</a> : <span>{event.projectName}</span>}
+						</li>
+					))}
+				</ol>
+			) : (
+				<p>記録上の公演なし</p>
+			)}
+		</section>
+
+		<section aria-labelledby="venue-projects-title">
+			<h2 id="venue-projects-title">関連プロジェクト</h2>
+			{detail.projectCounts.length > 0 ? (
+				<ul>
+					{detail.projectCounts.map((project) => (
+						<li>
+							{project.href ? <a href={project.href}>{project.label}</a> : <span>{project.label}</span>}: {project.count}件
+						</li>
+					))}
+				</ul>
+			) : (
+				<p>関連プロジェクトはありません。</p>
+			)}
+		</section>
+
+		<section aria-labelledby="venue-songs-title">
+			<h2 id="venue-songs-title">定番曲 Top 5</h2>
+			{detail.topSongs.length > 0 ? (
+				<ol>
+					{detail.topSongs.map((song) => (
+						<li>
+							{song.href ? <a href={song.href}>{song.label}</a> : <span>{song.label}</span>}: {song.count}回
+						</li>
+					))}
+				</ol>
+			) : (
+				<p>定番曲の記録はありません。</p>
+			)}
+		</section>
+
+		<ConnectionLinks links={relatedLinks} />
+	</article>
+</SiteLayout>
