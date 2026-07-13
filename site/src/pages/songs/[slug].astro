@@ -4,6 +4,7 @@ import EntityLink from '../../components/EntityLink.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { siteTableRows } from '../../data';
 import { buildSongDetail, type SongDetailSource, type SongRecording } from '../../lib/song-detail';
+import { buildSongJourney, buildSongPerformanceHistory } from '../../lib/song-discovery';
 import { buildEntityHref } from '../../lib/site-foundation';
 
 const detailSource: SongDetailSource = {
@@ -31,6 +32,9 @@ if (!detail) throw new Error(`Song not found: ${Astro.params.slug ?? '(missing s
 
 const creditLabel = (creditType: 'composer' | 'lyricist'): string => (creditType === 'composer' ? '作曲' : '作詞');
 const recordingLabel = (recording: SongRecording): string => recording.versionName ?? '名称未登録';
+const discoverySource = { eventPerformance: detailSource.eventPerformance, event: detailSource.event, track: detailSource.track, recording: detailSource.recording, release: detailSource.release, work: detailSource.work };
+const journey = buildSongJourney(detail.composition.id, discoverySource);
+const history = buildSongPerformanceHistory(detail.composition.id, discoverySource);
 ---
 
 <SiteLayout title={detail.composition.title} currentPath="/songs" breadcrumbs={[{ label: '楽曲', href: '/songs' }, { label: detail.composition.title }]}>
@@ -115,7 +119,7 @@ const recordingLabel = (recording: SongRecording): string => recording.versionNa
 			)}
 		</section>
 
-		<section class="song-detail__section" aria-labelledby="song-performances-title">
+			<section class="song-detail__section" aria-labelledby="song-performances-title">
 			<h2 id="song-performances-title">ライブ演奏</h2>
 			{detail.performances.length === 0 ? (
 				<p class="empty-state">演奏記録はありません。</p>
@@ -151,7 +155,27 @@ const recordingLabel = (recording: SongRecording): string => recording.versionNa
 					))}
 				</ul>
 			)}
-		</section>
+			</section>
+
+			<section class="song-detail__section" aria-labelledby="song-discovery-title">
+				<h2 id="song-discovery-title">曲の旅・演奏史</h2>
+				{journey.length > 0 && (
+					<div>
+						<h3>収録の旅</h3>
+						<ol>{journey.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<small>{item.date}</small></li>)}</ol>
+					</div>
+				)}
+				{history.count > 0 && (
+					<div>
+						<h3>演奏史</h3>
+						<p>初演: <DateText value={history.firstDate} precision="day" /> · 最終演奏: <DateText value={history.lastDate} precision="day" /> · {history.count}回</p>
+						{history.encoreRate !== undefined && <p>アンコール率: {Math.round(history.encoreRate * 100)}%</p>}
+						<ul class="song-history-years">{history.years.map((year) => <li><span>{year.year}</span><strong>{year.count}</strong></li>)}</ul>
+						{history.revivals.length > 0 && <ul><li>復活演奏</li>{history.revivals.map((revival) => <li><DateText value={revival.date} precision="day" />（{revival.gapFrom}以来） {revival.eventHref ? <a href={revival.eventHref}>ライブ詳細</a> : null}</li>)}</ul>}
+					</div>
+				)}
+				{journey.length === 0 && history.count === 0 && <p class="empty-state">収録・演奏の記録はありません。</p>}
+			</section>
 	</article>
 </SiteLayout>
 
