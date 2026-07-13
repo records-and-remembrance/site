@@ -1,0 +1,266 @@
+---
+import DateText from '../../components/DateText.astro';
+import EntityLink from '../../components/EntityLink.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { siteTableRows } from '../../data';
+import { buildSongDetail, type SongDetailSource, type SongRecording } from '../../lib/song-detail';
+import { buildEntityHref } from '../../lib/site-foundation';
+
+const detailSource: SongDetailSource = {
+	composition: siteTableRows('composition'),
+	compositionCredit: siteTableRows('compositionCredit'),
+	person: siteTableRows('person'),
+	recording: siteTableRows('recording'),
+	track: siteTableRows('track'),
+	release: siteTableRows('release'),
+	work: siteTableRows('work'),
+	project: siteTableRows('project'),
+	eventPerformance: siteTableRows('eventPerformance'),
+	event: siteTableRows('event'),
+	venue: siteTableRows('venue'),
+};
+
+export function getStaticPaths() {
+	return siteTableRows('composition')
+		.filter((composition) => Boolean(buildEntityHref('composition', typeof composition.slug === 'string' ? composition.slug : undefined)))
+		.map((composition) => ({ params: { slug: composition.slug as string } }));
+}
+
+const detail = buildSongDetail(detailSource, Astro.params.slug);
+if (!detail) throw new Error(`Song not found: ${Astro.params.slug ?? '(missing slug)'}`);
+
+const creditLabel = (creditType: 'composer' | 'lyricist'): string => (creditType === 'composer' ? '作曲' : '作詞');
+const recordingLabel = (recording: SongRecording): string => recording.versionName ?? '名称未登録';
+---
+
+<SiteLayout title={detail.composition.title} currentPath="/songs" breadcrumbs={[{ label: '楽曲', href: '/songs' }, { label: detail.composition.title }]}>
+	<article class="song-detail">
+		<header class="song-detail__header" aria-labelledby="song-detail-title">
+			<p class="eyebrow">SONG</p>
+			<h1 id="song-detail-title">{detail.composition.title}</h1>
+			{detail.composition.description && <p class="song-detail__description">{detail.composition.description}</p>}
+		</header>
+
+		<section class="song-detail__section" aria-labelledby="song-credits-title">
+			<h2 id="song-credits-title">クレジット</h2>
+			<div class="song-detail__credit-groups">
+				{(['composer', 'lyricist'] as const).map((creditType) => {
+					const credits = detail.credits[creditType];
+					return (
+						<section aria-labelledby={`song-${creditType}-title`}>
+							<h3 id={`song-${creditType}-title`}>{creditLabel(creditType)}</h3>
+							{credits.length > 0 ? (
+								<ol>
+									{credits.map((credit) => (
+										<li>
+											<EntityLink type="person" slug={credit.slug} label={credit.name} />
+										</li>
+									))}
+								</ol>
+							) : (
+								<p class="empty-state">登録なし</p>
+							)}
+						</section>
+					);
+				})}
+			</div>
+		</section>
+
+		<section class="song-detail__section" aria-labelledby="song-recordings-title">
+			<h2 id="song-recordings-title">録音</h2>
+			{detail.recordings.length === 0 ? (
+				<p class="empty-state">
+					録音情報はありません。
+					{detail.liveOnly && <span>ライブ演奏のみ。</span>}
+				</p>
+			) : (
+				<div class="song-detail__recordings">
+					{detail.recordings.map((recording) => (
+						<article class="recording-card">
+							<header>
+								<h3>{recordingLabel(recording)}</h3>
+								{recording.type && <p class="recording-card__type">{recording.type}</p>}
+							</header>
+							{recording.versionDescription && <p>{recording.versionDescription}</p>}
+							<dl class="recording-card__metadata">
+								<div>
+									<dt>初出release年</dt>
+									<dd>{recording.firstReleaseDate ? <DateText value={recording.firstReleaseDate} precision="year" /> : '不明'}</dd>
+								</div>
+								<div>
+									<dt>収録版数</dt>
+									<dd>{recording.placements.length}</dd>
+								</div>
+							</dl>
+							<section aria-labelledby={`recording-${recording.id}-placements`}>
+								<h4 id={`recording-${recording.id}-placements`}>収録作品・版</h4>
+								{recording.placements.length > 0 ? (
+									<ul class="placement-list">
+										{recording.placements.map((placement) => (
+											<li>
+												{placement.href ? <a href={placement.href}>{placement.work.name}</a> : <span>{placement.work.name}</span>}
+												<span class="placement-list__meta">
+													{placement.format ?? '形式未登録'} · {placement.releaseDate ? <DateText value={placement.releaseDate} precision="day" /> : '発売日不明'} · {placement.trackNumber}曲目
+												</span>
+											</li>
+										))}
+									</ul>
+								) : (
+									<p class="empty-state">収録版情報はありません。</p>
+								)}
+							</section>
+						</article>
+					))}
+				</div>
+			)}
+		</section>
+
+		<section class="song-detail__section" aria-labelledby="song-performances-title">
+			<h2 id="song-performances-title">ライブ演奏</h2>
+			{detail.performances.length === 0 ? (
+				<p class="empty-state">演奏記録はありません。</p>
+			) : (
+				<ul class="performance-list">
+					{detail.performances.map((performance) => (
+						<li class="performance-card">
+							<div class="performance-card__title">
+								<EntityLink type="event" slug={performance.event.slug} label={performance.event.name} />
+								{performance.encore && <span>アンコール</span>}
+							</div>
+							<dl class="performance-card__metadata">
+								<div>
+									<dt>日付</dt>
+									<dd>{performance.eventDate ? <DateText value={performance.eventDate} precision="day" /> : '日付不明'}</dd>
+								</div>
+								<div>
+									<dt>名義</dt>
+									<dd><EntityLink type="project" slug={performance.project.slug} label={performance.project.name} /></dd>
+								</div>
+								<div>
+									<dt>会場</dt>
+									<dd><EntityLink type="venue" slug={performance.venue.slug} label={performance.venue.name} /></dd>
+								</div>
+								<div>
+									<dt>曲順</dt>
+									<dd>{performance.orderIndex}</dd>
+								</div>
+							</dl>
+							{performance.variationNote && <p>Variation: {performance.variationNote}</p>}
+							{performance.notes && <p>{performance.notes}</p>}
+						</li>
+					))}
+				</ul>
+			)}
+		</section>
+	</article>
+</SiteLayout>
+
+<style>
+	.song-detail__header {
+		max-width: 58rem;
+		margin-block-end: var(--space-8);
+	}
+
+	.song-detail__description {
+		max-width: 48rem;
+		white-space: pre-wrap;
+	}
+
+	.song-detail__section {
+		margin-block: var(--space-8);
+	}
+
+	.song-detail__credit-groups {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-6);
+	}
+
+	.song-detail__credit-groups ol,
+	.placement-list,
+	.performance-list {
+		margin: 0;
+		padding-inline-start: 1.5rem;
+	}
+
+	.song-detail__recordings,
+	.performance-list {
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.recording-card,
+	.performance-card {
+		padding: var(--space-5);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.recording-card header h3 {
+		margin-block-end: var(--space-1);
+	}
+
+	.recording-card__type,
+	.placement-list__meta {
+		color: var(--muted);
+		font-size: 0.9em;
+	}
+
+	.recording-card__metadata,
+	.performance-card__metadata {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-3) var(--space-5);
+		margin-block: var(--space-4);
+	}
+
+	.recording-card__metadata dt,
+	.performance-card__metadata dt {
+		color: var(--muted);
+		font-size: 0.85em;
+	}
+
+	.recording-card__metadata dd,
+	.performance-card__metadata dd {
+		margin: 0;
+	}
+
+	.placement-list li + li {
+		margin-block-start: var(--space-2);
+	}
+
+	.placement-list__meta {
+		display: block;
+	}
+
+	.performance-card__title {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		align-items: baseline;
+		font-weight: 700;
+	}
+
+	.performance-card__title span {
+		color: var(--muted);
+		font-size: 0.85em;
+		font-weight: 400;
+	}
+
+	.empty-state {
+		color: var(--muted);
+	}
+
+	@media (max-width: 40rem) {
+		.song-detail__credit-groups,
+		.recording-card__metadata,
+		.performance-card__metadata {
+			grid-template-columns: 1fr;
+		}
+
+		.recording-card,
+		.performance-card {
+			padding: var(--space-4);
+		}
+	}
+</style>
