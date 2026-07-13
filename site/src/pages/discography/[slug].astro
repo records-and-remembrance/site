@@ -1,0 +1,294 @@
+---
+import Artwork from '../../components/Artwork.astro';
+import ConnectionLinks from '../../components/ConnectionLinks.astro';
+import DateText from '../../components/DateText.astro';
+import EntityLink from '../../components/EntityLink.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { siteTableRows } from '../../data';
+import { buildDiscographyDetail, type DiscographyDetailSource, type DiscographyEdition, type DiscographyTrack } from '../../lib/discography-detail';
+import { buildEntityHref } from '../../lib/site-foundation';
+
+const detailSource: DiscographyDetailSource = {
+	work: siteTableRows('work'),
+	project: siteTableRows('project'),
+	workProject: siteTableRows('workProject'),
+	release: siteTableRows('release'),
+	distributor: siteTableRows('distributor'),
+	label: siteTableRows('label'),
+	labelRelation: siteTableRows('labelRelation'),
+	track: siteTableRows('track'),
+	recording: siteTableRows('recording'),
+	composition: siteTableRows('composition'),
+	person: siteTableRows('person'),
+	role: siteTableRows('role'),
+	instrument: siteTableRows('instrument'),
+	contribution: siteTableRows('contribution'),
+};
+
+export function getStaticPaths() {
+	return siteTableRows('work')
+		.filter((work) => Boolean(buildEntityHref('work', typeof work.slug === 'string' ? work.slug : undefined)))
+		.map((work) => ({ params: { slug: work.slug as string } }));
+}
+
+const detail = buildDiscographyDetail(detailSource, Astro.params.slug);
+if (!detail) throw new Error(`Discography work not found: ${Astro.params.slug ?? '(missing slug)'}`);
+
+const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean);
+const precision = (value: string | null): 'year' | 'month' | 'day' | 'uncertain' | null =>
+	value === 'year' || value === 'month' || value === 'day' || value === 'uncertain' ? value : null;
+
+const releaseLabel = (release: DiscographyEdition): string => release.format ?? '形式未登録';
+const trackVersion = (track: DiscographyTrack): string => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || '録音情報未登録';
+---
+
+<SiteLayout title={detail.work.title} currentPath="/discography" breadcrumbs={[{ label: '作品', href: '/discography' }, { label: detail.work.title }]}>
+	<article class="discography-detail">
+		<header class="discography-detail__header" aria-labelledby="discography-detail-title">
+			<p class="eyebrow">DISCOGRAPHY</p>
+			<h1 id="discography-detail-title">{detail.work.title}</h1>
+			<div class="discography-detail__meta">
+				{detail.work.project && (
+					<EntityLink type="project" slug={detail.work.project.slug} label={detail.work.project.name} />
+				)}
+				{detail.work.type && <span>{detail.work.type}</span>}
+				<span>
+					{detail.work.releasedDate ? <DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /> : '発表日不明'}
+				</span>
+			</div>
+			{detail.work.description && <p class="discography-detail__description">{detail.work.description}</p>}
+		</header>
+
+		<section aria-labelledby="discography-tracks-title" class="discography-detail__section">
+			<h2 id="discography-tracks-title">代表版の収録曲</h2>
+			{detail.representativeRelease.hasTracks ? (
+				<ol class="track-list">
+					{detail.representativeRelease.tracks.map((track) => (
+						<li class="track-list__item">
+							<span class="track-list__number" aria-label={`${track.trackNumber}曲目`}>{track.trackNumber}</span>
+							<div class="track-list__main">
+								{track.href ? <a href={track.href}>{track.title}</a> : <span>{track.title}</span>}
+								<span class="track-list__version">{trackVersion(track)}</span>
+							</div>
+						</li>
+					))}
+				</ol>
+			) : (
+				<p class="empty-state">収録曲情報未登録</p>
+			)}
+		</section>
+
+		<section aria-labelledby="discography-editions-title" class="discography-detail__section">
+			<h2 id="discography-editions-title">版</h2>
+			{detail.releases.length === 0 ? (
+				<p class="empty-state">版情報はまだありません。</p>
+			) : (
+				<div class="edition-list">
+					{detail.releases.map((release) => (
+						<article class="edition-card" id={release.anchor ?? undefined}>
+							<header class="edition-card__header">
+								<div>
+									<p class="eyebrow">EDITION</p>
+									<h3>{releaseLabel(release)}</h3>
+									{release.editionType && <p class="edition-card__type">{release.editionType === 'reissue' ? '再発' : '初版'}</p>}
+								</div>
+								<Artwork url={release.artwork.url} width={release.artwork.width} height={release.artwork.height} alt={`${detail.work.title} ${releaseLabel(release)}のジャケット`} allowedOrigins={artworkOrigins} />
+							</header>
+
+							<dl class="edition-card__metadata">
+								<div><dt>発売日</dt><dd>{release.releaseDate ? <DateText value={release.releaseDate} precision={precision(release.releaseDatePrecision)} /> : '発売日不明'}</dd></div>
+								{release.catalogNumber && <div><dt>カタログ番号</dt><dd>{release.catalogNumber}</dd></div>}
+								{release.labels.length > 0 && <div><dt>レーベル</dt><dd>{release.labels.map((label) => <span>{label.name}</span>)}</dd></div>}
+								{release.distributor && <div><dt>ディストリビューター</dt><dd>{release.distributor.name}</dd></div>}
+								<div><dt>画像メタデータ</dt><dd>{release.artwork.width && release.artwork.height ? `${release.artwork.width} × ${release.artwork.height}px` : '未登録'}</dd></div>
+							</dl>
+
+							{release.reissueOf && (
+								<p class="edition-card__relation"><a href={release.reissueOf.href}>再発元: {release.reissueOf.label}</a></p>
+							)}
+							{release.reissues.length > 0 && (
+								<p class="edition-card__relation">再発: {release.reissues.map((reissue) => <a href={reissue.href}>{reissue.label}</a>)}</p>
+							)}
+							{release.description && <p>{release.description}</p>}
+
+							{release.trackDiffs.length > 0 && (
+								<section aria-labelledby={`edition-${release.editionKey}-diff-title`} class="edition-card__diff">
+									<h4 id={`edition-${release.editionKey}-diff-title`}>初版との差分</h4>
+									<ul>
+										{release.trackDiffs.map((diff) => (
+											<li>{diff.kind === 'added' ? '追加' : diff.kind === 'removed' ? '削除' : '変更'}: {diff.trackNumber}. {diff.href ? <a href={diff.href}>{diff.title}</a> : diff.title}</li>
+										))}
+									</ul>
+								</section>
+							)}
+
+							<section aria-labelledby={`edition-${release.editionKey}-contributions-title`} class="edition-card__contributions">
+								<h4 id={`edition-${release.editionKey}-contributions-title`}>参加者</h4>
+								{release.contributions.length > 0 ? (
+									<ul>
+										{release.contributions.map((contribution) => (
+											<li>
+												{contribution.person.href ? <a href={contribution.person.href}>{contribution.person.name}</a> : contribution.person.name}
+												<span> — {contribution.role}</span>
+												{contribution.instrument && <span>（{contribution.instrument}）</span>}
+											</li>
+										))}
+									</ul>
+								) : (
+									<p class="empty-state">参加者情報未登録</p>
+								)}
+							</section>
+						</article>
+					))}
+				</div>
+			)}
+		</section>
+
+		<ConnectionLinks links={detail.relatedLinks} />
+	</article>
+</SiteLayout>
+
+<style>
+	.discography-detail__header {
+		max-width: 58rem;
+		margin-block-end: var(--space-8);
+	}
+
+	.discography-detail__meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-4);
+		color: var(--muted);
+	}
+
+	.discography-detail__description {
+		max-width: 48rem;
+		white-space: pre-wrap;
+	}
+
+	.discography-detail__section {
+		margin-block: var(--space-8);
+	}
+
+	.track-list {
+		max-width: 52rem;
+		padding-inline-start: 0;
+		list-style: none;
+	}
+
+	.track-list__item {
+		display: grid;
+		grid-template-columns: 3rem 1fr;
+		gap: var(--space-3);
+		padding-block: var(--space-3);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.track-list__number {
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.track-list__main {
+		display: grid;
+		gap: var(--space-1);
+	}
+
+	.track-list__version,
+	.edition-card__type,
+	.edition-card__relation {
+		color: var(--muted);
+		font-size: 0.9em;
+	}
+
+	.edition-list {
+		display: grid;
+		gap: var(--space-5);
+	}
+
+	.edition-card {
+		padding: var(--space-5);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+		scroll-margin-block-start: var(--space-5);
+	}
+
+	.edition-card__header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+		gap: var(--space-5);
+		align-items: start;
+	}
+
+	.edition-card__header .artwork-fallback,
+	.edition-card__header img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		object-fit: contain;
+	}
+
+	.edition-card__metadata {
+		display: grid;
+		gap: var(--space-2);
+		margin-block: var(--space-5);
+	}
+
+	.edition-card__metadata > div {
+		display: grid;
+		grid-template-columns: 10rem 1fr;
+		gap: var(--space-3);
+		padding-block-end: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.edition-card__metadata dt {
+		color: var(--muted);
+	}
+
+	.edition-card__metadata dd {
+		margin: 0;
+	}
+
+	.edition-card__metadata dd span + span::before {
+		content: '、';
+	}
+
+	.edition-card__relation {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+	}
+
+	.edition-card__diff,
+	.edition-card__contributions {
+		margin-block-start: var(--space-5);
+		padding-block-start: var(--space-4);
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.edition-card__diff h4,
+	.edition-card__contributions h4 {
+		margin-block-start: 0;
+	}
+
+	@media (max-width: 40rem) {
+		.edition-card {
+			padding: var(--space-4);
+		}
+
+		.edition-card__header {
+			grid-template-columns: 1fr;
+		}
+
+		.edition-card__header .artwork-fallback,
+		.edition-card__header img {
+			max-width: 12rem;
+		}
+
+		.edition-card__metadata > div {
+			grid-template-columns: 1fr;
+			gap: var(--space-1);
+		}
+	}
+</style>
