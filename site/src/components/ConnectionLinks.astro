@@ -1,0 +1,18 @@
+---
+import { normalizeAdjacentLinks, type AdjacentLink } from '../lib/site-foundation';
+
+interface Props {
+	links: readonly AdjacentLink[];
+}
+
+const links = normalizeAdjacentLinks(Astro.props.links);
+---
+
+{links.length > 0 && (
+	<section aria-labelledby="connections-title">
+		<h2 id="connections-title">つながり</h2>
+		<ul>
+			{links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+		</ul>
+	</section>
+)}

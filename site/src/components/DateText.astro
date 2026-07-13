@@ -1,0 +1,13 @@
+---
+import { formatDateText, type DatePrecision } from '../lib/site-foundation';
+
+interface Props {
+	value?: string | null;
+	precision?: DatePrecision;
+}
+
+const { value = null, precision = null } = Astro.props;
+const text = formatDateText(value, precision);
+---
+
+{text && <time datetime={value ?? undefined}>{text}</time>}

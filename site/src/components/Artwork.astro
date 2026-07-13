@@ -1,0 +1,22 @@
+---
+import { buildArtworkDisplay } from '../lib/site-foundation';
+
+interface Props {
+	url?: string | null;
+	width?: number | null;
+	height?: number | null;
+	alt: string;
+	allowedOrigins?: readonly string[];
+	transformOrigin?: string;
+	transformWidth?: number;
+}
+
+const { url = null, width = null, height = null, alt, allowedOrigins = [], transformOrigin, transformWidth } = Astro.props;
+const display = buildArtworkDisplay({ url, width, height }, { allowedOrigins, transformOrigin, width: transformWidth });
+---
+
+{display.kind === 'image' ? (
+	<img src={display.src} width={display.width} height={display.height} alt={alt} loading="lazy" />
+) : (
+	<div class="artwork-fallback" role="img" aria-label={alt}>{alt}</div>
+)}

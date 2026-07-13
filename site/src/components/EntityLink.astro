@@ -1,0 +1,14 @@
+---
+import { buildEntityHref, type SiteEntityType } from '../lib/site-foundation';
+
+interface Props {
+	type: SiteEntityType;
+	slug?: string | null;
+	label: string;
+}
+
+const { type, slug, label } = Astro.props;
+const href = buildEntityHref(type, slug);
+---
+
+{href ? <a href={href}>{label}</a> : <span>{label}</span>}
