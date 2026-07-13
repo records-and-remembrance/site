@@ -1,0 +1,45 @@
+---
+import { siteTableRows } from '../data';
+import { formatDateText } from '../lib/site-foundation';
+import { buildProjectList, selectProjectRows } from '../lib/projects';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const rows = selectProjectRows(siteTableRows);
+const projects = buildProjectList(rows);
+
+const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
+	const start = formatDateText(startDate, 'year') ?? '活動期間不明';
+	const end = formatDateText(endDate, 'year') ?? '現在';
+	return `${start}〜${end}`;
+};
+---
+
+<SiteLayout title="プロジェクト" currentPath="/projects" breadcrumbs={[{ label: 'プロジェクト' }]}>
+	<section aria-labelledby="projects-title">
+		<p class="eyebrow">PROJECTS</p>
+		<h1 id="projects-title">プロジェクト</h1>
+		<p>門田匡陽に関連するプロジェクトを、活動期間と関連データからたどれます。</p>
+
+		{projects.length > 0 ? (
+			<div class="project-list">
+				{projects.map((item) => (
+					<article class="project-card">
+						<div class="project-card__heading">
+							{item.href ? <a class="project-card__link" href={item.href}><h2>{item.project.name}</h2></a> : <h2>{item.project.name}</h2>}
+							{item.project.slug ? <span class="project-card__slug">/{item.project.slug}</span> : <span class="project-card__unpublished">公開URL未確定</span>}
+						</div>
+						<p class="project-card__meta">{item.project.type} · {formatProjectPeriod(item.project.startDate, item.project.endDate)}</p>
+						{item.project.description && <p>{item.project.description}</p>}
+						<dl class="project-card__counts">
+							<div><dt>メンバー</dt><dd>{item.counts.memberships}人</dd></div>
+							<div><dt>作品</dt><dd>{item.counts.works}件</dd></div>
+							<div><dt>ライブ</dt><dd>{item.counts.events}本</dd></div>
+						</dl>
+					</article>
+				))}
+			</div>
+		) : (
+			<p class="empty-state">プロジェクトはありません。</p>
+		)}
+	</section>
+</SiteLayout>

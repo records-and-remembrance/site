@@ -1,0 +1,235 @@
+---
+import { siteTableRows } from '../../data';
+import ConnectionLinks from '../../components/ConnectionLinks.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { formatDateText } from '../../lib/site-foundation';
+import { buildProjectDetail, selectProjectRows } from '../../lib/projects';
+
+const rows = selectProjectRows(siteTableRows);
+
+export function getStaticPaths() {
+	const staticPathRows = selectProjectRows(siteTableRows);
+	return staticPathRows.project
+		.filter((project) => project.scope === 'monden' && project.slug)
+		.map((project) => ({ params: { slug: project.slug } }));
+}
+
+const slug = Astro.params.slug;
+const detail = slug ? buildProjectDetail(rows, slug) : undefined;
+if (!detail) throw new Error(`Project not found: ${slug ?? '(missing slug)'}`);
+
+const formatDate = (value?: string, precision?: Parameters<typeof formatDateText>[1], fallback = '日付不明'): string => formatDateText(value, precision) ?? fallback;
+const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typeof formatDateText>[1], toDate?: string, toPrecision?: Parameters<typeof formatDateText>[1]): string => {
+	const from = formatDate(fromDate, fromPrecision, '開始日不明');
+	const to = toDate ? formatDate(toDate, toPrecision) : '現在';
+	return `${from}〜${to}`;
+};
+---
+
+<SiteLayout title={detail.project.name} currentPath="/projects" breadcrumbs={[{ label: 'プロジェクト', href: '/projects' }, { label: detail.project.name }]}>
+	<article class="project-detail">
+		<header class="project-detail__header" aria-labelledby="project-title">
+			<p class="eyebrow">PROJECT</p>
+			<h1 id="project-title">{detail.project.name}</h1>
+			<p class="project-detail__meta">{detail.project.type} · {formatMembershipRange(detail.project.startDate, 'year', detail.project.endDate, 'year')}</p>
+			{detail.project.description && <p class="project-detail__description">{detail.project.description}</p>}
+		</header>
+
+		<section aria-labelledby="members-title">
+			<h2 id="members-title">メンバーシップ</h2>
+			{detail.memberships.length > 0 ? (
+				<div class="project-membership-table-wrap">
+					<table class="project-membership-table">
+						<thead>
+							<tr><th scope="col">人物</th><th scope="col">活動期間</th><th scope="col">役割・楽器</th><th scope="col">期間表示</th></tr>
+						</thead>
+						<tbody>
+							{detail.memberships.map((membership) => (
+								<tr class={membership.support ? 'project-membership project-membership--support' : 'project-membership'}>
+									<th scope="row">
+										{membership.person.href ? <a href={membership.person.href}>{membership.person.name}</a> : <span>{membership.person.name}</span>}
+										{membership.support && <span class="project-membership__support-label">サポート</span>}
+									</th>
+									<td>{formatMembershipRange(membership.fromDate, membership.fromDatePrecision, membership.toDate, membership.toDatePrecision)}</td>
+									<td>{membership.roles.length > 0 ? membership.roles.join('、') : '役割未登録'}</td>
+									<td>
+										<div class="project-membership__track" aria-label={`${membership.person.name}の活動期間`}>
+											<span class={membership.support ? 'project-membership__bar project-membership__bar--support' : 'project-membership__bar'}></span>
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			) : (
+				<p class="empty-state">メンバーシップはありません。</p>
+			)}
+		</section>
+
+		<section aria-labelledby="works-title">
+			<h2 id="works-title">作品</h2>
+			{detail.works.length > 0 ? (
+				<ul class="project-detail__list">
+					{detail.works.map((work) => (
+						<li>
+							<span class="project-detail__relation">{work.relationType === 'primary' ? '主名義' : '参加'}</span>
+							{work.href ? <a href={work.href}>{work.title}</a> : <span>{work.title}</span>}
+							{work.releasedDate && <span class="project-detail__muted">（{formatDate(work.releasedDate, 'day')}）</span>}
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="empty-state">作品はありません。</p>
+			)}
+		</section>
+
+		<section aria-labelledby="lives-title">
+			<h2 id="lives-title">ライブ</h2>
+			{detail.events.length > 0 ? (
+				<ul class="project-detail__list">
+					{detail.events.map((event) => (
+						<li>
+							{event.href ? <a href={event.href}>{event.label}</a> : <span>{event.label}</span>}
+							<span class="project-detail__muted"> · {event.venueName}{event.date && ` · ${formatDate(event.date, event.datePrecision)}`}</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="empty-state">ライブ記録はありません。</p>
+			)}
+		</section>
+
+		<div class="project-detail__stats">
+			<section aria-labelledby="yearly-live-title">
+				<h2 id="yearly-live-title">年別ライブ本数</h2>
+				{detail.yearlyLiveCounts.length > 0 ? (
+					<ul class="project-detail__list">
+						{detail.yearlyLiveCounts.map((item) => <li><span>{item.label}</span><strong>{item.count}本</strong></li>)}
+					</ul>
+				) : <p class="empty-state">集計できるライブはありません。</p>}
+			</section>
+
+			<section aria-labelledby="venues-title">
+				<h2 id="venues-title">会場 上位5</h2>
+				{detail.topVenues.length > 0 ? (
+					<ol class="project-detail__list">
+						{detail.topVenues.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<strong>{item.count}本</strong></li>)}
+					</ol>
+				) : <p class="empty-state">会場の集計はありません。</p>}
+			</section>
+
+			<section aria-labelledby="songs-title">
+				<h2 id="songs-title">よく演奏された曲 Top 10</h2>
+				{detail.topSongs.length > 0 ? (
+					<ol class="project-detail__list">
+						{detail.topSongs.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<strong>{item.count}回</strong></li>)}
+					</ol>
+				) : <p class="empty-state">楽曲の集計はありません。</p>}
+			</section>
+		</div>
+
+		<ConnectionLinks links={detail.relatedLinks} />
+	</article>
+</SiteLayout>
+
+<style>
+	.project-detail {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.project-detail__header {
+		border-block-end: 1px solid var(--rule);
+		padding-block-end: var(--space-5);
+	}
+
+	.project-detail__meta,
+	.project-detail__muted {
+		color: var(--ink-muted);
+	}
+
+	.project-detail__description {
+		max-width: var(--reading-width);
+	}
+
+	.project-membership-table-wrap {
+		overflow-x: auto;
+	}
+
+	.project-membership-table {
+		width: 100%;
+		min-width: 760px;
+		border-collapse: collapse;
+		background: var(--surface);
+	}
+
+	.project-membership-table th,
+	.project-membership-table td {
+		border-block-end: 1px solid var(--rule);
+		padding: var(--space-3);
+		text-align: left;
+		vertical-align: middle;
+	}
+
+	.project-membership-table thead th {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.project-membership__support-label,
+	.project-detail__relation {
+		display: inline-block;
+		margin-inline-start: var(--space-2);
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	.project-membership__track {
+		min-width: 150px;
+	}
+
+	.project-membership__bar {
+		display: block;
+		border-block-start: 3px solid var(--accent);
+		min-block-size: 12px;
+	}
+
+	.project-membership__bar--support {
+		border-block-start-style: dashed;
+		opacity: 0.5;
+	}
+
+	.project-detail__list {
+		display: grid;
+		gap: var(--space-2);
+		margin: 0;
+		padding-inline-start: 1.25rem;
+	}
+
+	.project-detail__list li {
+		padding-inline-start: var(--space-1);
+	}
+
+	.project-detail__list strong {
+		margin-inline-start: var(--space-3);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.project-detail__stats {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-5);
+	}
+
+	.empty-state {
+		margin: 0;
+		color: var(--ink-muted);
+	}
+
+	@media (max-width: 760px) {
+		.project-detail__stats {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
