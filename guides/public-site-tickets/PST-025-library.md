@@ -13,7 +13,7 @@ publication→issue→articleの階層を、エンティティリンクを推測
 
 - `/library` のpublication、publication_issue、articleの階層ブラウズ。
 - title、content、url、publishedDateの存在時のみ表示。
-- article_mention_* が0件である現状に合わせ、相互リンクを作らない。
+- article*mention*\* が0件である現状に合わせ、相互リンクを作らない。
 - 記事検索をPagefindへ渡すための検索対象マークアップ。
 - 該当publication／issue／articleの空状態。
 
@@ -34,4 +34,4 @@ publication→issue→articleの階層を、エンティティリンクを推測
 
 ## 対象外
 
-article_mention_* の生成、記事内容の新規収集、外部サイトのクロール。
+article*mention*\* の生成、記事内容の新規収集、外部サイトのクロール。
