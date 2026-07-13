@@ -234,11 +234,12 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 	projects: {
 		title: 'Projects',
 		singular: 'プロジェクト',
-		description: 'バンド、ソロ、ユニット',
+		description: 'バンド、ソロ、ユニット。externalは門田と直接つながる主要プロジェクトだけを登録し、scopeの無制限な拡張やdepth 3以上の探索は行いません。',
 		defaultSort: 'startDate',
 		columns: [
 			{ key: 'name', label: '名前', sortable: true },
 			{ key: 'type', label: '種別', sortable: true },
+			{ key: 'scope', label: '公開範囲', sortable: true },
 			{ key: 'startDate', label: '開始', sortable: true, kind: 'date' },
 			{ key: 'endDate', label: '終了', kind: 'date' },
 		],
@@ -254,6 +255,16 @@ export const resourceConfigs: Record<MainResource, ResourceConfig> = {
 					{ value: 'solo', label: 'Solo' },
 					{ value: 'unit', label: 'Unit' },
 					{ value: 'project', label: 'Project' },
+				],
+			},
+			{
+				key: 'scope',
+				label: '公開範囲',
+				type: 'select',
+				required: true,
+				options: [
+					{ value: 'monden', label: '門田関連（monden）' },
+					{ value: 'external', label: '外部プロジェクト（external）' },
 				],
 			},
 			{ key: 'startDate', label: '開始日', type: 'date' },

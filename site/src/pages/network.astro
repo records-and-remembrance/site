@@ -3,12 +3,16 @@ import EntityLink from '../components/EntityLink.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { siteTableRows } from '../data';
 import { buildNetworkModel } from '../lib/network';
+import { buildExternalNetworkModel, EXTERNAL_NETWORK_SCOPE_GUIDE } from '../lib/network-external';
 
 const model = buildNetworkModel(siteTableRows('project'), siteTableRows('person'), siteTableRows('membership'));
+const externalModel = buildExternalNetworkModel(siteTableRows('project'), siteTableRows('person'), siteTableRows('membership'));
 const projectNodes = model.nodes.filter((node) => node.type === 'project');
 const personNodes = model.nodes.filter((node) => node.type === 'person');
 const projectPositions = new Map(projectNodes.map((node, index) => [node.id, { x: 150 + (index % 4) * 210, y: 80 + Math.floor(index / 4) * 150 }]));
 const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 80 + (index % 6) * 145, y: 390 + Math.floor(index / 6) * 90 }]));
+const panelId = (personId: string) => `network-external-person-${personId.replace(/[^a-zA-Z0-9_-]/gu, '-')}`;
+const membershipListId = (projectId: string) => `network-external-memberships-${projectId.replace(/[^a-zA-Z0-9_-]/gu, '-')}`;
 ---
 
 <SiteLayout title="人物相関" currentPath="/network" breadcrumbs={[{ label: '人物相関' }]}>
@@ -17,6 +21,7 @@ const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 
 			<p class="eyebrow">NETWORK</p>
 			<h1 id="network-title">人物相関</h1>
 			<p>門田に関わるプロジェクトと人物のつながりをたどる。</p>
+			<p class="network-scope-guide">{EXTERNAL_NETWORK_SCOPE_GUIDE}</p>
 		</header>
 		<label class="network-toggle"><input id="network-support-toggle" type="checkbox" checked /> サポート参加を含める</label>
 		{model.nodes.length === 0 ? (
@@ -35,7 +40,13 @@ const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 
 					})}
 					{personNodes.map((node) => {
 						const position = personPositions.get(node.id);
-						return position ? <a href={node.href}><circle data-network-node data-muted={node.muted} cx={position.x} cy={position.y} r="18" /><text x={position.x} y={position.y + 34} text-anchor="middle">{node.label}</text></a> : null;
+						const externalProjects = externalModel.projectsByPerson.get(node.id) ?? [];
+						return position ? (
+							<a href={node.href} data-network-person-toggle={externalProjects.length > 0 ? node.id : undefined} aria-controls={externalProjects.length > 0 ? panelId(node.id) : undefined} aria-expanded={externalProjects.length > 0 ? 'false' : undefined}>
+								<circle data-network-node data-muted={node.muted} cx={position.x} cy={position.y} r="18" />
+								<text x={position.x} y={position.y + 34} text-anchor="middle">{node.label}</text>
+							</a>
+						) : null;
 					})}
 				</svg>
 				<section aria-labelledby="network-list-title">
@@ -45,10 +56,50 @@ const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 
 							<li data-network-person={person.id} data-project-count={person.projectCount}>
 								<EntityLink type="person" slug={person.slug} label={person.label} />
 								<span>{person.projectCount}プロジェクト</span>
+								{(externalModel.projectsByPerson.get(person.id) ?? []).length > 0 ? (
+									<button type="button" data-network-person-toggle={person.id} aria-controls={panelId(person.id)} aria-expanded="false">
+										外部{externalModel.projectsByPerson.get(person.id)?.length}件
+									</button>
+								) : null}
 							</li>
 						))}
 					</ul>
 				</section>
+				{personNodes.map((person) => {
+					const externalProjects = externalModel.projectsByPerson.get(person.id) ?? [];
+					if (externalProjects.length === 0) return null;
+					return (
+						<section id={panelId(person.id)} class="network-external-panel" data-network-external-person={person.id} hidden aria-labelledby={`${panelId(person.id)}-title`}>
+							<h3 id={`${panelId(person.id)}-title`}>{person.label}の外部プロジェクト</h3>
+							<p>直接つながるexternalのみ表示しています。projectを選ぶとmembershipを展開します。</p>
+							<ul class="network-external-list">
+								{externalProjects.map((project) => {
+									const memberships = externalModel.membershipsByProject.get(project.id) ?? [];
+									const listId = membershipListId(project.id);
+									return (
+										<li class="network-external-item" data-network-scope="external">
+											<div class="network-external-project-row">
+												<button type="button" class="network-external-project" data-network-external-project-toggle={project.id} aria-controls={listId} aria-expanded="false">
+													{project.label}
+												</button>
+												<EntityLink type="project" slug={project.slug} label="詳細" />
+												<span class="network-external-badge">external</span>
+											</div>
+											<ul id={listId} class="network-external-memberships" data-network-external-memberships={project.id} hidden>
+												{memberships.map((membership) => (
+													<li>
+														<EntityLink type="person" slug={membership.personSlug} label={membership.personLabel} />
+														{membership.support ? <span>サポート</span> : null}
+													</li>
+												))}
+											</ul>
+										</li>
+									);
+								})}
+							</ul>
+						</section>
+					);
+				})}
 			</>
 		)}
 	</section>
@@ -59,6 +110,29 @@ const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 
 	toggle?.addEventListener('change', () => {
 		for (const edge of document.querySelectorAll<SVGLineElement>('[data-network-edge]')) edge.hidden = edge.dataset.support === 'true' && !toggle.checked;
 	});
+
+	for (const trigger of document.querySelectorAll<HTMLElement>('[data-network-person-toggle]')) {
+		trigger.addEventListener('click', (event) => {
+			const targetId = trigger.getAttribute('aria-controls');
+			const panel = targetId ? document.getElementById(targetId) : null;
+			if (!panel) return;
+			event.preventDefault();
+			const expanded = panel.hidden;
+			panel.hidden = !expanded;
+			for (const related of document.querySelectorAll<HTMLElement>(`[data-network-person-toggle="${CSS.escape(trigger.dataset.networkPersonToggle ?? '')}"]`)) related.setAttribute('aria-expanded', String(expanded));
+		});
+	}
+
+	for (const trigger of document.querySelectorAll<HTMLButtonElement>('[data-network-external-project-toggle]')) {
+		trigger.addEventListener('click', () => {
+			const targetId = trigger.getAttribute('aria-controls');
+			const list = targetId ? document.getElementById(targetId) : null;
+			if (!list) return;
+			const expanded = list.hidden;
+			list.hidden = !expanded;
+			trigger.setAttribute('aria-expanded', String(expanded));
+		});
+	}
 </script>
 
 <style>
@@ -90,6 +164,12 @@ const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 
 		font-size: 13px;
 	}
 
+	.network-scope-guide {
+		max-width: 72ch;
+		color: var(--muted);
+		font-size: 0.9rem;
+	}
+
 	.network-list {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -105,5 +185,63 @@ const personPositions = new Map(personNodes.map((node, index) => [node.id, { x: 
 		gap: var(--space-2);
 		padding: var(--space-2);
 		border-block-end: 1px solid var(--rule);
+	}
+
+	.network-list button,
+	.network-external-project {
+		border: 0;
+		padding: 0;
+		color: var(--accent);
+		background: transparent;
+		font: inherit;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+
+	.network-external-panel {
+		margin-block-start: var(--space-5);
+		padding: var(--space-4);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.network-external-list,
+	.network-external-memberships {
+		display: grid;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.network-external-item {
+		padding: var(--space-2);
+		border-inline-start: 4px solid var(--muted);
+		background: color-mix(in srgb, var(--muted) 8%, transparent);
+	}
+
+	.network-external-project-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		align-items: center;
+	}
+
+	.network-external-project,
+	.network-external-badge,
+	.network-external-memberships {
+		opacity: 0.7;
+	}
+
+	.network-external-badge {
+		padding: 0.15rem 0.4rem;
+		border: 1px solid var(--muted);
+		color: var(--muted);
+		font-size: 0.75rem;
+	}
+
+	.network-external-memberships {
+		margin-block-start: var(--space-2);
+		padding-inline-start: var(--space-3);
+		border-inline-start: 1px solid var(--rule);
 	}
 </style>

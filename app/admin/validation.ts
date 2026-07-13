@@ -26,6 +26,7 @@ const person = z.strictObject({
 const project = z.strictObject({
 	name: requiredText,
 	type: requiredText,
+	scope: z.enum(['monden', 'external']).default('monden'),
 	description: nullableText,
 	startDate: nullableDate,
 	endDate: nullableDate,

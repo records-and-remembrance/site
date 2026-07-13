@@ -509,4 +509,43 @@ describe('admin API', () => {
 			},
 		});
 	});
+
+	test('project scopeを既定値で補完し、monden/externalだけを作成・編集できる', async () => {
+		const repository = new FakeRepository();
+		const createDefaultResponse = await testApp(repository).request('/api/admin/projects', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ name: '門田プロジェクト', type: 'band' }),
+		});
+		const createExternalResponse = await testApp(repository).request('/api/admin/projects', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ name: '外部プロジェクト', type: 'band', scope: 'external' }),
+		});
+		const updateResponse = await testApp(repository).request(`/api/admin/projects/${generatedId}`, {
+			method: 'PUT',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ name: '外部プロジェクト', type: 'band', scope: 'external' }),
+		});
+
+		expect(createDefaultResponse.status).toBe(201);
+		expect(createExternalResponse.status).toBe(201);
+		expect(updateResponse.status).toBe(200);
+		expect(repository.calls).toContainEqual(expect.objectContaining({ method: 'create', value: expect.objectContaining({ scope: 'monden' }) }));
+		expect(repository.calls).toContainEqual(expect.objectContaining({ method: 'create', value: expect.objectContaining({ scope: 'external' }) }));
+		expect(repository.calls).toContainEqual(expect.objectContaining({ method: 'update', value: expect.objectContaining({ scope: 'external' }) }));
+	});
+
+	test('project scopeの不正値をadmin APIで拒否する', async () => {
+		const repository = new FakeRepository();
+		const response = await testApp(repository).request('/api/admin/projects', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ name: '不正scope', type: 'band', scope: 'all' }),
+		});
+
+		expect(response.status).toBe(400);
+		expect(await response.json()).toMatchObject({ error: { code: 'VALIDATION_ERROR', fields: { scope: expect.any(Array) } } });
+		expect(repository.calls).not.toContainEqual(expect.objectContaining({ method: 'create', resource: 'projects' }));
+	});
 });

@@ -83,6 +83,22 @@ describe('admin screen configuration', () => {
 		});
 	});
 
+	test('project scopeはmonden/externalだけを選べ、入力ガイドを表示する', () => {
+		expect(resourceConfigs.projects.fields).toContainEqual({
+			key: 'scope',
+			label: '公開範囲',
+			type: 'select',
+			required: true,
+			options: [
+				{ value: 'monden', label: '門田関連（monden）' },
+				{ value: 'external', label: '外部プロジェクト（external）' },
+			],
+		});
+		expect(resourceConfigs.projects.description).toContain('external');
+		expect(resourceConfigs.projects.description).toContain('直接つながる主要プロジェクト');
+		expect(resourceConfigs.projects.columns).toContainEqual({ key: 'scope', label: '公開範囲', sortable: true });
+	});
+
 	test('allows work editorial type to be edited and viewed', () => {
 		expect(resourceConfigs.works.fields).toContainEqual({
 			key: 'type',
