@@ -1,12 +1,439 @@
 ---
+import DateText from '../components/DateText.astro';
+import EntityLink from '../components/EntityLink.astro';
 import { siteData } from '../data';
+import { buildHomeModel, type HomeProject } from '../lib/home';
 import SiteLayout from '../layouts/SiteLayout.astro';
+
+const home = buildHomeModel(siteData);
+
+const riverPosition = (project: HomeProject): { left: number; width: number } => {
+	const range = Math.max(1, home.career.endYear - home.career.startYear);
+	const start = project.startYear ?? home.career.startYear;
+	const end = Math.max(start, project.endYear);
+	const left = Math.max(0, Math.min(100, ((start - home.career.startYear) / range) * 100));
+	const width = Math.max(2, Math.min(100 - left, ((end - start) / range) * 100));
+	return { left, width };
+};
 ---
 
 <SiteLayout currentPath="/">
-	<section aria-labelledby="page-title">
-		<h1 id="page-title">{siteData.title}</h1>
-		<p>{siteData.description}</p>
-		<p>注目プロジェクト: {siteData.featuredProject}</p>
-	</section>
+	<div class="home-page">
+		{home.upcomingEvents.length > 0 && (
+			<aside class="home-upcoming" aria-label="予定">
+				<div>
+					<p class="home-eyebrow">UP NEXT</p>
+					<h2>予定</h2>
+					<p>これから行われる記録があります。</p>
+				</div>
+				<ul class="home-upcoming__list">
+					{home.upcomingEvents.map((event) => (
+						<li>
+							<div class="home-upcoming__date"><DateText value={event.date} precision="day" /></div>
+							<div>
+								<div class="home-upcoming__title">
+									{event.href ? <a href={event.href}>{event.label}</a> : <span>{event.label}</span>}
+								</div>
+								<div class="home-upcoming__meta">
+									<EntityLink type="project" slug={event.projectHref ? event.projectHref.split('/').pop() : null} label={event.projectName} />
+									<span aria-hidden="true"> · </span>
+									<EntityLink type="venue" slug={event.venueHref ? event.venueHref.split('/').pop() : null} label={event.venueName} />
+								</div>
+							</div>
+						</li>
+					))}
+				</ul>
+			</aside>
+		)}
+
+		<section class="home-hero" aria-labelledby="page-title">
+			<p class="home-eyebrow">PUBLIC ARCHIVE</p>
+			<h1 id="page-title">{siteData.title}</h1>
+			<p class="home-hero__description">{siteData.description}</p>
+			<p class="home-hero__featured">注目プロジェクト: {siteData.featuredProject}</p>
+		</section>
+
+		<section class="home-career" aria-labelledby="career-title">
+			<div class="home-section-heading">
+				<div>
+					<p class="home-eyebrow">CAREER RIVER</p>
+					<h2 id="career-title">活動の流れ</h2>
+				</div>
+				<p class="home-section-heading__note">{home.career.startYear} — {home.career.endYear}</p>
+			</div>
+			<div class="career-river" style={`--river-start-year: ${home.career.startYear}; --river-end-year: ${home.career.endYear};`}>
+				<div class="career-river__scale" aria-hidden="true">
+					<span>{home.career.startYear}</span>
+					<span>現在</span>
+				</div>
+				<ol class="career-river__list">
+					{home.projects.map((project) => {
+						const position = riverPosition(project);
+						return (
+							<li class="career-river__item" data-project-color={project.colorToken} data-project-id={project.id} style={`--project-color: ${project.colorToken}; --river-left: ${position.left}%; --river-width: ${position.width}%;`}>
+								{project.href ? (
+									<a class="career-river__link" href={project.href}>
+										<span class="career-river__bar" aria-hidden="true"></span>
+										<span class="career-river__label">
+											<strong>{project.name}</strong>
+											<small>{project.periodLabel}</small>
+										</span>
+									</a>
+								) : (
+									<div class="career-river__link" aria-label={`${project.name}（公開URL未確定）`}>
+										<span class="career-river__bar" aria-hidden="true"></span>
+										<span class="career-river__label">
+											<strong>{project.name}</strong>
+											<small>{project.periodLabel}</small>
+										</span>
+									</div>
+								)}
+							</li>
+						);
+					})}
+				</ol>
+			</div>
+		</section>
+
+		<section class="home-counts" aria-labelledby="counts-title">
+			<div class="home-section-heading">
+				<div>
+					<p class="home-eyebrow">AT A GLANCE</p>
+					<h2 id="counts-title">記録をたどる</h2>
+				</div>
+			</div>
+			<ul class="home-counts__grid">
+				{home.countTiles.map((tile) => (
+					<li>
+						<a class="home-count-tile" data-count-key={tile.key} href={tile.href}>
+							<span>{tile.label}</span>
+							<strong class="tabular-nums">{tile.count}</strong>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		{home.todayEntries.length > 0 && (
+			<section id="today-in-history" class="home-today" aria-labelledby="today-title">
+				<div class="home-section-heading">
+					<div>
+						<p class="home-eyebrow">ON THIS DAY</p>
+						<h2 id="today-title">この日なんの日</h2>
+					</div>
+				</div>
+				<ul>
+					{home.todayEntries.map((entry) => (
+						<li>
+							<span class="home-today__date"><DateText value={entry.date} precision="day" /></span>
+							<a href={entry.href}>{entry.label}</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		<section id="dig" class="home-dig" aria-labelledby="dig-title">
+			<p class="home-eyebrow">DIG</p>
+			<h2 id="dig-title">Dig</h2>
+			<p>Digは準備中です。ランダムに記録をめぐる機能は後日追加します。</p>
+		</section>
+	</div>
 </SiteLayout>
+
+<style>
+	.home-page {
+		display: grid;
+		gap: var(--space-7);
+	}
+
+	.home-eyebrow {
+		margin: 0;
+		color: var(--accent);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+	}
+
+	.home-hero {
+		max-width: 58rem;
+	}
+
+	.home-hero h1 {
+		margin-block: var(--space-2) var(--space-3);
+		font-size: clamp(28px, 5vw, 48px);
+	}
+
+	.home-hero__description,
+	.home-hero__featured {
+		margin-block: 0;
+	}
+
+	.home-hero__description {
+		max-width: 65ch;
+		color: var(--ink-muted);
+	}
+
+	.home-hero__featured {
+		margin-block-start: var(--space-3);
+		font-size: 13px;
+	}
+
+	.home-upcoming {
+		display: grid;
+		grid-template-columns: minmax(150px, 0.35fr) 1fr;
+		gap: var(--space-4);
+		padding: var(--space-4);
+		border: 1px solid var(--accent);
+		background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+	}
+
+	.home-upcoming h2,
+	.home-section-heading h2,
+	.home-dig h2 {
+		margin-block: var(--space-1) 0;
+	}
+
+	.home-upcoming p:last-child {
+		margin-block: var(--space-2) 0 0;
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.home-upcoming__list,
+	.home-today ul,
+	.career-river__list,
+	.home-counts__grid {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.home-upcoming__list {
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.home-upcoming__list li {
+		display: grid;
+		grid-template-columns: 8rem 1fr;
+		gap: var(--space-3);
+		align-items: start;
+		padding-block-end: var(--space-3);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.home-upcoming__list li:last-child {
+		padding-block-end: 0;
+		border-block-end: 0;
+	}
+
+	.home-upcoming__date,
+	.home-today__date,
+	.home-section-heading__note,
+	.home-count-tile strong {
+		font-variant-numeric: tabular-nums;
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+	}
+
+	.home-upcoming__date,
+	.home-today__date {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.home-upcoming__title {
+		font-weight: 700;
+	}
+
+	.home-upcoming__meta {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.home-section-heading {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		align-items: end;
+		margin-block-end: var(--space-4);
+	}
+
+	.home-section-heading__note {
+		margin: 0;
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.career-river {
+		overflow-x: auto;
+		padding-block-end: var(--space-2);
+	}
+
+	.career-river__scale {
+		display: flex;
+		justify-content: space-between;
+		margin-inline-start: 22%;
+		margin-block-end: var(--space-2);
+		color: var(--ink-muted);
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: 12px;
+	}
+
+	.career-river__list {
+		display: grid;
+		gap: var(--space-2);
+	}
+
+	.career-river__item {
+		position: relative;
+		min-block-size: 52px;
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.career-river__link {
+		display: grid;
+		grid-template-columns: 22% 1fr;
+		align-items: center;
+		min-block-size: 52px;
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.career-river__link:hover .career-river__label strong {
+		color: var(--accent);
+	}
+
+	.career-river__bar {
+		position: absolute;
+		inset-block: 12px;
+		left: var(--river-left);
+		width: var(--river-width);
+		border-radius: 2px;
+		background: var(--project-color);
+		opacity: 0.82;
+	}
+
+	.career-river__label {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		gap: 2px;
+		grid-column: 2;
+	}
+
+	.career-river__label small {
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	.home-counts__grid {
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: var(--space-2);
+	}
+
+	.home-count-tile {
+		display: grid;
+		gap: var(--space-2);
+		min-block-size: 124px;
+		padding: var(--space-3);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.home-count-tile:hover {
+		border-color: var(--accent);
+	}
+
+	.home-count-tile span {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.home-count-tile strong {
+		align-self: end;
+		font-size: clamp(26px, 4vw, 38px);
+		font-weight: 500;
+		line-height: 1;
+	}
+
+	.home-today {
+		padding-block-start: var(--space-5);
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.home-today ul {
+		display: grid;
+		gap: var(--space-2);
+	}
+
+	.home-today li {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-3);
+		align-items: baseline;
+	}
+
+	.home-dig {
+		padding: var(--space-5);
+		border: 1px dashed var(--rule);
+		background: var(--surface);
+	}
+
+	.home-dig p:last-child {
+		margin-block: var(--space-2) 0;
+		color: var(--ink-muted);
+	}
+
+	@media (max-width: 1024px) {
+		.home-counts__grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 640px) {
+		.home-page {
+			gap: var(--space-6);
+		}
+
+		.home-upcoming {
+			grid-template-columns: 1fr;
+		}
+
+		.home-upcoming__list li {
+			grid-template-columns: 1fr;
+			gap: var(--space-1);
+		}
+
+		.career-river__scale {
+			margin-inline-start: 0;
+		}
+
+		.career-river__item {
+			min-block-size: 64px;
+		}
+
+		.career-river__link {
+			grid-template-columns: 1fr;
+			min-block-size: 64px;
+			padding-block: var(--space-2);
+		}
+
+		.career-river__bar {
+			inset: auto 0 0;
+			width: 100%;
+			height: 8px;
+		}
+
+		.career-river__label {
+			grid-column: 1;
+		}
+
+		.home-counts__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>
