@@ -1,5 +1,6 @@
 import { getTableColumns, sql, type SQL, type SQLWrapper } from 'drizzle-orm';
 import type { PgTable } from 'drizzle-orm/pg-core';
+import type { ArtworkMetadata } from '../artwork/storage';
 import * as schema from '../db/schema';
 import type { AdminListQuery, AdminListResult, AdminRepository, AdminResource, LookupOption, LookupResource } from './types';
 import { createArticleMentionRepository } from './repository/articles/mentions';
@@ -294,6 +295,9 @@ export const joinedResourceDefinitions: Record<JoinedAdminResource, ResourceRead
 			notes: 'r.notes',
 			distributorId: 'r.distributor_id',
 			distributorName: 'd.name',
+			artworkUrl: 'r.artwork_url',
+			artworkWidth: 'r.artwork_width',
+			artworkHeight: 'r.artwork_height',
 		},
 		['w.title', 'p.name', 'r.format', 'r.catalog_number', 'd.name'],
 		{ id: 'r.id', workTitle: 'w.title', releaseDate: 'r.release_date', format: 'r.format' },
@@ -508,6 +512,15 @@ const updateRecord = (database: AdminDb) => async (resourceName: GenericAdminRes
 	return (rows[0] as Record<string, unknown> | undefined) ?? null;
 };
 
+const updateReleaseArtwork = (database: AdminDb) => async (id: string, value: ArtworkMetadata) => {
+	const rows = await database
+		.update(schema.release)
+		.set(value)
+		.where(sql`${schema.release.id} = ${id}`)
+		.returning();
+	return (rows[0] as Record<string, unknown> | undefined) ?? null;
+};
+
 const deleteRecord = (database: AdminDb) => async (resourceName: GenericAdminResource, id: string) => {
 	const table = resourceTables[resourceName];
 	const rows = await database
@@ -542,6 +555,7 @@ export function createAdminRepository(database: AdminDb): AdminRepository {
 	const detail = createDetail(database)(relatedLoaders);
 	const create = createRecord(database);
 	const update = updateRecord(database);
+	const updateArtwork = updateReleaseArtwork(database);
 	const remove = deleteRecord(database);
 	const lookup = createLookup(database);
 	const articleMentions = createArticleMentionRepository(database);
@@ -551,6 +565,7 @@ export function createAdminRepository(database: AdminDb): AdminRepository {
 		detail: (resource, id) => (resource === 'article-mentions' ? articleMentions.detail(id) : detail(resource, id)),
 		create: (resource, value) => (resource === 'article-mentions' ? articleMentions.create(value) : create(resource, value)),
 		update: (resource, id, value) => (resource === 'article-mentions' ? articleMentions.update(id, value) : update(resource, id, value)),
+		updateArtwork,
 		delete: (resource, id) => (resource === 'tracks' ? remove(resource, id) : Promise.resolve(false)),
 		lookup,
 	};

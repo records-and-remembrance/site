@@ -1,3 +1,5 @@
+import type { ArtworkMetadata } from '../artwork/storage';
+
 export const adminResources = [
 	'people',
 	'projects',
@@ -71,6 +73,7 @@ export interface AdminRepository {
 	detail(resource: AdminResource, id: string): Promise<Record<string, unknown> | null>;
 	create(resource: AdminResource, value: Record<string, unknown>): Promise<Record<string, unknown>>;
 	update(resource: AdminResource, id: string, value: Record<string, unknown>): Promise<Record<string, unknown> | null>;
+	updateArtwork?: (id: string, value: ArtworkMetadata) => Promise<Record<string, unknown> | null>;
 	delete(resource: AdminResource, id: string): Promise<boolean>;
 	lookup(resource: LookupResource, search: string): Promise<LookupOption[]>;
 }

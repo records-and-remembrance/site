@@ -2,11 +2,18 @@ import { describe, expect, test } from 'bun:test';
 import { Hono } from 'hono';
 import { createAdminRoutes } from './routes';
 import type { AdminListQuery, AdminRepository, AdminResource, LookupResource } from './types';
+import type { ArtworkStorage } from '../artwork/storage';
 
 const generatedId = '00000000-0000-4000-8000-000000000001';
 
 class FakeRepository implements AdminRepository {
 	calls: Array<{ method: string; resource: string; value?: unknown }> = [];
+	artwork: Record<string, unknown> = {
+		id: generatedId,
+		artworkUrl: null,
+		artworkWidth: null,
+		artworkHeight: null,
+	};
 
 	async list(resource: AdminResource, query: AdminListQuery) {
 		this.calls.push({ method: 'list', resource, value: query });
@@ -28,6 +35,12 @@ class FakeRepository implements AdminRepository {
 		return { id, ...value };
 	}
 
+	async updateArtwork(id: string, value: { artworkUrl: string; artworkWidth: number; artworkHeight: number }) {
+		this.calls.push({ method: 'updateArtwork', resource: 'releases', value: { id, ...value } });
+		this.artwork = { ...this.artwork, id, ...value };
+		return this.artwork;
+	}
+
 	async delete(resource: AdminResource, id: string) {
 		this.calls.push({ method: 'delete', resource, value: id });
 		return true;
@@ -39,12 +52,13 @@ class FakeRepository implements AdminRepository {
 	}
 }
 
-function testApp(repository: AdminRepository) {
+function testApp(repository: AdminRepository, artworkStorage?: ArtworkStorage) {
 	const app = new Hono();
 	app.route(
 		'/api/admin',
 		createAdminRoutes(repository, {
 			uuid: () => generatedId,
+			...(artworkStorage ? { artworkStorage } : {}),
 		}),
 	);
 	return app;
@@ -302,6 +316,94 @@ describe('admin API', () => {
 			editionType: 'reissue',
 			reissueOfReleaseId: generatedId,
 		});
+	});
+
+	test('uploads release artwork and updates URL and dimensions as one contract', async () => {
+		const repository = new FakeRepository();
+		const stored: Array<{ key: string; contentType: string; body: Uint8Array }> = [];
+		const artworkStorage: ArtworkStorage = {
+			put: async (input) => {
+				stored.push(input);
+				return { key: input.key, url: `https://cdn.example/${input.key}` };
+			},
+		};
+		const form = new FormData();
+		form.append(
+			'artwork',
+			new File([new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52, 0, 0, 4, 0, 0, 0, 3, 0])], 'cover.png', { type: 'image/png' }),
+		);
+
+		const response = await testApp(repository, artworkStorage).request(`/api/admin/releases/${generatedId}/artwork`, {
+			method: 'POST',
+			body: form,
+		});
+
+		expect(response.status).toBe(200);
+		expect(await response.json()).toMatchObject({
+			data: {
+				id: generatedId,
+				artworkUrl: expect.stringContaining('https://cdn.example/'),
+				artworkWidth: 1024,
+				artworkHeight: 768,
+			},
+		});
+		expect(stored[0]).toMatchObject({ contentType: 'image/png' });
+		expect(repository.calls).toContainEqual({
+			method: 'updateArtwork',
+			resource: 'releases',
+			value: {
+				id: generatedId,
+				artworkUrl: expect.stringContaining('https://cdn.example/'),
+				artworkWidth: 1024,
+				artworkHeight: 768,
+			},
+		});
+	});
+
+	test('rejects an invalid artwork without touching the release', async () => {
+		const repository = new FakeRepository();
+		let putCalled = false;
+		const artworkStorage: ArtworkStorage = {
+			put: async () => {
+				putCalled = true;
+				return { key: 'unused', url: 'https://cdn.example/unused' };
+			},
+		};
+		const form = new FormData();
+		form.append('artwork', new File(['bad'], 'cover.gif', { type: 'image/gif' }));
+
+		const response = await testApp(repository, artworkStorage).request(`/api/admin/releases/${generatedId}/artwork`, {
+			method: 'POST',
+			body: form,
+		});
+
+		expect(response.status).toBe(400);
+		expect(await response.json()).toMatchObject({ error: { code: 'ARTWORK_FORMAT_NOT_ALLOWED' } });
+		expect(putCalled).toBe(false);
+		expect(repository.calls).not.toContainEqual(expect.objectContaining({ method: 'updateArtwork' }));
+	});
+
+	test('does not update the release when storage fails', async () => {
+		const repository = new FakeRepository();
+		const artworkStorage: ArtworkStorage = {
+			put: async () => {
+				throw new Error('R2 unavailable');
+			},
+		};
+		const form = new FormData();
+		form.append(
+			'artwork',
+			new File([new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52, 0, 0, 4, 0, 0, 0, 3, 0])], 'cover.png', { type: 'image/png' }),
+		);
+
+		const response = await testApp(repository, artworkStorage).request(`/api/admin/releases/${generatedId}/artwork`, {
+			method: 'POST',
+			body: form,
+		});
+
+		expect(response.status).toBe(502);
+		expect(await response.json()).toMatchObject({ error: { code: 'ARTWORK_STORAGE_ERROR' } });
+		expect(repository.calls).not.toContainEqual(expect.objectContaining({ method: 'updateArtwork' }));
 	});
 
 	test('accepts project roles on multi-artist works', async () => {

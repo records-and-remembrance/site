@@ -193,10 +193,40 @@ describe('admin repository definitions', () => {
 		expect(await repository.delete('recordings', '00000000-0000-4000-8000-000000000001')).toBe(false);
 	});
 
+	test('updates only the three artwork columns on a release', async () => {
+		let values: Record<string, unknown> | undefined;
+		const database = {
+			update() {
+				const builder = {
+					set(next: Record<string, unknown>) {
+						values = next;
+						return builder;
+					},
+					where: () => builder,
+					returning: async () => [{ id: 'release-1', ...values }],
+				};
+				return builder;
+			},
+		};
+		const repository = createAdminRepository(database as never);
+
+		await repository.updateArtwork?.('release-1', {
+			artworkUrl: 'https://cdn.example/new.png',
+			artworkWidth: 1200,
+			artworkHeight: 800,
+		});
+
+		expect(values).toEqual({
+			artworkUrl: 'https://cdn.example/new.png',
+			artworkWidth: 1200,
+			artworkHeight: 800,
+		});
+	});
+
 	test('composes a repository from functions after binding the database dependency', () => {
 		const repository = createAdminRepository({} as never);
 
-		expect(Object.keys(repository).sort()).toEqual(['create', 'delete', 'detail', 'list', 'lookup', 'update']);
+		expect(Object.keys(repository).sort()).toEqual(['create', 'delete', 'detail', 'list', 'lookup', 'update', 'updateArtwork']);
 		for (const operation of Object.values(repository)) {
 			expect(typeof operation).toBe('function');
 		}

@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { ZodError } from 'zod';
+import { ArtworkInputError, createArtworkObjectKey, createArtworkStorageFromEnv, inspectArtwork, type ArtworkStorage } from '../artwork/storage';
 import { adminResources, lookupResources, type AdminRepository, type AdminResource, type LookupResource } from './types';
 import { listQuerySchema, resourceSchemas } from './validation';
 
 interface AdminRouteOptions {
 	uuid?: () => string;
+	artworkStorage?: ArtworkStorage;
 }
 
 interface DatabaseError extends Error {
@@ -16,6 +18,7 @@ interface DatabaseError extends Error {
 export function createAdminRoutes(repository: AdminRepository, options: AdminRouteOptions = {}): Hono {
 	const app = new Hono();
 	const generateUuid = options.uuid ?? (() => crypto.randomUUID());
+	const artworkStorage = options.artworkStorage ?? createArtworkStorageFromEnv();
 
 	app.get('/lookups/:resource', async (c) => {
 		const resource = parseLookupResource(c.req.param('resource'));
@@ -41,6 +44,61 @@ export function createAdminRoutes(repository: AdminRepository, options: AdminRou
 			return c.json({ error: { code: 'NOT_FOUND', message: `${resource} record was not found` } }, 404);
 		}
 		return c.json({ data: result });
+	});
+
+	app.post('/releases/:id/artwork', async (c) => {
+		const id = parseUuid(c.req.param('id'));
+		if (!artworkStorage) {
+			return c.json({ error: { code: 'ARTWORK_STORAGE_NOT_CONFIGURED', message: 'Artwork storage is not configured' } }, 503);
+		}
+		if (!repository.updateArtwork) {
+			return c.json({ error: { code: 'ARTWORK_NOT_SUPPORTED', message: 'Artwork editing is not available' } }, 501);
+		}
+
+		const form = await readMultipartForm(c.req.raw);
+		const value = form.get('artwork') ?? form.get('file');
+		if (!(value instanceof File)) {
+			return c.json({ error: { code: 'VALIDATION_ERROR', message: 'Request validation failed', fields: { artwork: ['Artwork file is required'] } } }, 400);
+		}
+
+		let inspection;
+		try {
+			inspection = await inspectArtwork(value);
+		} catch (error) {
+			if (error instanceof ArtworkInputError) {
+				return c.json({ error: { code: error.code, message: error.message } }, error.status);
+			}
+			throw error;
+		}
+
+		const key = createArtworkObjectKey(id, inspection.extension, generateUuid());
+		let stored;
+		try {
+			stored = await artworkStorage.put({ key, body: inspection.body, contentType: inspection.contentType });
+		} catch {
+			return c.json({ error: { code: 'ARTWORK_STORAGE_ERROR', message: 'Artwork storage is unavailable. Try again.' } }, 502);
+		}
+
+		if (!stored.url.trim()) {
+			await deleteStoredArtwork(artworkStorage, stored.key);
+			return c.json({ error: { code: 'ARTWORK_STORAGE_ERROR', message: 'Artwork storage returned an invalid URL' } }, 502);
+		}
+
+		try {
+			const updated = await repository.updateArtwork(id, {
+				artworkUrl: stored.url,
+				artworkWidth: inspection.width,
+				artworkHeight: inspection.height,
+			});
+			if (!updated) {
+				await deleteStoredArtwork(artworkStorage, stored.key);
+				return c.json({ error: { code: 'NOT_FOUND', message: 'releases record was not found' } }, 404);
+			}
+			return c.json({ data: updated });
+		} catch (error) {
+			await deleteStoredArtwork(artworkStorage, stored.key);
+			throw error;
+		}
 	});
 
 	app.post('/:resource', async (c) => {
@@ -156,6 +214,22 @@ async function readJson(request: Request): Promise<unknown> {
 		return await request.json();
 	} catch {
 		throw new ZodError([{ code: 'custom', path: ['body'], message: 'Body must be valid JSON' }]);
+	}
+}
+
+async function readMultipartForm(request: Request): Promise<FormData> {
+	try {
+		return await request.formData();
+	} catch {
+		throw new ZodError([{ code: 'custom', path: ['body'], message: 'Body must be a multipart form' }]);
+	}
+}
+
+async function deleteStoredArtwork(storage: ArtworkStorage, key: string): Promise<void> {
+	try {
+		await storage.delete?.(key);
+	} catch {
+		// The database contract remains authoritative if best-effort cleanup fails.
 	}
 }
 

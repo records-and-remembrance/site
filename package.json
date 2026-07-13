@@ -13,6 +13,9 @@
 		"db:generate:magazines": "bun scripts/generate_magazine_seed_sql.ts",
 		"review:compositions": "bun run app/server.ts",
 		"review:magazines:generate": "bun scripts/generate_magazine_review.ts",
+		"site:build": "astro build --root site",
+		"site:deploy": "wrangler deploy --config site/wrangler.jsonc",
+		"site:export": "bun site/export/export.ts",
 		"test": "bun test",
 		"typecheck": "tsc --noEmit",
 		"lint": "oxlint",
@@ -45,10 +48,12 @@
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^5.2.0",
+		"astro": "^7.0.7",
 		"drizzle-kit": "^0.31.10",
 		"oxfmt": "^0.56.0",
 		"oxlint": "^1.71.0",
 		"typescript": "^6.0.3",
-		"vite": "^7.3.1"
+		"vite": "^7.3.1",
+		"wrangler": "^4.110.0"
 	}
 }
