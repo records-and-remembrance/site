@@ -1,0 +1,114 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData } from '../data';
+import { buildSearchRecords } from '../lib/search';
+
+const records = buildSearchRecords(siteData);
+const query = Astro.url.searchParams.get('q')?.trim() ?? '';
+---
+
+<SiteLayout title="検索" currentPath="/search" breadcrumbs={[{ label: '検索' }]}>
+	<section class="search-page" aria-labelledby="search-title" data-pagefind-body>
+		<header>
+			<p class="eyebrow">SEARCH</p>
+			<h1 id="search-title">検索</h1>
+		</header>
+		<form class="search-form" data-search-form method="get" action="/search">
+			<label for="search-query">検索語</label>
+			<div>
+				<input id="search-query" name="q" value={query} type="search" autocomplete="off" />
+				<button type="submit">検索</button>
+			</div>
+		</form>
+		<p id="search-status" aria-live="polite">{query ? `「${query}」の検索結果` : '検索語を入力してください。'}</p>
+		<div class="search-results" data-search-results>
+			{records.map((record) => (
+				<article data-search-record data-search-text={record.text.toLocaleLowerCase('ja-JP')} hidden={Boolean(query) && !record.text.toLocaleLowerCase('ja-JP').includes(query.toLocaleLowerCase('ja-JP'))}>
+					<p>{record.kind}</p>
+					<h2><a href={record.href} data-pagefind-meta="title">{record.title}</a></h2>
+				</article>
+			))}
+		</div>
+		{records.length === 0 && <p>検索対象の公開データはありません。</p>}
+	</section>
+</SiteLayout>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>('[data-search-form]');
+	const input = document.querySelector<HTMLInputElement>('#search-query');
+	const status = document.querySelector<HTMLElement>('#search-status');
+	const records = [...document.querySelectorAll<HTMLElement>('[data-search-record]')];
+	const applyQuery = (query: string) => {
+		const normalized = query.trim().toLocaleLowerCase('ja-JP');
+		let count = 0;
+		for (const record of records) {
+			const matched = Boolean(normalized) && (record.dataset.searchText ?? '').includes(normalized);
+			record.hidden = !matched;
+			if (matched) count += 1;
+		}
+		if (status) status.textContent = normalized ? `「${query.trim()}」の検索結果: ${count}件` : '検索語を入力してください。';
+	};
+	form?.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const query = input?.value.trim() ?? '';
+		const url = new URL(window.location.href);
+		if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+		window.history.pushState({}, '', `${url.pathname}${url.search}`);
+		applyQuery(query);
+	});
+	window.addEventListener('popstate', () => {
+		const query = new URL(window.location.href).searchParams.get('q') ?? '';
+		if (input) input.value = query;
+		applyQuery(query);
+	});
+	if (input) input.addEventListener('focus', () => import(/* @vite-ignore */ '/pagefind/pagefind.js').catch(() => undefined), { once: true });
+	applyQuery(input?.value ?? '');
+</script>
+
+<style>
+	.search-page {
+		max-width: 70ch;
+	}
+
+	.search-form {
+		display: grid;
+		gap: var(--space-2);
+		margin-block: var(--space-5);
+	}
+
+	.search-form > div {
+		display: flex;
+		gap: var(--space-2);
+	}
+
+	.search-form input {
+		min-width: 0;
+		flex: 1;
+		min-height: 44px;
+	}
+
+	.search-form button {
+		min-width: 88px;
+		min-height: 44px;
+	}
+
+	.search-results {
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.search-results article {
+		padding: var(--space-3);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.search-results article p,
+	.search-results article h2 {
+		margin-block: 0 var(--space-1);
+	}
+
+	.search-results article p {
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+</style>

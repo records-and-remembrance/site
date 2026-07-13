@@ -15,6 +15,7 @@
 		"review:compositions": "bun run app/server.ts",
 		"review:magazines:generate": "bun scripts/generate_magazine_review.ts",
 		"site:build": "astro build --root site",
+		"site:search:index": "pagefind --site site/dist",
 		"site:deploy": "wrangler deploy --config site/wrangler.jsonc",
 		"site:export": "bun site/export/export.ts",
 		"test": "bun test",
@@ -53,6 +54,7 @@
 		"drizzle-kit": "^0.31.10",
 		"oxfmt": "^0.56.0",
 		"oxlint": "^1.71.0",
+		"pagefind": "^1.5.2",
 		"typescript": "^6.0.3",
 		"vite": "^7.3.1",
 		"wrangler": "^4.110.0"
