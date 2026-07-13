@@ -58,46 +58,46 @@ site/                        # リポジトリ直下に新設。admin の app/ �
 
 DB のテーブル名とサイト上の表記は一致しない。実装エージェントがコードとコピーで混同しないよう対応をここで固定する。
 
-| DB概念 | サイト表記 | 説明 |
-|---|---|---|
-| project | プロジェクト | バンド・ソロなどの名義 |
-| person | 人物 | |
-| composition | 楽曲 | 曲そのもの。録音や演奏を束ねる単位 |
-| recording | バージョン | 楽曲の個々の録音（スタジオ/ライブ/デモ…）。サイト上で「録音」とは言わない |
-| work | 作品 | アルバム・シングルなどのまとまり |
-| release | 版 | 作品の具体的な出し方（初回盤 / 再発 / 配信など）。独立ページにしない |
-| track | （表記なし） | 作品ページのトラックリストの行 |
-| event | ライブ | |
-| event_performance | セットリスト | |
-| venue | 会場 | |
-| composition_credit / contribution | クレジット | |
-| label | レーベル | |
-| distributor | 流通 | |
-| publication / publication_issue / article | 媒体 / 号 / 記事 | 資料室 |
+| DB概念                                    | サイト表記       | 説明                                                                      |
+| ----------------------------------------- | ---------------- | ------------------------------------------------------------------------- |
+| project                                   | プロジェクト     | バンド・ソロなどの名義                                                    |
+| person                                    | 人物             |                                                                           |
+| composition                               | 楽曲             | 曲そのもの。録音や演奏を束ねる単位                                        |
+| recording                                 | バージョン       | 楽曲の個々の録音（スタジオ/ライブ/デモ…）。サイト上で「録音」とは言わない |
+| work                                      | 作品             | アルバム・シングルなどのまとまり                                          |
+| release                                   | 版               | 作品の具体的な出し方（初回盤 / 再発 / 配信など）。独立ページにしない      |
+| track                                     | （表記なし）     | 作品ページのトラックリストの行                                            |
+| event                                     | ライブ           |                                                                           |
+| event_performance                         | セットリスト     |                                                                           |
+| venue                                     | 会場             |                                                                           |
+| composition_credit / contribution         | クレジット       |                                                                           |
+| label                                     | レーベル         |                                                                           |
+| distributor                               | 流通             |                                                                           |
+| publication / publication_issue / article | 媒体 / 号 / 記事 | 資料室                                                                    |
 
 **閲覧者に work / release / discography の3概念を見せない。** DB上は work（抽象作品）と release（具体的な出し方）が分かれているが、閲覧者にとってその違いは判別しづらい。公開UIは **ディスコグラフィ一覧 → 作品ページ の2段**に統合する。release は独立ページを持たせず、作品ページ内のセクション（「版」、アンカー `#edition-<slug>`）として表現する。
 
 ### 3.2 ルート一覧
 
-| path | 画面名 | 主データ（テーブル） |
-|---|---|---|
-| `/` | ホーム | 全域の集約 + ランダム |
-| `/timeline` | 年表 | release, event, membership, project |
-| `/projects` | プロジェクト一覧 | project |
-| `/projects/:slug` | プロジェクト詳細 | project, membership(+role/instrument), work, release, event |
-| `/people` | 人物一覧 | person, membership, contribution |
-| `/people/:slug` | 人物詳細 | person, membership(+membership_role), contribution, composition_credit |
-| `/discography` | ディスコグラフィ一覧 | work, work_project, release, label_relation |
-| `/discography/:slug` | 作品詳細（版セクション含む） | work, work_project, release, label_relation, track |
-| `/songs` | 楽曲一覧 | composition, recording, event_performance |
-| `/songs/:slug` | 楽曲詳細 | composition, composition_credit, recording, track, release, event_performance |
-| `/lives` | ライブ一覧 | event, venue, project |
-| `/lives/:slug` | ライブ詳細 | event, event_performance, composition, venue, contribution |
-| `/venues` | 会場一覧 | venue, event |
-| `/venues/:slug` | 会場詳細 | venue, event, event_performance |
-| `/network` | 人物相関 | person, membership, project |
-| `/library` | 資料室 | publication, publication_issue, article |
-| `/about` | About | 静的 + 件数集計 |
+| path                 | 画面名                       | 主データ（テーブル）                                                          |
+| -------------------- | ---------------------------- | ----------------------------------------------------------------------------- |
+| `/`                  | ホーム                       | 全域の集約 + ランダム                                                         |
+| `/timeline`          | 年表                         | release, event, membership, project                                           |
+| `/projects`          | プロジェクト一覧             | project                                                                       |
+| `/projects/:slug`    | プロジェクト詳細             | project, membership(+role/instrument), work, release, event                   |
+| `/people`            | 人物一覧                     | person, membership, contribution                                              |
+| `/people/:slug`      | 人物詳細                     | person, membership(+membership_role), contribution, composition_credit        |
+| `/discography`       | ディスコグラフィ一覧         | work, work_project, release, label_relation                                   |
+| `/discography/:slug` | 作品詳細（版セクション含む） | work, work_project, release, label_relation, track                            |
+| `/songs`             | 楽曲一覧                     | composition, recording, event_performance                                     |
+| `/songs/:slug`       | 楽曲詳細                     | composition, composition_credit, recording, track, release, event_performance |
+| `/lives`             | ライブ一覧                   | event, venue, project                                                         |
+| `/lives/:slug`       | ライブ詳細                   | event, event_performance, composition, venue, contribution                    |
+| `/venues`            | 会場一覧                     | venue, event                                                                  |
+| `/venues/:slug`      | 会場詳細                     | venue, event, event_performance                                               |
+| `/network`           | 人物相関                     | person, membership, project                                                   |
+| `/library`           | 資料室                       | publication, publication_issue, article                                       |
+| `/about`             | About                        | 静的 + 件数集計                                                               |
 
 `/works/:id` と `/releases/:id` は廃止し、`/discography` と `/discography/:slug` に統合した（理由は §3.1）。
 
@@ -206,7 +206,7 @@ graph LR
 ### 4.9 `/library` 資料室
 
 - publication（97誌）→ publication_issue（335号）→ article（350件）の階層ブラウズ + 記事タイトル横断検索（Pagefind、§2参照）。
-- **article_mention_\* は 3 テーブルとも 0 件**のため、現段階では独立したアーカイブとして提示し、エンティティへの相互リンクは「将来拡張」と設計書上も UI 上も明示する（実装エージェントはリンク UI を作らないこと）。content / url / publishedDate は NULL が 40–60% ある → ある項目だけ描画。
+- **article*mention*\* は 3 テーブルとも 0 件**のため、現段階では独立したアーカイブとして提示し、エンティティへの相互リンクは「将来拡張」と設計書上も UI 上も明示する（実装エージェントはリンク UI を作らないこと）。content / url / publishedDate は NULL が 40–60% ある → ある項目だけ描画。
 
 ### 4.10 `/about`
 
@@ -214,16 +214,16 @@ graph LR
 
 ## 5. 横断ディスカバリー機能
 
-| 機能 | 置き場所 | 実装 |
-|---|---|---|
-| **Dig（ランダム到達）** | ヘッダ常設ボタン | ビルド時生成の Dig インデックス JSON（song/live/person/work の slug + 種別 + 一言）からクライアントJSがランダムに1件を選び遷移。「調べる」導線と対になる「彷徨う」導線 |
-| ◯年ぶり演奏バッジ | 楽曲詳細・ライブ詳細 | event_performance の日付間隔 ≥3年 を export 時に計算し JSON へ埋め込む |
-| 曲の旅 | 楽曲詳細 | track → release → work を時系列連結し、作品ページの版アンカーへリンク |
-| この日なんの日 | ホーム | 月日一致をビルド時に事前計算した JSON |
-| 再発系譜 | 作品ページ（版セクション） | reissueOfReleaseId の双方向表示 |
-| 共演者 | 人物詳細 | membership 期間重複 + event 共起 |
-| 前後の公演ナビ | ライブ詳細 | 同 project の隣接 event |
-| 定番曲 | 会場詳細・プロジェクト詳細 | event_performance 集計 |
+| 機能                    | 置き場所                   | 実装                                                                                                                                                                   |
+| ----------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Dig（ランダム到達）** | ヘッダ常設ボタン           | ビルド時生成の Dig インデックス JSON（song/live/person/work の slug + 種別 + 一言）からクライアントJSがランダムに1件を選び遷移。「調べる」導線と対になる「彷徨う」導線 |
+| ◯年ぶり演奏バッジ       | 楽曲詳細・ライブ詳細       | event_performance の日付間隔 ≥3年 を export 時に計算し JSON へ埋め込む                                                                                                 |
+| 曲の旅                  | 楽曲詳細                   | track → release → work を時系列連結し、作品ページの版アンカーへリンク                                                                                                  |
+| この日なんの日          | ホーム                     | 月日一致をビルド時に事前計算した JSON                                                                                                                                  |
+| 再発系譜                | 作品ページ（版セクション） | reissueOfReleaseId の双方向表示                                                                                                                                        |
+| 共演者                  | 人物詳細                   | membership 期間重複 + event 共起                                                                                                                                       |
+| 前後の公演ナビ          | ライブ詳細                 | 同 project の隣接 event                                                                                                                                                |
+| 定番曲                  | 会場詳細・プロジェクト詳細 | event_performance 集計                                                                                                                                                 |
 
 ## 6. About ページ掲載文（このまま使用可）
 
@@ -241,40 +241,40 @@ graph LR
 
 ### 7.1 カラートークン
 
-| token | light | dark | 用途 |
-|---|---|---|---|
-| `--ground` | `#F5F5F1` | `#15171C` | 背景（dark は藍がかった黒） |
-| `--surface` | `#FFFFFF` | `#1D2027` | カード・表 |
-| `--ink` | `#1C1E22` | `#E8E6DF` | 本文 |
-| `--ink-muted` | `#5C5F66` | `#9A9CA3` | 補足・メタ情報 |
-| `--rule` | `#D8D8D2` | `#2E323B` | 罫線 |
-| `--accent` | `#9A6B1F` | `#D9A441` | リンク・強調（スポットライトの琥珀） |
-| `--accent-ink` | `#FFFFFF` | `#15171C` | accent 上の文字 |
+| token          | light     | dark      | 用途                                 |
+| -------------- | --------- | --------- | ------------------------------------ |
+| `--ground`     | `#F5F5F1` | `#15171C` | 背景（dark は藍がかった黒）          |
+| `--surface`    | `#FFFFFF` | `#1D2027` | カード・表                           |
+| `--ink`        | `#1C1E22` | `#E8E6DF` | 本文                                 |
+| `--ink-muted`  | `#5C5F66` | `#9A9CA3` | 補足・メタ情報                       |
+| `--rule`       | `#D8D8D2` | `#2E323B` | 罫線                                 |
+| `--accent`     | `#9A6B1F` | `#D9A441` | リンク・強調（スポットライトの琥珀） |
+| `--accent-ink` | `#FFFFFF` | `#15171C` | accent 上の文字                      |
 
 `prefers-color-scheme` をデフォルトに、`:root[data-theme]` で上書きするトークン方式。両テーマとも AA コントラストを維持。
 
 ### 7.2 タイポグラフィ
 
-| 役割 | 書体 | 備考 |
-|---|---|---|
-| 見出し・エンティティ名 | **Shippori Mincho B1**（@fontsource で同梱） | 詩人性・資料性。ウェイト 600/700 |
-| 本文・UI | system sans（Hiragino Kaku Gothic / Noto Sans JP fallback） | 15px 基準、行間 1.8 |
-| 日付・catalog# ・数値 | **IBM Plex Mono** または system mono、`tabular-nums` | セットリスト番号・年表の軸 |
+| 役割                   | 書体                                                        | 備考                             |
+| ---------------------- | ----------------------------------------------------------- | -------------------------------- |
+| 見出し・エンティティ名 | **Shippori Mincho B1**（@fontsource で同梱）                | 詩人性・資料性。ウェイト 600/700 |
+| 本文・UI               | system sans（Hiragino Kaku Gothic / Noto Sans JP fallback） | 15px 基準、行間 1.8              |
+| 日付・catalog# ・数値  | **IBM Plex Mono** または system mono、`tabular-nums`        | セットリスト番号・年表の軸       |
 
 型スケール: 12 / 13 / 15 / 18 / 24 / 34px。見出しは `text-wrap: balance`。本文の測りは最大 65ch。英字ラベル（format chip 等）は uppercase + letter-spacing 0.06em。
 
 ### 7.3 プロジェクトカラー（8色、彩度抑えめの categorical）
 
-| プロジェクト | hex |
-|---|---|
-| sweet girls | `#6B7F4F` |
-| サンチェスター・ユナイテッドFC | `#B3823C` |
-| BURGER NUDS | `#4A5D8A` |
-| Good Dog Happy Men | `#6E5687` |
-| 門田匡陽（2010–12） | `#3F7E70` |
-| Poet-type.M | `#8C3A4B` |
-| 門田匡陽（2020–） | `#2F6B4F` |
-| その他の名義 | `#75757083` 相当のグレー `#757570` |
+| プロジェクト                   | hex                                |
+| ------------------------------ | ---------------------------------- |
+| sweet girls                    | `#6B7F4F`                          |
+| サンチェスター・ユナイテッドFC | `#B3823C`                          |
+| BURGER NUDS                    | `#4A5D8A`                          |
+| Good Dog Happy Men             | `#6E5687`                          |
+| 門田匡陽（2010–12）            | `#3F7E70`                          |
+| Poet-type.M                    | `#8C3A4B`                          |
+| 門田匡陽（2020–）              | `#2F6B4F`                          |
+| その他の名義                   | `#75757083` 相当のグレー `#757570` |
 
 用途はタイムライン帯・バッジ・グラフのみ（本文リンクには使わない）。dark テーマでは各色を +12% 明度補正。
 
@@ -300,18 +300,18 @@ graph LR
 
 ## 8. データ粗密と表示ルール（実装エージェント必読）
 
-| 事実 | 表示ルール |
-|---|---|
-| `article_mention_*` 3 テーブルとも 0 件 | /library はエンティティリンクなしの独立アーカイブとして実装 |
-| `person.activeFrom/To/deathDate` 全件 NULL | 人物の活動期間は membership + contribution から導出 |
-| `recording.recordingYear` 全件 NULL、`recordedDate` もほぼ NULL | 録音の年は初出リリース releaseDate で代替表示（「初出: 2004」） |
-| `event.ticketPrice` 全件 NULL、`startTime` 87% NULL | 値がある場合のみ行を描画。空欄プレースホルダを並べない |
-| `article.content` 41% / `url` 60% NULL | 同上 |
+| 事実                                                             | 表示ルール                                                                                                   |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `article_mention_*` 3 テーブルとも 0 件                          | /library はエンティティリンクなしの独立アーカイブとして実装                                                  |
+| `person.activeFrom/To/deathDate` 全件 NULL                       | 人物の活動期間は membership + contribution から導出                                                          |
+| `recording.recordingYear` 全件 NULL、`recordedDate` もほぼ NULL  | 録音の年は初出リリース releaseDate で代替表示（「初出: 2004」）                                              |
+| `event.ticketPrice` 全件 NULL、`startTime` 87% NULL              | 値がある場合のみ行を描画。空欄プレースホルダを並べない                                                       |
+| `article.content` 41% / `url` 60% NULL                           | 同上                                                                                                         |
 | 日付精度カラム（`releaseDatePrecision`, `fromDatePrecision` 等） | 共有コンポーネント `DateText` が精度に応じ「1999年」「1999年3月」「1999年3月10日」を出し分け。精度を偽らない |
-| 録音 0 件の composition が 30 曲 | 「ライブ演奏のみ」バッジで正規に扱う（欠損ではない） |
-| 未来の event（2026 年に予定あり） | 「予定」バッジ。セットリスト空でも正常 |
-| venue に表記ゆれ疑い（例: 新代田FEVER）・孤立 venue 8 件 | サイト側で名寄せしない。データ修正はパイプライン側の課題として別 issue |
-| track 0 件の release が 2 件 | 「収録曲情報未登録」の 1 行を表示 |
+| 録音 0 件の composition が 30 曲                                 | 「ライブ演奏のみ」バッジで正規に扱う（欠損ではない）                                                         |
+| 未来の event（2026 年に予定あり）                                | 「予定」バッジ。セットリスト空でも正常                                                                       |
+| venue に表記ゆれ疑い（例: 新代田FEVER）・孤立 venue 8 件         | サイト側で名寄せしない。データ修正はパイプライン側の課題として別 issue                                       |
+| track 0 件の release が 2 件                                     | 「収録曲情報未登録」の 1 行を表示                                                                            |
 
 ## 9. 実装フェーズ提案
 

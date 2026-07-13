@@ -46,7 +46,7 @@ flowchart LR
   gdhm0506 -->|門田匡陽<br/>内田武瑠<br/>伊藤大地<br/>韮沢雄希| gdhm0709
   gdhm0506 -->|前田太一| curly
   gdhm0709 -->|門田匡陽<br/>内田武瑠| gdhm0910
-  
+
   gdhm0910 -->|門田匡陽<br/>河相巧矢<br/>菅原将之| hisband
   gdhm0910 -->|内田武瑠| chopin1
   hisband -->|門田匡陽<br/>水野雅昭| calm

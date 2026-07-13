@@ -258,16 +258,7 @@ export function parseApprovedArticleCandidates(source: string, candidateFile: st
 
 	const header = lines[0]!.split('\t');
 	const columnIndex = new Map(header.map((column, index) => [column, index]));
-	const requiredColumns = [
-		'review_status',
-		'source_file',
-		'source_heading',
-		'publication_name',
-		'publication_type',
-		'article_title',
-		'article_type',
-		'url',
-	];
+	const requiredColumns = ['review_status', 'source_file', 'source_heading', 'publication_name', 'publication_type', 'article_title', 'article_type', 'url'];
 	for (const column of requiredColumns) {
 		if (!columnIndex.has(column)) throw new Error(`Missing article candidate column: ${column} (${candidateFile})`);
 	}
@@ -596,9 +587,7 @@ class SqlBuilder {
 	candidateIssueUpsert(candidate: ArticleCandidateSeed, publicationId: string): string {
 		const id = stableUuid('publication_issue', `article_candidate/${candidate.url}`);
 		this.line('INSERT INTO publication_issue (id, publication_id, issue_number, volume, published_date, description)');
-		this.line(
-			`VALUES (${sqlText(id)}, ${sqlText(publicationId)}, ${sqlText(candidate.publishedDate)}, NULL, ${sqlText(candidate.publishedDate)}, ${sqlText(candidate.summary)})`,
-		);
+		this.line(`VALUES (${sqlText(id)}, ${sqlText(publicationId)}, ${sqlText(candidate.publishedDate)}, NULL, ${sqlText(candidate.publishedDate)}, ${sqlText(candidate.summary)})`);
 		this.line('ON CONFLICT (id) DO UPDATE');
 		this.line('SET publication_id = EXCLUDED.publication_id,');
 		this.line('    issue_number = EXCLUDED.issue_number,');
