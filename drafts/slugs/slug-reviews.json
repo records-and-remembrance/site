@@ -61,6 +61,2106 @@
 			"id": "0fc66a48-b2c6-5eb3-a3a9-616289039724",
 			"status": "approved",
 			"slug": "wakatsuki-akiko"
+		},
+		{
+			"entityType": "person",
+			"id": "10871c43-2411-5ac7-afad-465ed295c20f",
+			"status": "approved",
+			"slug": "tanaka-ichiro"
+		},
+		{
+			"entityType": "person",
+			"id": "13eba375-7623-54a8-8838-739a56a5edee",
+			"status": "approved",
+			"slug": "morinaga-keiichi"
+		},
+		{
+			"entityType": "person",
+			"id": "146affe5-125d-5b42-b448-b4ea4bba1cfa",
+			"status": "approved",
+			"slug": "tachibana-hitomi"
+		},
+		{
+			"entityType": "person",
+			"id": "155d93cd-298b-548f-b631-ce79cf286d40",
+			"status": "approved",
+			"slug": "takano-isao"
+		},
+		{
+			"entityType": "person",
+			"id": "18777251-4bc8-587d-8d0d-5cf106c709d3",
+			"status": "approved",
+			"slug": "maruyama-jun"
+		},
+		{
+			"entityType": "person",
+			"id": "1bc0df8c-0603-577a-8065-0fee4aa45fa5",
+			"status": "approved",
+			"slug": "wakui-yoshimasa"
+		},
+		{
+			"entityType": "person",
+			"id": "26c29fe5-5395-5cf9-babe-1e944b40a510",
+			"status": "approved",
+			"slug": "itabashi-miyuki"
+		},
+		{
+			"entityType": "person",
+			"id": "29d65dad-0a4d-5fbc-8824-9c3a140d3fb1",
+			"status": "approved",
+			"slug": "kaneko-atsutake"
+		},
+		{
+			"entityType": "person",
+			"id": "2a3205e9-983e-5f1d-9f1d-eb6c296c6d5f",
+			"status": "approved",
+			"slug": "ito-takeshi"
+		},
+		{
+			"entityType": "person",
+			"id": "2ed92605-8f1b-5439-aa81-79a84045e336",
+			"status": "approved",
+			"slug": "honda-yoshinobu"
+		},
+		{
+			"entityType": "person",
+			"id": "308470fa-39dc-5ae2-a556-ea12f9030e97",
+			"status": "approved",
+			"slug": "nakahata-daiki"
+		},
+		{
+			"entityType": "person",
+			"id": "31030a19-4e33-5f48-82f5-91582e8ab6e8",
+			"status": "approved",
+			"slug": "matsuo-yukio"
+		},
+		{
+			"entityType": "person",
+			"id": "336d8595-248c-5e49-9f38-6c277e355d0e",
+			"status": "approved",
+			"slug": "ishii-yuta"
+		},
+		{
+			"entityType": "person",
+			"id": "3717a2e5-ca6e-50f6-b4aa-499e77096b6e",
+			"status": "approved",
+			"slug": "shirasuna-hitomi"
+		},
+		{
+			"entityType": "person",
+			"id": "379611b2-286a-5626-a093-0fadd558bd78",
+			"status": "approved",
+			"slug": "sugahara-masayuki"
+		},
+		{
+			"entityType": "person",
+			"id": "380d5441-8ffb-5c51-9021-478222035af9",
+			"status": "approved",
+			"slug": "uchida-takeru"
+		},
+		{
+			"entityType": "person",
+			"id": "3a42e9ef-0b0d-535d-a20c-c23dec64c9cc",
+			"status": "approved",
+			"slug": "seki-kazuki"
+		},
+		{
+			"entityType": "person",
+			"id": "3c6aa9d3-6158-5912-b7a7-3f49263a0847",
+			"status": "approved",
+			"slug": "yanagida-ryoji"
+		},
+		{
+			"entityType": "person",
+			"id": "3e4956aa-2c98-5bda-ba62-5f581157aca2",
+			"status": "approved",
+			"slug": "string-quartet-from-tokyo-university-of-the-arts"
+		},
+		{
+			"entityType": "person",
+			"id": "453c83ba-bd7b-5b48-8bf5-d89f8b21fe74",
+			"status": "approved",
+			"slug": "nirasawa-yuki"
+		},
+		{
+			"entityType": "person",
+			"id": "46777fe3-f165-5a98-8b6e-5884fd2e067a",
+			"status": "approved",
+			"slug": "hashimoto-yoei"
+		},
+		{
+			"entityType": "person",
+			"id": "470bc36e-2c2d-5d72-b2c8-64ee8b869dad",
+			"status": "approved",
+			"slug": "kawano-katsuhiro"
+		},
+		{
+			"entityType": "person",
+			"id": "4781465b-ba61-538a-8652-2be88e4f729e",
+			"status": "approved",
+			"slug": "mizuno-masaaki"
+		},
+		{
+			"entityType": "person",
+			"id": "4c139ec3-9bc9-5bc3-90f3-055573d18b7d",
+			"status": "approved",
+			"slug": "ito-daichi"
+		},
+		{
+			"entityType": "person",
+			"id": "4eb4b2fb-cbc9-53e2-9fd3-e4a7ea3f3c9a",
+			"status": "approved",
+			"slug": "maeda-taichi"
+		},
+		{
+			"entityType": "person",
+			"id": "513af36e-3569-518a-b177-dc45970850e5",
+			"status": "approved",
+			"slug": "iizuka-akihiro"
+		},
+		{
+			"entityType": "person",
+			"id": "539d76e9-c575-55a2-a7fb-659709eb87e0",
+			"status": "approved",
+			"slug": "miyasaka-yasuhiko"
+		},
+		{
+			"entityType": "person",
+			"id": "53b2ac5c-5e9e-51bf-9a0d-6fb2357aa595",
+			"status": "approved",
+			"slug": "kanno-takehiro"
+		},
+		{
+			"entityType": "person",
+			"id": "585ea923-e9c9-5ee1-9e3d-37c66b8b709b",
+			"status": "approved",
+			"slug": "kato-haruhisa"
+		},
+		{
+			"entityType": "person",
+			"id": "58df7562-6912-5926-9d4a-7688a1e44253",
+			"status": "approved",
+			"slug": "uno-takeshi"
+		},
+		{
+			"entityType": "person",
+			"id": "5b522c06-2250-58cd-8e35-6219b5fe3999",
+			"status": "approved",
+			"slug": "matsumoto-yasuo"
+		},
+		{
+			"entityType": "person",
+			"id": "65c2ad94-4e82-54ff-a360-04ee5044f1d1",
+			"status": "approved",
+			"slug": "ito-yoshiyuki"
+		},
+		{
+			"entityType": "person",
+			"id": "6678dbf5-c865-5d2e-8238-ac63f3dda2d8",
+			"status": "approved",
+			"slug": "ochiri-sosuke"
+		},
+		{
+			"entityType": "person",
+			"id": "71455aef-6502-58d7-9781-8566e8361ea5",
+			"status": "approved",
+			"slug": "koike-mitsuo"
+		},
+		{
+			"entityType": "person",
+			"id": "73011f0b-b70f-5178-8afc-82dd3fb82f4a",
+			"status": "approved",
+			"slug": "kasai-toshihiko"
+		},
+		{
+			"entityType": "person",
+			"id": "74a45e1b-aa65-53df-9f6d-5f3980d5e687",
+			"status": "approved",
+			"slug": "mishiro-kazuki"
+		},
+		{
+			"entityType": "person",
+			"id": "74ea4108-a1c6-57cf-b9d2-0cf35885d7ab",
+			"status": "approved",
+			"slug": "kazama-moe"
+		},
+		{
+			"entityType": "person",
+			"id": "751dea32-9027-57d8-9e2a-d1a06f9071af",
+			"status": "approved",
+			"slug": "saisu-shuichi"
+		},
+		{
+			"entityType": "person",
+			"id": "79256f01-3cad-5bab-9018-1c9b53192f21",
+			"status": "approved",
+			"slug": "kamiya-jumpei"
+		},
+		{
+			"entityType": "person",
+			"id": "81dacfab-9241-5796-8aa1-e44bc6bfb7f2",
+			"status": "approved",
+			"slug": "iga-wataru"
+		},
+		{
+			"entityType": "person",
+			"id": "843dc8ca-0619-5e69-8ff6-f26a2d43e07d",
+			"status": "approved",
+			"slug": "kidokoro-yuichi"
+		},
+		{
+			"entityType": "person",
+			"id": "88802eba-5cde-5388-bbe5-332b3bcf65f0",
+			"status": "approved",
+			"slug": "harada-katsuhiro"
+		},
+		{
+			"entityType": "person",
+			"id": "94ad40b0-4e16-506d-a27f-d17ad0f474dd",
+			"status": "approved",
+			"slug": "suzuki-hiroyuki"
+		},
+		{
+			"entityType": "person",
+			"id": "96500e33-d6a6-55f7-a888-3ea406688762",
+			"status": "approved",
+			"slug": "motono-shinsuke"
+		},
+		{
+			"entityType": "person",
+			"id": "98803204-e7ab-51e9-8498-e6ba4a83143a",
+			"status": "approved",
+			"slug": "yoshii-tomohiro"
+		},
+		{
+			"entityType": "person",
+			"id": "9b9da94b-6732-57d5-b249-bfe9b7c4eaf0",
+			"status": "approved",
+			"slug": "endo-koichi"
+		},
+		{
+			"entityType": "person",
+			"id": "9fc1ed3b-31a6-5654-a369-803d8d3a3e88",
+			"status": "approved",
+			"slug": "kobayashi-hajime"
+		},
+		{
+			"entityType": "person",
+			"id": "a0cc52df-e0d6-5a99-9bdd-71c132600907",
+			"status": "approved",
+			"slug": "minowa-tomokazu"
+		},
+		{
+			"entityType": "person",
+			"id": "a1c3d702-18b0-5129-8c40-2a1453816568",
+			"status": "approved",
+			"slug": "goto-hiroyuki"
+		},
+		{
+			"entityType": "person",
+			"id": "a7d2365c-47c6-5cb6-b7ad-94e5dc555130",
+			"status": "approved",
+			"slug": "inagaki-anri"
+		},
+		{
+			"entityType": "person",
+			"id": "a7f2fc42-4b6d-52dd-a058-41161143cf46",
+			"status": "approved",
+			"slug": "shimazu-kazuma"
+		},
+		{
+			"entityType": "person",
+			"id": "aa033354-b578-507c-9116-fe8850591bc6",
+			"status": "approved",
+			"slug": "shimizu-takeshi"
+		},
+		{
+			"entityType": "person",
+			"id": "abac3559-1034-5525-a721-da7e90cb4c28",
+			"status": "approved",
+			"slug": "onami-akihito"
+		},
+		{
+			"entityType": "person",
+			"id": "af158f43-4e2d-5773-b341-cf10892f8b7e",
+			"status": "approved",
+			"slug": "kawai-takuya"
+		},
+		{
+			"entityType": "person",
+			"id": "afab11f3-332b-5b60-b9f9-b3f9d8bb64b2",
+			"status": "approved",
+			"slug": "kaneshige-tetsuya"
+		},
+		{
+			"entityType": "person",
+			"id": "b853266c-f096-5e1e-a0e5-be8f3b66a7ad",
+			"status": "approved",
+			"slug": "takehana-naoki"
+		},
+		{
+			"entityType": "person",
+			"id": "be935172-904f-57f3-ac25-347053071e50",
+			"status": "approved",
+			"slug": "takahashi-issei"
+		},
+		{
+			"entityType": "person",
+			"id": "c2c31e80-0f4f-5152-881e-33c79352e411",
+			"status": "rejected",
+			"slug": null
+		},
+		{
+			"entityType": "person",
+			"id": "c7ff4d97-d1f0-56a9-9db8-1a21f36d934d",
+			"status": "approved",
+			"slug": "noda-masayuki"
+		},
+		{
+			"entityType": "person",
+			"id": "cfed52ab-6df2-5bc8-a882-4b4cfd886896",
+			"status": "approved",
+			"slug": "inoue-shunji"
+		},
+		{
+			"entityType": "person",
+			"id": "d2a06906-999a-5e14-9fe2-1282e289eee7",
+			"status": "approved",
+			"slug": "kimura-kentaro"
+		},
+		{
+			"entityType": "person",
+			"id": "d57e870b-5b6b-568d-910d-6208e462ce54",
+			"status": "approved",
+			"slug": "yamada-mikaru"
+		},
+		{
+			"entityType": "person",
+			"id": "d625b0f4-7326-5fd6-b109-f6fe2475b346",
+			"status": "approved",
+			"slug": "koizumi-yuka"
+		},
+		{
+			"entityType": "person",
+			"id": "d9dbff70-313b-58c8-b52c-4dd104748d36",
+			"status": "approved",
+			"slug": "takata-kotaro"
+		},
+		{
+			"entityType": "person",
+			"id": "dceb4992-c884-5b30-9c4b-c9b07c1dbdd4",
+			"status": "approved",
+			"slug": "narahara-eisuke"
+		},
+		{
+			"entityType": "person",
+			"id": "e1f0c682-b382-5d22-b442-d82fce95f3da",
+			"status": "approved",
+			"slug": "watanabe-shinji"
+		},
+		{
+			"entityType": "person",
+			"id": "e84893fb-51da-521b-8e04-ef6f54e9e34f",
+			"status": "approved",
+			"slug": "koda-yuki"
+		},
+		{
+			"entityType": "person",
+			"id": "ebc9f20d-6def-56f4-9e19-8566941defcf",
+			"status": "approved",
+			"slug": "matsuura-masaya"
+		},
+		{
+			"entityType": "person",
+			"id": "ec6baf4b-aeae-54c6-a93f-9b2f4f33587e",
+			"status": "approved",
+			"slug": "hatsushika-keisuke"
+		},
+		{
+			"entityType": "person",
+			"id": "edc59ae7-6adf-541f-905e-320322e4b2ab",
+			"status": "approved",
+			"slug": "okazaki-toshiyuki"
+		},
+		{
+			"entityType": "person",
+			"id": "f5a1d8da-2fa9-568f-a7c5-e26ab058ce5a",
+			"status": "approved",
+			"slug": "kitamura-shuji"
+		},
+		{
+			"entityType": "person",
+			"id": "f72ec368-b4de-53bd-a720-1a58bb5f4007",
+			"status": "approved",
+			"slug": "kaneto-satoru"
+		},
+		{
+			"entityType": "person",
+			"id": "f83220d2-1565-5726-bf34-0fe00052b59e",
+			"status": "approved",
+			"slug": "hoshino-takafumi"
+		},
+		{
+			"entityType": "person",
+			"id": "f8433db1-80a8-562f-a98d-d1c0b07bc346",
+			"status": "approved",
+			"slug": "uchida-bombaye-hayata"
+		},
+		{
+			"entityType": "person",
+			"id": "fb8be794-5ed0-5ccd-8eee-904f727540b0",
+			"status": "approved",
+			"slug": "ikeda-hiroshi"
+		},
+		{
+			"entityType": "person",
+			"id": "fd8129d7-1b17-5429-848b-9984cdd2e15f",
+			"status": "approved",
+			"slug": "hori-masaki"
+		},
+		{
+			"entityType": "composition",
+			"id": "02659c15-3760-5a52-8b44-63f2c327bdc0",
+			"status": "approved",
+			"slug": "gokusai-shiki"
+		},
+		{
+			"entityType": "composition",
+			"id": "033aaa06-0c1b-5cf8-ab82-dd5fce2c4ed0",
+			"status": "approved",
+			"slug": "mou-yume-no-nai-yume-no-owari"
+		},
+		{
+			"entityType": "composition",
+			"id": "0468ecb0-d969-52a2-a8b0-99eb231113e6",
+			"status": "approved",
+			"slug": "opening-d-and-d-tetsudo-josha-announcement"
+		},
+		{
+			"entityType": "composition",
+			"id": "07229af0-8929-5ac6-824d-e375110f5e06",
+			"status": "approved",
+			"slug": "kamisama-gokko"
+		},
+		{
+			"entityType": "composition",
+			"id": "0c5cfcf7-d02a-58aa-b5b4-87286452a2e0",
+			"status": "approved",
+			"slug": "kimi-to-boku-flowers"
+		},
+		{
+			"entityType": "composition",
+			"id": "0d2bf29f-5dcd-5711-80d9-6cd73b0dbb48",
+			"status": "approved",
+			"slug": "bisho-to-melody"
+		},
+		{
+			"entityType": "composition",
+			"id": "0f3911a5-bef1-5626-8c33-8dbfb0b45060",
+			"status": "approved",
+			"slug": "zenyasai"
+		},
+		{
+			"entityType": "composition",
+			"id": "116d48d7-3a91-55b1-b57a-697361fd9d62",
+			"status": "approved",
+			"slug": "ansho-bango"
+		},
+		{
+			"entityType": "composition",
+			"id": "13421813-e91b-55b9-b636-f5a88a2a8c8a",
+			"status": "approved",
+			"slug": "tonaeyo-haru-shizuka-xiii"
+		},
+		{
+			"entityType": "composition",
+			"id": "153d1486-ef1c-5523-ab07-4b0fa87669aa",
+			"status": "approved",
+			"slug": "bannin-waltz"
+		},
+		{
+			"entityType": "composition",
+			"id": "1717eee7-6d8c-5c21-bac5-33f3ef441369",
+			"status": "approved",
+			"slug": "diamond-wa-kizutsukanai"
+		},
+		{
+			"entityType": "composition",
+			"id": "17e42f54-1837-5a27-88a7-99452f7e2cda",
+			"status": "approved",
+			"slug": "kairaku-overdose"
+		},
+		{
+			"entityType": "composition",
+			"id": "19e9087d-7d75-5b52-bed9-059edaa77653",
+			"status": "approved",
+			"slug": "kuki-seijoki"
+		},
+		{
+			"entityType": "composition",
+			"id": "1ba16a32-fffd-593b-abde-027b72b3ac41",
+			"status": "approved",
+			"slug": "kono-namanuruku-uttooishii-kokoro-wo"
+		},
+		{
+			"entityType": "composition",
+			"id": "1e6827bd-f4d6-5204-bbe4-7cd331dbea4e",
+			"status": "approved",
+			"slug": "ishitsubutsu-toriatsukai-gakari"
+		},
+		{
+			"entityType": "composition",
+			"id": "1e6dca60-3674-552e-8042-1a84fcdea7dd",
+			"status": "approved",
+			"slug": "kaze-no-onpu-kanki-no-koe-waon"
+		},
+		{
+			"entityType": "composition",
+			"id": "1f51f8f8-38c4-5718-adea-ca01462573b1",
+			"status": "approved",
+			"slug": "july-10"
+		},
+		{
+			"entityType": "composition",
+			"id": "201cfe76-665d-5c27-96aa-3f4db45f9c4d",
+			"status": "approved",
+			"slug": "hizumi"
+		},
+		{
+			"entityType": "composition",
+			"id": "256e3bfd-13c7-52db-ad4a-156502135a53",
+			"status": "approved",
+			"slug": "hakanai-koto-shitai-byo"
+		},
+		{
+			"entityType": "composition",
+			"id": "2751e2d8-87a0-5b84-b410-f6db7899121a",
+			"status": "approved",
+			"slug": "ibuki-to-tomo-ni-konton-wo-saite"
+		},
+		{
+			"entityType": "composition",
+			"id": "2ac3756a-c67e-5fe9-ae23-3a67ae359e18",
+			"status": "approved",
+			"slug": "hikari-no-gengo-absolute-blue"
+		},
+		{
+			"entityType": "composition",
+			"id": "2f50e0cb-bf7a-509a-b5aa-f07942ede1ef",
+			"status": "approved",
+			"slug": "kotoba-to-kokoro"
+		},
+		{
+			"entityType": "composition",
+			"id": "34ea71c8-4ad2-5b58-8f59-06163311ada7",
+			"status": "approved",
+			"slug": "kigoka-no-no-no"
+		},
+		{
+			"entityType": "composition",
+			"id": "3956dbe8-f401-5457-837f-fb3a0f91ea15",
+			"status": "approved",
+			"slug": "starting-over"
+		},
+		{
+			"entityType": "composition",
+			"id": "3f08ccc8-09f5-501c-9076-39061a4f168d",
+			"status": "approved",
+			"slug": "umetatechi"
+		},
+		{
+			"entityType": "composition",
+			"id": "3fda1460-fb92-5f8d-9e62-6d9f2d1d45a0",
+			"status": "approved",
+			"slug": "jikoanshi-no-hi"
+		},
+		{
+			"entityType": "composition",
+			"id": "43d81e78-0f53-5f1d-9f61-ceead152b8a5",
+			"status": "approved",
+			"slug": "kanojo-wa-mou"
+		},
+		{
+			"entityType": "composition",
+			"id": "43f1cd4c-ccd3-5068-8431-acf049b0336f",
+			"status": "approved",
+			"slug": "hitorigoto"
+		},
+		{
+			"entityType": "composition",
+			"id": "454b4517-c8a4-5a4a-ac1a-99fab632863c",
+			"status": "approved",
+			"slug": "bara-to-nonfiction"
+		},
+		{
+			"entityType": "composition",
+			"id": "45e16d45-477d-582c-96de-56f18a1e409d",
+			"status": "approved",
+			"slug": "nagai-jojo-no-owari-law-name"
+		},
+		{
+			"entityType": "composition",
+			"id": "46847671-b0f2-50db-a051-38bdca55d53e",
+			"status": "approved",
+			"slug": "kakokyu-only-you"
+		},
+		{
+			"entityType": "composition",
+			"id": "47077f04-151a-5781-9440-d8923bcbd413",
+			"status": "approved",
+			"slug": "kotetsu-no-asa"
+		},
+		{
+			"entityType": "composition",
+			"id": "49d49212-44bb-531a-9301-aa73c587f951",
+			"status": "approved",
+			"slug": "haikyo-no-kodomotachi-kuroi-yosui"
+		},
+		{
+			"entityType": "composition",
+			"id": "4a59e1b8-e83d-5870-8234-2847231d983d",
+			"status": "approved",
+			"slug": "daga-wine-wa-aka-depp-red-wine"
+		},
+		{
+			"entityType": "composition",
+			"id": "4c6348b2-183f-56f1-84d3-dc411f1b91cb",
+			"status": "approved",
+			"slug": "groria-street-kara-ai-wo-komete-no-1"
+		},
+		{
+			"entityType": "composition",
+			"id": "4d000d3e-a8fa-58ca-9a70-eea2e0098670",
+			"status": "approved",
+			"slug": "kusa-no-hana"
+		},
+		{
+			"entityType": "composition",
+			"id": "4fb208f4-10ac-50f1-9677-85895e6c58ca",
+			"status": "approved",
+			"slug": "mugen-koukyogaku"
+		},
+		{
+			"entityType": "composition",
+			"id": "4feebe42-300b-5845-b64e-402ff9bc034d",
+			"status": "approved",
+			"slug": "welcome-to-the-nightmare"
+		},
+		{
+			"entityType": "composition",
+			"id": "508bd3f0-c50b-507e-b9d7-55987735cc7c",
+			"status": "approved",
+			"slug": "shu-yo-hito-no-nozomi-no-yorokobi-yo"
+		},
+		{
+			"entityType": "composition",
+			"id": "5386f8cc-06bf-5546-a6c3-3d719e6acd9e",
+			"status": "approved",
+			"slug": "towa-no-owari-made-yes-wo"
+		},
+		{
+			"entityType": "composition",
+			"id": "5412a03d-4c5e-5b9c-a9f9-3aba087200e6",
+			"status": "approved",
+			"slug": "ireido-seiso-hoshi-happy-birthday"
+		},
+		{
+			"entityType": "composition",
+			"id": "54575988-9c6e-58fd-ad3d-f497b9e047a6",
+			"status": "approved",
+			"slug": "tada-utsukushiku-grace"
+		},
+		{
+			"entityType": "composition",
+			"id": "54c94b38-a849-5dc7-b7cc-d48e2c27ef41",
+			"status": "approved",
+			"slug": "flight-record"
+		},
+		{
+			"entityType": "composition",
+			"id": "5514d9f1-01e9-5905-babf-f134a303b440",
+			"status": "approved",
+			"slug": "andantino-muse-no-gakudan"
+		},
+		{
+			"entityType": "composition",
+			"id": "55c5f426-4c3e-554b-bd33-43d341cbecb1",
+			"status": "approved",
+			"slug": "groria-street-kara-ai-wo-komete-no-2"
+		},
+		{
+			"entityType": "composition",
+			"id": "5793fc1a-1340-514c-bc69-325500a6a11b",
+			"status": "approved",
+			"slug": "kansobun"
+		},
+		{
+			"entityType": "composition",
+			"id": "59ae19e8-7348-5a15-9db8-4c50c51d64d1",
+			"status": "approved",
+			"slug": "aru-hi-gaito-no-shita-farewell-my-lovely"
+		},
+		{
+			"entityType": "composition",
+			"id": "5db86123-98ae-5c27-88a7-8c243c2d8c6a",
+			"status": "approved",
+			"slug": "wakaru"
+		},
+		{
+			"entityType": "composition",
+			"id": "607773a1-68f5-546b-9400-686c432f4fe5",
+			"status": "approved",
+			"slug": "doroboneko-kaku-katariki"
+		},
+		{
+			"entityType": "composition",
+			"id": "60f0cfcd-ee44-5d7a-889f-6a86ff7e8b4f",
+			"status": "approved",
+			"slug": "tadaima-to-oyasumi-no-aida-ni"
+		},
+		{
+			"entityType": "composition",
+			"id": "64e2e9e2-8211-5348-bc20-9db320a6836f",
+			"status": "approved",
+			"slug": "nanimokamo-koete-hakike-ga-suru-down-to-heaven"
+		},
+		{
+			"entityType": "composition",
+			"id": "65b67532-5d41-5a24-9e07-5a281d5f1ee3",
+			"status": "approved",
+			"slug": "kanransha"
+		},
+		{
+			"entityType": "composition",
+			"id": "65e1308d-5a0c-56d5-8e1d-80e588bcfef0",
+			"status": "approved",
+			"slug": "sokkyo-no-3"
+		},
+		{
+			"entityType": "composition",
+			"id": "662ec000-a1d3-5341-ad7c-47b505babf4e",
+			"status": "approved",
+			"slug": "kajiya-hanabishi-piero"
+		},
+		{
+			"entityType": "composition",
+			"id": "6dba6f3a-4b18-5df0-974f-a9787da96add",
+			"status": "approved",
+			"slug": "sanso"
+		},
+		{
+			"entityType": "composition",
+			"id": "708f6765-65c2-50ec-af82-a91597229875",
+			"status": "approved",
+			"slug": "mita-koto-no-nai-mono-o-suki-na-dake"
+		},
+		{
+			"entityType": "composition",
+			"id": "70e5fd75-90c2-5762-9a4e-e07f8a327e9b",
+			"status": "approved",
+			"slug": "heart-no-junky"
+		},
+		{
+			"entityType": "composition",
+			"id": "71083ab8-f455-5ba6-a8df-248cb089ed7b",
+			"status": "approved",
+			"slug": "yasashii-yami-no-naka-e"
+		},
+		{
+			"entityType": "composition",
+			"id": "74efa097-d6f2-5aed-88ae-abbd3f2ea778",
+			"status": "approved",
+			"slug": "hokori-no-hibiki-hikari-no-naka-e-white-white-white"
+		},
+		{
+			"entityType": "composition",
+			"id": "7d7136fa-8c7d-5db4-b4a2-693b7174be35",
+			"status": "approved",
+			"slug": "shobun-horyu"
+		},
+		{
+			"entityType": "composition",
+			"id": "7f26d294-f33b-55a9-8565-6e01366f8ad6",
+			"status": "approved",
+			"slug": "suku-enai-kokoro-kara-victory"
+		},
+		{
+			"entityType": "composition",
+			"id": "842b75e3-e145-5d0d-b722-1dc612483f4a",
+			"status": "approved",
+			"slug": "gyakko"
+		},
+		{
+			"entityType": "composition",
+			"id": "8655b20d-54f6-5208-929e-af4a19029468",
+			"status": "approved",
+			"slug": "kimerareta-rhythm"
+		},
+		{
+			"entityType": "composition",
+			"id": "8820fbde-10c4-5590-926c-ff5b7fb9aaf5",
+			"status": "approved",
+			"slug": "setsuzoku-sareta-mama-de-i-can-not-dance"
+		},
+		{
+			"entityType": "composition",
+			"id": "88c76895-d825-5f56-a60e-1f4d90cc6f3f",
+			"status": "approved",
+			"slug": "tatoebanashi"
+		},
+		{
+			"entityType": "composition",
+			"id": "895ef020-f08b-540e-9794-599166220680",
+			"status": "approved",
+			"slug": "ano-kirakira-shita-kireigoto-wo-again"
+		},
+		{
+			"entityType": "composition",
+			"id": "8e5ed403-07eb-5f4b-a65f-a1cd05b829e7",
+			"status": "approved",
+			"slug": "step"
+		},
+		{
+			"entityType": "composition",
+			"id": "8e77c842-81f0-581e-b647-0691c4812553",
+			"status": "approved",
+			"slug": "zetsumetsu-kigushu-no-pengintachi-ga-kawaiso"
+		},
+		{
+			"entityType": "composition",
+			"id": "8e7fb9e0-4ab3-5768-869f-5776417b4ab9",
+			"status": "approved",
+			"slug": "horror-eiga"
+		},
+		{
+			"entityType": "composition",
+			"id": "8e99d0cf-6821-56c4-ae36-245e1ff09ea0",
+			"status": "approved",
+			"slug": "ima-bankan-no-omoi-wo-komete"
+		},
+		{
+			"entityType": "composition",
+			"id": "93562c64-a40e-5b6c-bdb7-f41600b780f6",
+			"status": "approved",
+			"slug": "inori-its-show-time"
+		},
+		{
+			"entityType": "composition",
+			"id": "957661c3-7ada-5925-ba8b-cf0adbcba7e4",
+			"status": "approved",
+			"slug": "introduction-d-and-d-tetsudo-nyukoku-announcement"
+		},
+		{
+			"entityType": "composition",
+			"id": "97d57ebc-1165-5f27-9f8f-a14330a12336",
+			"status": "approved",
+			"slug": "jiyu-mo-kodoku-mo-iranaku-natte"
+		},
+		{
+			"entityType": "composition",
+			"id": "97dc9122-1f71-58bc-ab0d-44925f53c198",
+			"status": "approved",
+			"slug": "next-tokyo"
+		},
+		{
+			"entityType": "composition",
+			"id": "9b15db68-04b8-58ef-9876-b9935f289a8d",
+			"status": "approved",
+			"slug": "dajare"
+		},
+		{
+			"entityType": "composition",
+			"id": "9bd9e911-4ff3-5e24-ad04-e10b1378a3d8",
+			"status": "approved",
+			"slug": "daikoshin"
+		},
+		{
+			"entityType": "composition",
+			"id": "9ec3ac3c-3d07-52b4-a2c3-3d48cfe9a16f",
+			"status": "approved",
+			"slug": "machigai-sagashi"
+		},
+		{
+			"entityType": "composition",
+			"id": "9ff3990f-c8e7-5dee-9094-06e8469f3a16",
+			"status": "approved",
+			"slug": "tsumetai-mizu"
+		},
+		{
+			"entityType": "composition",
+			"id": "a22e3e7a-9ce5-586f-9f82-48f30f0fa25b",
+			"status": "approved",
+			"slug": "hikari-no-ryushi-hokori-no-naka-de-departures"
+		},
+		{
+			"entityType": "composition",
+			"id": "a44bb014-bfc5-55e9-8615-040661513723",
+			"status": "approved",
+			"slug": "koyasai"
+		},
+		{
+			"entityType": "composition",
+			"id": "a4e92739-2f01-5b9a-a8ee-05b37f559387",
+			"status": "approved",
+			"slug": "seiki-wo-nakushita-android-dystopia"
+		},
+		{
+			"entityType": "composition",
+			"id": "a50a2abf-252c-59bf-a35f-90d950d13805",
+			"status": "approved",
+			"slug": "rakuen-no-tsuihosha-somebody-to-love"
+		},
+		{
+			"entityType": "composition",
+			"id": "a7d32ea2-3b2f-5fe1-941c-de215bbca295",
+			"status": "approved",
+			"slug": "hitomi-wa-yasei-hoshi-wa-pet"
+		},
+		{
+			"entityType": "composition",
+			"id": "a8095eff-1664-588d-a48a-de7d336e2e07",
+			"status": "approved",
+			"slug": "high-strangeness"
+		},
+		{
+			"entityType": "composition",
+			"id": "a80988c7-b6b7-5e8a-9da6-41740db736ef",
+			"status": "approved",
+			"slug": "hi-no-rin"
+		},
+		{
+			"entityType": "composition",
+			"id": "abd138fd-565e-5d8f-af9b-c8b081f05b48",
+			"status": "approved",
+			"slug": "introduction-d-and-d-tetsudo-shanai-announcement"
+		},
+		{
+			"entityType": "composition",
+			"id": "afc92719-96f7-595d-b116-5ec04d6a9981",
+			"status": "approved",
+			"slug": "itsukushimi-dake-de-unazuku-kara-just-like-legacy"
+		},
+		{
+			"entityType": "composition",
+			"id": "b03c40ab-51d1-5e64-a701-5e3a25dae8e2",
+			"status": "approved",
+			"slug": "gareki-no-orufeo-onbra-mai-fu"
+		},
+		{
+			"entityType": "composition",
+			"id": "b15ecc08-7398-5069-a01d-ac0563c8e8c4",
+			"status": "approved",
+			"slug": "gokusai-shiki-2"
+		},
+		{
+			"entityType": "composition",
+			"id": "b207902b-3a75-55c4-b79d-c1588262b503",
+			"status": "approved",
+			"slug": "groria-street-kara-ai-wo-komete-no-3-ureshikute-kanashii-koto"
+		},
+		{
+			"entityType": "composition",
+			"id": "b2786776-030e-5ad6-acb4-8e4015bcbbcb",
+			"status": "approved",
+			"slug": "futagoza-no-mystery-koji-no-sympathy-gps"
+		},
+		{
+			"entityType": "composition",
+			"id": "b57f83d2-30cc-582a-b39a-f81095c75ff4",
+			"status": "approved",
+			"slug": "yubiwa"
+		},
+		{
+			"entityType": "composition",
+			"id": "b7b0da95-d823-5664-91b3-d05e258c5632",
+			"status": "approved",
+			"slug": "koori-no-sara-ave-maria"
+		},
+		{
+			"entityType": "composition",
+			"id": "b89e2ce2-3bac-59ae-8bd3-038f3e70c9df",
+			"status": "approved",
+			"slug": "datenshi-tachi-no-ballad"
+		},
+		{
+			"entityType": "composition",
+			"id": "b8fb866e-d3bb-5a32-8da5-208ef4958c65",
+			"status": "approved",
+			"slug": "eien-ni-yawarakana-batsu-o"
+		},
+		{
+			"entityType": "composition",
+			"id": "be4ddfda-55d7-592c-af52-01ba76fa5c9d",
+			"status": "approved",
+			"slug": "hashire-domino"
+		},
+		{
+			"entityType": "composition",
+			"id": "be543e34-0db4-5652-aad3-0ab443b120a2",
+			"status": "approved",
+			"slug": "namo-nai-keshiki-no-naka-de-i-will-say-good-bye"
+		},
+		{
+			"entityType": "composition",
+			"id": "be826c9b-014e-51b2-b438-c37c856c35ab",
+			"status": "approved",
+			"slug": "ame-to-nakayoku"
+		},
+		{
+			"entityType": "composition",
+			"id": "c1f536c5-56bb-5a88-87ff-4969566a4d86",
+			"status": "approved",
+			"slug": "kami-no-inu-do-justice-to"
+		},
+		{
+			"entityType": "composition",
+			"id": "c25655d3-fad1-58dd-9e65-fd83274c75dd",
+			"status": "approved",
+			"slug": "choritsu-suru-ka-no-yoni-over-the-rainbow"
+		},
+		{
+			"entityType": "composition",
+			"id": "c96ac4eb-7884-53e1-94ae-137e0c7cb4b0",
+			"status": "approved",
+			"slug": "soshite-ressha-wa-yuku"
+		},
+		{
+			"entityType": "composition",
+			"id": "cae7ba17-4395-5355-b13e-83602eb198d9",
+			"status": "approved",
+			"slug": "kyukutsu-taikutsu-hikutsu-a-halo"
+		},
+		{
+			"entityType": "composition",
+			"id": "cc131d5c-2e22-5f8b-a4ce-ac01e67b3370",
+			"status": "approved",
+			"slug": "fukansho"
+		},
+		{
+			"entityType": "composition",
+			"id": "cdf5b134-3325-5124-a33d-9ef69cf7afce",
+			"status": "approved",
+			"slug": "hidamari-wo-koete"
+		},
+		{
+			"entityType": "composition",
+			"id": "ce8e1826-464a-59f6-b385-9f4985ae3c10",
+			"status": "approved",
+			"slug": "epsilon-wa-naiteta-yo-a-boy-in-the-avenge"
+		},
+		{
+			"entityType": "composition",
+			"id": "d09a532e-fb40-506e-8b56-80117ecf510c",
+			"status": "approved",
+			"slug": "kioku-to-kiroku"
+		},
+		{
+			"entityType": "composition",
+			"id": "d36b4bee-7007-586a-83f8-3b53afab4102",
+			"status": "approved",
+			"slug": "hymne-a-lamour"
+		},
+		{
+			"entityType": "composition",
+			"id": "d45ec855-0199-57c7-8c27-c30314b5a77e",
+			"status": "approved",
+			"slug": "toikidachi-no-sumika"
+		},
+		{
+			"entityType": "composition",
+			"id": "d5f5a0fd-ccf8-5c5c-a630-6092b258e0db",
+			"status": "approved",
+			"slug": "yuki"
+		},
+		{
+			"entityType": "composition",
+			"id": "d95caca0-a1c0-523e-aabb-92df6a382cfa",
+			"status": "approved",
+			"slug": "nihiki-no-neko-no-tame-no-etude"
+		},
+		{
+			"entityType": "composition",
+			"id": "e09a2743-6847-591f-b024-42c9c705c5cc",
+			"status": "approved",
+			"slug": "sono-jii-ga-owattara-modern-ghost"
+		},
+		{
+			"entityType": "composition",
+			"id": "e3528881-8a63-5e5a-bf29-3899ceb86baa",
+			"status": "approved",
+			"slug": "bane-no-ikareta-beddo-no-ue-de"
+		},
+		{
+			"entityType": "composition",
+			"id": "f22412cb-efbf-5a79-8548-345217e9b2ca",
+			"status": "approved",
+			"slug": "kiri-saita"
+		},
+		{
+			"entityType": "composition",
+			"id": "f7234e99-27a8-52f2-8280-783775a07da0",
+			"status": "approved",
+			"slug": "ringo"
+		},
+		{
+			"entityType": "composition",
+			"id": "f8575840-b96f-5074-9b05-15de54d4e8ba",
+			"status": "approved",
+			"slug": "shokuzai-no-yoru-orchestra-wa-nariyamazu-modern-romance"
+		},
+		{
+			"entityType": "composition",
+			"id": "fbd6ad19-8466-509c-84b0-2639166ec205",
+			"status": "approved",
+			"slug": "itai-na-kono-hikari-ticket-to-nowhere"
+		},
+		{
+			"entityType": "work",
+			"id": "0bc13846-dbf0-5fc3-8576-88317887a48d",
+			"status": "approved",
+			"slug": "a-place-dark-and-dark-diamond-wa-kizutsukanai"
+		},
+		{
+			"entityType": "work",
+			"id": "0d67a943-dadf-5295-9cbc-63c31d25790e",
+			"status": "approved",
+			"slug": "act-2-aruiwa-act-3"
+		},
+		{
+			"entityType": "work",
+			"id": "347e1a99-05c2-5501-bbd2-81de61ce898a",
+			"status": "approved",
+			"slug": "a-place-dark-and-dark-towa-no-owari-made-yes-wo"
+		},
+		{
+			"entityType": "work",
+			"id": "3e39a2a6-caa4-53cf-832e-4cb82256f6d5",
+			"status": "approved",
+			"slug": "hidamari-wo-koete"
+		},
+		{
+			"entityType": "work",
+			"id": "3ee8b8d5-772f-53c5-b82e-a31ba65c523c",
+			"status": "approved",
+			"slug": "jikoanshi-no-hi"
+		},
+		{
+			"entityType": "work",
+			"id": "4845fe85-751b-5a93-9b0d-b94ee11e7b62",
+			"status": "approved",
+			"slug": "a-place-dark-and-dark-seiki-wo-nakushita-android"
+		},
+		{
+			"entityType": "work",
+			"id": "5e2aa88b-7562-5985-bd41-5a98b3248429",
+			"status": "approved",
+			"slug": "burger-nuds-1-lowname-sen"
+		},
+		{
+			"entityType": "work",
+			"id": "67cef027-dc20-5316-95ce-6f0b07074c34",
+			"status": "approved",
+			"slug": "festival-mon-shori-no-bigaku-2015-10-24-liquidroom-ebisu"
+		},
+		{
+			"entityType": "work",
+			"id": "69fe8d61-0983-57d3-9ab7-5ae6f8aa5d79",
+			"status": "approved",
+			"slug": "3-way-spirit-festival-mon-bigaku-no-shori"
+		},
+		{
+			"entityType": "work",
+			"id": "85c215b4-852e-5822-8781-87168033e3a2",
+			"status": "approved",
+			"slug": "jungle-life-plus-vol-3"
+		},
+		{
+			"entityType": "work",
+			"id": "88159169-fbc6-5317-b11a-730afb1b324a",
+			"status": "approved",
+			"slug": "gareki-no-orufeo-ombra-mai-fu"
+		},
+		{
+			"entityType": "work",
+			"id": "88857e00-e8db-52fc-a554-9fdbd894d7de",
+			"status": "approved",
+			"slug": "umetatechi-yasashii-yami-no-naka-e"
+		},
+		{
+			"entityType": "work",
+			"id": "b9ac4fe1-e611-5f42-b317-8e5195b65fcd",
+			"status": "approved",
+			"slug": "hikari-no-ryushi-hokori-no-naka-de-departures"
+		},
+		{
+			"entityType": "work",
+			"id": "cc154409-5053-55d6-aabf-f5d55993c9bc",
+			"status": "approved",
+			"slug": "sen"
+		},
+		{
+			"entityType": "work",
+			"id": "d47f0d84-6eaa-513e-bc3a-4e81568eb1e9",
+			"status": "approved",
+			"slug": "sd-seldom-vol-3"
+		},
+		{
+			"entityType": "work",
+			"id": "d84648a3-665b-54e6-97e5-1916df6cde23",
+			"status": "approved",
+			"slug": "yonin-no-goblin-ooini-odoru"
+		},
+		{
+			"entityType": "work",
+			"id": "da48e67c-78c5-5ac8-a87d-8b6a5ce63fc8",
+			"status": "approved",
+			"slug": "d-seldom-sono-6"
+		},
+		{
+			"entityType": "work",
+			"id": "df59e17a-ad84-5434-9cc4-de27d278e94a",
+			"status": "approved",
+			"slug": "a-place-dark-and-dark-mita-koto-no-nai-mono-wo-suki-na-dake"
+		},
+		{
+			"entityType": "work",
+			"id": "e1da67ff-bc6b-5fa2-a278-cd720e31fa18",
+			"status": "approved",
+			"slug": "live-only-songs"
+		},
+		{
+			"entityType": "work",
+			"id": "e3f515d9-2ac1-5dac-b376-df8dbe2ae023",
+			"status": "approved",
+			"slug": "burger-nuds-2-jikoanshi-no-hi-kageokuri"
+		},
+		{
+			"entityType": "work",
+			"id": "e795f0e3-9995-5b1e-b31f-c19f79f680c3",
+			"status": "approved",
+			"slug": "epsilon-wa-naiteta-yo-a-boy-in-the-avenge"
+		},
+		{
+			"entityType": "work",
+			"id": "f6d63cfd-67e3-5db4-8e98-43a1344f2110",
+			"status": "approved",
+			"slug": "hikari-no-gengo-absolute-blue"
+		},
+		{
+			"entityType": "venue",
+			"id": "02f4376e-6b05-5a15-9aa4-f006bec6d7bf",
+			"status": "approved",
+			"slug": "shibuya-o-east"
+		},
+		{
+			"entityType": "venue",
+			"id": "03de9ed0-aa36-5a0f-9995-e2b676277a00",
+			"status": "approved",
+			"slug": "tower-records-fukuoka"
+		},
+		{
+			"entityType": "venue",
+			"id": "049e1685-caa8-5045-8bec-a8546450a72a",
+			"status": "approved",
+			"slug": "shindaita-fever"
+		},
+		{
+			"entityType": "venue",
+			"id": "068898b0-d17b-544f-8ab1-0be692be5d88",
+			"status": "approved",
+			"slug": "izumiotsu-phoenix-atmc-stage"
+		},
+		{
+			"entityType": "venue",
+			"id": "0892ecf7-4599-5eb6-b23e-03f159cf731c",
+			"status": "approved",
+			"slug": "ebisu-liquidroom"
+		},
+		{
+			"entityType": "venue",
+			"id": "0bed4bdd-e63d-5f4a-b1c2-3b3c4873052e",
+			"status": "approved",
+			"slug": "shibuya-take-off-7"
+		},
+		{
+			"entityType": "venue",
+			"id": "0dd5e97e-4f94-5fb1-ac2e-a08657017074",
+			"status": "approved",
+			"slug": "makuhari-messe"
+		},
+		{
+			"entityType": "venue",
+			"id": "0dfc14fa-1604-515a-8299-69ef8a7d16e7",
+			"status": "approved",
+			"slug": "niigata-junkbox-mini"
+		},
+		{
+			"entityType": "venue",
+			"id": "1092cc31-d4e2-5f78-bb57-04b9a32262fa",
+			"status": "approved",
+			"slug": "aichi"
+		},
+		{
+			"entityType": "venue",
+			"id": "14d0b3ce-3260-50f8-bf8c-bfb0ce1b9433",
+			"status": "approved",
+			"slug": "shindaita-fever-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "170255aa-88a7-52e8-8ace-7dcec26bede2",
+			"status": "approved",
+			"slug": "hiroshima-namiki-junction"
+		},
+		{
+			"entityType": "venue",
+			"id": "1899478d-563a-5185-b3e1-d3827b28c7e9",
+			"status": "approved",
+			"slug": "nagoya-apollo-base"
+		},
+		{
+			"entityType": "venue",
+			"id": "1d34ef9c-36e9-5a1e-b4d8-d6506051a677",
+			"status": "approved",
+			"slug": "shimokitazawa-yaneura"
+		},
+		{
+			"entityType": "venue",
+			"id": "1eb988ab-3fe7-516c-be4f-79b517d88a16",
+			"status": "approved",
+			"slug": "laforet-museum-harajuku"
+		},
+		{
+			"entityType": "venue",
+			"id": "2002f54b-9282-56a0-97e5-c3db2e864cdb",
+			"status": "approved",
+			"slug": "nagoya-club-quattro"
+		},
+		{
+			"entityType": "venue",
+			"id": "206083c5-f4d5-5166-8f6b-fdeb24a4652f",
+			"status": "approved",
+			"slug": "kobe-pine-fields"
+		},
+		{
+			"entityType": "venue",
+			"id": "21b56803-9d98-51eb-9dd6-333fb81b373b",
+			"status": "approved",
+			"slug": "shibuya-club-kinoto"
+		},
+		{
+			"entityType": "venue",
+			"id": "2245034d-d1ad-565c-ae1d-f657f8b6f8ce",
+			"status": "approved",
+			"slug": "shibuya-milkyway"
+		},
+		{
+			"entityType": "venue",
+			"id": "24c9d05f-2e15-5480-a09f-1f2b4f4a9a4c",
+			"status": "approved",
+			"slug": "tower-records-shibuya-b1-stage-one"
+		},
+		{
+			"entityType": "venue",
+			"id": "2530226b-998a-531e-b60c-143f547f9709",
+			"status": "approved",
+			"slug": "tower-records-kyoto"
+		},
+		{
+			"entityType": "venue",
+			"id": "264e5ca2-77b8-5d49-be7e-19cd6e3b3bed",
+			"status": "approved",
+			"slug": "takasaki-club-fleez"
+		},
+		{
+			"entityType": "venue",
+			"id": "266f6f60-7f43-52dc-8604-c219eb9e5b1d",
+			"status": "approved",
+			"slug": "umegaoka-hmc-coffee-and-sake"
+		},
+		{
+			"entityType": "venue",
+			"id": "274ce703-4b6c-550b-b787-e293073c031f",
+			"status": "approved",
+			"slug": "tower-records-kichijoji"
+		},
+		{
+			"entityType": "venue",
+			"id": "297ec82c-6e9c-53e6-9ddb-5e7212055e5a",
+			"status": "approved",
+			"slug": "chiba-look"
+		},
+		{
+			"entityType": "venue",
+			"id": "2b3d1033-a0c1-533b-bac3-9d5b99894894",
+			"status": "approved",
+			"slug": "shibuya-club-quattro"
+		},
+		{
+			"entityType": "venue",
+			"id": "2fa2a923-f381-5202-ba57-8f38f0728a98",
+			"status": "approved",
+			"slug": "koenji-club-liner"
+		},
+		{
+			"entityType": "venue",
+			"id": "306d27bd-b68a-518d-8de8-968bb81c7f39",
+			"status": "approved",
+			"slug": "fukushima-2nd-line"
+		},
+		{
+			"entityType": "venue",
+			"id": "309101e1-c50a-598a-a594-bb6d4b6e0f29",
+			"status": "approved",
+			"slug": "shinsaibashi-music-club-janus"
+		},
+		{
+			"entityType": "venue",
+			"id": "3181cfda-f75a-599f-aa73-f8147aa63fd4",
+			"status": "approved",
+			"slug": "kitazawa-town-hall"
+		},
+		{
+			"entityType": "venue",
+			"id": "322a505c-b175-5541-95d5-5201d584a8a6",
+			"status": "approved",
+			"slug": "omiya-arche"
+		},
+		{
+			"entityType": "venue",
+			"id": "34d3aa8d-7567-5b48-ad31-0e3c320ac70d",
+			"status": "approved",
+			"slug": "shinsaibashi-music-club-janus-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "34f35013-e246-5090-8f6a-c67d1275ec20",
+			"status": "approved",
+			"slug": "tower-records-umeda-osaka-marubiru"
+		},
+		{
+			"entityType": "venue",
+			"id": "3616ce93-a5c5-5646-9c00-1a5a5b1588ef",
+			"status": "approved",
+			"slug": "sendai-enn"
+		},
+		{
+			"entityType": "venue",
+			"id": "3ae0baf3-43f5-57fe-8105-f0d355db0bde",
+			"status": "approved",
+			"slug": "shinsaibashi-drop"
+		},
+		{
+			"entityType": "venue",
+			"id": "3cf354dd-2680-52e7-8735-a9413f084af6",
+			"status": "approved",
+			"slug": "instagram-monden-account"
+		},
+		{
+			"entityType": "venue",
+			"id": "3fb6c41f-986a-56ff-9d78-ae81cac5c2ca",
+			"status": "approved",
+			"slug": "shimokitazawa-club-que-tokyo"
+		},
+		{
+			"entityType": "venue",
+			"id": "41cf7a13-4513-507e-979e-235bd1ed3c0c",
+			"status": "approved",
+			"slug": "mito-light-house"
+		},
+		{
+			"entityType": "venue",
+			"id": "4489ea85-0a16-56e8-b263-4f3da27a1269",
+			"status": "approved",
+			"slug": "kyoto-kbs-hall"
+		},
+		{
+			"entityType": "venue",
+			"id": "44da18ea-128c-5710-bb49-9f8026310d2f",
+			"status": "approved",
+			"slug": "harajuku-luckand-gallery-cafe-bar"
+		},
+		{
+			"entityType": "venue",
+			"id": "45591ea5-f12a-5677-9f13-550ec3dd2bb5",
+			"status": "approved",
+			"slug": "kochi-bay5-square"
+		},
+		{
+			"entityType": "venue",
+			"id": "46e32474-90b9-5c3f-8b8b-60518dd12d6e",
+			"status": "approved",
+			"slug": "sendai-junk-box"
+		},
+		{
+			"entityType": "venue",
+			"id": "4b86e6c1-5e13-5f58-9f03-eb303a32d7f0",
+			"status": "approved",
+			"slug": "kyushu-visual-arts-esperanza-hall"
+		},
+		{
+			"entityType": "venue",
+			"id": "4c8468ae-7921-5ae0-a90b-5c83ecf1fa2a",
+			"status": "approved",
+			"slug": "kochi-bay5-square-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "506afd6b-77cb-5040-a987-e1c2c0450a81",
+			"status": "approved",
+			"slug": "shinsaibashi-club-jungle"
+		},
+		{
+			"entityType": "venue",
+			"id": "51cb2ae9-8cb7-5256-ba7f-c5de0affe322",
+			"status": "approved",
+			"slug": "ikeshita-club-upset"
+		},
+		{
+			"entityType": "venue",
+			"id": "5675a3c5-2afe-5d18-b443-c5f5327dbf01",
+			"status": "approved",
+			"slug": "niigata-club-junk-box"
+		},
+		{
+			"entityType": "venue",
+			"id": "570f9f7d-2aff-5799-8af5-33ec36f77d7d",
+			"status": "approved",
+			"slug": "shibuya-lush"
+		},
+		{
+			"entityType": "venue",
+			"id": "57b9d62f-693f-59c7-ad80-b0c920df0186",
+			"status": "approved",
+			"slug": "kumagaya-vogue"
+		},
+		{
+			"entityType": "venue",
+			"id": "57f7a760-1c68-56fc-929a-6808bbda871a",
+			"status": "approved",
+			"slug": "tower-records-nagoya-kintetsu-passe"
+		},
+		{
+			"entityType": "venue",
+			"id": "5b71c3e5-5fb5-5bd2-9c39-276c007b5f48",
+			"status": "approved",
+			"slug": "tower-records-shinjuku"
+		},
+		{
+			"entityType": "venue",
+			"id": "5e20c703-50aa-599e-b506-5d44f0f9eb79",
+			"status": "approved",
+			"slug": "kita-topia"
+		},
+		{
+			"entityType": "venue",
+			"id": "60b6879b-3470-5903-935a-6a9ef3d1a169",
+			"status": "approved",
+			"slug": "juso-fandango"
+		},
+		{
+			"entityType": "venue",
+			"id": "6145e61e-3f25-532d-82af-40176db32fb0",
+			"status": "approved",
+			"slug": "toyohashi-lahaina"
+		},
+		{
+			"entityType": "venue",
+			"id": "63d2b6a0-ce25-5fd8-9638-2aa73ceb0611",
+			"status": "approved",
+			"slug": "shibuya-yaneura"
+		},
+		{
+			"entityType": "venue",
+			"id": "63f6b8cd-f2a9-58ab-8ff2-05ad5f94b466",
+			"status": "approved",
+			"slug": "osaka-amerikamura-bigcat"
+		},
+		{
+			"entityType": "venue",
+			"id": "647e3c5e-9008-5935-bc15-0a6d82204937",
+			"status": "approved",
+			"slug": "shindaita-live-bar-crossing"
+		},
+		{
+			"entityType": "venue",
+			"id": "649a8724-f5b3-59da-9c34-ad91fb0c0899",
+			"status": "approved",
+			"slug": "umeda-shangri-la"
+		},
+		{
+			"entityType": "venue",
+			"id": "6704fef6-b854-5ee8-9a69-dfee53339999",
+			"status": "approved",
+			"slug": "shinsaibashi-janus"
+		},
+		{
+			"entityType": "venue",
+			"id": "6a8bf406-0226-5a69-8dc3-2b47647c433c",
+			"status": "approved",
+			"slug": "kyoto-takutaku"
+		},
+		{
+			"entityType": "venue",
+			"id": "7150a6ad-76e0-56b9-badf-228378092c7e",
+			"status": "approved",
+			"slug": "abeno-rocktown"
+		},
+		{
+			"entityType": "venue",
+			"id": "75316c9e-8ce5-5f8c-8d26-529e57e9bae3",
+			"status": "approved",
+			"slug": "saitama-omiya-arche"
+		},
+		{
+			"entityType": "venue",
+			"id": "75f9bdd8-412a-5b6c-8845-22436ff4a14b",
+			"status": "approved",
+			"slug": "shibuya-7th-floor"
+		},
+		{
+			"entityType": "venue",
+			"id": "7964e8c4-22be-532c-baed-5fb104ff4b5f",
+			"status": "approved",
+			"slug": "yoyogi-park"
+		},
+		{
+			"entityType": "venue",
+			"id": "7b0d78ef-3205-5469-8ea2-ec84419a6e6e",
+			"status": "approved",
+			"slug": "fukuoka-drum-son"
+		},
+		{
+			"entityType": "venue",
+			"id": "7b5a12e3-bd12-5186-a780-c05de9b8fd38",
+			"status": "approved",
+			"slug": "shibuya-on-air-east"
+		},
+		{
+			"entityType": "venue",
+			"id": "7bf0e118-7747-5a4b-9c59-fc8d8c80f0f9",
+			"status": "approved",
+			"slug": "tower-records-umeda"
+		},
+		{
+			"entityType": "venue",
+			"id": "7e40c120-d064-5842-abb3-1868a175ba3c",
+			"status": "approved",
+			"slug": "fukushima-live-square-2nd-line"
+		},
+		{
+			"entityType": "venue",
+			"id": "7faa0890-dfc2-5611-a37d-d56dd64b5d18",
+			"status": "approved",
+			"slug": "shibuya-o-west"
+		},
+		{
+			"entityType": "venue",
+			"id": "83354015-3001-5c6d-9777-c3a29cb268ab",
+			"status": "approved",
+			"slug": "shibuya-ax"
+		},
+		{
+			"entityType": "venue",
+			"id": "84452108-661a-58c7-bc4b-6921ff24ac5f",
+			"status": "approved",
+			"slug": "minoh-dai-6-junior-high-school-gymnasium"
+		},
+		{
+			"entityType": "venue",
+			"id": "854048a0-52c8-5713-aaf0-46ee7358105c",
+			"status": "approved",
+			"slug": "tower-records-shibuya"
+		},
+		{
+			"entityType": "venue",
+			"id": "857396f6-6fe1-5d0a-817c-fa3246b14fd2",
+			"status": "approved",
+			"slug": "kiyamachi-urbanguild"
+		},
+		{
+			"entityType": "venue",
+			"id": "864c9611-bc79-51e3-b91a-53802c13eb95",
+			"status": "approved",
+			"slug": "nagoya-diamond-hall"
+		},
+		{
+			"entityType": "venue",
+			"id": "87e9b359-8eb1-5df7-a7b3-2f38c9649d0d",
+			"status": "approved",
+			"slug": "tower-records-kawasaki-la-cittadella"
+		},
+		{
+			"entityType": "venue",
+			"id": "8850f2c9-1187-5f9d-9a7a-622ffe69d5f7",
+			"status": "approved",
+			"slug": "diskunion-shimokitazawa"
+		},
+		{
+			"entityType": "venue",
+			"id": "88e1e8dd-b013-5903-9ef1-634c202e6226",
+			"status": "approved",
+			"slug": "nagoya-sunset-blue"
+		},
+		{
+			"entityType": "venue",
+			"id": "8993c79e-34d2-562b-b66b-d38e648cc866",
+			"status": "approved",
+			"slug": "shibuya-duo-music-exchange"
+		},
+		{
+			"entityType": "venue",
+			"id": "899f30ed-a7ca-5b28-88c1-0f8144630085",
+			"status": "approved",
+			"slug": "shinsaibashi-fanj"
+		},
+		{
+			"entityType": "venue",
+			"id": "89e6db90-298a-5135-9f42-73d2b83405e6",
+			"status": "approved",
+			"slug": "kyoto-club-metro"
+		},
+		{
+			"entityType": "venue",
+			"id": "8c906bf8-4cf8-5f79-a786-58377adcd0c6",
+			"status": "approved",
+			"slug": "niigata-club-junk-box-mini"
+		},
+		{
+			"entityType": "venue",
+			"id": "8e3544c3-c09f-5632-81b0-fa05c47e3127",
+			"status": "approved",
+			"slug": "sendai-enn-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "9069b5e6-c812-55b3-9a8c-1123914ad6da",
+			"status": "approved",
+			"slug": "nagoya-diamond-hall-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "931de9d6-dfd6-5e27-a037-0915f5bc2c62",
+			"status": "approved",
+			"slug": "tower-records-akihabara"
+		},
+		{
+			"entityType": "venue",
+			"id": "98141ed8-fbd5-59e1-b00e-094a4140a372",
+			"status": "approved",
+			"slug": "nagoya-hair-design-rapt"
+		},
+		{
+			"entityType": "venue",
+			"id": "987a0e6b-f780-59b9-a27e-bf5447e6daed",
+			"status": "approved",
+			"slug": "osu-ell"
+		},
+		{
+			"entityType": "venue",
+			"id": "9a147641-a8cd-5214-902d-ce4ca9b231ce",
+			"status": "approved",
+			"slug": "tower-records-umeda-nu-chayamachi"
+		},
+		{
+			"entityType": "venue",
+			"id": "9d12ed70-75b8-583f-a9ba-193ec09c167d",
+			"status": "approved",
+			"slug": "nagoya-heartland-studio"
+		},
+		{
+			"entityType": "venue",
+			"id": "9fc71247-25c1-5be9-8617-b8f2a2107782",
+			"status": "approved",
+			"slug": "tsumagoi-koti-market"
+		},
+		{
+			"entityType": "venue",
+			"id": "a05ac375-4530-5a0d-8cec-50daeaccdd39",
+			"status": "approved",
+			"slug": "kagurazaka-kagurane"
+		},
+		{
+			"entityType": "venue",
+			"id": "a18b1714-5010-5287-8135-394538f55435",
+			"status": "approved",
+			"slug": "shimokitazawa-chikamichi"
+		},
+		{
+			"entityType": "venue",
+			"id": "a1977d1b-0f4a-5373-a14e-8e52a2595e41",
+			"status": "approved",
+			"slug": "tokyo-oval-keiokaku"
+		},
+		{
+			"entityType": "venue",
+			"id": "a5f3410e-f1f0-5706-8a52-4a228731c80b",
+			"status": "approved",
+			"slug": "daikanyama-unit"
+		},
+		{
+			"entityType": "venue",
+			"id": "a6880fc2-53a1-5050-bd34-e6c0ee7fdebf",
+			"status": "approved",
+			"slug": "shizuoka-sunash"
+		},
+		{
+			"entityType": "venue",
+			"id": "a6c7c1e8-c0af-57b5-8a9b-3496f25b4286",
+			"status": "approved",
+			"slug": "sendai-macana"
+		},
+		{
+			"entityType": "venue",
+			"id": "a7b19985-ed4c-51c9-b17d-43cc1f4b3ea7",
+			"status": "approved",
+			"slug": "kyushu-visual-arts-esperanza-hall-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "a9a0f594-2e34-59d6-a498-7d3f63951f8c",
+			"status": "approved",
+			"slug": "tower-records-ikebukuro"
+		},
+		{
+			"entityType": "venue",
+			"id": "a9ebc087-e925-570a-b1c4-55e205e3fe47",
+			"status": "approved",
+			"slug": "tower-records-shibuya-b1-stage-one-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "ac51317d-d7ce-505d-8374-036e63ce9317",
+			"status": "approved",
+			"slug": "shinsaibashi-sunhall"
+		},
+		{
+			"entityType": "venue",
+			"id": "ac6c2b63-066b-5d7c-9b50-c90184836e40",
+			"status": "approved",
+			"slug": "sapporo-colony"
+		},
+		{
+			"entityType": "venue",
+			"id": "ad877cb5-efe8-5df5-838c-ec168e35cc07",
+			"status": "approved",
+			"slug": "haneda-airport-tiat-sky-hall"
+		},
+		{
+			"entityType": "venue",
+			"id": "b04d001a-8a98-576f-b5fc-c122378d0925",
+			"status": "approved",
+			"slug": "shibuya-o-nest"
+		},
+		{
+			"entityType": "venue",
+			"id": "b1d7dd16-6fe0-56cd-b395-43df2ca1c331",
+			"status": "approved",
+			"slug": "shindaita-live-house-fever"
+		},
+		{
+			"entityType": "venue",
+			"id": "b2b67e81-d645-5def-a4b4-02964302bb1f",
+			"status": "approved",
+			"slug": "shibuya-plug"
+		},
+		{
+			"entityType": "venue",
+			"id": "b3df2ba3-ee92-5ecb-8b87-e8756e0284df",
+			"status": "approved",
+			"slug": "shinsaibashi-club-quattro"
+		},
+		{
+			"entityType": "venue",
+			"id": "b40ab10f-3336-564f-b35e-4f1afb1c0e9d",
+			"status": "approved",
+			"slug": "nagano-live-house-j"
+		},
+		{
+			"entityType": "venue",
+			"id": "b42b1923-77e7-546b-bdc2-e2933aed66ae",
+			"status": "approved",
+			"slug": "kawasaki-club-citta"
+		},
+		{
+			"entityType": "venue",
+			"id": "b54a692c-8eb6-57cb-95d3-805a0f94cae0",
+			"status": "approved",
+			"slug": "hitachi-seaside-park"
+		},
+		{
+			"entityType": "venue",
+			"id": "b55190a6-4dfc-5c05-9833-5d353362a4ab",
+			"status": "approved",
+			"slug": "kyoto-muse"
+		},
+		{
+			"entityType": "venue",
+			"id": "b77ece1e-2d21-51e0-a7b1-78592773b713",
+			"status": "approved",
+			"slug": "nagoya-apollo-theater"
+		},
+		{
+			"entityType": "venue",
+			"id": "b97b7309-8e27-502d-9929-7e846bec1f1b",
+			"status": "approved",
+			"slug": "shinsaibashi-bigcat"
+		},
+		{
+			"entityType": "venue",
+			"id": "bca211ef-126b-5fff-8a10-c31ff8e6a7e9",
+			"status": "approved",
+			"slug": "shibuya-star-lounge"
+		},
+		{
+			"entityType": "venue",
+			"id": "be1fb798-c5cd-5c72-a6bd-c2ec43d29e71",
+			"status": "approved",
+			"slug": "nagoya-club-upset"
+		},
+		{
+			"entityType": "venue",
+			"id": "bf14c2c5-55e0-5fe5-907b-e2914e33e1ab",
+			"status": "approved",
+			"slug": "iid-setagaya-monozukuri-gakko"
+		},
+		{
+			"entityType": "venue",
+			"id": "c0c1efae-505f-5248-934a-8ebb274a09ec",
+			"status": "approved",
+			"slug": "minoh-dai-6-junior-high-school-gymnasium-2"
+		},
+		{
+			"entityType": "venue",
+			"id": "c3f21fdf-4454-5d56-b35e-6a4707313485",
+			"status": "approved",
+			"slug": "takao-599-museum"
+		},
+		{
+			"entityType": "venue",
+			"id": "c4ae7ffa-9079-55d6-abe0-6f0705075972",
+			"status": "approved",
+			"slug": "kumagaya-heavens-rock-vj-1"
+		},
+		{
+			"entityType": "venue",
+			"id": "c955d978-227a-5577-9bba-17e10ef5d6c5",
+			"status": "approved",
+			"slug": "kobe-star-club"
+		},
+		{
+			"entityType": "venue",
+			"id": "ca12b00c-0abf-595c-b0e5-b3ece20c406b",
+			"status": "approved",
+			"slug": "tokyo-kinema-club"
+		},
+		{
+			"entityType": "venue",
+			"id": "ca5414ca-9350-580a-bb7d-622b5ab31c48",
+			"status": "approved",
+			"slug": "shinsaibashi-soma"
+		},
+		{
+			"entityType": "venue",
+			"id": "d24ee48f-2192-53e5-bdb9-3e554bc99dd2",
+			"status": "approved",
+			"slug": "kyoto-mojo"
+		},
+		{
+			"entityType": "venue",
+			"id": "d5238b27-e477-5ee5-a559-acd290ad8f43",
+			"status": "approved",
+			"slug": "osaka-muse"
+		},
+		{
+			"entityType": "venue",
+			"id": "d74c17cc-c31b-51b4-8d0a-b460373a59fd",
+			"status": "approved",
+			"slug": "shibuya-on-air-west"
+		},
+		{
+			"entityType": "venue",
+			"id": "d97d8626-d2c0-55c6-81e4-80050e7f0840",
+			"status": "approved",
+			"slug": "niigata-gioia-mia"
+		},
+		{
+			"entityType": "venue",
+			"id": "dbaf0ddd-4358-5e1d-a46e-3cead5a6bf2c",
+			"status": "approved",
+			"slug": "kobe-varit"
+		},
+		{
+			"entityType": "venue",
+			"id": "def94e8e-43cf-5e90-a2f5-de6a2586581e",
+			"status": "approved",
+			"slug": "shibuya-o-crest"
+		},
+		{
+			"entityType": "venue",
+			"id": "df707bb2-8205-5dba-967f-ca871298b5df",
+			"status": "approved",
+			"slug": "kenmin-kyosai-mirai-hall"
+		},
+		{
+			"entityType": "venue",
+			"id": "e1245547-7070-56de-8aa0-2a05bf677152",
+			"status": "approved",
+			"slug": "tower-records-sendai-parco"
+		},
+		{
+			"entityType": "venue",
+			"id": "e308a1b6-c6e9-58cc-9577-7bd1fd81bbbd",
+			"status": "approved",
+			"slug": "backstage-cafe-harajuku"
+		},
+		{
+			"entityType": "venue",
+			"id": "e33703c8-e671-5d45-bf5b-924360abf546",
+			"status": "approved",
+			"slug": "nagoya-ell-size"
+		},
+		{
+			"entityType": "venue",
+			"id": "e42dd2f3-00b8-5054-936d-3555d178c818",
+			"status": "approved",
+			"slug": "yokohama-7th-avenue"
+		},
+		{
+			"entityType": "venue",
+			"id": "ee7e9c10-8512-5177-9ac9-ea99f384ba5b",
+			"status": "approved",
+			"slug": "takutaku"
+		},
+		{
+			"entityType": "venue",
+			"id": "eee1635a-aa9c-5ebc-b364-19a8fd7f525d",
+			"status": "approved",
+			"slug": "shibuya-la-mama"
+		},
+		{
+			"entityType": "venue",
+			"id": "f26d5d4e-125c-51bf-8bf5-caee56c0e017",
+			"status": "approved",
+			"slug": "setagaya-monozukuri-gakko"
+		},
+		{
+			"entityType": "venue",
+			"id": "f5671064-bb12-5509-9d17-cf0830f5e3b4",
+			"status": "approved",
+			"slug": "shinsaibashi-bahamahall"
+		},
+		{
+			"entityType": "venue",
+			"id": "f8110abe-855d-5614-9e50-a9a6ce29a493",
+			"status": "approved",
+			"slug": "harajuku-strobe-cafe"
+		},
+		{
+			"entityType": "venue",
+			"id": "fbd9c55e-b419-5b9d-b8df-ed29195de626",
+			"status": "approved",
+			"slug": "shinsaibashi-live-bar-yokanise"
 		}
 	]
 }
