@@ -15,6 +15,7 @@
 		"db:apply:slug-reviews": "bun scripts/apply_slug_reviews.ts",
 		"review:compositions": "bun run app/server.ts",
 		"review:magazines:generate": "bun scripts/generate_magazine_review.ts",
+		"site:dev": "astro dev --root site",
 		"site:build": "astro build --root site",
 		"site:search:index": "pagefind --site site/dist",
 		"site:check": "bun scripts/site_check.ts",
