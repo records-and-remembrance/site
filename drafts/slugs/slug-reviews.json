@@ -407,8 +407,8 @@
 		{
 			"entityType": "person",
 			"id": "c2c31e80-0f4f-5152-881e-33c79352e411",
-			"status": "rejected",
-			"slug": null
+			"status": "approved",
+			"slug": "kasai-toshihiko-2"
 		},
 		{
 			"entityType": "person",
@@ -1552,12 +1552,6 @@
 		},
 		{
 			"entityType": "venue",
-			"id": "3cf354dd-2680-52e7-8735-a9413f084af6",
-			"status": "approved",
-			"slug": "instagram-monden-account"
-		},
-		{
-			"entityType": "venue",
 			"id": "3fb6c41f-986a-56ff-9d78-ae81cac5c2ca",
 			"status": "approved",
 			"slug": "shimokitazawa-club-que-tokyo"
@@ -2161,6 +2155,1200 @@
 			"id": "fbd9c55e-b419-5b9d-b8df-ed29195de626",
 			"status": "approved",
 			"slug": "shinsaibashi-live-bar-yokanise"
+		},
+		{
+			"entityType": "project",
+			"id": "108d49f8-eedf-5dc8-886d-c9d485ece258",
+			"status": "approved",
+			"slug": "poet-type-m"
+		},
+		{
+			"entityType": "project",
+			"id": "56874c83-88df-5561-b9b2-8ddd431fcb70",
+			"status": "approved",
+			"slug": "sweet-girls"
+		},
+		{
+			"entityType": "project",
+			"id": "6bdfb3fd-1047-55f3-88be-036342b6a957",
+			"status": "approved",
+			"slug": "burger-nuds"
+		},
+		{
+			"entityType": "project",
+			"id": "7ac8f852-ad55-583d-ae48-1394f9fe8765",
+			"status": "approved",
+			"slug": "good-dog-happy-men"
+		},
+		{
+			"entityType": "person",
+			"id": "04341f9f-e468-57f1-9552-9443974b101f",
+			"status": "approved",
+			"slug": "yasuo-matsumoto"
+		},
+		{
+			"entityType": "person",
+			"id": "1525573e-b0a0-5439-bdc4-f79733535515",
+			"status": "approved",
+			"slug": "luigi-creatore"
+		},
+		{
+			"entityType": "person",
+			"id": "26aa9210-8c39-593c-99d0-1d485a8730d2",
+			"status": "approved",
+			"slug": "mio"
+		},
+		{
+			"entityType": "person",
+			"id": "2a9f523c-ef52-5867-bb29-eb0051bce607",
+			"status": "approved",
+			"slug": "lorenz-hart"
+		},
+		{
+			"entityType": "person",
+			"id": "2b68cfba-5663-57b5-92e3-649dd5284f9d",
+			"status": "approved",
+			"slug": "nao-yanagawa"
+		},
+		{
+			"entityType": "person",
+			"id": "2cd23977-7c53-5aa3-aac3-e9e58645cd26",
+			"status": "approved",
+			"slug": "george-david-weiss"
+		},
+		{
+			"entityType": "person",
+			"id": "2fb1664f-5d67-5ebf-a3a8-8cb7ecf5f476",
+			"status": "approved",
+			"slug": "kalminrot"
+		},
+		{
+			"entityType": "person",
+			"id": "471072d5-48b9-5cb5-a9c0-c2a571de659d",
+			"status": "approved",
+			"slug": "richard-rodgers"
+		},
+		{
+			"entityType": "person",
+			"id": "49f37bbd-6ee5-5b69-84b6-45fd6721b5e9",
+			"status": "approved",
+			"slug": "yasunori-mori"
+		},
+		{
+			"entityType": "person",
+			"id": "657c586c-49f0-58e0-b837-ebc65f9ccc7d",
+			"status": "approved",
+			"slug": "naoki-anzai"
+		},
+		{
+			"entityType": "person",
+			"id": "705ed3d1-68c9-543c-ab10-ad7baac97a98",
+			"status": "approved",
+			"slug": "monden-masaaki"
+		},
+		{
+			"entityType": "person",
+			"id": "8018acfe-3f2a-55b7-97f6-12c2880c0fe0",
+			"status": "approved",
+			"slug": "kuniko-hamada"
+		},
+		{
+			"entityType": "person",
+			"id": "8a2da90b-16b6-590a-a6b2-4975932133d1",
+			"status": "approved",
+			"slug": "bob-telson"
+		},
+		{
+			"entityType": "person",
+			"id": "8cef8cb6-bbf0-51ef-a07c-73899243d837",
+			"status": "approved",
+			"slug": "satouha"
+		},
+		{
+			"entityType": "person",
+			"id": "9fad68fc-a74e-54eb-9ed6-d7ca5d8a1507",
+			"status": "approved",
+			"slug": "marii-kawai"
+		},
+		{
+			"entityType": "person",
+			"id": "a27a5a2d-250a-5f64-bbe1-54937b251feb",
+			"status": "approved",
+			"slug": "tai-tai"
+		},
+		{
+			"entityType": "person",
+			"id": "a459defb-a77a-5a7b-aaad-a3367392b825",
+			"status": "approved",
+			"slug": "yasu-sankaku-maru"
+		},
+		{
+			"entityType": "person",
+			"id": "aea771ba-b8a0-54a4-84c3-9b2b598eb6e8",
+			"status": "approved",
+			"slug": "fukushima-akira"
+		},
+		{
+			"entityType": "person",
+			"id": "b9ffd56f-3dc3-5107-9061-a1e6b17cb9ab",
+			"status": "approved",
+			"slug": "wattch"
+		},
+		{
+			"entityType": "person",
+			"id": "ba2f49d2-f40f-59f3-ab8b-1793d8ea5c9d",
+			"status": "approved",
+			"slug": "hugo-peretti"
+		},
+		{
+			"entityType": "person",
+			"id": "bc3a0a09-8962-5535-b8f0-a39f9cbc00c2",
+			"status": "approved",
+			"slug": "tomotomo-club"
+		},
+		{
+			"entityType": "person",
+			"id": "d4257c3e-998f-51a8-be34-3c618349e7f2",
+			"status": "approved",
+			"slug": "satou-yuuichi"
+		},
+		{
+			"entityType": "person",
+			"id": "db8bcc7d-b8ae-5963-80c3-f67b56140ce6",
+			"status": "approved",
+			"slug": "troy-junius-arnall"
+		},
+		{
+			"entityType": "person",
+			"id": "e179e337-1502-5cb9-a42d-a3e07d41ed6f",
+			"status": "approved",
+			"slug": "yukika-umetani"
+		},
+		{
+			"entityType": "person",
+			"id": "e1ac6e7a-44fd-5334-b1a6-786ada6902d2",
+			"status": "approved",
+			"slug": "maryne"
+		},
+		{
+			"entityType": "person",
+			"id": "e66fd1a0-19c2-5f37-b132-c113ffbc9965",
+			"status": "approved",
+			"slug": "kazuto-hamada"
+		},
+		{
+			"entityType": "person",
+			"id": "ec5e3105-f8b4-5c56-841e-871a8b927409",
+			"status": "approved",
+			"slug": "edith-piaf"
+		},
+		{
+			"entityType": "person",
+			"id": "edf1b21f-70a7-585e-9ace-b2e4b0478158",
+			"status": "approved",
+			"slug": "marguerite-monnot"
+		},
+		{
+			"entityType": "person",
+			"id": "f655359f-634c-58c3-8b4f-08aff69d7129",
+			"status": "approved",
+			"slug": "kiyoko-matsumura"
+		},
+		{
+			"entityType": "person",
+			"id": "fa5b8de3-e15d-5cee-88a9-aa89526c5109",
+			"status": "approved",
+			"slug": "gomes"
+		},
+		{
+			"entityType": "composition",
+			"id": "057ba8b2-040f-5092-bcb7-f4361e1efeec",
+			"status": "approved",
+			"slug": "home-sick"
+		},
+		{
+			"entityType": "composition",
+			"id": "0a3d302f-e367-5d17-91d5-982762f95781",
+			"status": "approved",
+			"slug": "last-harmagedon"
+		},
+		{
+			"entityType": "composition",
+			"id": "0b2a3a76-84f4-5777-bd81-def2ca68eece",
+			"status": "approved",
+			"slug": "ghost"
+		},
+		{
+			"entityType": "composition",
+			"id": "0b8aca26-340e-5315-87a0-2f97e6b445c8",
+			"status": "approved",
+			"slug": "popcorn"
+		},
+		{
+			"entityType": "composition",
+			"id": "0d335f23-0df2-5606-ae47-60cf4bd6a29f",
+			"status": "approved",
+			"slug": "just-my-pain"
+		},
+		{
+			"entityType": "composition",
+			"id": "1427e7ea-d76f-5cd9-8675-5ca6477bd205",
+			"status": "approved",
+			"slug": "blowing-kisses"
+		},
+		{
+			"entityType": "composition",
+			"id": "143c07e3-06e6-5900-bd7b-e1d2e600fc6a",
+			"status": "approved",
+			"slug": "dystopia"
+		},
+		{
+			"entityType": "composition",
+			"id": "15c8355f-fecc-5942-9c5c-2fbb6e2e0d49",
+			"status": "approved",
+			"slug": "city-pop"
+		},
+		{
+			"entityType": "composition",
+			"id": "175405ac-85c4-5949-b0ef-3970632acef9",
+			"status": "approved",
+			"slug": "boys-in-blue"
+		},
+		{
+			"entityType": "composition",
+			"id": "178f47e4-612b-50a8-95ad-735fe9599a83",
+			"status": "approved",
+			"slug": "con-crete"
+		},
+		{
+			"entityType": "composition",
+			"id": "1c3a6470-6131-5fa9-afd5-01d6bd217e25",
+			"status": "approved",
+			"slug": "cocaine-blues"
+		},
+		{
+			"entityType": "composition",
+			"id": "2122731f-2eaf-5922-aa77-b07ff3799274",
+			"status": "approved",
+			"slug": "blanket"
+		},
+		{
+			"entityType": "composition",
+			"id": "25baf776-a53e-5410-9eef-1328f46176f8",
+			"status": "approved",
+			"slug": "dear-my-teacher"
+		},
+		{
+			"entityType": "composition",
+			"id": "26af23b2-1e0d-59cf-84ac-7dde0b6004f7",
+			"status": "approved",
+			"slug": "brave-girl-in-hell"
+		},
+		{
+			"entityType": "composition",
+			"id": "274a3068-1a30-5503-875c-e6ebd27a01e6",
+			"status": "approved",
+			"slug": "natural-born-queen"
+		},
+		{
+			"entityType": "composition",
+			"id": "27dcbce7-1613-54e2-9d09-782430b13900",
+			"status": "approved",
+			"slug": "d-o-m"
+		},
+		{
+			"entityType": "composition",
+			"id": "29d2a9af-fb2f-5de6-b8b7-04522d1c68f9",
+			"status": "approved",
+			"slug": "born-again"
+		},
+		{
+			"entityType": "composition",
+			"id": "2c1a49e3-6800-5746-8f4a-46b7ff6040f7",
+			"status": "approved",
+			"slug": "singing-in-the-rain"
+		},
+		{
+			"entityType": "composition",
+			"id": "2deba160-1aec-58c6-bef8-03beb5746d41",
+			"status": "approved",
+			"slug": "donuts"
+		},
+		{
+			"entityType": "composition",
+			"id": "2f18307f-e52d-5152-a2e4-f0d898bb85b3",
+			"status": "approved",
+			"slug": "evangelist"
+		},
+		{
+			"entityType": "composition",
+			"id": "314ae2f1-603b-5a7c-b59c-17a95ca6846a",
+			"status": "approved",
+			"slug": "april"
+		},
+		{
+			"entityType": "composition",
+			"id": "31724042-0a96-561e-915a-029b18243783",
+			"status": "approved",
+			"slug": "introduction"
+		},
+		{
+			"entityType": "composition",
+			"id": "35ef7299-51ec-5acc-9a2f-a7a8de8be198",
+			"status": "approved",
+			"slug": "fantasia-what-makes-you-beautiful"
+		},
+		{
+			"entityType": "composition",
+			"id": "36c3844b-c1e2-5f21-9c56-65a176153adc",
+			"status": "approved",
+			"slug": "pretty-little-horses"
+		},
+		{
+			"entityType": "composition",
+			"id": "38518a47-dbaa-5fa4-b1de-96151bbcf57c",
+			"status": "approved",
+			"slug": "bit-by-bit"
+		},
+		{
+			"entityType": "composition",
+			"id": "39f91e05-e7e9-5a7a-acdb-dd348f15ffd7",
+			"status": "approved",
+			"slug": "jewel-box"
+		},
+		{
+			"entityType": "composition",
+			"id": "3a08369d-fe70-513d-a49f-320961eb161c",
+			"status": "approved",
+			"slug": "negi"
+		},
+		{
+			"entityType": "composition",
+			"id": "3cc2bff1-8b14-546a-b12a-9498ec1a0155",
+			"status": "approved",
+			"slug": "swear"
+		},
+		{
+			"entityType": "composition",
+			"id": "3d99614c-9cb0-5f1a-86b7-9422b260f089",
+			"status": "approved",
+			"slug": "march"
+		},
+		{
+			"entityType": "composition",
+			"id": "41f49367-c2b7-5689-930d-3db9749b6777",
+			"status": "approved",
+			"slug": "blue-moon-shadow"
+		},
+		{
+			"entityType": "composition",
+			"id": "449e3db8-aff0-565a-8b69-d72cb63f44ba",
+			"status": "approved",
+			"slug": "i-can-t-help-falling-love"
+		},
+		{
+			"entityType": "composition",
+			"id": "44cdaf24-6b2c-5273-b3bf-5b84d67bb191",
+			"status": "approved",
+			"slug": "twice-birds-singing"
+		},
+		{
+			"entityType": "composition",
+			"id": "45188169-33ea-52c3-88be-a410b1139d37",
+			"status": "approved",
+			"slug": "prologue"
+		},
+		{
+			"entityType": "composition",
+			"id": "47ffb50b-5903-5880-bf72-71889a733b3c",
+			"status": "approved",
+			"slug": "ayatori"
+		},
+		{
+			"entityType": "composition",
+			"id": "4a2ff78c-d02d-511c-b70e-72def0b147c1",
+			"status": "approved",
+			"slug": "minasoko"
+		},
+		{
+			"entityType": "composition",
+			"id": "4d78dfe4-4a01-55ba-9ea3-27811263b3a3",
+			"status": "approved",
+			"slug": "gospel"
+		},
+		{
+			"entityType": "composition",
+			"id": "4db53362-2a9e-53e7-a987-c15445b7a738",
+			"status": "approved",
+			"slug": "fructose"
+		},
+		{
+			"entityType": "composition",
+			"id": "4f3e0cac-cac0-5f06-8997-a644b7ae65b0",
+			"status": "approved",
+			"slug": "apple-star-storys"
+		},
+		{
+			"entityType": "composition",
+			"id": "4f60fa57-ef2e-52e8-8fe3-bf07e2608d5b",
+			"status": "approved",
+			"slug": "clear"
+		},
+		{
+			"entityType": "composition",
+			"id": "569f8503-90a9-5abf-8659-b06b41d2279e",
+			"status": "approved",
+			"slug": "campfire-song"
+		},
+		{
+			"entityType": "composition",
+			"id": "56fd78a6-0e33-5004-9792-b93540343da2",
+			"status": "approved",
+			"slug": "star-dust"
+		},
+		{
+			"entityType": "composition",
+			"id": "58d4beb9-75e4-5afb-b944-1cdfa00f82ed",
+			"status": "approved",
+			"slug": "trick-or-treat"
+		},
+		{
+			"entityType": "composition",
+			"id": "5a8c94c3-af47-52fc-ae4e-a9c4cd2556b8",
+			"status": "approved",
+			"slug": "paxil"
+		},
+		{
+			"entityType": "composition",
+			"id": "60c06242-8684-5500-bb13-26e7b2c692d5",
+			"status": "approved",
+			"slug": "music-from-twilight"
+		},
+		{
+			"entityType": "composition",
+			"id": "6155f134-613e-5e98-9690-f6acd3de8cfc",
+			"status": "approved",
+			"slug": "nerd"
+		},
+		{
+			"entityType": "composition",
+			"id": "6372ad2c-5dae-520b-b55f-08cf3f5a3700",
+			"status": "approved",
+			"slug": "nightmares-beginning"
+		},
+		{
+			"entityType": "composition",
+			"id": "646e8ac0-04ee-56a5-b5b7-927ec264a63b",
+			"status": "approved",
+			"slug": "pasta"
+		},
+		{
+			"entityType": "composition",
+			"id": "6731e1fb-5981-51e3-b770-0becebcd340b",
+			"status": "approved",
+			"slug": "the-winner"
+		},
+		{
+			"entityType": "composition",
+			"id": "68eb2feb-82b8-598e-8dce-9adadeaac969",
+			"status": "approved",
+			"slug": "howling-moon"
+		},
+		{
+			"entityType": "composition",
+			"id": "69a5bfb7-7d07-54d1-91c2-9146df63507e",
+			"status": "approved",
+			"slug": "prologue-ergonomics"
+		},
+		{
+			"entityType": "composition",
+			"id": "6c3117d9-2245-528c-ab1e-c6615eb244da",
+			"status": "approved",
+			"slug": "hostia"
+		},
+		{
+			"entityType": "composition",
+			"id": "6cc3b2fb-01eb-5262-b8e5-fb33dbbba251",
+			"status": "approved",
+			"slug": "goldenbellcity-no-theme"
+		},
+		{
+			"entityType": "composition",
+			"id": "6e207cc4-93f4-5a9e-95e6-a3d30da4d672",
+			"status": "approved",
+			"slug": "your-song"
+		},
+		{
+			"entityType": "composition",
+			"id": "6f751109-46a2-5160-b855-56662c02f602",
+			"status": "approved",
+			"slug": "naiyo-nanimo"
+		},
+		{
+			"entityType": "composition",
+			"id": "7376981a-8397-5e4c-84a5-1a606e527cf8",
+			"status": "approved",
+			"slug": "the-beautiful-soldier"
+		},
+		{
+			"entityType": "composition",
+			"id": "73c717da-0a5a-52ed-80cb-033382b7ab78",
+			"status": "approved",
+			"slug": "crystal"
+		},
+		{
+			"entityType": "composition",
+			"id": "7dadd445-c65d-5693-aedf-36f90a2d3442",
+			"status": "approved",
+			"slug": "prince-to-princess-nursery-rhymes-ep4"
+		},
+		{
+			"entityType": "composition",
+			"id": "821f38ce-3a0d-5c4d-8497-02ae1aa246b1",
+			"status": "approved",
+			"slug": "kirakira-surumono"
+		},
+		{
+			"entityType": "composition",
+			"id": "87411a17-0b1f-5784-9aaf-e5a6a78b3d4e",
+			"status": "approved",
+			"slug": "lesson"
+		},
+		{
+			"entityType": "composition",
+			"id": "8757ad58-9e4d-5fa2-bf12-d7082cf8a232",
+			"status": "approved",
+			"slug": "alice"
+		},
+		{
+			"entityType": "composition",
+			"id": "8e840d74-cb26-5a59-9ee0-6f4782614f43",
+			"status": "approved",
+			"slug": "mrs-vertigo"
+		},
+		{
+			"entityType": "composition",
+			"id": "8f8286db-8bff-5d87-85d0-9f23a1aa9c99",
+			"status": "approved",
+			"slug": "touch"
+		},
+		{
+			"entityType": "composition",
+			"id": "910002cc-55ee-57c0-a1de-457ae4c11539",
+			"status": "approved",
+			"slug": "utopia"
+		},
+		{
+			"entityType": "composition",
+			"id": "922075b7-1242-5fef-90af-b3475b4da2af",
+			"status": "approved",
+			"slug": "beautiful-loser"
+		},
+		{
+			"entityType": "composition",
+			"id": "92eabaee-55e1-50f7-9641-8e9d02a73613",
+			"status": "approved",
+			"slug": "moyuru"
+		},
+		{
+			"entityType": "composition",
+			"id": "99174175-6599-52b9-b8be-24a16cd13afe",
+			"status": "approved",
+			"slug": "exam"
+		},
+		{
+			"entityType": "composition",
+			"id": "99342885-930a-501c-95ff-ac862edab653",
+			"status": "approved",
+			"slug": "taneri"
+		},
+		{
+			"entityType": "composition",
+			"id": "9bee28e4-b38d-5a6a-827f-73d127add21a",
+			"status": "approved",
+			"slug": "community"
+		},
+		{
+			"entityType": "composition",
+			"id": "9e765649-b9cf-5c73-b911-332c219a2c02",
+			"status": "approved",
+			"slug": "song-for-lovers"
+		},
+		{
+			"entityType": "composition",
+			"id": "aed3f54f-764d-5c90-86fb-102f551221e2",
+			"status": "approved",
+			"slug": "canaria"
+		},
+		{
+			"entityType": "composition",
+			"id": "afe9de04-0faf-5885-ac82-18227652af77",
+			"status": "approved",
+			"slug": "am4-00"
+		},
+		{
+			"entityType": "composition",
+			"id": "b12d3ca1-5e9d-5c39-9545-cdc3a6368db0",
+			"status": "approved",
+			"slug": "sanbika"
+		},
+		{
+			"entityType": "composition",
+			"id": "b54e7716-a7d5-5940-b4ca-edfc2500bff5",
+			"status": "approved",
+			"slug": "ougon-no-kane"
+		},
+		{
+			"entityType": "composition",
+			"id": "b782d27b-6fe8-5fad-8033-25761e2ea805",
+			"status": "approved",
+			"slug": "normal-abnormal"
+		},
+		{
+			"entityType": "composition",
+			"id": "ba79d4a0-1dba-561c-a25d-7b3f72530cab",
+			"status": "approved",
+			"slug": "can-you-feel-most-beautiful-in-the-world"
+		},
+		{
+			"entityType": "composition",
+			"id": "bb598be5-d28b-5055-a736-1e2ad64f49d7",
+			"status": "approved",
+			"slug": "blue-moon"
+		},
+		{
+			"entityType": "composition",
+			"id": "bbbb7fe4-4844-503e-86ac-5a510b97adef",
+			"status": "approved",
+			"slug": "salad-bar"
+		},
+		{
+			"entityType": "composition",
+			"id": "be7ec172-328a-573e-9b69-7c2289a74f39",
+			"status": "approved",
+			"slug": "wine"
+		},
+		{
+			"entityType": "composition",
+			"id": "bf02a457-53d0-55ff-9d3a-816b2d0b201f",
+			"status": "approved",
+			"slug": "b-d-h-m"
+		},
+		{
+			"entityType": "composition",
+			"id": "c05ead2d-8af3-5a99-89af-bde161488d20",
+			"status": "approved",
+			"slug": "echo"
+		},
+		{
+			"entityType": "composition",
+			"id": "c0cba8c9-be7b-54d1-ad98-20c2171d5a7f",
+			"status": "approved",
+			"slug": "analyze"
+		},
+		{
+			"entityType": "composition",
+			"id": "c61294ea-8cbb-54f3-9acf-bfe4657edf86",
+			"status": "approved",
+			"slug": "judgement"
+		},
+		{
+			"entityType": "composition",
+			"id": "c7101529-72c3-526e-aa31-2d7006f07be7",
+			"status": "approved",
+			"slug": "cold-burn"
+		},
+		{
+			"entityType": "composition",
+			"id": "c84adff3-ea6d-53ed-b51e-4b022323babb",
+			"status": "approved",
+			"slug": "grow-to-be-a-man"
+		},
+		{
+			"entityType": "composition",
+			"id": "cba10db1-bf00-5630-ad7f-118010e606ec",
+			"status": "approved",
+			"slug": "prism"
+		},
+		{
+			"entityType": "composition",
+			"id": "cfb6162b-a407-5ea1-b6ab-db0ec6d718cb",
+			"status": "approved",
+			"slug": "shine-a-light"
+		},
+		{
+			"entityType": "composition",
+			"id": "d566abf6-d267-5ad1-b22a-f43111e2bd2a",
+			"status": "approved",
+			"slug": "sweet-heart-of-moon"
+		},
+		{
+			"entityType": "composition",
+			"id": "d5fc3f6b-6421-58b3-bd1d-b2b86b904284",
+			"status": "approved",
+			"slug": "omamagoto"
+		},
+		{
+			"entityType": "composition",
+			"id": "dbd659ab-b4a2-5922-b1ba-902750e689e6",
+			"status": "approved",
+			"slug": "narrow-silhouette"
+		},
+		{
+			"entityType": "composition",
+			"id": "e6a9f7ff-8962-5be2-9e7a-c3a486cfdcc4",
+			"status": "approved",
+			"slug": "national-anthem"
+		},
+		{
+			"entityType": "composition",
+			"id": "e929e995-03c7-5a3c-94d1-59c75e9a3186",
+			"status": "approved",
+			"slug": "perfect-nervous"
+		},
+		{
+			"entityType": "composition",
+			"id": "ee5c9d76-f296-56a9-9503-9b7b34ef5e10",
+			"status": "approved",
+			"slug": "all-bet"
+		},
+		{
+			"entityType": "composition",
+			"id": "efe2e58f-74b0-57a0-8541-f52627bf7a0f",
+			"status": "approved",
+			"slug": "candle-for-minority"
+		},
+		{
+			"entityType": "composition",
+			"id": "f02efd1d-83a4-5813-8b14-02e11292e7a3",
+			"status": "approved",
+			"slug": "oberisk"
+		},
+		{
+			"entityType": "composition",
+			"id": "f281c175-1ed3-593d-866b-fd7957cf9089",
+			"status": "approved",
+			"slug": "unknown"
+		},
+		{
+			"entityType": "composition",
+			"id": "f50814dd-5f51-5363-a6d5-78935e196028",
+			"status": "approved",
+			"slug": "ghost-of-ghost-town"
+		},
+		{
+			"entityType": "composition",
+			"id": "f59838e4-dbce-5d1b-a48f-190933d22201",
+			"status": "approved",
+			"slug": "original-dystopia"
+		},
+		{
+			"entityType": "composition",
+			"id": "f94a819e-2482-54bb-9ffc-16a4002810fd",
+			"status": "approved",
+			"slug": "good-night-m"
+		},
+		{
+			"entityType": "composition",
+			"id": "f98462c2-9fd3-598c-bcd4-44e0e6cd9ee9",
+			"status": "approved",
+			"slug": "methods-of-dance"
+		},
+		{
+			"entityType": "composition",
+			"id": "fd7c6eab-9277-56c5-8191-82dc889deec8",
+			"status": "approved",
+			"slug": "i-love-you"
+		},
+		{
+			"entityType": "composition",
+			"id": "ff44d1a7-f21a-582b-ac02-5467654fe798",
+			"status": "approved",
+			"slug": "calling-you"
+		},
+		{
+			"entityType": "composition",
+			"id": "ffb9fce3-b68f-5a60-a254-3f14408575c8",
+			"status": "approved",
+			"slug": "vivace-tits"
+		},
+		{
+			"entityType": "work",
+			"id": "03cb4804-f96f-572b-a369-414880bff80b",
+			"status": "approved",
+			"slug": "burger-nuds"
+		},
+		{
+			"entityType": "work",
+			"id": "06160989-c973-51df-9f11-4a79b48fba35",
+			"status": "approved",
+			"slug": "good-dog-happy-men"
+		},
+		{
+			"entityType": "work",
+			"id": "0c6a186d-bbb0-57b4-85f6-4f178945af01",
+			"status": "approved",
+			"slug": "the-goldenbellcity-ep1"
+		},
+		{
+			"entityType": "work",
+			"id": "1278b32b-906e-5967-aa61-e9b54b0321c2",
+			"status": "approved",
+			"slug": "pocketful-of-stardust"
+		},
+		{
+			"entityType": "work",
+			"id": "21b71297-3808-5152-be9a-d3d4cc6d88ef",
+			"status": "approved",
+			"slug": "the-night-2"
+		},
+		{
+			"entityType": "work",
+			"id": "24fa43ae-837f-5a7b-9ada-6a8e51282935",
+			"status": "approved",
+			"slug": "lost-verses"
+		},
+		{
+			"entityType": "work",
+			"id": "2b960177-050c-5fee-a62f-91c1b6b393b7",
+			"status": "approved",
+			"slug": "poptop-under-flower-zenith-compilation-vol-1-what-about-us"
+		},
+		{
+			"entityType": "work",
+			"id": "2f13fe8d-c13a-5519-9267-7148fa97060f",
+			"status": "approved",
+			"slug": "a-whole-new-world-live-at-hoku-to-pia-sep-28-2013"
+		},
+		{
+			"entityType": "work",
+			"id": "3432f0f1-4dba-5df0-a852-f7505fb08957",
+			"status": "approved",
+			"slug": "hi-style-vol-10"
+		},
+		{
+			"entityType": "work",
+			"id": "3b20aea7-3ffd-5300-b295-181fa3b56da8",
+			"status": "approved",
+			"slug": "merancholy-stranger"
+		},
+		{
+			"entityType": "work",
+			"id": "476905a6-f636-576d-8d2b-cb8e02feac57",
+			"status": "approved",
+			"slug": "moyuru"
+		},
+		{
+			"entityType": "work",
+			"id": "4b4351ba-783c-5eea-9e0b-c6de360b13d1",
+			"status": "approved",
+			"slug": "dear-my-teacher"
+		},
+		{
+			"entityType": "work",
+			"id": "4c95861f-e526-5bc3-9a99-82b2e013e9cd",
+			"status": "approved",
+			"slug": "low-name"
+		},
+		{
+			"entityType": "work",
+			"id": "572d8b74-ea36-5c46-aaee-b5f79281e21f",
+			"status": "approved",
+			"slug": "the-lunch-2"
+		},
+		{
+			"entityType": "work",
+			"id": "63ebe711-56f9-5721-92b6-d9a114155c3c",
+			"status": "approved",
+			"slug": "symphony"
+		},
+		{
+			"entityType": "work",
+			"id": "6c287256-defa-5b68-bc8a-2f6452d3be6f",
+			"status": "approved",
+			"slug": "pure"
+		},
+		{
+			"entityType": "work",
+			"id": "7015b4fd-0257-516a-82a8-bc59e574ac00",
+			"status": "approved",
+			"slug": "burger-nuds-3-symphony"
+		},
+		{
+			"entityType": "work",
+			"id": "82e20e2b-7f49-5489-b6a9-849597a2f49a",
+			"status": "approved",
+			"slug": "dark-tape"
+		},
+		{
+			"entityType": "work",
+			"id": "8f66a684-fb2b-5bc5-ace1-f5f5fc610f54",
+			"status": "approved",
+			"slug": "grow-to-be-a-man"
+		},
+		{
+			"entityType": "work",
+			"id": "a1a5577f-2fb6-5bc1-b6a5-051ab60c769a",
+			"status": "approved",
+			"slug": "souvenir-from-dark-and-dark"
+		},
+		{
+			"entityType": "work",
+			"id": "a1f6c02a-ce74-5c38-8bb4-618cac038af2",
+			"status": "approved",
+			"slug": "kageokuri"
+		},
+		{
+			"entityType": "work",
+			"id": "a36ea78f-d14d-5b49-96ac-49366949c619",
+			"status": "approved",
+			"slug": "the-lunch"
+		},
+		{
+			"entityType": "work",
+			"id": "a6392c6a-69be-55f6-a5bf-e9284577c66f",
+			"status": "approved",
+			"slug": "telescope-compilation-01"
+		},
+		{
+			"entityType": "work",
+			"id": "ab2c0c57-31a3-5b44-8dfe-9dd28d3c9205",
+			"status": "approved",
+			"slug": "the-goldenbellcity-ep2"
+		},
+		{
+			"entityType": "work",
+			"id": "abc39b45-7297-4c02-a959-41bafefc4129",
+			"status": "approved",
+			"slug": "the-night"
+		},
+		{
+			"entityType": "work",
+			"id": "ae9990bf-68a4-571c-9ad5-b03a8d8189d2",
+			"status": "approved",
+			"slug": "xtalline-001"
+		},
+		{
+			"entityType": "work",
+			"id": "af0f4f28-ab4a-56f1-bc0a-9703ea5cf1cf",
+			"status": "approved",
+			"slug": "nobody-knows-my-name"
+		},
+		{
+			"entityType": "work",
+			"id": "c07e7550-b825-5252-aa2e-f8986598f47d",
+			"status": "approved",
+			"slug": "white-white-white"
+		},
+		{
+			"entityType": "work",
+			"id": "c0e6fa53-bd07-56b3-8d47-ee3dc7c6bec6",
+			"status": "approved",
+			"slug": "fructose"
+		},
+		{
+			"entityType": "work",
+			"id": "c2f51909-201d-5b7f-b29b-6a972da9fe27",
+			"status": "approved",
+			"slug": "quip-sampler-cd-vol-23"
+		},
+		{
+			"entityType": "work",
+			"id": "c5a7169f-fa7e-5648-82a7-44e6c317322f",
+			"status": "approved",
+			"slug": "the-goldenbellcity"
+		},
+		{
+			"entityType": "work",
+			"id": "d0e904d6-a1b5-521a-b761-5ffe3750fd03",
+			"status": "approved",
+			"slug": "world-compilation-album-birth-vol-1"
+		},
+		{
+			"entityType": "work",
+			"id": "de6cb8af-27e0-52b6-b278-b6463f1dbea7",
+			"status": "approved",
+			"slug": "gift"
+		},
+		{
+			"entityType": "work",
+			"id": "df729ec0-7ee8-5d96-a66c-cf3fab53186a",
+			"status": "approved",
+			"slug": "memory-of-the-goldenbellcity-cd-r"
+		},
+		{
+			"entityType": "work",
+			"id": "ec892818-16e5-54f1-a476-670ecaa52f2d",
+			"status": "approved",
+			"slug": "a-place-dark-dark-prologue-live-at-kenmin-kyosai-mirai-hall-jan-31-2015"
+		},
+		{
+			"entityType": "work",
+			"id": "f22ceaaf-9207-51ed-a334-9fb4f6966342",
+			"status": "approved",
+			"slug": "born-again"
+		},
+		{
+			"entityType": "work",
+			"id": "f37990da-96eb-5bb3-8d8d-c9c6d33f1f58",
+			"status": "approved",
+			"slug": "the-light"
+		},
+		{
+			"entityType": "work",
+			"id": "f3cc8009-cc92-5479-8242-3871db6e5234",
+			"status": "approved",
+			"slug": "best"
+		},
+		{
+			"entityType": "work",
+			"id": "f6c4d928-6eae-5287-81b3-7ca01fa4ed35",
+			"status": "approved",
+			"slug": "memory-of-the-goldenbellcity"
+		},
+		{
+			"entityType": "work",
+			"id": "f6f96d10-cd5a-5237-843e-b4ed417ba55c",
+			"status": "approved",
+			"slug": "misty-ep1"
+		},
+		{
+			"entityType": "work",
+			"id": "f9c70e3e-0be6-5664-90c0-54c932aa84b2",
+			"status": "approved",
+			"slug": "quip-sampler-cd-vol-27"
+		},
+		{
+			"entityType": "work",
+			"id": "ff5f425d-703b-553e-a1dd-1e1e553f1ce4",
+			"status": "approved",
+			"slug": "most-beautiful-in-the-world"
+		},
+		{
+			"entityType": "venue",
+			"id": "069dd3d3-eac9-5a78-9bb0-a5c878927305",
+			"status": "approved",
+			"slug": "shinjuku-marz"
+		},
+		{
+			"entityType": "venue",
+			"id": "0776bb77-2b7f-591f-bd03-d6de92badae1",
+			"status": "approved",
+			"slug": "holiday-nagoya"
+		},
+		{
+			"entityType": "venue",
+			"id": "092c64fe-8367-5d5d-836c-ac97aa726a91",
+			"status": "approved",
+			"slug": "instagram-monden-account"
+		},
+		{
+			"entityType": "venue",
+			"id": "160421f3-595b-5bb9-b6c4-372efc35b0bf",
+			"status": "approved",
+			"slug": "club-rock-n-roll"
+		},
+		{
+			"entityType": "venue",
+			"id": "1dafd709-7bf0-52e0-bfdb-b0596d97bef4",
+			"status": "approved",
+			"slug": "shimokitazawa-club251"
+		},
+		{
+			"entityType": "venue",
+			"id": "2dc04dd8-5583-522c-9f86-daa5c7795a1d",
+			"status": "approved",
+			"slug": "shinjuku-smokin-boogie"
+		},
+		{
+			"entityType": "venue",
+			"id": "34a22411-7a9a-5569-81c5-87040de5a1c3",
+			"status": "approved",
+			"slug": "shimokitazawa-cave-be"
+		},
+		{
+			"entityType": "venue",
+			"id": "365d9951-a977-57a5-bb95-f010ac16090e",
+			"status": "approved",
+			"slug": "shimokitazawa-basement-bar"
+		},
+		{
+			"entityType": "venue",
+			"id": "3d314b2b-3aef-51fd-991f-e120fc536101",
+			"status": "approved",
+			"slug": "shimokitazawa-club-que"
+		},
+		{
+			"entityType": "venue",
+			"id": "3edc7125-2a8b-51c8-aecd-8da95a50b98e",
+			"status": "approved",
+			"slug": "shimokitazawa-440"
+		},
+		{
+			"entityType": "venue",
+			"id": "583e47cd-342a-59c5-b32b-e599f8a58d36",
+			"status": "approved",
+			"slug": "shimokitazawa-garden"
+		},
+		{
+			"entityType": "venue",
+			"id": "70b99470-ce01-5d99-8e46-c665ec9a4fc7",
+			"status": "approved",
+			"slug": "shimokitazawa-era"
+		},
+		{
+			"entityType": "venue",
+			"id": "914f26b8-aed9-5510-a151-19507280c529",
+			"status": "approved",
+			"slug": "shinjuku-jam"
+		},
+		{
+			"entityType": "venue",
+			"id": "9583d4b7-56c0-55a9-bdc2-109d9f72f92c",
+			"status": "approved",
+			"slug": "shimokitazawa-garage"
+		},
+		{
+			"entityType": "venue",
+			"id": "ad9905fe-e8c3-59e9-9d23-b603cd0ffe72",
+			"status": "approved",
+			"slug": "shinjuku-liquidroom"
+		},
+		{
+			"entityType": "venue",
+			"id": "bd326597-5f79-5cba-863c-742937439961",
+			"status": "approved",
+			"slug": "shinjuku-loft"
+		},
+		{
+			"entityType": "venue",
+			"id": "bd37d390-d63f-51b6-8040-e658ff963ced",
+			"status": "approved",
+			"slug": "mt-rainier-hall-shibuya-pleasure-pleasure"
+		},
+		{
+			"entityType": "venue",
+			"id": "c9a98c9a-ea5a-5311-8941-3dbd5680f651",
+			"status": "approved",
+			"slug": "zepp-sendai"
+		},
+		{
+			"entityType": "venue",
+			"id": "e01d8e5b-3e2d-5c40-9155-a78ef0d32004",
+			"status": "approved",
+			"slug": "shimokitazawa-highline-records"
+		},
+		{
+			"entityType": "venue",
+			"id": "e283f1e5-a97a-58c8-b45a-8976ba9d0caa",
+			"status": "approved",
+			"slug": "shimokitazawa-shelter"
+		},
+		{
+			"entityType": "venue",
+			"id": "3cf354dd-2680-52e7-8735-a9413f084af6",
+			"status": "approved",
+			"slug": "instagram-monden-account-2"
 		}
 	]
 }
