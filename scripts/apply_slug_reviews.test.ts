@@ -53,7 +53,7 @@ describe('applySlugReviews', () => {
 		expect(secondRun).toMatchObject({ updatedEntitySlugs: 0, updatedEventSlugs: 0, rejected: 0, diagnostics: [] });
 	});
 
-	test('既存slugの変更、同一種別の重複、形式不正を反映前に拒否する', async () => {
+	test('既存slugは再レビュー時に上書きし、同一種別の重複、形式不正は反映前に拒否する', async () => {
 		const store = createInMemorySlugStore({
 			entities: {
 				project: [
@@ -68,13 +68,15 @@ describe('applySlugReviews', () => {
 			events: [],
 		});
 
-		await expect(applySlugReviews(store, reviewArtifact([{ entityType: 'project', id: 'project-1', status: 'approved', slug: 'changed-slug' }]))).rejects.toMatchObject({ code: 'SLUG_IMMUTABLE' });
+		const result = await applySlugReviews(store, reviewArtifact([{ entityType: 'project', id: 'project-1', status: 'approved', slug: 'changed-slug' }]));
+		expect(result).toMatchObject({ updatedEntitySlugs: 1, updatedEventSlugs: 0, rejected: 0, diagnostics: [] });
+		expect(await store.readEntity('project', 'project-1')).toEqual({ id: 'project-1', slug: 'changed-slug' });
 
-		await expect(applySlugReviews(store, reviewArtifact([{ entityType: 'project', id: 'project-2', status: 'approved', slug: 'published-slug' }]))).rejects.toMatchObject({ code: 'SLUG_CONFLICT' });
+		await expect(applySlugReviews(store, reviewArtifact([{ entityType: 'project', id: 'project-2', status: 'approved', slug: 'changed-slug' }]))).rejects.toMatchObject({ code: 'SLUG_CONFLICT' });
 
 		await expect(applySlugReviews(store, reviewArtifact([{ entityType: 'project', id: 'project-2', status: 'approved', slug: 'Bad Slug' }]))).rejects.toMatchObject({ code: 'SLUG_INVALID' });
 
-		expect(await store.readEntity('project', 'project-1')).toEqual({ id: 'project-1', slug: 'published-slug' });
+		expect(await store.readEntity('project', 'project-1')).toEqual({ id: 'project-1', slug: 'changed-slug' });
 	});
 
 	test('venue slugが未確定のeventは更新せず診断を返す', async () => {

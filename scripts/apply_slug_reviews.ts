@@ -51,7 +51,6 @@ export type SlugApplyResult = {
 
 type SlugReviewErrorCode =
 	| 'SLUG_INVALID'
-	| 'SLUG_IMMUTABLE'
 	| 'SLUG_CONFLICT'
 	| 'SLUG_NOT_FOUND'
 	| 'SLUG_REVIEW_INVALID'
@@ -126,9 +125,6 @@ export async function applySlugReviews(store: SlugPersistenceStore, artifact: Sl
 			const slug = decision.slug;
 			if (!slug || !SLUG_PATTERN.test(slug)) {
 				throw new SlugReviewError('SLUG_INVALID', `Approved slug is invalid: ${decisionKey}`);
-			}
-			if (row.slug !== null && row.slug !== slug) {
-				throw new SlugReviewError('SLUG_IMMUTABLE', `Published slug cannot be changed: ${decisionKey}`);
 			}
 
 			const byEntityType = approvedSlugs.get(decision.entityType) ?? new Map<string, string>();
