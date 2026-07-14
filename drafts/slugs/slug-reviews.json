@@ -1,0 +1,66 @@
+{
+	"schemaVersion": 1,
+	"sourceCandidateArtifact": "drafts/slugs/slug-candidates.json",
+	"decisions": [
+		{
+			"entityType": "project",
+			"id": "0d5910ae-d333-5855-badd-c8676ce27614",
+			"status": "approved",
+			"slug": "sonotano-meigi"
+		},
+		{
+			"entityType": "project",
+			"id": "2cfef5ac-a367-5414-8075-8b0753dc4186",
+			"status": "approved",
+			"slug": "monden-masaaki-solo-2010"
+		},
+		{
+			"entityType": "project",
+			"id": "3448069e-e97a-56fb-b9c3-0710de0d019d",
+			"status": "approved",
+			"slug": "monden-masaaki-solo-2020"
+		},
+		{
+			"entityType": "project",
+			"id": "781dec78-6ac2-5588-b3fa-0f5c9c4ebfa6",
+			"status": "approved",
+			"slug": "sunchester-united-fc"
+		},
+		{
+			"entityType": "person",
+			"id": "00e41dd4-0728-5564-8458-1ffedb006ef7",
+			"status": "approved",
+			"slug": "yoshida-kazuya"
+		},
+		{
+			"entityType": "person",
+			"id": "040cf11d-19d1-5868-976a-fdfe83ea06bb",
+			"status": "approved",
+			"slug": "itoh-hiroaki"
+		},
+		{
+			"entityType": "person",
+			"id": "07db5134-83eb-525a-bf30-cae89459c564",
+			"status": "approved",
+			"slug": "shimada-tomorou"
+		},
+		{
+			"entityType": "person",
+			"id": "085f4961-22e9-5c07-bf4c-593c9bbcfed3",
+			"status": "approved",
+			"slug": "sakurai-kasumi"
+		},
+		{
+			"entityType": "person",
+			"id": "0db2f39a-73fa-5133-bf85-324ef11a8d8f",
+			"status": "approved",
+			"slug": "hamada-kuniko"
+		},
+		{
+			"entityType": "person",
+			"id": "0fc66a48-b2c6-5eb3-a3a9-616289039724",
+			"status": "approved",
+			"slug": "wakatsuki-akiko"
+		}
+	]
+}
