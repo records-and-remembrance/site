@@ -17,18 +17,22 @@ export→build→Cloudflare static assetsへのデプロイを、再現可能な
 - データ更新時の `site:release`（export → build → check → deploy）と、失敗時に古い公開物を
   壊さない順序。`site:deploy` 自体は検証済みの `site/dist` だけを公開する。
 - deploy前の未解決slug・broken link・buildエラー検査。
-- deploy後の代表URL smoke check。
+- deploy後の代表URL smoke check。`SITE_PUBLIC_URL`を必須入力とし、トップ、主要一覧、
+  about、404をHTTP GETで確認する。
+- `scripts/site_release.ts` と `scripts/site_smoke_check.ts` の失敗時停止・診断出力・実行順序。
 
 ## テスト方針
 
 - 実デプロイ前にfixtureでexport→build→検査の一連を通す。
 - wrangler設定をdry-run相当で検証し、DB接続なしの公開成果物を確認する。
+- smoke checkはfetch実装を注入した契約テストで、相対URL正規化、2xx以外、通信失敗、全URL成功を検証する。
 - preview環境で代表route、cache header、画像URL、404をHTTP契約テストする。
 - deploy失敗時に部分成果物を公開しないことを手順またはCIテストで確認する。
 
 ## 受け入れ条件
 
 - `bun run site:release` が export → build → check → deploy を順に実行する実運用手順になる。
+  deploy後に `SITE_PUBLIC_URL` のsmoke checkまで実行し、URL未指定では開始しない。
   `site:deploy` は検証済み成果物の再公開だけに単独利用できる。
 - 閲覧時にPostgreSQLやHono APIへ接続しない。
 - hash付きassetとHTMLのcache方針が設定どおりになる。

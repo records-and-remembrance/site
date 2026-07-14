@@ -22,11 +22,18 @@ fixtureを使った公開成果物の確認として、次を実行した。
 ```text
 bun test --max-concurrency=1
 bun test scripts/site_check.test.ts
+bun test scripts/site_smoke_check.test.ts scripts/site_release.test.ts
 bun run typecheck
 bun run site:build
 bun run site:search:index
 bun run site:check
 bun run db:generate:slug-candidates -- --source-snapshot db-2026-07-14T00:00:00Z --output /private/tmp/monden-slug-candidates-20260714.json
+```
+
+実デプロイ時のみ、公開先を明示して次を実行する。今回の受け入れでは未実行。
+
+```text
+SITE_SNAPSHOT_GENERATED_AT=2026-07-14T00:00:00.000Z SITE_PUBLIC_URL=https://<preview-host> bun run site:release
 ```
 
 確認済みの成果物は、トップ、404、about、projects、people、discography、songs、lives、venues、network、timeline、library、search、およびPagefind indexである。`site:check` は内部リンク、anchor、PostgreSQL/API参照を検査する。
@@ -57,4 +64,4 @@ DBの公開対象件数とslug設定状況は次のとおりで、slug設定済�
 - `ANALYZE`、黄金の鐘、複数プロジェクト人物、孤立venue、live-only、track 0件
 - NULL／日付精度／未来event、reissue、前後公演、資料室article anchor
 - 実DBsnapshotのmanifest `contentHash` と対象URLのリンクグラフ
-- Cloudflare previewのcache header、画像origin、404
+- Cloudflare previewのcache header、画像origin、404、deploy後smoke check
