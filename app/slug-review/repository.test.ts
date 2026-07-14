@@ -17,6 +17,7 @@ const candidateArtifact = {
 			displayName: '門田匡陽',
 			existingSlug: null,
 			candidateSlug: null,
+			aiSuggestedSlug: 'kadota-masaharu',
 			basis: { method: 'unconvertible', source: 'display-name' },
 			status: 'needs_review',
 			diagnostics: [{ code: 'untransliterated-characters', message: '読みを確認してください', characters: '門田匡陽' }],
@@ -63,7 +64,7 @@ describe('slug review repository', () => {
 		const result = await repository.get();
 
 		expect(result.records).toHaveLength(3);
-		expect(result.records[0]?.review).toEqual({ status: 'pending', slug: null });
+		expect(result.records[0]?.review).toEqual({ status: 'pending', slug: 'kadota-masaharu' });
 		expect(result.records[1]?.review).toEqual({ status: 'pending', slug: 'john-doe' });
 		expect(result.meta.reviewStatuses).toEqual({ pending: 3, approved: 0, rejected: 0 });
 	});

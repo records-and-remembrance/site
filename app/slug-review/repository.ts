@@ -42,7 +42,7 @@ function decisionKey(entityType: SlugEntityType, id: string): string {
 }
 
 function reviewState(record: SlugReviewListRecord, decision: SlugReviewDecision | undefined): SlugReviewListRecord['review'] {
-	return decision ? { status: decision.status, slug: decision.slug } : { status: 'pending', slug: record.candidateSlug };
+	return decision ? { status: decision.status, slug: decision.slug } : { status: 'pending', slug: record.aiSuggestedSlug ?? record.candidateSlug };
 }
 
 function countReviewStatuses(statuses: SlugReviewStatus[]): Record<SlugReviewStatus, number> {

@@ -5,7 +5,7 @@ import { Button, Input, Label, SearchField, TextField } from 'react-aria-compone
 import type { SlugEntityType } from '../../../../../scripts/generate_slug_candidates';
 import type { SlugReviewDecisionInput, SlugReviewListRecord, SlugReviewStatus } from '../../../../slug-review/types';
 import { getSlugReviewArtifact, getSlugReviewDataset, saveSlugReviewDecision } from './api';
-import { filterSlugReviewRecords, nextPendingSlugReviewRecord, slugReviewRecordKey, type SlugReviewFilter } from './state';
+import { filterSlugReviewRecords, nextPendingSlugReviewRecord, slugReviewDefaultSlug, slugReviewRecordKey, type SlugReviewFilter } from './state';
 
 const entityLabels: Record<SlugEntityType, string> = {
 	project: 'プロジェクト',
@@ -51,7 +51,7 @@ function CandidateQueueItem({ record }: { record: SlugReviewListRecord }) {
 }
 
 function SlugDecisionForm({ record, isSaving, onSave }: { record: SlugReviewListRecord; isSaving: boolean; onSave: (input: SlugReviewDecisionInput) => void }) {
-	const [slug, setSlug] = useState(record.review.slug ?? record.candidateSlug ?? '');
+	const [slug, setSlug] = useState(() => slugReviewDefaultSlug(record));
 	const trimmedSlug = slug.trim();
 
 	return (

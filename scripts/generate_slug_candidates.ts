@@ -57,6 +57,7 @@ export type SlugCandidateRecord = {
 	displayName: string;
 	existingSlug: string | null;
 	candidateSlug: string | null;
+	aiSuggestedSlug?: string | null;
 	basis: SlugAnalysis['basis'];
 	status: 'proposed' | 'preserved' | 'needs_review';
 	diagnostics: SlugDiagnostic[];

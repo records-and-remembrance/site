@@ -34,6 +34,10 @@ export function nextPendingSlugReviewRecord(records: SlugReviewListRecord[], cur
 	return next ? recordKey(next) : undefined;
 }
 
+export function slugReviewDefaultSlug(record: Pick<SlugReviewListRecord, 'review' | 'aiSuggestedSlug' | 'candidateSlug'>): string {
+	return record.review.slug ?? record.aiSuggestedSlug ?? record.candidateSlug ?? '';
+}
+
 export function slugReviewRecordKey(record: Pick<SlugReviewListRecord, 'entityType' | 'id'>): string {
 	return recordKey(record);
 }

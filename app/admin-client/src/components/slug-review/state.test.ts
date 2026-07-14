@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import type { SlugReviewListRecord } from '../../../../slug-review/types';
-import { filterSlugReviewRecords, nextPendingSlugReviewRecord } from './state';
+import { filterSlugReviewRecords, nextPendingSlugReviewRecord, slugReviewDefaultSlug } from './state';
 
 function record(
 	entityType: SlugReviewListRecord['entityType'],
@@ -30,6 +30,14 @@ const records = [
 ];
 
 describe('slug review state', () => {
+	test('uses the saved slug first, then the AI suggestion as the default', () => {
+		const candidate = { ...records[0]!, aiSuggestedSlug: 'kadota-masaharu' };
+
+		expect(slugReviewDefaultSlug(candidate)).toBe('kadota-masaharu');
+		expect(slugReviewDefaultSlug({ ...candidate, review: { status: 'approved', slug: 'saved-slug' } })).toBe('saved-slug');
+		expect(slugReviewDefaultSlug({ ...candidate, aiSuggestedSlug: null, candidateSlug: 'generated-candidate' })).toBe('generated-candidate');
+	});
+
 	test('filters needs-review records by search and review status', () => {
 		expect(
 			filterSlugReviewRecords(records, {
