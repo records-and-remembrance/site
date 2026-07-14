@@ -6,6 +6,7 @@ import { emptySiteDatabaseRows, SITE_TABLE_NAMES, type SiteDatabaseRows } from '
 
 const repositoryRoot = join(import.meta.dir, '../../..');
 type SnapshotRows = Partial<SiteDatabaseRows>;
+let buildQueue = Promise.resolve();
 
 const createSnapshot = (partialRows: SnapshotRows = {}) => {
 	const tables = { ...emptySiteDatabaseRows(), ...partialRows };
@@ -43,15 +44,25 @@ const createBuildFixture = async (snapshot: ReturnType<typeof createSnapshot>): 
 };
 
 const buildSongsPage = async (siteRoot: string): Promise<string> => {
-	const childProcess = Bun.spawn(['bun', 'x', 'astro', 'build', '--root', siteRoot], {
-		cwd: repositoryRoot,
-		env: { ...process.env, SITE_DATA_PATH: join(siteRoot, 'src/data/site.generated.json') },
-		stderr: 'pipe',
-		stdout: 'pipe',
+	const previousBuild = buildQueue;
+	let releaseBuild!: () => void;
+	buildQueue = new Promise<void>((resolve) => {
+		releaseBuild = resolve;
 	});
-	const [exitCode, stdout, stderr] = await Promise.all([childProcess.exited, new Response(childProcess.stdout).text(), new Response(childProcess.stderr).text()]);
-	if (exitCode !== 0) throw new Error(`Astro build failed:\n${stdout}\n${stderr}`);
-	return await readFile(join(siteRoot, 'dist', 'songs', 'index.html'), 'utf8');
+	await previousBuild;
+	try {
+		const childProcess = Bun.spawn(['bun', 'x', 'astro', 'build', '--root', '.'], {
+			cwd: siteRoot,
+			env: { ...process.env, SITE_DATA_PATH: join(siteRoot, 'src/data/site.generated.json') },
+			stderr: 'pipe',
+			stdout: 'pipe',
+		});
+		const [exitCode, stdout, stderr] = await Promise.all([childProcess.exited, new Response(childProcess.stdout).text(), new Response(childProcess.stderr).text()]);
+		if (exitCode !== 0) throw new Error(`Astro build failed:\n${stdout}\n${stderr}`);
+		return await readFile(join(siteRoot, 'dist', 'songs', 'index.html'), 'utf8');
+	} finally {
+		releaseBuild();
+	}
 };
 
 describe('PST-013 /songs', () => {

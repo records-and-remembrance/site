@@ -9,14 +9,15 @@ interface Props {
 	allowedOrigins?: readonly string[];
 	transformOrigin?: string;
 	transformWidth?: number;
+	loading?: 'lazy' | 'eager';
 }
 
-const { url = null, width = null, height = null, alt, allowedOrigins = [], transformOrigin, transformWidth } = Astro.props;
+const { url = null, width = null, height = null, alt, allowedOrigins = [], transformOrigin, transformWidth, loading = 'lazy' } = Astro.props;
 const display = buildArtworkDisplay({ url, width, height }, { allowedOrigins, transformOrigin, width: transformWidth });
 ---
 
 {display.kind === 'image' ? (
-	<img src={display.src} width={display.width} height={display.height} alt={alt} loading="lazy" />
+	<img src={display.src} width={display.width} height={display.height} alt={alt} loading={loading} decoding="async" fetchpriority={loading === 'eager' ? 'high' : 'auto'} />
 ) : (
 	<div class="artwork-fallback" role="img" aria-label={alt}>{alt}</div>
 )}

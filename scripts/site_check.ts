@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-export type SiteCheckResult = { files: string[]; brokenLinks: string[]; forbiddenRequests: string[] };
+export type SiteCheckResult = { files: string[]; brokenLinks: string[]; brokenAnchors: string[]; forbiddenRequests: string[] };
 
 export const checkSiteArtifacts = (distRoot: string): SiteCheckResult => {
 	const required = [
@@ -22,6 +22,7 @@ export const checkSiteArtifacts = (distRoot: string): SiteCheckResult => {
 	];
 	const files = required.filter((file) => existsSync(join(distRoot, file)));
 	const brokenLinks: string[] = required.filter((file) => !existsSync(join(distRoot, file)));
+	const brokenAnchors: string[] = [];
 	const forbiddenRequests: string[] = [];
 	const htmlFiles = walk(distRoot).filter((file) => file.endsWith('.html'));
 	for (const file of htmlFiles) {
@@ -33,13 +34,25 @@ export const checkSiteArtifacts = (distRoot: string): SiteCheckResult => {
 			const target = path === '/' ? 'index.html' : `${path.replace(/^\//u, '').replace(/\/$/u, '')}/index.html`;
 			if (!existsSync(join(distRoot, target))) brokenLinks.push(`${relative(distRoot, file)} -> ${path}`);
 		}
+		for (const match of html.matchAll(/href="(\/[^"#]+#[^"#]*)"/gu)) {
+			const href = match[1];
+			if (!href) continue;
+			const url = new URL(href, 'https://public-site.invalid');
+			if (url.pathname.startsWith('/_astro/') || url.pathname.startsWith('/pagefind/') || url.pathname === '/favicon.svg') continue;
+			const target = url.pathname === '/' ? 'index.html' : `${url.pathname.replace(/^\//u, '').replace(/\/$/u, '')}/index.html`;
+			if (!existsSync(join(distRoot, target))) continue;
+			const anchor = decodeURIComponent(url.hash.slice(1));
+			const targetHtml = readFileSync(join(distRoot, target), 'utf8');
+			const escapedAnchor = anchor.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+			if (!new RegExp(`(?:id|name)=(['"])${escapedAnchor}\\1`, 'u').test(targetHtml)) brokenAnchors.push(`${relative(distRoot, file)} -> ${href}`);
+		}
 	}
-	return { files, brokenLinks: [...new Set(brokenLinks)], forbiddenRequests };
+	return { files, brokenLinks: [...new Set(brokenLinks)], brokenAnchors: [...new Set(brokenAnchors)], forbiddenRequests };
 };
 
 export const assertSiteArtifacts = (distRoot: string): SiteCheckResult => {
 	const result = checkSiteArtifacts(distRoot);
-	if (result.brokenLinks.length > 0 || result.forbiddenRequests.length > 0) throw new Error(`site artifact check failed: ${JSON.stringify(result)}`);
+	if (result.brokenLinks.length > 0 || result.brokenAnchors.length > 0 || result.forbiddenRequests.length > 0) throw new Error(`site artifact check failed: ${JSON.stringify(result)}`);
 	return result;
 };
 
