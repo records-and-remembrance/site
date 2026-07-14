@@ -15,6 +15,7 @@
 - `project` / `person` / `composition` / `work` / `venue` の候補生成。
 - 候補の重複検出、`-2` 以降の衝突候補、空文字・変換不能値の診断。
 - 元の表示名、候補、根拠、衝突情報を持つレビュー用artifactの出力。
+- `scripts/generate_slug_candidates_db.ts` によるDBからの5種対象の取得と、明示したsnapshot識別子を持つ候補artifact生成。
 - artifactのschema version、入力スナップショット識別子、対象行の安定IDを記録する。
   artifactの並びは種別・表示名・安定IDで固定し、DBの返却順に依存しない。
 
@@ -22,6 +23,7 @@
 
 - 先に純粋関数のテストを書き、英字、日本語、記号、空白、同名、変換不能値を表で検証する。
 - 同じ入力を複数回処理した結果が同一になることを検証する。
+- DB adapterのfixtureで、5種の対象を固定した順序で取得し、`sourceSnapshot`をartifactへ引き継ぐことを検証する。
 - 候補生成が既存のDB値やレビュー済み値を変更しないことをfixtureで検証する。
 - SQLやファイルの行順ではなく、候補の意味と診断結果を契約としてテストする。
 
@@ -31,6 +33,7 @@
 - 同一候補がある場合、衝突を黙って上書きせず、採用候補と衝突情報を出力する。
 - 変換不能・空候補は人手レビュー対象として明示される。
 - 同じDBスナップショットから同じartifactを再生成できる。
+- `bun run db:generate:slug-candidates -- --source-snapshot <識別子>` で実DBの5種対象を取得し、候補artifactを再生成できる。`--source-snapshot` がない実行は失敗する。
 - artifactは候補ごとに、衝突グループ、採番候補、変換規則の版を示す。
 - 候補生成だけで公開URLを確定せず、PST-003のレビューを経る。
 
