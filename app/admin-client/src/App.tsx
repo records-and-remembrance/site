@@ -1,4 +1,4 @@
-import { BookOpenText, CalendarDays, ChevronRight, CircleUserRound, Database, Disc3, FolderKanban, Handshake, Library, Menu, Music2, Newspaper, Settings2, X } from 'lucide-react';
+import { BookOpenText, CalendarDays, ChevronRight, CircleUserRound, Database, Disc3, FolderKanban, Handshake, KeyRound, Library, Menu, Music2, Newspaper, Settings2, X } from 'lucide-react';
 import { useQueryStates } from 'nuqs';
 import { lazy, Suspense, useState } from 'react';
 import { Button } from 'react-aria-components';
@@ -25,6 +25,11 @@ const RecordingOrganizerScreen = lazy(async () => {
 const MagazineReviewScreen = lazy(async () => {
 	const module = await import('./components/magazine-review/MagazineReviewScreen');
 	return { default: module.MagazineReviewScreen };
+});
+
+const SlugReviewScreen = lazy(async () => {
+	const module = await import('./components/slug-review/SlugReviewScreen');
+	return { default: module.SlugReviewScreen };
 });
 
 export function App() {
@@ -95,6 +100,11 @@ export function App() {
 						<span>雑誌掲載</span>
 						<ChevronRight className="nav-chevron" size={15} />
 					</Button>
+					<Button className={`nav-item ${resource === 'slug-review' ? 'is-active' : ''}`} onPress={() => navigate('slug-review')}>
+						<KeyRound size={18} />
+						<span>slug候補</span>
+						<ChevronRight className="nav-chevron" size={15} />
+					</Button>
 				</nav>
 
 				<div className="sidebar-footer">
@@ -123,6 +133,10 @@ export function App() {
 				) : resource === 'magazine-review' ? (
 					<Suspense fallback={<div className="empty-state">雑誌掲載レビューを読み込み中</div>}>
 						<MagazineReviewScreen />
+					</Suspense>
+				) : resource === 'slug-review' ? (
+					<Suspense fallback={<div className="empty-state">slug候補レビューを読み込み中</div>}>
+						<SlugReviewScreen />
 					</Suspense>
 				) : (
 					<ResourceScreen key={resource} resource={resource} detailTarget={detailTarget} onOpenDetail={openDetail} onCloseDetail={closeDetail} />

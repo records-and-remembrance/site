@@ -2,6 +2,7 @@ import { expect, test } from 'bun:test';
 import type { AdminRepository } from './admin/types';
 import type { RecordingOrganizerRepository } from './recording-organizer/types';
 import type { MagazineReviewRepository } from './magazine-review/types';
+import type { SlugReviewRepository } from './slug-review/types';
 import { createApp } from './server';
 
 const repository: AdminRepository = {
@@ -69,8 +70,24 @@ const magazineReviewRepository: MagazineReviewRepository = {
 	},
 };
 
+const slugReviewRepository: SlugReviewRepository = {
+	async get() {
+		return {
+			summary: { total: 0, proposed: 0, preserved: 0, needsReview: 0, collisions: 0, unresolved: 0 },
+			meta: { reviewStatuses: { pending: 0, approved: 0, rejected: 0 } },
+			records: [],
+		};
+	},
+	async saveDecision(entityType, id, input) {
+		return { entityType, id, ...input };
+	},
+	async getArtifact() {
+		return { schemaVersion: 1, sourceCandidateArtifact: 'slug-candidates.json', decisions: [] };
+	},
+};
+
 test('keeps the composition review UI and mounts the admin API', async () => {
-	const app = createApp({ adminRepository: repository, recordingOrganizerRepository, magazineReviewRepository });
+	const app = createApp({ adminRepository: repository, recordingOrganizerRepository, magazineReviewRepository, slugReviewRepository });
 
 	const reviewResponse = await app.request('/');
 	expect(reviewResponse.status).toBe(200);
@@ -95,4 +112,8 @@ test('keeps the composition review UI and mounts the admin API', async () => {
 	expect(await magazineResponse.json()).toMatchObject({
 		data: { summary: { sourceRows: 241 } },
 	});
+
+	const slugResponse = await app.request('/api/slug-review');
+	expect(slugResponse.status).toBe(200);
+	expect(await slugResponse.json()).toMatchObject({ data: { summary: { total: 0 } } });
 });

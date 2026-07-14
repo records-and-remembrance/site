@@ -15,6 +15,9 @@ import type { RecordingOrganizerRepository } from './recording-organizer/types';
 import { createMagazineReviewRepository } from './magazine-review/repository';
 import { createMagazineReviewRoutes } from './magazine-review/routes';
 import type { MagazineReviewRepository } from './magazine-review/types';
+import { createSlugReviewRepository } from './slug-review/repository';
+import { createSlugReviewRoutes } from './slug-review/routes';
+import type { SlugReviewRepository } from './slug-review/types';
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const PUBLIC_DIR = join(ROOT, 'app', 'public');
@@ -23,6 +26,7 @@ interface AppOptions {
 	adminRepository?: AdminRepository;
 	recordingOrganizerRepository?: RecordingOrganizerRepository;
 	magazineReviewRepository?: MagazineReviewRepository;
+	slugReviewRepository?: SlugReviewRepository;
 }
 
 export function createApp(options: AppOptions = {}) {
@@ -34,6 +38,13 @@ export function createApp(options: AppOptions = {}) {
 		createMagazineReviewRepository({
 			artifactPath: join(ROOT, 'drafts', 'magazines', 'monden-magazine.json'),
 			decisionsPath: join(ROOT, 'drafts', 'magazines', 'monden-magazine-decisions.json'),
+		});
+	const slugReviewRepository =
+		options.slugReviewRepository ??
+		createSlugReviewRepository({
+			candidatePath: Bun.env.SLUG_CANDIDATES_PATH ?? join(ROOT, 'drafts', 'slugs', 'slug-candidates.json'),
+			decisionsPath: Bun.env.SLUG_REVIEWS_PATH ?? join(ROOT, 'drafts', 'slugs', 'slug-reviews.json'),
+			sourceCandidateArtifact: Bun.env.SLUG_CANDIDATE_ARTIFACT ?? 'drafts/slugs/slug-candidates.json',
 		});
 
 	app.get('/', async (c) => {
@@ -74,6 +85,7 @@ export function createApp(options: AppOptions = {}) {
 	app.route('/api/admin', createAdminRoutes(adminRepository));
 	app.route('/api/recording-organizer', createRecordingOrganizerRoutes(recordingOrganizerRepository));
 	app.route('/api/magazine-review', createMagazineReviewRoutes(magazineReviewRepository));
+	app.route('/api/slug-review', createSlugReviewRoutes(slugReviewRepository));
 
 	app.notFound((c) => c.json({ error: 'not found' }, 404));
 
@@ -100,4 +112,5 @@ if (import.meta.main) {
 	console.log(`Admin API: http://localhost:${port}/api/admin`);
 	console.log(`Recording organizer API: http://localhost:${port}/api/recording-organizer`);
 	console.log(`Magazine review API: http://localhost:${port}/api/magazine-review`);
+	console.log(`Slug review API: http://localhost:${port}/api/slug-review`);
 }

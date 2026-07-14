@@ -38,4 +38,4 @@
 
 ## 対象外
 
-slugを編集するadmin画面そのもの、Astroの動的ルート、全件のslugを一度に必須化するDB変更。
+slug候補を逐次確認・入力するadmin画面は [PST-003a](PST-003a-slug-review-ui.md) で扱う。Astroの動的ルート、全件のslugを一度に必須化するDB変更も対象外とする。

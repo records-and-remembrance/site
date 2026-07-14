@@ -51,16 +51,16 @@
 
 ### 次回更新欄
 
-- 更新日: —
-- 更新者: —
-- 更新したチケット: —
-- 実施したテスト／確認: —
-- 次のアクション: —
-- ブロッカー／要承認事項: —
+- 更新日: 2026-07-14
+- 更新者: Codex
+- 更新したチケット: PST-003a
+- 実施したテスト／確認: slug review repository/routes/state、server route、accessibility契約、typecheck、lint、formatter、admin build
+- 次のアクション: `SLUG_CANDIDATES_PATH` を指定してadmin画面を起動し、needs_reviewを人手確認する
+- ブロッカー／要承認事項: DB反映（PST-003）はレビューartifactの人間確認後に実行する
 
 ### 全体メモ
 
-- 次に着手する作業: `/private/tmp/monden-slug-candidates-20260714.json` を人手レビューし、承認済みslugだけでPST-003を実施する。その後PST-006の実DBsnapshotでPST-030の受け入れを再実施する
+- 次に着手する作業: PST-003aのslug候補レビュー画面で `/private/tmp/monden-slug-candidates-20260714.json` を人手レビューし、承認済みslugだけでPST-003を実施する。その後PST-006の実DBsnapshotでPST-030の受け入れを再実施する
 - 次のマイルストーン: fixtureでの静的リリース導線は完了。実DBsnapshotによる総合確認を完了する
 - 現在のリスク／確認事項: 実DBの公開対象6種は合計558行でslug設定済みが0件。候補artifactは558件（提案198件、人手レビュー360件）で、レビューartifact未確定のため実DBのexportは `PUBLIC_SLUG_MISSING` 953件で停止している。PST-029のコード側smoke checkは実装済みだが、公開先URLでの実行は未確認。表示名やUUIDをslugへフォールバックせず、slugレビュー後に再実行する
 
@@ -71,6 +71,7 @@
 | [PST-001](PST-001-db-extension.md)             | P0       | DB拡張マイグレーションと契約確認       | -                                  | 完了         | Codex   | 2026-07-13 | 2026-07-13 | `b11ec0d`             | —                                  |
 | [PST-002](PST-002-slug-candidate-pipeline.md)  | P0       | slug候補生成                           | PST-001                            | 完了         | Erdos   | 2026-07-13 | 2026-07-14 | `本コミット`          | —                                  |
 | [PST-003](PST-003-slug-review-persistence.md)  | P0       | slugレビュー・確定値反映               | PST-002                            | 受け入れ待ち | Codex   | 2026-07-13 | —          | `d6d9041`             | 承認済みslugレビューartifact未確定 |
+| [PST-003a](PST-003a-slug-review-ui.md)         | P0       | slug候補の逐次レビュー画面             | PST-002                            | レビュー待ち | Codex   | 2026-07-14 | —          | `7df41e8`             | 人間レビューとartifact確定待ち     |
 | [PST-004](PST-004-artwork-storage.md)          | P0       | ジャケット画像のR2・admin登録          | PST-001                            | 完了         | Mendel  | 2026-07-13 | 2026-07-13 | `b700e81` / `7cda53b` | —                                  |
 | [PST-005](PST-005-site-bootstrap.md)           | P1       | Astroサイトとビルド導線                | -                                  | 完了         | Goodall | 2026-07-13 | 2026-07-13 | `b700e81`             | —                                  |
 | [PST-006](PST-006-export-contract.md)          | P1       | DB→静的JSON export契約                 | PST-001, PST-003, PST-005          | 受け入れ待ち | Codex   | 2026-07-13 | —          | `6ea7022`             | PST-003の承認済みslug未確定        |
@@ -103,13 +104,13 @@
 
 | フェーズ | 件数 | 未着手 | 進行中 | レビュー待ち | 受け入れ待ち | 完了 | 保留 | 次の判断／メモ                                          |
 | -------- | ---: | -----: | -----: | -----------: | -----------: | ---: | ---: | ------------------------------------------------------- |
-| P0       |    4 |      — |      — |            — |            1 |    3 |    — | PST-003の実DB受け入れ待ち                               |
+| P0       |    5 |      — |      — |            1 |            1 |    3 |    — | PST-003の実DB受け入れとPST-003aの人間レビュー待ち       |
 | P1       |    4 |      — |      — |            — |            1 |    3 |    — | PST-006の実DBsnapshot待ち                               |
 | P2       |   10 |      — |      — |            — |            — |   10 |    — | 完了                                                    |
 | P3       |    4 |      — |      — |            — |            — |    4 |    — | 完了                                                    |
 | P4       |    5 |      — |      — |            — |            — |    5 |    — | 完了                                                    |
 | P5       |    3 |      — |      — |            — |            2 |    1 |    — | PST-029の公開先smokeとPST-030の実DBsnapshot待ち         |
-| 合計     |   30 |      — |      — |            — |            4 |   26 |    — | fixture検証完了、実DBのslugレビューと公開先受け入れ待ち |
+| 合計     |   31 |      — |      — |            1 |            4 |   26 |    — | fixture検証完了、実DBのslugレビューと公開先受け入れ待ち |
 
 ## フェーズ完了ゲート
 
