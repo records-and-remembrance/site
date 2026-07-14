@@ -16,6 +16,8 @@
 		"review:magazines:generate": "bun scripts/generate_magazine_review.ts",
 		"site:build": "astro build --root site",
 		"site:search:index": "pagefind --site site/dist",
+		"site:check": "bun scripts/site_check.ts",
+		"site:release": "bun scripts/site_release.ts",
 		"site:deploy": "wrangler deploy --config site/wrangler.jsonc",
 		"site:export": "bun site/export/export.ts",
 		"test": "bun test",

@@ -1,0 +1,17 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="ページが見つかりません" breadcrumbs={[{ label: 'ページが見つかりません' }]}>
+	<section aria-labelledby="not-found-title">
+		<p class="eyebrow">404</p>
+		<h1 id="not-found-title">ページが見つかりません</h1>
+		<p>URLを確認するか、主要な一覧から記録を探してください。</p>
+		<ul>
+			<li><a href="/">ホーム</a></li>
+			<li><a href="/discography">作品</a></li>
+			<li><a href="/lives">ライブ</a></li>
+			<li><a href="/search">検索</a></li>
+		</ul>
+	</section>
+</SiteLayout>
