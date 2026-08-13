@@ -1,9 +1,10 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import DateText from '../../components/DateText.astro';
-import { siteTableRows } from '../../data';
+import { siteData, siteTableRows } from '../../data';
 import { buildPersonPageModel, type SiteRow } from '../../lib/people';
 import { buildEntityHref } from '../../lib/site-foundation';
+import { buildTimelinePosition } from '../../lib/timeline-position';
 
 export function getStaticPaths() {
 	const people = siteTableRows('person');
@@ -35,6 +36,9 @@ const model = selectedPerson
 	})
 	: undefined;
 const slug = Astro.params.slug ?? '';
+const membershipDates = model?.memberships.flatMap((membership) => [membership.fromDate, membership.toDate]).filter((value): value is string => Boolean(value)) ?? [];
+const timelineStart = model?.activityPeriod.from ?? membershipDates.sort()[0] ?? siteData.snapshotGeneratedAt.slice(0, 10);
+const timelineEnd = model?.activityPeriod.to ?? (siteData.snapshotGeneratedAt.slice(0, 10) || membershipDates.at(-1) || timelineStart);
 ---
 
 <SiteLayout
@@ -58,9 +62,28 @@ const slug = Astro.params.slug ?? '';
 				)}
 			</header>
 
+			{model.roleSummary.length > 0 && (
+				<section aria-labelledby="role-summary-title" class="person-role-summary">
+					<h2 id="role-summary-title">役割の集計</h2>
+					<ul>{model.roleSummary.map((role) => <li><span>{role.label}</span><strong>{role.count}</strong></li>)}</ul>
+				</section>
+			)}
+
 			{model.memberships.length > 0 && (
 				<section aria-labelledby="memberships-title">
 					<h2 id="memberships-title">在籍・参加</h2>
+					<div class="person-timeline" style={`--person-timeline-start: ${timelineStart.slice(0, 4)}; --person-timeline-end: ${timelineEnd.slice(0, 4)};`}>
+						<div class="person-timeline__axis"><span>{timelineStart.slice(0, 4)}</span><span>現在</span></div>
+						<ol>
+							{model.memberships.map((membership) => {
+								const position = buildTimelinePosition(membership.fromDate, timelineStart, timelineEnd, membership.toDate);
+								return <li style={`--project-color: ${membership.projectColor}; --timeline-left: ${position.left}%; --timeline-width: ${position.width}%;`}>
+									<span class="person-timeline__label">{membership.projectHref ? <a href={membership.projectHref}>{membership.projectName}</a> : membership.projectName}</span>
+									<span class="person-timeline__track"><span class={membership.support ? 'person-timeline__bar person-timeline__bar--support' : 'person-timeline__bar'}></span></span>
+								</li>;
+							})}
+						</ol>
+					</div>
 					<ol>
 						{model.memberships.map((membership) => (
 							<li>
@@ -164,3 +187,105 @@ const slug = Astro.params.slug ?? '';
 		<p>人物が見つかりません。</p>
 	)}
 </SiteLayout>
+
+<style>
+	article[aria-labelledby='person-title'] {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	article[aria-labelledby='person-title'] > header {
+		max-width: var(--reading-width);
+	}
+
+	.person-role-summary ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.person-role-summary li {
+		display: inline-flex;
+		gap: var(--space-2);
+		align-items: baseline;
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.person-role-summary strong {
+		font-variant-numeric: tabular-nums;
+	}
+
+	.person-timeline {
+		overflow-x: auto;
+		padding-block: var(--space-2);
+	}
+
+	.person-timeline__axis,
+	.person-timeline li {
+		display: grid;
+		grid-template-columns: 11rem minmax(30rem, 1fr);
+		gap: var(--space-3);
+		align-items: center;
+	}
+
+	.person-timeline__axis {
+		margin-inline-start: 11rem;
+		grid-template-columns: minmax(30rem, 1fr);
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	.person-timeline__axis > span:last-child {
+		justify-self: end;
+	}
+
+	.person-timeline ol {
+		display: grid;
+		gap: var(--space-2);
+		min-width: 46rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.person-timeline li {
+		padding-block: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.person-timeline__track {
+		position: relative;
+		block-size: 12px;
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.person-timeline__bar {
+		position: absolute;
+		inset-block-start: 2px;
+		left: var(--timeline-left);
+		width: var(--timeline-width);
+		block-size: 8px;
+		background: var(--project-color);
+	}
+
+	.person-timeline__bar--support {
+		background: transparent;
+		border: 2px dashed var(--project-color);
+	}
+
+	@media (max-width: 640px) {
+		.person-timeline__axis,
+		.person-timeline li {
+			grid-template-columns: 8rem minmax(22rem, 1fr);
+		}
+
+		.person-timeline__axis {
+			margin-inline-start: 8rem;
+		}
+	}
+</style>

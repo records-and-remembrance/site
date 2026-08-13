@@ -38,7 +38,7 @@ describe('PST-022 song discovery', () => {
 				{ id: 'e3', eventDate: '2013-01-01', slug: 'e3' },
 			],
 		});
-		expect(history.revivals).toEqual([{ date: '2013-01-01', gapFrom: '2010-01-01', eventHref: '/lives/e2' }]);
+		expect(history.revivals).toEqual([{ date: '2013-01-01', gapFrom: '2010-01-01', gapYears: 3, eventHref: '/lives/e2' }]);
 		expect(buildSongJourney('c', { ...source, recording: [], track: [] })).toEqual([]);
 	});
 });

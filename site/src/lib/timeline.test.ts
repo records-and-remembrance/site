@@ -14,6 +14,7 @@ describe('PST-021 timeline', () => {
 		expect(entries.map((entry) => entry.date)).toEqual(['1999-01-01', '2000-02-03', '2001-01-01', '2006-07-08']);
 		expect(entries.find((entry) => entry.kind === 'event')?.aggregated).toBe(true);
 		expect(entries.find((entry) => entry.kind === 'release')?.href).toBe('/discography/work');
+		expect(entries.find((entry) => entry.kind === 'event')?.projectColor).toBe('var(--project-other)');
 	});
 
 	test('external projectと空日付をtimelineへ含めない', () => {

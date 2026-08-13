@@ -38,3 +38,34 @@ const venues = buildVenueList(rows);
 		)}
 	</section>
 </SiteLayout>
+
+<style>
+	.venue-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+		gap: var(--space-3);
+		margin-block-start: var(--space-5);
+		padding: 0;
+		list-style: none;
+	}
+
+	.venue-card {
+		padding: var(--space-4);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.venue-card h2 {
+		margin-block: 0 var(--space-2);
+		font-size: 1.15rem;
+	}
+
+	.venue-card__location,
+	.venue-card__count,
+	.venue-card__slug,
+	.venue-card__unpublished {
+		margin-block: var(--space-1);
+		color: var(--ink-muted);
+		font-size: 0.9rem;
+	}
+</style>

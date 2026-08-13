@@ -1,4 +1,6 @@
 import { buildEntityHref, type DatePrecision } from './site-foundation';
+import { projectColorToken } from './home';
+import { sanitizePublicText } from './public-copy';
 
 export type SiteRow = Record<string, unknown>;
 
@@ -27,6 +29,7 @@ export type MembershipView = {
 	toDatePrecision: DatePrecision;
 	support: boolean;
 	roles: string[];
+	projectColor: string;
 };
 
 export type CreditView = {
@@ -50,6 +53,8 @@ export type CoPerformerView = {
 	reasons: string[];
 };
 
+export type RoleSummary = { label: string; count: number };
+
 export type PersonPageModel = {
 	name: string;
 	slug: string | null;
@@ -63,6 +68,7 @@ export type PersonPageModel = {
 		recordings: ContributionView[];
 	};
 	coPerformers: CoPerformerView[];
+	roleSummary: RoleSummary[];
 };
 
 type Candidate = { value: string; precision: DatePrecision };
@@ -74,7 +80,7 @@ export const buildPeopleList = (rows: readonly SiteRow[]): PeopleListItem[] =>
 			return {
 				name: stringValue(person.name) || '名称未設定',
 				slug,
-				description: stringValue(person.description),
+				description: sanitizePublicText(person.description),
 				href: buildEntityHref('person', slug),
 			};
 		})
@@ -154,6 +160,7 @@ export const buildPersonPageModel = (input: {
 				toDatePrecision: precisionValue(membership.toDatePrecision),
 				support: membership.support === true,
 				roles: membershipRoleLabels,
+				projectColor: projectColorToken(optionalString(project?.slug) ?? undefined),
 			};
 		})
 		.sort((left, right) => `${left.fromDate ?? ''}:${left.projectName}`.localeCompare(`${right.fromDate ?? ''}:${right.projectName}`, 'ja'));
@@ -216,6 +223,21 @@ export const buildPersonPageModel = (input: {
 		},
 		{ releases: [] as ContributionView[], events: [] as ContributionView[], recordings: [] as ContributionView[] },
 	);
+	const roleLabels = new Map<string, string>([
+		['performer', '演奏'],
+		['creator', '制作'],
+		['staff', 'スタッフ'],
+	]);
+	const roleSummary = [
+		...personContributions.reduce((counts, contribution) => {
+			const role = roleById.get(stringValue(contribution.roleId));
+			const category = stringValue(role?.category) || stringValue(role?.name) || 'その他';
+			counts.set(category, (counts.get(category) ?? 0) + 1);
+			return counts;
+		}, new Map<string, number>()),
+	]
+		.map(([category, count]) => ({ label: roleLabels.get(category) ?? category, count }))
+		.sort((left, right) => right.count - left.count || left.label.localeCompare(right.label, 'ja'));
 
 	const coPerformerReasons = new Map<string, Set<string>>();
 	const addReason = (coPersonId: string, reason: string): void => {
@@ -259,12 +281,13 @@ export const buildPersonPageModel = (input: {
 	return {
 		name: stringValue(person.name) || '名称未設定',
 		slug: optionalString(person.slug),
-		description: stringValue(person.description),
+		description: sanitizePublicText(person.description),
 		activityPeriod: deriveActivityPeriod(person, personMemberships, personContributions, releases, events),
 		memberships: membershipViews,
 		credits,
 		contributions: contributionViews,
 		coPerformers,
+		roleSummary,
 	};
 };
 

@@ -143,6 +143,7 @@ describe('PST-010 人物一覧・詳細', () => {
 		expect(model.activityPeriod).toMatchObject({ from: '2001-01-01', to: '2006-05-06', fromDerived: true, toDerived: true });
 		expect(model.memberships.map((membership) => membership.projectHref)).toEqual(['/projects/burger-nuds', '/projects/second-project']);
 		expect(model.credits.map((credit) => credit.href)).toEqual(['/songs/song-a', '/songs/song-b']);
+		expect(model.roleSummary).toEqual([{ label: '演奏', count: 2 }]);
 
 		const staticBuildRows = { ...rows, project: rows.project.map((project) => ({ ...project, slug: null })) };
 		await buildSiteWithRows(staticBuildRows);

@@ -16,7 +16,7 @@ export type SongPerformanceHistory = {
 	count: number;
 	encoreRate?: number;
 	years: { year: string; count: number }[];
-	revivals: { date: string; gapFrom: string; eventHref?: string }[];
+	revivals: { date: string; gapFrom: string; gapYears: number; eventHref?: string }[];
 };
 
 const text = (row: Record<string, unknown> | undefined, key: string): string => (typeof row?.[key] === 'string' ? row[key] : '');
@@ -54,7 +54,8 @@ export const buildSongPerformanceHistory = (compositionId: string, source: SongD
 		const previous = performances[index - 1];
 		const current = performances[index];
 		if (previous.date === current.date) continue;
-		if (current.date >= addCalendarYears(previous.date, 3)) revivals.push({ date: current.date, gapFrom: previous.date, eventHref: current.eventHref });
+		if (current.date >= addCalendarYears(previous.date, 3))
+			revivals.push({ date: current.date, gapFrom: previous.date, gapYears: Math.max(1, Number(current.date.slice(0, 4)) - Number(previous.date.slice(0, 4))), eventHref: current.eventHref });
 	}
 	const encoreCount = performances.filter((performance) => performance.encore).length;
 	return {

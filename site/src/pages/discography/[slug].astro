@@ -67,8 +67,11 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 						<li class="track-list__item">
 							<span class="track-list__number" aria-label={`${track.trackNumber}曲目`}>{track.trackNumber}</span>
 							<div class="track-list__main">
-								{track.href ? <a href={track.href}>{track.title}</a> : <span>{track.title}</span>}
-								<span class="track-list__version">{trackVersion(track)}</span>
+								<div class="track-list__title-row">
+									<span>{track.href ? <a href={track.href}>{track.title}</a> : track.title}</span>
+									<span class="track-list__leader" aria-hidden="true"></span>
+									<span class="track-list__version">{trackVersion(track)}</span>
+								</div>
 							</div>
 						</li>
 					))}
@@ -158,7 +161,7 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-2) var(--space-4);
-		color: var(--muted);
+		color: var(--ink-muted);
 	}
 
 	.discography-detail__description {
@@ -185,7 +188,7 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 	}
 
 	.track-list__number {
-		color: var(--muted);
+		color: var(--ink-muted);
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -194,10 +197,22 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 		gap: var(--space-1);
 	}
 
+	.track-list__title-row {
+		display: grid;
+		grid-template-columns: auto minmax(2rem, 1fr) auto;
+		gap: var(--space-2);
+		align-items: baseline;
+	}
+
+	.track-list__leader {
+		min-width: 2rem;
+		border-block-end: 1px dotted var(--rule);
+	}
+
 	.track-list__version,
 	.edition-card__type,
 	.edition-card__relation {
-		color: var(--muted);
+		color: var(--ink-muted);
 		font-size: 0.9em;
 	}
 
@@ -243,7 +258,7 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 	}
 
 	.edition-card__metadata dt {
-		color: var(--muted);
+		color: var(--ink-muted);
 	}
 
 	.edition-card__metadata dd {
@@ -273,6 +288,14 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 	}
 
 	@media (max-width: 40rem) {
+		.track-list__title-row {
+			grid-template-columns: 1fr;
+		}
+
+		.track-list__leader {
+			display: none;
+		}
+
 		.edition-card {
 			padding: var(--space-4);
 		}

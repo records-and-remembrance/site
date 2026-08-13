@@ -45,8 +45,9 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 										<h3 id={`y${month}-title`}><a href={`#y${month}`}>{month.slice(5)}月</a></h3>
 										<ul>
 											{monthEntries.map((entry) => (
-												<li data-filter-item data-filter-values={JSON.stringify(entry.filterValues)} hidden={!matchesFilterValues(entry.filterValues, selected)} data-kind={entry.kind}>
-													<span class="timeline-entry__kind">{entry.kind}</span>
+														<li data-filter-item data-filter-values={JSON.stringify(entry.filterValues)} hidden={!matchesFilterValues(entry.filterValues, selected)} data-kind={entry.kind}>
+																		<span class="timeline-entry__project-color" style={`--timeline-color: ${entry.projectColor}`} aria-hidden="true"></span>
+															<span class="timeline-entry__kind">{entry.kind}</span>
 													<DateText value={entry.date} precision={entry.date.length === 4 ? 'year' : entry.date.length === 7 ? 'month' : 'day'} />
 													{entry.href ? <a href={entry.href}>{entry.label}</a> : <span>{entry.label}</span>}
 													{entry.detail && <small>{entry.detail}</small>}
@@ -94,11 +95,17 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 
 	.timeline-years li {
 		display: grid;
-		grid-template-columns: 5rem 8rem minmax(0, 1fr) auto;
+		grid-template-columns: 4px 5rem 8rem minmax(0, 1fr) auto;
 		gap: var(--space-2);
 		align-items: baseline;
 		padding: var(--space-2);
 		border-block-end: 1px solid var(--rule);
+	}
+
+	.timeline-entry__project-color {
+		align-self: stretch;
+		min-block-size: 28px;
+		background: var(--timeline-color);
 	}
 
 	.timeline-entry__kind,
@@ -109,11 +116,11 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 
 	@media (max-width: 640px) {
 		.timeline-years li {
-			grid-template-columns: 4rem 1fr;
+			grid-template-columns: 4px 4rem 1fr;
 		}
 
-		.timeline-years li > :nth-child(n + 3) {
-			grid-column: 2;
+		.timeline-years li > :nth-child(n + 4) {
+			grid-column: 3;
 		}
 	}
 </style>

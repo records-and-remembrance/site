@@ -1,4 +1,5 @@
 import { buildEntityHref } from './site-foundation';
+import { projectColorToken } from './home';
 
 export type TimelineSource = {
 	project: readonly Record<string, unknown>[];
@@ -19,6 +20,7 @@ export type TimelineEntry = {
 	detail?: string;
 	href?: string;
 	projectSlug?: string;
+	projectColor: string;
 	aggregated: boolean;
 	filterValues: { project: readonly string[]; kind: readonly string[] };
 };
@@ -35,7 +37,13 @@ export const buildTimeline = (source: TimelineSource): TimelineEntry[] => {
 	const entries: TimelineEntry[] = [];
 	const add = (entry: Omit<TimelineEntry, 'year' | 'month' | 'filterValues'>) => {
 		if (!entry.date) return;
-		entries.push({ ...entry, year: yearOf(entry.date), month: monthOf(entry.date), filterValues: { project: entry.projectSlug ? [entry.projectSlug] : [], kind: [entry.kind] } });
+		entries.push({
+			...entry,
+			year: yearOf(entry.date),
+			month: monthOf(entry.date),
+			projectColor: projectColorToken(entry.projectSlug),
+			filterValues: { project: entry.projectSlug ? [entry.projectSlug] : [], kind: [entry.kind] },
+		});
 	};
 	for (const release of source.release) {
 		const date = dateOf(release, 'releaseDate');

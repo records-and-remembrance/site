@@ -6,6 +6,7 @@ import { siteTableRows } from '../../data';
 import { buildSongDetail, type SongDetailSource, type SongRecording } from '../../lib/song-detail';
 import { buildSongJourney, buildSongPerformanceHistory } from '../../lib/song-discovery';
 import { buildEntityHref } from '../../lib/site-foundation';
+import { sanitizePublicText } from '../../lib/public-copy';
 
 const detailSource: SongDetailSource = {
 	composition: siteTableRows('composition'),
@@ -35,6 +36,8 @@ const recordingLabel = (recording: SongRecording): string => recording.versionNa
 const discoverySource = { eventPerformance: detailSource.eventPerformance, event: detailSource.event, track: detailSource.track, recording: detailSource.recording, release: detailSource.release, work: detailSource.work };
 const journey = buildSongJourney(detail.composition.id, discoverySource);
 const history = buildSongPerformanceHistory(detail.composition.id, discoverySource);
+const publicDescription = sanitizePublicText(detail.composition.description);
+const heatMax = Math.max(1, ...history.years.map((year) => year.count));
 ---
 
 <SiteLayout title={detail.composition.title} currentPath="/songs" breadcrumbs={[{ label: '楽曲', href: '/songs' }, { label: detail.composition.title }]}>
@@ -42,7 +45,7 @@ const history = buildSongPerformanceHistory(detail.composition.id, discoverySour
 		<header class="song-detail__header" aria-labelledby="song-detail-title">
 			<p class="eyebrow">SONG</p>
 			<h1 id="song-detail-title">{detail.composition.title}</h1>
-			{detail.composition.description && <p class="song-detail__description">{detail.composition.description}</p>}
+			{publicDescription && <p class="song-detail__description">{publicDescription}</p>}
 		</header>
 
 		<section class="song-detail__section" aria-labelledby="song-credits-title">
@@ -162,7 +165,7 @@ const history = buildSongPerformanceHistory(detail.composition.id, discoverySour
 				{journey.length > 0 && (
 					<div>
 						<h3>収録の旅</h3>
-						<ol>{journey.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<small>{item.date}</small></li>)}</ol>
+						<ol class="song-journey">{journey.map((item, index) => <li><span class="song-journey__marker" aria-hidden="true"></span><span class="song-journey__content">{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<small>{item.date}{index === 0 ? ' · 初出' : ''}</small></span></li>)}</ol>
 					</div>
 				)}
 				{history.count > 0 && (
@@ -170,8 +173,8 @@ const history = buildSongPerformanceHistory(detail.composition.id, discoverySour
 						<h3>演奏史</h3>
 						<p>初演: <DateText value={history.firstDate} precision="day" /> · 最終演奏: <DateText value={history.lastDate} precision="day" /> · {history.count}回</p>
 						{history.encoreRate !== undefined && <p>アンコール率: {Math.round(history.encoreRate * 100)}%</p>}
-						<ul class="song-history-years">{history.years.map((year) => <li><span>{year.year}</span><strong>{year.count}</strong></li>)}</ul>
-						{history.revivals.length > 0 && <ul><li>復活演奏</li>{history.revivals.map((revival) => <li><DateText value={revival.date} precision="day" />（{revival.gapFrom}以来） {revival.eventHref ? <a href={revival.eventHref}>ライブ詳細</a> : null}</li>)}</ul>}
+						<ul class="song-history-years">{history.years.map((year) => <li style={`--heat-level: ${Math.round((year.count / heatMax) * 100)}%`}><span>{year.year}</span><strong>{year.count}</strong></li>)}</ul>
+						{history.revivals.length > 0 && <div class="song-revivals"><h4>復活演奏</h4><ul>{history.revivals.map((revival) => <li><span class="song-revival-badge">{revival.gapYears}年ぶり</span><DateText value={revival.date} precision="day" />（{revival.gapFrom}以来） {revival.eventHref ? <a href={revival.eventHref}>ライブ詳細</a> : null}</li>)}</ul></div>}
 					</div>
 				)}
 				{journey.length === 0 && history.count === 0 && <p class="empty-state">収録・演奏の記録はありません。</p>}
@@ -226,7 +229,7 @@ const history = buildSongPerformanceHistory(detail.composition.id, discoverySour
 
 	.recording-card__type,
 	.placement-list__meta {
-		color: var(--muted);
+		color: var(--ink-muted);
 		font-size: 0.9em;
 	}
 
@@ -240,7 +243,7 @@ const history = buildSongPerformanceHistory(detail.composition.id, discoverySour
 
 	.recording-card__metadata dt,
 	.performance-card__metadata dt {
-		color: var(--muted);
+		color: var(--ink-muted);
 		font-size: 0.85em;
 	}
 
@@ -266,13 +269,105 @@ const history = buildSongPerformanceHistory(detail.composition.id, discoverySour
 	}
 
 	.performance-card__title span {
-		color: var(--muted);
+		color: var(--ink-muted);
 		font-size: 0.85em;
 		font-weight: 400;
 	}
 
 	.empty-state {
-		color: var(--muted);
+		color: var(--ink-muted);
+	}
+
+	.song-journey {
+		display: grid;
+		gap: 0;
+		max-width: 54rem;
+		margin: 0;
+		padding: var(--space-2) 0;
+		list-style: none;
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.song-journey li {
+		display: grid;
+		grid-template-columns: 1.25rem minmax(0, 1fr);
+		gap: var(--space-3);
+		min-block-size: 4rem;
+		padding-block: var(--space-2);
+		border-inline-start: 2px solid var(--accent);
+	}
+
+	.song-journey__marker {
+		width: 10px;
+		height: 10px;
+		margin-inline-start: -6px;
+		border: 2px solid var(--accent);
+		border-radius: 50%;
+		background: var(--surface);
+	}
+
+	.song-journey__content {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-4);
+		align-items: baseline;
+	}
+
+	.song-journey small {
+		color: var(--ink-muted);
+	}
+
+	.song-history-years {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
+		gap: var(--space-2);
+		max-width: 54rem;
+		margin: var(--space-4) 0;
+		padding: 0;
+		list-style: none;
+		align-items: end;
+	}
+
+	.song-history-years li {
+		display: grid;
+		gap: var(--space-1);
+		min-block-size: 5rem;
+		padding: var(--space-2);
+		align-content: end;
+		background: color-mix(in srgb, var(--accent) var(--heat-level), var(--surface));
+		border-block-end: 4px solid var(--accent);
+	}
+
+	.song-history-years span,
+	.song-history-years strong {
+		font-variant-numeric: tabular-nums;
+	}
+
+	.song-revivals {
+		margin-block-start: var(--space-5);
+		padding-block-start: var(--space-3);
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.song-revivals h4 {
+		margin-block: 0 var(--space-2);
+	}
+
+	.song-revivals ul {
+		display: grid;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.song-revival-badge {
+		display: inline-block;
+		margin-inline-end: var(--space-2);
+		padding: 2px var(--space-2);
+		border: 1px solid var(--accent);
+		color: var(--accent);
+		font-size: 12px;
 	}
 
 	@media (max-width: 40rem) {

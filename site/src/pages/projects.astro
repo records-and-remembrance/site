@@ -43,3 +43,77 @@ const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
 		)}
 	</section>
 </SiteLayout>
+
+<style>
+	.project-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+		gap: var(--space-4);
+		margin-block-start: var(--space-5);
+	}
+
+	.project-card {
+		display: grid;
+		gap: var(--space-3);
+		padding: var(--space-4);
+		border: 1px solid var(--rule);
+		border-block-start: 4px solid var(--accent);
+		background: var(--surface);
+	}
+
+	.project-card__heading {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		align-items: baseline;
+	}
+
+	.project-card h2 {
+		margin: 0;
+		font-size: 1.3rem;
+	}
+
+	.project-card__link {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.project-card__link:hover h2 {
+		color: var(--accent);
+	}
+
+	.project-card__slug,
+	.project-card__unpublished,
+	.project-card__meta {
+		color: var(--ink-muted);
+		font-size: 0.85rem;
+	}
+
+	.project-card p {
+		margin: 0;
+	}
+
+	.project-card__counts {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-2);
+		margin: 0;
+		padding-block-start: var(--space-3);
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.project-card__counts div {
+		display: grid;
+		gap: var(--space-1);
+	}
+
+	.project-card__counts dt {
+		color: var(--ink-muted);
+		font-size: 0.78rem;
+	}
+
+	.project-card__counts dd {
+		margin: 0;
+		font-variant-numeric: tabular-nums;
+	}
+</style>

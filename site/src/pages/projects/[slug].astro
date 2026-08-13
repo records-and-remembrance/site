@@ -1,9 +1,10 @@
 ---
-import { siteTableRows } from '../../data';
+import { siteData, siteTableRows } from '../../data';
 import ConnectionLinks from '../../components/ConnectionLinks.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { formatDateText } from '../../lib/site-foundation';
 import { buildProjectDetail, selectProjectRows } from '../../lib/projects';
+import { buildTimelinePosition } from '../../lib/timeline-position';
 
 const rows = selectProjectRows(siteTableRows);
 
@@ -24,6 +25,10 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 	const to = toDate ? formatDate(toDate, toPrecision) : '現在';
 	return `${from}〜${to}`;
 };
+const membershipDates = detail.memberships.flatMap((membership) => [membership.fromDate, membership.toDate]).filter((value): value is string => Boolean(value));
+const timelineStart = detail.project.startDate ?? membershipDates.sort()[0] ?? siteData.snapshotGeneratedAt.slice(0, 10);
+const timelineEnd = detail.project.endDate ?? (siteData.snapshotGeneratedAt.slice(0, 10) || membershipDates.at(-1) || timelineStart);
+const membershipPosition = (membership: (typeof detail.memberships)[number]) => buildTimelinePosition(membership.fromDate, timelineStart, timelineEnd, membership.toDate);
 ---
 
 <SiteLayout title={detail.project.name} currentPath="/projects" breadcrumbs={[{ label: 'プロジェクト', href: '/projects' }, { label: detail.project.name }]}>
@@ -54,7 +59,8 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 									<td>{membership.roles.length > 0 ? membership.roles.join('、') : '役割未登録'}</td>
 									<td>
 										<div class="project-membership__track" aria-label={`${membership.person.name}の活動期間`}>
-											<span class={membership.support ? 'project-membership__bar project-membership__bar--support' : 'project-membership__bar'}></span>
+											<span class="project-membership__range-label">{timelineStart.slice(0, 4)} — {timelineEnd.slice(0, 4)}</span>
+											<span class={membership.support ? 'project-membership__bar project-membership__bar--support' : 'project-membership__bar'} style={`--membership-left: ${membershipPosition(membership).left}%; --membership-width: ${membershipPosition(membership).width}%;`}></span>
 										</div>
 									</td>
 								</tr>
@@ -62,6 +68,16 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 						</tbody>
 					</table>
 				</div>
+				<ol class="project-membership-mobile">
+					{detail.memberships.map((membership) => (
+						<li>
+							<strong>{membership.person.href ? <a href={membership.person.href}>{membership.person.name}</a> : membership.person.name}</strong>
+							<span>{formatMembershipRange(membership.fromDate, membership.fromDatePrecision, membership.toDate, membership.toDatePrecision)}{membership.support && ' · サポート'}</span>
+							<div class="project-membership__track"><span class={membership.support ? 'project-membership__bar project-membership__bar--support' : 'project-membership__bar'} style={`--membership-left: ${membershipPosition(membership).left}%; --membership-width: ${membershipPosition(membership).width}%;`}></span></div>
+							{membership.roles.length > 0 && <small>{membership.roles.join('、')}</small>}
+						</li>
+					))}
+				</ol>
 			) : (
 				<p class="empty-state">メンバーシップはありません。</p>
 			)}
@@ -105,7 +121,7 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 				<h2 id="yearly-live-title">年別ライブ本数</h2>
 				{detail.yearlyLiveCounts.length > 0 ? (
 					<ul class="project-detail__list">
-						{detail.yearlyLiveCounts.map((item) => <li><span>{item.label}</span><strong>{item.count}本</strong></li>)}
+						{detail.yearlyLiveCounts.map((item) => <li><span>{item.label}</span><span class="stat-bar" style={`--stat-width: ${(item.count / Math.max(...detail.yearlyLiveCounts.map((value) => value.count))) * 100}%`}><i></i></span><strong>{item.count}本</strong></li>)}
 					</ul>
 				) : <p class="empty-state">集計できるライブはありません。</p>}
 			</section>
@@ -114,7 +130,7 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 				<h2 id="venues-title">会場 上位5</h2>
 				{detail.topVenues.length > 0 ? (
 					<ol class="project-detail__list">
-						{detail.topVenues.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<strong>{item.count}本</strong></li>)}
+						{detail.topVenues.map((item) => <li><span>{item.href ? <a href={item.href}>{item.label}</a> : item.label}</span><span class="stat-bar" style={`--stat-width: ${(item.count / Math.max(...detail.topVenues.map((value) => value.count))) * 100}%`}><i></i></span><strong>{item.count}本</strong></li>)}
 					</ol>
 				) : <p class="empty-state">会場の集計はありません。</p>}
 			</section>
@@ -123,7 +139,7 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 				<h2 id="songs-title">よく演奏された曲 Top 10</h2>
 				{detail.topSongs.length > 0 ? (
 					<ol class="project-detail__list">
-						{detail.topSongs.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<strong>{item.count}回</strong></li>)}
+						{detail.topSongs.map((item) => <li><span>{item.href ? <a href={item.href}>{item.label}</a> : item.label}</span><span class="stat-bar" style={`--stat-width: ${(item.count / Math.max(...detail.topSongs.map((value) => value.count))) * 100}%`}><i></i></span><strong>{item.count}回</strong></li>)}
 					</ol>
 				) : <p class="empty-state">楽曲の集計はありません。</p>}
 			</section>
@@ -186,11 +202,24 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 	}
 
 	.project-membership__track {
-		min-width: 150px;
+		position: relative;
+		min-width: 220px;
+		padding-block-start: 18px;
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.project-membership__range-label {
+		position: absolute;
+		inset-block-start: 0;
+		font-size: 11px;
+		color: var(--ink-muted);
 	}
 
 	.project-membership__bar {
 		display: block;
+		position: relative;
+		left: var(--membership-left);
+		width: var(--membership-width);
 		border-block-start: 3px solid var(--accent);
 		min-block-size: 12px;
 	}
@@ -212,8 +241,32 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 	}
 
 	.project-detail__list strong {
-		margin-inline-start: var(--space-3);
+		margin-inline-start: var(--space-2);
 		font-variant-numeric: tabular-nums;
+	}
+
+	.project-detail__list li {
+		display: grid;
+		grid-template-columns: minmax(7rem, 1fr) minmax(4rem, 1.5fr) auto;
+		gap: var(--space-2);
+		align-items: center;
+	}
+
+	.stat-bar {
+		display: block;
+		block-size: 8px;
+		background: color-mix(in srgb, var(--accent) 14%, transparent);
+	}
+
+	.stat-bar i {
+		display: block;
+		width: var(--stat-width);
+		height: 100%;
+		background: var(--accent);
+	}
+
+	.project-membership-mobile {
+		display: none;
 	}
 
 	.project-detail__stats {
@@ -228,6 +281,30 @@ const formatMembershipRange = (fromDate?: string, fromPrecision?: Parameters<typ
 	}
 
 	@media (max-width: 760px) {
+		.project-membership-table-wrap {
+			display: none;
+		}
+
+		.project-membership-mobile {
+			display: grid;
+			gap: var(--space-3);
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.project-membership-mobile li {
+			display: grid;
+			gap: var(--space-1);
+			padding: var(--space-3);
+			border: 1px solid var(--rule);
+			background: var(--surface);
+		}
+
+		.project-membership-mobile .project-membership__track {
+			min-width: 0;
+		}
+
 		.project-detail__stats {
 			grid-template-columns: 1fr;
 		}

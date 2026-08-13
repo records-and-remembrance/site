@@ -12,10 +12,10 @@ const people = buildPeopleList(siteTableRows('person'));
 		{people.length === 0 ? (
 			<p>人物データはありません。</p>
 		) : (
-			<ul>
+			<ul class="people-grid">
 				{people.map((person) => {
 					return (
-						<li>
+						<li class="person-card">
 							{person.href ? <a href={person.href}>{person.name}</a> : <span>{person.name}</span>}
 							{person.description && <p>{person.description}</p>}
 						</li>
@@ -25,3 +25,37 @@ const people = buildPeopleList(siteTableRows('person'));
 		)}
 	</section>
 </SiteLayout>
+
+<style>
+	section[aria-labelledby='people-title'] > p {
+		max-width: var(--reading-width);
+	}
+
+	.people-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: var(--space-3);
+		margin: var(--space-5) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.person-card {
+		min-block-size: 9rem;
+		padding: var(--space-4);
+		border: 1px solid var(--rule);
+		background: var(--surface);
+	}
+
+	.person-card > a,
+	.person-card > span {
+		font-size: 1.15rem;
+		font-weight: 700;
+	}
+
+	.person-card p {
+		margin-block: var(--space-3) 0;
+		color: var(--ink-muted);
+		font-size: 0.92rem;
+	}
+</style>
