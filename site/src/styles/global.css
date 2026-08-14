@@ -389,15 +389,20 @@ time,
 
 @media (min-width: 1024px) {
 	.site-header__inner {
-		grid-template-columns: auto 1fr auto;
+		grid-template-columns: auto minmax(0, 1fr) auto;
 	}
 
 	.site-nav {
 		grid-column: auto;
 	}
 
-	.site-nav__list {
-		justify-content: flex-end;
+	/*
+	 * 右寄せに justify-content: flex-end を使うと、項目が列幅を超えたときに
+	 * リストの先頭が可視領域の外へ押し出されて読めなくなる。先頭アイテムの
+	 * auto マージンで寄せると、収まるときは右寄せ、あふれるときは左端から並ぶ。
+	 */
+	.site-nav__list > li:first-child {
+		margin-inline-start: auto;
 	}
 }
 
