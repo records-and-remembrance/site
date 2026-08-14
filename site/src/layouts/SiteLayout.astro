@@ -3,6 +3,10 @@ import { siteData } from '../data';
 import Breadcrumbs, { type Breadcrumb } from '../components/Breadcrumbs.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+// 見出しの書体を同梱する（設計書 §7.2）。閲覧環境のフォント有無で字幅が変わると、
+// ヘッダのナビや年表の軸がレイアウト前提からずれる。使うのは見出しの700のみ。
+// unicode-range で分割された 700.css を使い、閲覧時は表示に必要なサブセットだけ転送させる。
+import '@fontsource/shippori-mincho-b1/700.css';
 import '../styles/global.css';
 import '../styles/tokens.css';
 
