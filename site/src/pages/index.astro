@@ -7,6 +7,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 
 const home = buildHomeModel(siteData);
 
+// DBのテーブル名ではなく、設計書 §3.1 が定めるサイト上の表記を出す。
+const DIG_KIND_LABELS: Record<'composition' | 'event' | 'venue', string> = { composition: '楽曲', event: 'ライブ', venue: '会場' };
+
 const riverPosition = (project: HomeProject): { left: number; width: number } => {
 	const range = Math.max(1, home.career.endYear - home.career.startYear);
 	const start = project.startYear ?? home.career.startYear;
@@ -141,7 +144,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 				) : (
 					<>
 						<div class="home-dig__cards" data-dig-cards>
-							{home.dig.map((card) => <article data-dig-card data-dig-type={card.type}><p>{card.type}</p><h3><a href={card.href}>{card.label}</a></h3><p>{card.summary}</p></article>)}
+							{home.dig.map((card) => <article data-dig-card data-dig-type={card.type}><p class="home-dig__kind">{DIG_KIND_LABELS[card.type]}</p><h3><a href={card.href}>{card.label}</a></h3><p>{card.summary}</p></article>)}
 						</div>
 						<button type="button" data-dig-reroll>もう一度Digする</button>
 						<p data-dig-status aria-live="polite"></p>
@@ -474,9 +477,29 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		}
 
 		.home-dig__cards article {
+			display: grid;
+			gap: var(--space-1);
+			align-content: start;
 			padding: var(--space-3);
 			border: 1px solid var(--rule);
 			background: var(--surface);
+		}
+
+		.home-dig__cards h3 {
+			margin: 0;
+			font-size: 1.05rem;
+		}
+
+		.home-dig__kind {
+			color: var(--ink-muted);
+			font-size: 12px;
+			letter-spacing: 0.06em;
+		}
+
+		.home-dig__cards article > p:last-child {
+			color: var(--ink-muted);
+			font-size: 0.9rem;
+			font-variant-numeric: tabular-nums;
 		}
 
 		@media (max-width: 640px) {

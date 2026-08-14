@@ -17,7 +17,7 @@ export const PRIMARY_NAVIGATION: readonly NavigationItem[] = [
 	{ href: '/network', label: '相関図' },
 	{ href: '/library', label: '資料室' },
 	{ href: '/about', label: 'About' },
-	{ href: '/#dig', label: 'Dig', pending: true },
+	{ href: '/#dig', label: 'Dig' },
 ];
 
 export const THEME_STORAGE_KEY = 'monden-theme';

@@ -2,9 +2,11 @@ import { describe, expect, test } from 'bun:test';
 import { isNavigationItemActive, nextTheme, normalizePath, PRIMARY_NAVIGATION, resolveStoredTheme, themeAttribute, type Theme } from './site-shell';
 
 describe('PST-007 site shell contracts', () => {
-	test('主要ナビゲーションは§3.2の一覧routeへ到達でき、Digは準備中アンカーを使う', () => {
+	test('主要ナビゲーションは§3.2の一覧routeへ到達でき、Digはホームのアンカーを使う', () => {
 		expect(PRIMARY_NAVIGATION.map((item) => item.href)).toEqual(['/timeline', '/projects', '/people', '/discography', '/songs', '/lives', '/venues', '/network', '/library', '/about', '/#dig']);
-		expect(PRIMARY_NAVIGATION.at(-1)).toMatchObject({ label: 'Dig', pending: true });
+		// Digは候補データと再抽選が動いており、準備中ではない。
+		expect(PRIMARY_NAVIGATION.at(-1)).toMatchObject({ label: 'Dig' });
+		expect(PRIMARY_NAVIGATION.some((item) => item.pending)).toBe(false);
 		expect(PRIMARY_NAVIGATION.some((item) => item.href === '/dig')).toBe(false);
 	});
 
