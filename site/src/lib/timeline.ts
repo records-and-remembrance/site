@@ -25,6 +25,15 @@ export type TimelineEntry = {
 	filterValues: { project: readonly string[]; kind: readonly string[] };
 };
 
+/** 種別のサイト表記（設計書 §3.1）。DBのテーブル名を画面へ出さない。 */
+export const TIMELINE_KIND_LABELS: Record<TimelineEntry['kind'], string> = { event: 'ライブ', membership: '在籍', project: 'プロジェクト', release: '発売' };
+
+/** 集約行のフィルタ値。まとめた個別エントリのいずれかに一致すれば、その行を残す。 */
+export const mergeFilterValues = (entries: readonly TimelineEntry[]): TimelineEntry['filterValues'] => ({
+	project: [...new Set(entries.flatMap((entry) => entry.filterValues.project))].sort(),
+	kind: [...new Set(entries.flatMap((entry) => entry.filterValues.kind))].sort(),
+});
+
 const text = (row: Record<string, unknown> | undefined, key: string): string => (typeof row?.[key] === 'string' ? row[key] : '');
 const dateOf = (row: Record<string, unknown>, ...keys: string[]): string => keys.map((key) => text(row, key)).find((value) => /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/u.test(value)) ?? '';
 const yearOf = (date: string): string => date.slice(0, 4);

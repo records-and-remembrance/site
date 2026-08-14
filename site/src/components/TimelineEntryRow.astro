@@ -1,0 +1,27 @@
+---
+import DateText from './DateText.astro';
+import { TIMELINE_KIND_LABELS, type TimelineEntry } from '../lib/timeline';
+
+interface Props {
+	entry: TimelineEntry;
+	/** 集約行の内側では、フィルタは外側の行がまとめて担う。 */
+	filterable?: boolean;
+	hidden?: boolean;
+}
+
+const { entry, filterable = true, hidden = false } = Astro.props;
+const precision = entry.date.length === 4 ? 'year' : entry.date.length === 7 ? 'month' : 'day';
+---
+
+<li
+	data-filter-item={filterable ? '' : undefined}
+	data-filter-values={filterable ? JSON.stringify(entry.filterValues) : undefined}
+	hidden={filterable ? hidden : undefined}
+	data-kind={entry.kind}
+>
+	<span class="timeline-entry__project-color" style={`--timeline-color: ${entry.projectColor}`} aria-hidden="true"></span>
+	<span class="timeline-entry__kind">{TIMELINE_KIND_LABELS[entry.kind]}</span>
+	<DateText value={entry.date} precision={precision} />
+	{entry.href ? <a href={entry.href}>{entry.label}</a> : <span>{entry.label}</span>}
+	{entry.detail && <small>{entry.detail}</small>}
+</li>

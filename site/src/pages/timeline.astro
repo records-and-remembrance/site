@@ -1,11 +1,10 @@
 ---
-import DateText from '../components/DateText.astro';
-import EntityLink from '../components/EntityLink.astro';
 import FilterControls from '../components/FilterControls.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
+import TimelineEntryRow from '../components/TimelineEntryRow.astro';
 import { siteTableRows } from '../data';
 import { matchesFilterValues, parseFilterQuery } from '../lib/url-filters';
-import { buildTimeline } from '../lib/timeline';
+import { buildTimeline, mergeFilterValues, TIMELINE_KIND_LABELS } from '../lib/timeline';
 
 const entries = buildTimeline({ project: siteTableRows('project'), release: siteTableRows('release'), work: siteTableRows('work'), event: siteTableRows('event'), membership: siteTableRows('membership'), person: siteTableRows('person') });
 const filterSchema = {
@@ -15,7 +14,7 @@ const filterSchema = {
 const selected = parseFilterQuery(Astro.url.searchParams, filterSchema);
 const groups = [
 	{ key: 'project', label: 'プロジェクト', options: filterSchema.project.map((value) => ({ value, label: siteTableRows('project').find((project) => project.slug === value)?.name ?? value })) },
-	{ key: 'kind', label: '種別', options: filterSchema.kind.map((value) => ({ value, label: { event: 'ライブ', membership: '在籍', project: 'プロジェクト', release: '発売' }[value] ?? value })) },
+	{ key: 'kind', label: '種別', options: filterSchema.kind.map((value) => ({ value, label: TIMELINE_KIND_LABELS[value as keyof typeof TIMELINE_KIND_LABELS] ?? value })) },
 ];
 const years = [...new Set(entries.map((entry) => entry.year))].sort();
 ---
@@ -28,6 +27,7 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 			<p>発売、ライブ、人の移動、プロジェクトの期間を一つの流れでたどる。</p>
 		</header>
 		<FilterControls path="/timeline" groups={groups} selected={selected} />
+		<p class="timeline-status" data-anchor-status aria-live="polite"></p>
 		{years.length === 0 ? (
 			<p class="empty-state">年表の記録はありません。</p>
 		) : (
@@ -37,23 +37,35 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 					const months = [...new Set(yearEntries.map((entry) => entry.month))].sort();
 					return (
 						<section id={`y${year}`} aria-labelledby={`y${year}-title`}>
-							<h2 id={`y${year}-title`}><a href={`#y${year}`}>{year}年</a></h2>
+							<h2 id={`y${year}-title`}>
+								<a href={`#y${year}`}>{year}年</a>
+								<button type="button" class="timeline-anchor" data-anchor-copy={`#y${year}`} aria-label={`${year}年へのリンクをコピー`}>リンク</button>
+							</h2>
 							{months.map((month) => {
 								const monthEntries = yearEntries.filter((entry) => entry.month === month);
+								// 2006–2007のライブは件数が多く、個別に並べると年表が破綻する。
+								// 月ごとに件数へまとめ、展開して個別の公演を見られるようにする（設計書 §4.2）。
+								const collapsed = monthEntries.filter((entry) => entry.aggregated);
+								const listed = monthEntries.filter((entry) => !entry.aggregated);
+								const collapsedFilterValues = mergeFilterValues(collapsed);
 								return (
 									<section id={`y${month}`} aria-labelledby={`y${month}-title`}>
-										<h3 id={`y${month}-title`}><a href={`#y${month}`}>{month.slice(5)}月</a></h3>
+										<h3 id={`y${month}-title`}>
+											<a href={`#y${month}`}>{month.slice(5)}月</a>
+											<button type="button" class="timeline-anchor" data-anchor-copy={`#y${month}`} aria-label={`${year}年${month.slice(5)}月へのリンクをコピー`}>リンク</button>
+										</h3>
 										<ul>
-											{monthEntries.map((entry) => (
-														<li data-filter-item data-filter-values={JSON.stringify(entry.filterValues)} hidden={!matchesFilterValues(entry.filterValues, selected)} data-kind={entry.kind}>
-																		<span class="timeline-entry__project-color" style={`--timeline-color: ${entry.projectColor}`} aria-hidden="true"></span>
-															<span class="timeline-entry__kind">{entry.kind}</span>
-													<DateText value={entry.date} precision={entry.date.length === 4 ? 'year' : entry.date.length === 7 ? 'month' : 'day'} />
-													{entry.href ? <a href={entry.href}>{entry.label}</a> : <span>{entry.label}</span>}
-													{entry.detail && <small>{entry.detail}</small>}
-													{entry.aggregated && <small>（2006–2007は月集約）</small>}
+											{listed.map((entry) => <TimelineEntryRow entry={entry} hidden={!matchesFilterValues(entry.filterValues, selected)} />)}
+											{collapsed.length > 0 && (
+												<li class="timeline-aggregate" data-filter-item data-filter-values={JSON.stringify(collapsedFilterValues)} hidden={!matchesFilterValues(collapsedFilterValues, selected)} data-kind="event">
+													<details>
+														<summary>ライブ {collapsed.length}本</summary>
+														<ul>
+															{collapsed.map((entry) => <TimelineEntryRow entry={entry} filterable={false} />)}
+														</ul>
+													</details>
 												</li>
-											))}
+											)}
 										</ul>
 									</section>
 								);
@@ -78,7 +90,57 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 
 	.timeline-years h2,
 	.timeline-years h3 {
+		display: flex;
+		gap: var(--space-2);
+		align-items: center;
 		margin-block: var(--space-2);
+	}
+
+	/*
+	 * アンカーのコピーはhoverでの出現に頼らない（設計書 §7.6）。
+	 * 常時置いて薄く見せ、hover・focusで前へ出す。タップ領域は44pxを確保する。
+	 */
+	.timeline-anchor {
+		min-block-size: 44px;
+		min-inline-size: 44px;
+		padding-inline: var(--space-2);
+		border: 1px solid transparent;
+		background: none;
+		color: var(--ink-muted);
+		font-family: inherit;
+		font-size: 12px;
+		font-weight: 400;
+		cursor: pointer;
+	}
+
+	.timeline-anchor:hover,
+	.timeline-anchor:focus-visible {
+		border-color: var(--rule);
+		color: var(--accent);
+	}
+
+	.timeline-status:empty {
+		display: none;
+	}
+
+	.timeline-status {
+		margin: 0;
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+
+	.timeline-aggregate {
+		display: block;
+	}
+
+	.timeline-aggregate summary {
+		padding-block: var(--space-2);
+		color: var(--ink-muted);
+		cursor: pointer;
+	}
+
+	.timeline-aggregate summary:hover {
+		color: var(--accent);
 	}
 
 	.timeline-years h3 {
@@ -122,5 +184,29 @@ const years = [...new Set(entries.map((entry) => entry.year))].sort();
 		.timeline-years li > :nth-child(n + 4) {
 			grid-column: 3;
 		}
+
+		.timeline-aggregate > details > ul > li {
+			grid-template-columns: 4px 4rem 1fr;
+		}
 	}
 </style>
+
+<script>
+	// 見出しのアンカーをコピーできるようにする（設計書 §4.2）。
+	const status = document.querySelector('[data-anchor-status]');
+	for (const button of document.querySelectorAll<HTMLButtonElement>('[data-anchor-copy]')) {
+		button.addEventListener('click', async () => {
+			const hash = button.dataset.anchorCopy ?? '';
+			if (!hash) return;
+			const url = new URL(hash, location.href).href;
+			try {
+				await navigator.clipboard.writeText(url);
+				if (status) status.textContent = `${url} をコピーしました。`;
+			} catch {
+				// クリップボードが使えない環境では、URLを更新して手動コピーできる状態にする。
+				location.hash = hash;
+				if (status) status.textContent = 'コピーできませんでした。アドレスバーのURLをお使いください。';
+			}
+		});
+	}
+</script>
