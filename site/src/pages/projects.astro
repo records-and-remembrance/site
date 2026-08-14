@@ -26,7 +26,6 @@ const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
 					<article class="project-card">
 						<div class="project-card__heading">
 							{item.href ? <a class="project-card__link" href={item.href}><h2>{item.project.name}</h2></a> : <h2>{item.project.name}</h2>}
-							{item.project.slug ? <span class="project-card__slug">/{item.project.slug}</span> : <span class="project-card__unpublished">公開URL未確定</span>}
 						</div>
 						<p class="project-card__meta">{item.project.type} · {formatProjectPeriod(item.project.startDate, item.project.endDate)}</p>
 						{item.project.description && <p>{item.project.description}</p>}
@@ -82,8 +81,6 @@ const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
 		color: var(--accent);
 	}
 
-	.project-card__slug,
-	.project-card__unpublished,
 	.project-card__meta {
 		color: var(--ink-muted);
 		font-size: 0.85rem;
