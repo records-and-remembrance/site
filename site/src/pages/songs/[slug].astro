@@ -6,7 +6,6 @@ import { siteTableRows } from '../../data';
 import { buildSongDetail, type SongDetailSource, type SongRecording } from '../../lib/song-detail';
 import { buildSongJourney, buildSongPerformanceHistory } from '../../lib/song-discovery';
 import { buildEntityHref } from '../../lib/site-foundation';
-import { sanitizePublicText } from '../../lib/public-copy';
 
 const detailSource: SongDetailSource = {
 	composition: siteTableRows('composition'),
@@ -36,7 +35,6 @@ const recordingLabel = (recording: SongRecording): string => recording.versionNa
 const discoverySource = { eventPerformance: detailSource.eventPerformance, event: detailSource.event, track: detailSource.track, recording: detailSource.recording, release: detailSource.release, work: detailSource.work };
 const journey = buildSongJourney(detail.composition.id, discoverySource);
 const history = buildSongPerformanceHistory(detail.composition.id, discoverySource);
-const publicDescription = sanitizePublicText(detail.composition.description);
 const heatMax = Math.max(1, ...history.years.map((year) => year.count));
 ---
 
@@ -45,7 +43,7 @@ const heatMax = Math.max(1, ...history.years.map((year) => year.count));
 		<header class="song-detail__header" aria-labelledby="song-detail-title">
 			<p class="eyebrow">SONG</p>
 			<h1 id="song-detail-title">{detail.composition.title}</h1>
-			{publicDescription && <p class="song-detail__description">{publicDescription}</p>}
+			{detail.composition.description && <p class="song-detail__description">{detail.composition.description}</p>}
 		</header>
 
 		<section class="song-detail__section" aria-labelledby="song-credits-title">

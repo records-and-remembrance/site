@@ -106,6 +106,24 @@ describe('PST-006 site export contract', () => {
 		expect(stableStringify(left)).toBe(stableStringify(right));
 	});
 
+	test('自由記述カラムからパイプライン由来の内部メタデータを落とす', () => {
+		const rows = fixtureRows();
+		rows.composition = [
+			{ id: 'composition-1', title: 'ANALYZE', slug: 'analyze', description: 'draft_file=ANALYZE-88c9ba4c.md\nsource_count=0\naliases=アナライズ' },
+			{ id: 'composition-2', title: 'HOME SICK', slug: 'home-sick', description: '再録を重ねた曲。\nsource_file=seed.md' },
+		];
+		rows.eventPerformance = [{ id: 'performance-1', eventId: 'event-1', compositionId: 'composition-1', orderIndex: 1, notes: 'source_file=2003-12-07-000000.md\nsection=セットリスト' }];
+		rows.person = [{ id: 'person-1', name: '門田匡陽', slug: 'masahi-kadota', description: 'source=contribution_seed' }];
+
+		const snapshot = createSiteSnapshot(rows, { snapshotGeneratedAt: '2026-07-13T00:00:00.000Z' });
+
+		expect(snapshot.tables.composition.map((row) => row.description)).toEqual([null, '再録を重ねた曲。']);
+		expect(snapshot.tables.eventPerformance[0]?.notes).toBeNull();
+		expect(snapshot.tables.person[0]?.description).toBeNull();
+		expect(stableStringify(snapshot)).not.toContain('source_file=');
+		expect(stableStringify(snapshot)).not.toContain('section=');
+	});
+
 	test('slug欠落、参照切れ、日付・精度・artwork不整合をexport停止エラーとして記録する', () => {
 		const rows = fixtureRows();
 		rows.project[0]!.slug = null;

@@ -1,9 +1,18 @@
-import { describe, expect, test } from 'bun:test';
-import { readFile } from 'node:fs/promises';
+import { afterAll, beforeAll, describe, expect, test } from 'bun:test';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+
+// exportとbuildの出力先を一時ディレクトリへ隔離する。既定の出力先へ書くと、
+// テストを走らせるたびに本番相当の site/src/data/site.generated.json と
+// site/dist が fixture の空データで置き換わる。
+let workDirectory = '';
+let fixturePath = '';
+let distDirectory = '';
+let exportResult: { exitCode: number; output: string };
 
 const parseJsonc = <T>(source: string): T =>
 	JSON.parse(
@@ -13,9 +22,10 @@ const parseJsonc = <T>(source: string): T =>
 			.replace(/,\s*([}\]])/g, '$1'),
 	) as T;
 
-const runBun = async (...args: string[]) => {
+const runBun = async (args: readonly string[], environment: Record<string, string> = {}) => {
 	const process = Bun.spawn(['bun', ...args], {
 		cwd: root,
+		env: { ...Bun.env, ...environment },
 		stderr: 'pipe',
 		stdout: 'pipe',
 	});
@@ -25,6 +35,17 @@ const runBun = async (...args: string[]) => {
 };
 
 describe('PST-005 site bootstrap', () => {
+	beforeAll(async () => {
+		workDirectory = await mkdtemp(join(tmpdir(), 'monden-site-bootstrap-'));
+		fixturePath = join(workDirectory, 'site.generated.json');
+		distDirectory = join(workDirectory, 'dist');
+		exportResult = await runBun(['run', 'site:export', '--', '--fixture', '--snapshot-generated-at', '2026-07-13T00:00:00.000Z', '--output', fixturePath]);
+	});
+
+	afterAll(async () => {
+		await rm(workDirectory, { force: true, recursive: true });
+	});
+
 	test('公開サイト用のexport/build/deploy scriptを公開する', async () => {
 		const packageJson = JSON.parse(await readFile(join(root, 'package.json'), 'utf8')) as {
 			scripts?: Record<string, string>;
@@ -38,11 +59,9 @@ describe('PST-005 site bootstrap', () => {
 	});
 
 	test('DBなしのfixture exportが静的データを生成する', async () => {
-		const result = await runBun('run', 'site:export', '--', '--fixture', '--snapshot-generated-at', '2026-07-13T00:00:00.000Z');
+		expect(exportResult.exitCode, exportResult.output).toBe(0);
 
-		expect(result.exitCode, result.output).toBe(0);
-
-		const generated = JSON.parse(await readFile(join(root, 'site/src/data/site.generated.json'), 'utf8'));
+		const generated = JSON.parse(await readFile(fixturePath, 'utf8'));
 
 		expect(generated).toMatchObject({
 			title: '門田匡陽アーカイブ',
@@ -54,11 +73,11 @@ describe('PST-005 site bootstrap', () => {
 	});
 
 	test('fixtureだけでAstroの静的indexをbuildでき、DB/API実行時依存を含めない', async () => {
-		const result = await runBun('run', 'site:build');
+		const result = await runBun(['run', 'site:build', '--', '--outDir', distDirectory], { SITE_DATA_PATH: fixturePath });
 
 		expect(result.exitCode, result.output).toBe(0);
 
-		const html = await readFile(join(root, 'site/dist/index.html'), 'utf8');
+		const html = await readFile(join(distDirectory, 'index.html'), 'utf8');
 		expect(html).toContain('<title>門田匡陽アーカイブ</title>');
 		expect(html).toMatch(/<main\b[^>]*>/);
 		expect(html).toContain('本文へスキップ');

@@ -1,29 +1,40 @@
-import { describe, expect, test } from 'bun:test';
+import { afterAll, describe, expect, test } from 'bun:test';
 import { existsSync } from 'node:fs';
-import { readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createSiteSnapshot, emptySiteDatabaseRows, type SiteDatabaseRows } from '../../export/export';
 import { buildPersonPageModel } from './people';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
-const generatedPath = join(root, 'site/src/data/site.generated.json');
+const workDirectories: string[] = [];
 
-const buildSiteWithRows = async (rows: SiteDatabaseRows): Promise<void> => {
-	const hadGeneratedData = existsSync(generatedPath);
-	const previousGeneratedData = hadGeneratedData ? await readFile(generatedPath) : undefined;
+// スナップショットとビルド出力を一時ディレクトリへ隔離する。既定の出力先を使うと、
+// テストを走らせるたびに本番相当の site/src/data/site.generated.json と site/dist が
+// テスト用の数行データで置き換わる。
+const buildSiteWithRows = async (rows: SiteDatabaseRows): Promise<string> => {
+	const workDirectory = await mkdtemp(join(tmpdir(), 'monden-people-'));
+	workDirectories.push(workDirectory);
+	const fixturePath = join(workDirectory, 'site.generated.json');
+	const distDirectory = join(workDirectory, 'dist');
 	const snapshot = createSiteSnapshot(rows, { snapshotGeneratedAt: '2026-07-13T00:00:00.000Z' });
-	await writeFile(generatedPath, `${JSON.stringify(snapshot)}\n`, 'utf8');
+	await writeFile(fixturePath, `${JSON.stringify(snapshot)}\n`, 'utf8');
 
-	try {
-		const process = Bun.spawn(['bun', 'run', 'site:build'], { cwd: root, stderr: 'pipe', stdout: 'pipe' });
-		const [stdout, stderr, exitCode] = await Promise.all([new Response(process.stdout).text(), new Response(process.stderr).text(), process.exited]);
-		expect(exitCode, `${stdout}${stderr}`).toBe(0);
-	} finally {
-		if (previousGeneratedData) await writeFile(generatedPath, previousGeneratedData);
-		else await rm(generatedPath, { force: true });
-	}
+	const process = Bun.spawn(['bun', 'run', 'site:build', '--', '--outDir', distDirectory], {
+		cwd: root,
+		env: { ...Bun.env, SITE_DATA_PATH: fixturePath },
+		stderr: 'pipe',
+		stdout: 'pipe',
+	});
+	const [stdout, stderr, exitCode] = await Promise.all([new Response(process.stdout).text(), new Response(process.stderr).text(), process.exited]);
+	expect(exitCode, `${stdout}${stderr}`).toBe(0);
+	return distDirectory;
 };
+
+afterAll(async () => {
+	await Promise.all(workDirectories.map((directory) => rm(directory, { force: true, recursive: true })));
+});
 
 const personRows = (): SiteDatabaseRows => {
 	const rows = emptySiteDatabaseRows();
@@ -146,10 +157,10 @@ describe('PST-010 人物一覧・詳細', () => {
 		expect(model.roleSummary).toEqual([{ label: '演奏', count: 2 }]);
 
 		const staticBuildRows = { ...rows, project: rows.project.map((project) => ({ ...project, slug: null })) };
-		await buildSiteWithRows(staticBuildRows);
+		const distDirectory = await buildSiteWithRows(staticBuildRows);
 
-		const listHtml = await readFile(join(root, 'site/dist/people/index.html'), 'utf8');
-		const detailHtml = await readFile(join(root, 'site/dist/people/daichi-ito/index.html'), 'utf8');
+		const listHtml = await readFile(join(distDirectory, 'people/index.html'), 'utf8');
+		const detailHtml = await readFile(join(distDirectory, 'people/daichi-ito/index.html'), 'utf8');
 
 		expect(listHtml).toContain('伊藤大地');
 		expect(listHtml).toContain('href="/people/daichi-ito"');
@@ -178,15 +189,15 @@ describe('PST-010 人物一覧・詳細', () => {
 	test('空データとslug欠落でも一覧を静的buildし、詳細routeを生成しない', async () => {
 		const rows = emptySiteDatabaseRows();
 		rows.person = [{ id: 'person-no-slug', name: 'slug未確定', description: null, slug: null, activeFrom: null, activeTo: null }];
-		await buildSiteWithRows(rows);
+		const distDirectory = await buildSiteWithRows(rows);
 
-		const listHtml = await readFile(join(root, 'site/dist/people/index.html'), 'utf8');
+		const listHtml = await readFile(join(distDirectory, 'people/index.html'), 'utf8');
 		expect(listHtml).toContain('slug未確定');
 		expect(listHtml).not.toContain('/people/slug未確定');
-		expect(existsSync(join(root, 'site/dist/people/slug未確定/index.html'))).toBe(false);
+		expect(existsSync(join(distDirectory, 'people/slug未確定/index.html'))).toBe(false);
 
-		await buildSiteWithRows(emptySiteDatabaseRows());
-		const emptyHtml = await readFile(join(root, 'site/dist/people/index.html'), 'utf8');
+		const emptyDistDirectory = await buildSiteWithRows(emptySiteDatabaseRows());
+		const emptyHtml = await readFile(join(emptyDistDirectory, 'people/index.html'), 'utf8');
 		expect(emptyHtml).toContain('人物データはありません');
 	});
 });

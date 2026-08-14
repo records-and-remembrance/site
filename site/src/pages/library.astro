@@ -3,7 +3,6 @@ import DateText from '../components/DateText.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { siteTableRows } from '../data';
 import { buildLibraryTree } from '../lib/library';
-import { sanitizePublicText } from '../lib/public-copy';
 
 const publications = buildLibraryTree({
 	publication: siteTableRows('publication'),
@@ -32,7 +31,7 @@ const issueLabel = (issueNumber?: string, volume?: string): string => {
 							<h2 id={publication.anchor ? `${publication.anchor}-title` : undefined}>{publication.name}</h2>
 							{publication.type && <span>{publication.type}</span>}
 							{publication.publisher && <span>{publication.publisher}</span>}
-							{sanitizePublicText(publication.description) && <p>{sanitizePublicText(publication.description)}</p>}
+							{publication.description && <p>{publication.description}</p>}
 						</header>
 
 						{publication.issues.length > 0 ? (
@@ -44,7 +43,7 @@ const issueLabel = (issueNumber?: string, volume?: string): string => {
 												<a href={issue.anchor ? `#${issue.anchor}` : undefined}>{issueLabel(issue.issueNumber, issue.volume)}</a>
 											</h3>
 											{issue.publishedDate && <DateText value={issue.publishedDate} />}
-											{sanitizePublicText(issue.description) && <p>{sanitizePublicText(issue.description)}</p>}
+											{issue.description && <p>{issue.description}</p>}
 										</header>
 
 										{issue.articles.length > 0 ? (
@@ -66,8 +65,8 @@ const issueLabel = (issueNumber?: string, volume?: string): string => {
 														</h4>
 														{article.type && <p class="library-article__type">{article.type}</p>}
 														{article.publishedDate && <DateText value={article.publishedDate} />}
-																{sanitizePublicText(article.summary) && <p>{sanitizePublicText(article.summary)}</p>}
-																{sanitizePublicText(article.content) && <p>{sanitizePublicText(article.content)}</p>}
+														{article.summary && <p>{article.summary}</p>}
+														{article.content && <p>{article.content}</p>}
 														{article.url && <p><a href={article.url} rel="noreferrer">外部記事を開く</a></p>}
 													</article>
 												))}

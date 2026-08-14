@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from '../../app/db/schema';
+import { isProseField, sanitizePublicText } from '../src/lib/public-copy';
 
 const defaultFixturePath = fileURLToPath(new URL('../fixtures/site.json', import.meta.url));
 const defaultOutputPath = fileURLToPath(new URL('../src/data/site.generated.json', import.meta.url));
@@ -189,9 +190,25 @@ export const createMemorySiteDataSource = (rows: SiteDatabaseRows): SiteDataSour
 	readRows: async () => cloneRows(rows),
 });
 
+/**
+ * 自由記述カラムに残るパイプライン由来の内部メタデータ（`key=value`）を、公開スナップショットから落とす。
+ * 表示側で個別に除去すると新しいキーを取りこぼすため、exportの一箇所で閉じる。
+ */
+const stripInternalNotes = (tables: SiteDatabaseRows): SiteDatabaseRows => {
+	for (const tableName of SITE_TABLE_NAMES) {
+		for (const row of tables[tableName]) {
+			for (const [key, value] of Object.entries(row)) {
+				if (typeof value !== 'string' || !isProseField(key)) continue;
+				row[key] = sanitizePublicText(value) || null;
+			}
+		}
+	}
+	return tables;
+};
+
 export const createSiteSnapshot = (rows: SiteDatabaseRows, options: { snapshotGeneratedAt: string; siteMeta?: SiteMeta }): SiteSnapshot => {
 	const { snapshotGeneratedAt, siteMeta = DEFAULT_SITE_META } = options;
-	const tables = withStableKeys(cloneRows(rows));
+	const tables = stripInternalNotes(withStableKeys(cloneRows(rows)));
 	const diagnostics = collectDiagnostics(tables);
 	const indexes = buildIndexes(tables);
 	const counts = Object.fromEntries(SITE_TABLE_NAMES.map((tableName) => [tableName, tables[tableName].length])) as Record<SiteTableName, number>;

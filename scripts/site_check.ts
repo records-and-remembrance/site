@@ -1,7 +1,20 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-export type SiteCheckResult = { files: string[]; brokenLinks: string[]; brokenAnchors: string[]; forbiddenRequests: string[] };
+export type SiteCheckResult = { files: string[]; brokenLinks: string[]; brokenAnchors: string[]; forbiddenRequests: string[]; internalMetadata: string[] };
+
+// パイプライン由来の内部メタデータ（`source_file=…` のような `key=value`）が本文へ出ていないか。
+// exportで落としているが、新しい生成キーが増えたときに気づけるよう成果物側でも検査する。
+const INTERNAL_METADATA = /(?:^|\s)[a-z][a-z0-9_]*=/u;
+
+const visibleTextLines = (html: string): string[] =>
+	html
+		.replace(/<script[\s\S]*?<\/script>/gu, ' ')
+		.replace(/<style[\s\S]*?<\/style>/gu, ' ')
+		.replace(/<[^>]+>/gu, '\n')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean);
 
 export const checkSiteArtifacts = (distRoot: string): SiteCheckResult => {
 	const required = [
@@ -24,10 +37,13 @@ export const checkSiteArtifacts = (distRoot: string): SiteCheckResult => {
 	const brokenLinks: string[] = required.filter((file) => !existsSync(join(distRoot, file)));
 	const brokenAnchors: string[] = [];
 	const forbiddenRequests: string[] = [];
+	const internalMetadata: string[] = [];
 	const htmlFiles = walk(distRoot).filter((file) => file.endsWith('.html'));
 	for (const file of htmlFiles) {
 		const html = readFileSync(file, 'utf8');
 		if (/postgres|\/api\//u.test(html)) forbiddenRequests.push(relative(distRoot, file));
+		const metadataLine = visibleTextLines(html).find((line) => INTERNAL_METADATA.test(line));
+		if (metadataLine) internalMetadata.push(`${relative(distRoot, file)} -> ${metadataLine.slice(0, 60)}`);
 		for (const match of html.matchAll(/(?:href|src)="(\/[^"#?]*)/gu)) {
 			const path = match[1];
 			if (!path || path.startsWith('/_astro/') || path.startsWith('/pagefind/') || path === '/favicon.svg') continue;
@@ -47,12 +63,13 @@ export const checkSiteArtifacts = (distRoot: string): SiteCheckResult => {
 			if (!new RegExp(`(?:id|name)=(['"])${escapedAnchor}\\1`, 'u').test(targetHtml)) brokenAnchors.push(`${relative(distRoot, file)} -> ${href}`);
 		}
 	}
-	return { files, brokenLinks: [...new Set(brokenLinks)], brokenAnchors: [...new Set(brokenAnchors)], forbiddenRequests };
+	return { files, brokenLinks: [...new Set(brokenLinks)], brokenAnchors: [...new Set(brokenAnchors)], forbiddenRequests, internalMetadata };
 };
 
 export const assertSiteArtifacts = (distRoot: string): SiteCheckResult => {
 	const result = checkSiteArtifacts(distRoot);
-	if (result.brokenLinks.length > 0 || result.brokenAnchors.length > 0 || result.forbiddenRequests.length > 0) throw new Error(`site artifact check failed: ${JSON.stringify(result)}`);
+	if (result.brokenLinks.length > 0 || result.brokenAnchors.length > 0 || result.forbiddenRequests.length > 0 || result.internalMetadata.length > 0)
+		throw new Error(`site artifact check failed: ${JSON.stringify(result)}`);
 	return result;
 };
 

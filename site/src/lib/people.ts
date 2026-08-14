@@ -1,6 +1,5 @@
 import { buildEntityHref, type DatePrecision } from './site-foundation';
 import { projectColorToken } from './home';
-import { sanitizePublicText } from './public-copy';
 
 export type SiteRow = Record<string, unknown>;
 
@@ -80,7 +79,7 @@ export const buildPeopleList = (rows: readonly SiteRow[]): PeopleListItem[] =>
 			return {
 				name: stringValue(person.name) || '名称未設定',
 				slug,
-				description: sanitizePublicText(person.description),
+				description: stringValue(person.description),
 				href: buildEntityHref('person', slug),
 			};
 		})
@@ -281,7 +280,7 @@ export const buildPersonPageModel = (input: {
 	return {
 		name: stringValue(person.name) || '名称未設定',
 		slug: optionalString(person.slug),
-		description: sanitizePublicText(person.description),
+		description: stringValue(person.description),
 		activityPeriod: deriveActivityPeriod(person, personMemberships, personContributions, releases, events),
 		memberships: membershipViews,
 		credits,

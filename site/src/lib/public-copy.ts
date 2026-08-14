@@ -1,5 +1,6 @@
-const INTERNAL_KEYS = '(?:source_file|source_tags|draft_file|source_count|release_count|live_count|aliases|candidate_file|source|source_heading|mention_project|mention_kind|candidate_notes)';
-const INTERNAL_TOKEN = new RegExp(`(?:^|\\s)${INTERNAL_KEYS}=`, 'u');
+// パイプラインが埋めた内部メタデータは `key=value` の形で notes / description 系のカラムに入る。
+// キーの種類は生成スクリプトごとに増えるため、既知キーを列挙せず、形にマッチさせて落とす。
+const INTERNAL_TOKEN = /(?:^|\s)[a-z][a-z0-9_]*=/u;
 
 export const sanitizePublicText = (value: unknown): string => {
 	if (typeof value !== 'string') return '';
@@ -13,7 +14,10 @@ export const sanitizePublicText = (value: unknown): string => {
 			}
 			return line.trimEnd();
 		})
-		.filter((line): line is string => line !== undefined && (!line.trim() || !INTERNAL_TOKEN.test(line.trim())))
+		.filter((line): line is string => line !== undefined)
 		.join('\n')
 		.trim();
 };
+
+/** notes / description / summary / content 系の自由記述カラムかどうか。 */
+export const isProseField = (key: string): boolean => /(?:notes?|description|summary|content)$/iu.test(key);
