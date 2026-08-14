@@ -167,6 +167,13 @@ describe('PST-010 人物一覧・詳細', () => {
 		expect(listHtml).toContain('slug未確定');
 		expect(listHtml).not.toContain('/people/slug未確定');
 
+		// 所属タイムラインの軸は、バー位置の計算に使う範囲と同じ年を示す。
+		// 活動が2006年で終わっている人物に「現在」と出すと期間を誤読させる。
+		const axis = detailHtml.match(/person-timeline__axis[^>]*>(.*?)<\/div>/u)?.[1] ?? '';
+		expect(axis).toContain('2001');
+		expect(axis).toContain('2006');
+		expect(axis).not.toContain('現在');
+
 		expect(detailHtml).toContain('複数プロジェクトで活動する人物。');
 		expect(detailHtml).toContain('活動期間');
 		expect(detailHtml).toContain('記録から導出');

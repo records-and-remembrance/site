@@ -36,8 +36,9 @@ const model = selectedPerson
 	})
 	: undefined;
 const slug = Astro.params.slug ?? '';
-const membershipDates = model?.memberships.flatMap((membership) => [membership.fromDate, membership.toDate]).filter((value): value is string => Boolean(value)) ?? [];
-const timelineStart = model?.activityPeriod.from ?? membershipDates.sort()[0] ?? siteData.snapshotGeneratedAt.slice(0, 10);
+const membershipDates = (model?.memberships.flatMap((membership) => [membership.fromDate, membership.toDate]).filter((value): value is string => Boolean(value)) ?? []).sort();
+const timelineStart = model?.activityPeriod.from ?? membershipDates[0] ?? siteData.snapshotGeneratedAt.slice(0, 10);
+// 活動が終わっている人物は終了日まで、続いている人物はスナップショット時点までを軸の範囲にする。
 const timelineEnd = model?.activityPeriod.to ?? (siteData.snapshotGeneratedAt.slice(0, 10) || membershipDates.at(-1) || timelineStart);
 ---
 
@@ -73,7 +74,7 @@ const timelineEnd = model?.activityPeriod.to ?? (siteData.snapshotGeneratedAt.sl
 				<section aria-labelledby="memberships-title">
 					<h2 id="memberships-title">在籍・参加</h2>
 					<div class="person-timeline" style={`--person-timeline-start: ${timelineStart.slice(0, 4)}; --person-timeline-end: ${timelineEnd.slice(0, 4)};`}>
-						<div class="person-timeline__axis"><span>{timelineStart.slice(0, 4)}</span><span>現在</span></div>
+						<div class="person-timeline__axis"><span>{timelineStart.slice(0, 4)}</span><span>{timelineEnd.slice(0, 4)}</span></div>
 						<ol>
 							{model.memberships.map((membership) => {
 								const position = buildTimelinePosition(membership.fromDate, timelineStart, timelineEnd, membership.toDate);
@@ -225,7 +226,6 @@ const timelineEnd = model?.activityPeriod.to ?? (siteData.snapshotGeneratedAt.sl
 		padding-block: var(--space-2);
 	}
 
-	.person-timeline__axis,
 	.person-timeline li {
 		display: grid;
 		grid-template-columns: 11rem minmax(30rem, 1fr);
@@ -234,14 +234,12 @@ const timelineEnd = model?.activityPeriod.to ?? (siteData.snapshotGeneratedAt.sl
 	}
 
 	.person-timeline__axis {
-		margin-inline-start: 11rem;
-		grid-template-columns: minmax(30rem, 1fr);
+		display: flex;
+		justify-content: space-between;
+		min-width: 30rem;
+		margin-inline-start: calc(11rem + var(--space-3));
 		color: var(--ink-muted);
 		font-size: 12px;
-	}
-
-	.person-timeline__axis > span:last-child {
-		justify-self: end;
 	}
 
 	.person-timeline ol {
@@ -279,13 +277,13 @@ const timelineEnd = model?.activityPeriod.to ?? (siteData.snapshotGeneratedAt.sl
 	}
 
 	@media (max-width: 640px) {
-		.person-timeline__axis,
 		.person-timeline li {
 			grid-template-columns: 8rem minmax(22rem, 1fr);
 		}
 
 		.person-timeline__axis {
-			margin-inline-start: 8rem;
+			min-width: 22rem;
+			margin-inline-start: calc(8rem + var(--space-3));
 		}
 	}
 </style>
