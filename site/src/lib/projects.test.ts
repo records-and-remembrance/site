@@ -182,6 +182,8 @@ describe('PST-009 project pages', () => {
 			expect(html).toContain('BURGER NUDS');
 			expect(html).toContain('href="/projects/burger-nuds"');
 			expect(html).toContain('公開名義未確定');
+			// カードの罫線でプロジェクトカラーを示す（設計書 §4.3）。
+			expect(html).toContain('--project-color: var(--project-burger-nuds)');
 			// slugはURLで表現される。カード本文にslugや内部的な未確定状態を出さない。
 			expect(html).not.toContain('公開URL未確定');
 			expect(html).not.toContain('/burger-nuds<');

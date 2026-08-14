@@ -4,6 +4,7 @@ import ConnectionLinks from '../../components/ConnectionLinks.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { formatDateText } from '../../lib/site-foundation';
 import { buildProjectDetail, selectProjectRows } from '../../lib/projects';
+import { projectColorToken } from '../../lib/home';
 import { buildTimelinePosition } from '../../lib/timeline-position';
 
 const rows = selectProjectRows(siteTableRows);
@@ -32,7 +33,7 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 ---
 
 <SiteLayout title={detail.project.name} currentPath="/projects" breadcrumbs={[{ label: 'プロジェクト', href: '/projects' }, { label: detail.project.name }]}>
-	<article class="project-detail">
+	<article class="project-detail" style={`--project-color: ${projectColorToken(detail.project.slug)};`}>
 		<header class="project-detail__header" aria-labelledby="project-title">
 			<p class="eyebrow">PROJECT</p>
 			<h1 id="project-title">{detail.project.name}</h1>
@@ -155,8 +156,9 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 		gap: var(--space-6);
 	}
 
+	/* ホームのキャリアリバーで学習させた名義の色を、詳細画面でも同じ意味で使う（設計書 §4.3）。 */
 	.project-detail__header {
-		border-block-end: 1px solid var(--rule);
+		border-block-end: 3px solid var(--project-color);
 		padding-block-end: var(--space-5);
 	}
 

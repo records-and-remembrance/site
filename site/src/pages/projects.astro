@@ -2,6 +2,7 @@
 import { siteTableRows } from '../data';
 import { formatDateText } from '../lib/site-foundation';
 import { buildProjectList, selectProjectRows } from '../lib/projects';
+import { projectColorToken } from '../lib/home';
 import SiteLayout from '../layouts/SiteLayout.astro';
 
 const rows = selectProjectRows(siteTableRows);
@@ -23,7 +24,7 @@ const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
 		{projects.length > 0 ? (
 			<div class="project-list">
 				{projects.map((item) => (
-					<article class="project-card">
+					<article class="project-card" style={`--project-color: ${projectColorToken(item.project.slug)};`}>
 						<div class="project-card__heading">
 							{item.href ? <a class="project-card__link" href={item.href}><h2>{item.project.name}</h2></a> : <h2>{item.project.name}</h2>}
 						</div>
@@ -51,12 +52,13 @@ const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
 		margin-block-start: var(--space-5);
 	}
 
+	/* 上罫線でプロジェクトカラーを示す。色の意味はホームのキャリアリバーで学習させている（設計書 §4.3）。 */
 	.project-card {
 		display: grid;
 		gap: var(--space-3);
 		padding: var(--space-4);
 		border: 1px solid var(--rule);
-		border-block-start: 4px solid var(--accent);
+		border-block-start: 4px solid var(--project-color);
 		background: var(--surface);
 	}
 
