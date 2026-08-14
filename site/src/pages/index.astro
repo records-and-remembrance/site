@@ -151,6 +151,14 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 					</>
 				)}
 			</section>
+
+			<!-- 閲覧日に該当する記録があるときだけクライアントが開く（設計書 §4.1）。 -->
+			<section class="home-anniversary" aria-labelledby="anniversary-title" data-month-day hidden>
+				<p class="home-eyebrow">TODAY</p>
+				<h2 id="anniversary-title">この日なんの日</h2>
+				<p data-month-day-caption></p>
+				<ul class="home-anniversary__list" data-month-day-list></ul>
+			</section>
 	</div>
 </SiteLayout>
 
@@ -502,9 +510,44 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			font-variant-numeric: tabular-nums;
 		}
 
+		.home-anniversary__list {
+			display: grid;
+			gap: var(--space-2);
+			margin: var(--space-4) 0 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.home-anniversary__list li {
+			display: grid;
+			grid-template-columns: 5rem 4rem minmax(0, 1fr);
+			gap: var(--space-3);
+			align-items: baseline;
+			padding-block: var(--space-2);
+			border-block-end: 1px solid var(--rule);
+		}
+
+		.home-anniversary__year {
+			font-variant-numeric: tabular-nums;
+		}
+
+		.home-anniversary__year,
+		.home-anniversary__kind {
+			color: var(--ink-muted);
+			font-size: 0.9rem;
+		}
+
 		@media (max-width: 640px) {
 			.home-dig__cards {
 				grid-template-columns: 1fr;
+			}
+
+			.home-anniversary__list li {
+				grid-template-columns: 5rem 1fr;
+			}
+
+			.home-anniversary__list li > a {
+				grid-column: 1 / -1;
 			}
 		}
 	</style>
@@ -524,4 +567,46 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			}
 			if (status) status.textContent = 'Digの候補を更新しました。';
 		});
+	</script>
+
+	<script>
+		import { isoDateOf, MONTH_DAY_KIND_LABELS, monthDayKey, selectAnniversaryEntries } from '../lib/month-day';
+
+		// 閲覧日の月日に一致する過去の記録を、静的JSONから引いて描画する。
+		(async () => {
+			const section = document.querySelector('[data-month-day]');
+			if (!(section instanceof HTMLElement)) return;
+
+			const today = new Date();
+			let index: Record<string, { type: 'event' | 'release'; date: string; label: string; href: string }[]>;
+			try {
+				const response = await fetch('/month-day.json');
+				if (!response.ok) return;
+				index = await response.json();
+			} catch {
+				return;
+			}
+
+			const entries = selectAnniversaryEntries(index[monthDayKey(today)], isoDateOf(today));
+			if (entries.length === 0) return;
+
+			const list = section.querySelector('[data-month-day-list]');
+			const caption = section.querySelector('[data-month-day-caption]');
+			if (caption) caption.textContent = `${today.getMonth() + 1}月${today.getDate()}日の記録が${entries.length}件あります。`;
+			for (const entry of entries) {
+				const item = document.createElement('li');
+				const year = document.createElement('span');
+				year.className = 'home-anniversary__year';
+				year.textContent = `${entry.date.slice(0, 4)}年`;
+				const kind = document.createElement('span');
+				kind.className = 'home-anniversary__kind';
+				kind.textContent = MONTH_DAY_KIND_LABELS[entry.type] ?? entry.type;
+				const link = document.createElement('a');
+				link.href = entry.href;
+				link.textContent = entry.label;
+				item.append(year, kind, link);
+				list?.append(item);
+			}
+			section.hidden = false;
+		})();
 	</script>
