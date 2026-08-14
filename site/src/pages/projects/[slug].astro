@@ -47,7 +47,12 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 				<div class="project-membership-table-wrap">
 					<table class="project-membership-table">
 						<thead>
-							<tr><th scope="col">人物</th><th scope="col">活動期間</th><th scope="col">役割・楽器</th><th scope="col">期間表示</th></tr>
+							<tr>
+								<th scope="col" class="project-membership-table__person">人物</th>
+								<th scope="col" class="project-membership-table__range">活動期間</th>
+								<th scope="col" class="project-membership-table__roles">役割・楽器</th>
+								<th scope="col" class="project-membership-table__chart">在籍図<span class="project-membership-table__axis">{timelineStart.slice(0, 4)} — {timelineEnd.slice(0, 4)}</span></th>
+							</tr>
 						</thead>
 						<tbody>
 							{detail.memberships.map((membership) => (
@@ -60,7 +65,6 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 									<td>{membership.roles.length > 0 ? membership.roles.join('、') : '役割未登録'}</td>
 									<td>
 										<div class="project-membership__track" aria-label={`${membership.person.name}の活動期間`}>
-											<span class="project-membership__range-label">{timelineStart.slice(0, 4)} — {timelineEnd.slice(0, 4)}</span>
 											<span class={membership.support ? 'project-membership__bar project-membership__bar--support' : 'project-membership__bar'} style={`--membership-left: ${membershipPosition(membership).left}%; --membership-width: ${membershipPosition(membership).width}%;`}></span>
 										</div>
 									</td>
@@ -175,11 +179,43 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 		overflow-x: auto;
 	}
 
+	/*
+	 * 在籍図の列を固定幅で確保する。auto layout では役割・楽器の長い行に列幅を
+	 * 奪われ、バーが右端の細い帯に潰れて期間差を読み取れなくなる。
+	 */
 	.project-membership-table {
 		width: 100%;
-		min-width: 760px;
+		min-width: 860px;
 		border-collapse: collapse;
+		table-layout: fixed;
 		background: var(--surface);
+	}
+
+	.project-membership-table__person {
+		width: 20%;
+	}
+
+	.project-membership-table__range {
+		width: 16%;
+	}
+
+	.project-membership-table__roles {
+		width: 26%;
+	}
+
+	.project-membership-table__chart {
+		width: 38%;
+	}
+
+	.project-membership-table__axis {
+		display: block;
+		font-size: 11px;
+		font-variant-numeric: tabular-nums;
+		font-weight: 400;
+	}
+
+	.project-membership-table td {
+		overflow-wrap: anywhere;
 	}
 
 	.project-membership-table th,
@@ -205,16 +241,18 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 
 	.project-membership__track {
 		position: relative;
-		min-width: 220px;
-		padding-block-start: 18px;
-		border-block-start: 1px solid var(--rule);
+		min-width: 0;
+		padding-block: var(--space-2);
 	}
 
-	.project-membership__range-label {
+	/* 全行に共通の時間軸。バーの位置をこの線の上で比べる。 */
+	.project-membership__track::before {
+		content: '';
 		position: absolute;
-		inset-block-start: 0;
-		font-size: 11px;
-		color: var(--ink-muted);
+		inset-block-start: 50%;
+		inset-inline: 0;
+		block-size: 1px;
+		background: var(--rule);
 	}
 
 	.project-membership__bar {
@@ -222,13 +260,14 @@ const membershipPosition = (membership: (typeof detail.memberships)[number]) => 
 		position: relative;
 		left: var(--membership-left);
 		width: var(--membership-width);
-		border-block-start: 3px solid var(--accent);
-		min-block-size: 12px;
+		block-size: 10px;
+		border-radius: 2px;
+		background: var(--project-color);
 	}
 
 	.project-membership__bar--support {
-		border-block-start-style: dashed;
-		opacity: 0.5;
+		border: 2px dashed var(--project-color);
+		background: transparent;
 	}
 
 	.project-detail__list {
