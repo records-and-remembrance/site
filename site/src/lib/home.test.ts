@@ -116,7 +116,6 @@ describe('PST-019 home', () => {
 			{ key: 'article', label: '記事', count: 0, href: '/library' },
 		]);
 		expect(model.upcomingEvents).toEqual([expect.objectContaining({ label: '未来のライブ', href: '/lives/2026-12-24-venue-1' })]);
-		expect(model.todayEntries).toEqual([expect.objectContaining({ label: '今日の記録', href: '/lives/2020-07-13-venue-1' })]);
 	});
 
 	test('静的buildで0件タイルを表示し、確定リンク・色・予定・DigをHTMLへ出力する', async () => {
@@ -134,16 +133,20 @@ describe('PST-019 home', () => {
 		expect(html).toContain('未来のライブ');
 		expect(html).toContain('id="dig"');
 		expect(html).toContain('Digは準備中');
+		// 「この日なんの日」は閲覧日で決まるため、枠だけを閉じた状態で出しクライアントが開く。
 		expect(html).toContain('id="today-in-history"');
+		expect(html).toMatch(/id="today-in-history"[^>]*hidden/u);
+		// Dig候補の一覧はHTMLへ埋め込まず、再抽選時に /dig.json から取る。
+		expect(html).toContain('/dig.json');
+		expect(html).not.toContain('"digCandidates"');
 	});
 
-	test('未来eventも今日の記録もなければ専用ブロックを出さずにbuildできる', async () => {
+	test('未来eventがなければ予定ブロックを出さずにbuildできる', async () => {
 		const snapshot = fixtureSnapshot(false);
 		snapshot.tables.event = [snapshot.tables.event[1]];
 		const html = await runStaticBuild(snapshot);
 
 		expect(html).not.toContain('class="home-upcoming"');
-		expect(html).not.toContain('id="today-in-history"');
 		expect(html).toContain('id="dig"');
 	});
 });

@@ -38,9 +38,7 @@ export type HomeModel = {
 	projects: HomeProject[];
 	countTiles: HomeCountTile[];
 	upcomingEvents: HomeUpcomingEvent[];
-	todayEntries: SiteMonthDayEntry[];
 	dig: DigCard[];
-	digCandidates: DigCandidates;
 };
 
 const PROJECT_COLOR_TOKENS: Record<string, string> = {
@@ -149,12 +147,6 @@ const buildUpcomingEvents = (rows: SiteDatabaseRowsForHome, today: string): Home
 
 type SiteDatabaseRowsForHome = Pick<SiteSnapshot['tables'], 'project' | 'event' | 'venue'>;
 
-const buildTodayEntries = (snapshot: SiteSnapshot, today: string): SiteMonthDayEntry[] => {
-	const monthDay = today.slice(5);
-	if (!/^\d{2}-\d{2}$/u.test(monthDay)) return [];
-	return [...(snapshot.indexes.monthDay[monthDay] ?? [])].sort((left, right) => `${left.date}:${left.type}:${left.href}`.localeCompare(`${right.date}:${right.type}:${right.href}`));
-};
-
 export const buildHomeModel = (snapshot: SiteSnapshot, today = snapshot.snapshotGeneratedAt.slice(0, 10)): HomeModel => {
 	const currentYear = yearValue(today) ?? new Date().getUTCFullYear();
 	const projects = buildProjects(snapshot.tables.project, currentYear);
@@ -168,8 +160,7 @@ export const buildHomeModel = (snapshot: SiteSnapshot, today = snapshot.snapshot
 		projects,
 		countTiles: buildCountTiles(snapshot),
 		upcomingEvents: buildUpcomingEvents(snapshot.tables, today),
-		todayEntries: buildTodayEntries(snapshot, today),
-		digCandidates: buildDigCandidates(snapshot),
+		// 初期表示の3枚だけを描く。候補一覧は /dig.json から再抽選時に取る。
 		dig: pickDigCards(buildDigCandidates(snapshot), () => 0),
 	};
 };

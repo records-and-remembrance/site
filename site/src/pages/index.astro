@@ -116,24 +116,20 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			</ul>
 		</section>
 
-		{home.todayEntries.length > 0 && (
-			<section id="today-in-history" class="home-today" aria-labelledby="today-title">
-				<div class="home-section-heading">
-					<div>
-						<p class="home-eyebrow">ON THIS DAY</p>
-						<h2 id="today-title">この日なんの日</h2>
-					</div>
+		{/*
+		  * 閲覧日はビルド時に決まらないため、該当する記録があるかどうかはクライアントが判定する。
+		  * ビルド時の日付で描き込むと、再ビルドするまで「今日」が古いままになる（設計書 §4.1）。
+		  */}
+		<section id="today-in-history" class="home-today" aria-labelledby="today-title" data-month-day hidden>
+			<div class="home-section-heading">
+				<div>
+					<p class="home-eyebrow">ON THIS DAY</p>
+					<h2 id="today-title">この日なんの日</h2>
 				</div>
-				<ul>
-					{home.todayEntries.map((entry) => (
-						<li>
-							<span class="home-today__date"><DateText value={entry.date} precision="day" /></span>
-							<a href={entry.href}>{entry.label}</a>
-						</li>
-					))}
-				</ul>
-			</section>
-		)}
+			</div>
+			<p class="home-today__caption" data-month-day-caption></p>
+			<ul data-month-day-list></ul>
+		</section>
 
 			<section id="dig" class="home-dig" aria-labelledby="dig-title">
 				<p class="home-eyebrow">DIG</p>
@@ -152,13 +148,6 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 				)}
 			</section>
 
-			<!-- 閲覧日に該当する記録があるときだけクライアントが開く（設計書 §4.1）。 -->
-			<section class="home-anniversary" aria-labelledby="anniversary-title" data-month-day hidden>
-				<p class="home-eyebrow">TODAY</p>
-				<h2 id="anniversary-title">この日なんの日</h2>
-				<p data-month-day-caption></p>
-				<ul class="home-anniversary__list" data-month-day-list></ul>
-			</section>
 	</div>
 </SiteLayout>
 
@@ -510,29 +499,18 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			font-variant-numeric: tabular-nums;
 		}
 
-		.home-anniversary__list {
-			display: grid;
-			gap: var(--space-2);
-			margin: var(--space-4) 0 0;
-			padding: 0;
-			list-style: none;
+		.home-today__caption {
+			margin-block: var(--space-2) var(--space-4);
+			color: var(--ink-muted);
+			font-size: 0.9rem;
 		}
 
-		.home-anniversary__list li {
-			display: grid;
-			grid-template-columns: 5rem 4rem minmax(0, 1fr);
-			gap: var(--space-3);
-			align-items: baseline;
-			padding-block: var(--space-2);
-			border-block-end: 1px solid var(--rule);
-		}
-
-		.home-anniversary__year {
+		.home-today__year {
 			font-variant-numeric: tabular-nums;
 		}
 
-		.home-anniversary__year,
-		.home-anniversary__kind {
+		.home-today__year,
+		.home-today__kind {
 			color: var(--ink-muted);
 			font-size: 0.9rem;
 		}
@@ -541,28 +519,40 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			.home-dig__cards {
 				grid-template-columns: 1fr;
 			}
-
-			.home-anniversary__list li {
-				grid-template-columns: 5rem 1fr;
-			}
-
-			.home-anniversary__list li > a {
-				grid-column: 1 / -1;
-			}
 		}
 	</style>
 
-	<script define:vars={{ candidates: home.digCandidates }}>
+	<script>
+		// 候補一覧は初回ロードに載せず、再抽選を押したときだけ取りに行く（設計書 §2）。
+		type DigCard = { type: string; label: string; summary: string; href: string };
+
 		const reroll = document.querySelector('[data-dig-reroll]');
 		const status = document.querySelector('[data-dig-status]');
-		reroll?.addEventListener('click', () => {
-			for (const card of document.querySelectorAll('[data-dig-card]')) {
-				const list = candidates[card.dataset.digType] ?? [];
+		let candidates: Record<string, DigCard[]> | undefined;
+
+		reroll?.addEventListener('click', async () => {
+			if (!candidates) {
+				if (status) status.textContent = 'Digの候補を読み込んでいます。';
+				try {
+					const response = await fetch('/dig.json');
+					if (!response.ok) throw new Error(`status ${response.status}`);
+					candidates = await response.json();
+				} catch {
+					if (status) status.textContent = 'Digの候補を読み込めませんでした。';
+					return;
+				}
+			}
+
+			for (const card of document.querySelectorAll<HTMLElement>('[data-dig-card]')) {
+				const list = candidates[card.dataset.digType ?? ''] ?? [];
 				const next = list[Math.floor(Math.random() * list.length)];
 				if (!next) continue;
 				const link = card.querySelector('a');
 				const summary = card.querySelector('p:last-child');
-				if (link) { link.href = next.href; link.textContent = next.label; }
+				if (link instanceof HTMLAnchorElement) {
+					link.href = next.href;
+					link.textContent = next.label;
+				}
 				if (summary) summary.textContent = next.summary;
 			}
 			if (status) status.textContent = 'Digの候補を更新しました。';
@@ -596,10 +586,10 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			for (const entry of entries) {
 				const item = document.createElement('li');
 				const year = document.createElement('span');
-				year.className = 'home-anniversary__year';
+				year.className = 'home-today__year';
 				year.textContent = `${entry.date.slice(0, 4)}年`;
 				const kind = document.createElement('span');
-				kind.className = 'home-anniversary__kind';
+				kind.className = 'home-today__kind';
 				kind.textContent = MONTH_DAY_KIND_LABELS[entry.type] ?? entry.type;
 				const link = document.createElement('a');
 				link.href = entry.href;
