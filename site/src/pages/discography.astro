@@ -27,7 +27,7 @@ const filterGroups = [
 <SiteLayout title="作品" breadcrumbs={[{ label: '作品' }]}>
 	<section aria-labelledby="discography-title">
 			<h1 id="discography-title">作品</h1>
-			<p>作品と版を、発表順にたどる。</p>
+			<p>アルバムやシングルを、発売日・名義・フォーマットで絞り込めます。</p>
 			<FilterControls path="/discography" groups={filterGroups} selected={selected} />
 			{cards.length === 0 ? (
 			<p>作品データはまだありません。</p>
@@ -75,7 +75,7 @@ const filterGroups = [
 		display: block;
 		width: 100%;
 		height: auto;
-		aspect-ratio: 1;
+		aspect-ratio: auto;
 		object-fit: contain;
 	}
 

@@ -9,15 +9,13 @@ export type NavigationItem = {
 export const PRIMARY_NAVIGATION: readonly NavigationItem[] = [
 	{ href: '/timeline', label: '年表' },
 	{ href: '/projects', label: 'プロジェクト' },
-	{ href: '/people', label: '人物' },
 	{ href: '/discography', label: '作品' },
 	{ href: '/songs', label: '楽曲' },
 	{ href: '/lives', label: 'ライブ' },
 	{ href: '/venues', label: '会場' },
-	{ href: '/network', label: '相関図' },
+	{ href: '/people', label: '人物' },
+	{ href: '/network', label: '人物相関' },
 	{ href: '/library', label: '資料室' },
-	{ href: '/about', label: 'About' },
-	{ href: '/#dig', label: 'Dig' },
 ];
 
 export const THEME_STORAGE_KEY = 'monden-theme';

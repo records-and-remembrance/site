@@ -45,7 +45,7 @@ const buildCounts = (snapshot: SiteSnapshot): DigCounts => {
 	};
 };
 
-/** カードの一言。設計書 §4.1 の「ある日のセットリスト」「ある曲の旅」「ある会場の歴史」に対応する。 */
+/** カードの一言。設計書 §4.1 の「ある日のセットリスト」「ある曲の収録・演奏記録」「ある会場の公演記録」に対応する。 */
 const summaryOf = (entry: SiteDigEntry, counts: DigCounts): string => {
 	const id = counts.idBySlug.get(entry.slug) ?? '';
 	if (entry.type === 'composition') {

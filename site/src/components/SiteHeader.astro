@@ -12,6 +12,10 @@ const { currentPath = '/' } = Astro.props;
 <header class="site-header">
 	<div class="site-header__inner">
 		<a class="site-brand" href="/">門田匡陽アーカイブ</a>
+		<form class="site-header__search" role="search" method="get" action="/search">
+			<label class="sr-only" for="site-search">アーカイブを検索</label>
+			<input id="site-search" name="q" type="search" placeholder="曲・人・場所を検索" />
+		</form>
 
 		<nav class="site-nav" aria-label="主要ナビゲーション">
 			<ul class="site-nav__list">
@@ -30,6 +34,7 @@ const { currentPath = '/' } = Astro.props;
 		</nav>
 
 		<div class="site-header__tools">
+			<a class="site-header__random" href="/#dig">記録をランダムに見る</a>
 			<ThemeToggle />
 		</div>
 	</div>

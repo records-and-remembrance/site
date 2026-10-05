@@ -9,6 +9,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import '@fontsource/shippori-mincho-b1/700.css';
 import '../styles/global.css';
 import '../styles/tokens.css';
+import '../styles/archive-design.css';
 
 interface Props {
 	title?: string;
@@ -17,7 +18,7 @@ interface Props {
 	breadcrumbs?: readonly Breadcrumb[];
 }
 
-const { title = siteData.title, description = siteData.description, currentPath = Astro.url.pathname, breadcrumbs = [] } = Astro.props;
+const { title = siteData.title, description = '門田匡陽の音楽活動に関する作品、ライブ、人物、資料の記録をまとめています。', currentPath = Astro.url.pathname, breadcrumbs = [] } = Astro.props;
 const pageTitle = title === siteData.title ? title : `${title} | ${siteData.title}`;
 ---
 

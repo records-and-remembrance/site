@@ -159,10 +159,10 @@ const heatMax = Math.max(1, ...history.years.map((year) => year.count));
 			</section>
 
 			<section class="song-detail__section" aria-labelledby="song-discovery-title">
-				<h2 id="song-discovery-title">曲の旅・演奏史</h2>
+				<h2 id="song-discovery-title">収録・演奏の履歴</h2>
 				{journey.length > 0 && (
 					<div>
-						<h3>収録の旅</h3>
+						<h3>収録履歴</h3>
 						<ol class="song-journey">{journey.map((item, index) => <li><span class="song-journey__marker" aria-hidden="true"></span><span class="song-journey__content">{item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}<small>{item.date}{index === 0 ? ' · 初出' : ''}</small></span></li>)}</ol>
 					</div>
 				)}

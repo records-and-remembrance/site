@@ -50,17 +50,21 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		)}
 
 		<section class="home-hero" aria-labelledby="page-title">
-			<p class="home-eyebrow">PUBLIC ARCHIVE</p>
-			<h1 id="page-title">{siteData.title}</h1>
-			<p class="home-hero__description">{siteData.description}</p>
-			<p class="home-hero__featured">注目プロジェクト: {siteData.featuredProject}</p>
+			<p class="home-eyebrow">MONDEN KADOTA / ARCHIVE</p>
+			<h1 id="page-title">門田匡陽の活動記録を、<br />名義ごとに調べる。</h1>
+			<p class="home-hero__description">作品・ライブ・参加メンバーを名義ごとに整理。{home.career.startYear}年から現在までの記録を確認できます。</p>
+			<div class="home-hero__actions">
+				<a class="home-primary-action" href="/timeline">年表で活動を見る <span aria-hidden="true">→</span></a>
+				<a href="/#dig">記録をランダムに見る</a>
+			</div>
+			<p class="home-hero__featured">注目プロジェクト: <a href="/projects">{siteData.featuredProject}</a></p>
 		</section>
 
 		<section class="home-career" aria-labelledby="career-title">
 			<div class="home-section-heading">
 				<div>
-					<p class="home-eyebrow">CAREER RIVER</p>
-					<h2 id="career-title">活動の流れ</h2>
+					<p class="home-eyebrow">PROJECTS / PERIOD</p>
+					<h2 id="career-title">プロジェクトと活動期間</h2>
 				</div>
 				<p class="home-section-heading__note">{home.career.startYear} — {home.career.endYear}</p>
 			</div>
@@ -100,8 +104,8 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		<section class="home-counts" aria-labelledby="counts-title">
 			<div class="home-section-heading">
 				<div>
-					<p class="home-eyebrow">AT A GLANCE</p>
-					<h2 id="counts-title">記録をたどる</h2>
+					<p class="home-eyebrow">ARCHIVE INDEX</p>
+					<h2 id="counts-title">登録されている記録</h2>
 				</div>
 			</div>
 			<ul class="home-counts__grid">
@@ -124,7 +128,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			<div class="home-section-heading">
 				<div>
 					<p class="home-eyebrow">ON THIS DAY</p>
-					<h2 id="today-title">この日なんの日</h2>
+					<h2 id="today-title">この日にあった記録</h2>
 				</div>
 			</div>
 			<p class="home-today__caption" data-month-day-caption></p>
@@ -134,7 +138,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			<section id="dig" class="home-dig" aria-labelledby="dig-title">
 				<p class="home-eyebrow">DIG</p>
 				<h2 id="dig-title">Dig</h2>
-				<p>調べるのとは別の入口から、記録をめぐる。</p>
+				<p>記録をひとつ選び、関連する作品やライブを確認できます。</p>
 				{home.dig.length === 0 ? (
 					<p>Digは準備中です。</p>
 				) : (
@@ -142,7 +146,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 						<div class="home-dig__cards" data-dig-cards>
 							{home.dig.map((card) => <article data-dig-card data-dig-type={card.type}><p class="home-dig__kind">{DIG_KIND_LABELS[card.type]}</p><h3><a href={card.href}>{card.label}</a></h3><p>{card.summary}</p></article>)}
 						</div>
-						<button type="button" data-dig-reroll>もう一度Digする</button>
+						<button type="button" data-dig-reroll>別の記録を見る</button>
 						<p data-dig-status aria-live="polite"></p>
 					</>
 				)}

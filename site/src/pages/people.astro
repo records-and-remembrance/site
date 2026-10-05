@@ -8,7 +8,9 @@ const people = buildPeopleList(siteTableRows('person'));
 
 <SiteLayout title="人物" currentPath="/people" breadcrumbs={[{ label: '人物' }]}>
 	<section aria-labelledby="people-title">
+		<p class="eyebrow">PEOPLE</p>
 		<h1 id="people-title">人物</h1>
+		<p>プロジェクトやライブの記録に登場する参加人物を一覧にしています。</p>
 		{people.length === 0 ? (
 			<p>人物データはありません。</p>
 		) : (

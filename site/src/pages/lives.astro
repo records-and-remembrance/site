@@ -113,7 +113,7 @@ const filterGroups = [
 	{ key: 'venue', label: '会場', options: filterSchema.venue.map((value) => ({ value, label: siteTableRows('venue').find((venue) => venue.slug === value)?.name ?? value })) },
 	{ key: 'year', label: '年', options: filterSchema.year.map((value) => ({ value, label: `${value}年` })) },
 ];
-const pageDescription = '公演日、名義、会場、セットリスト件数からライブ記録をたどれます。';
+const pageDescription = '公演日、名義、会場、セットリスト件数からライブ記録を確認できます。';
 ---
 
 <SiteLayout title="ライブ" description={pageDescription} currentPath="/lives" breadcrumbs={[{ label: 'ライブ' }]}>
