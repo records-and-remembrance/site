@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>年表 — 門田匡陽アーカイブ / UIモック</title>
+<title>年ごとの活動記録 — 門田匡陽アーカイブ</title>
 <link rel="stylesheet" href="styles.css">
 <script src="mock.js" defer>
 </script>
@@ -14,7 +14,7 @@
 <div class="mock-banner">
 <span>DESIGN STUDY / 01</span>
 <span>静的モック · データ・関係・期間は表示例</span>
-<a href="states.html">空状態を見る ↗</a>
+<a href="states.html">データ状態の例 ↗</a>
 </div>
 <header class="site-header">
 <div class="masthead">
@@ -28,7 +28,7 @@
 <input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
 <button aria-label="検索する">⌕</button>
 </form>
-<button data-dig class="dig-button">↗ <span>Dig</span>
+<button data-dig class="dig-button" aria-label="記録をランダムに表示">↗ <span>ランダム</span>
 </button>
 <button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
 </div>
@@ -54,8 +54,8 @@
 </nav>
 <header class="page-heading">
 <p class="eyebrow">TIMELINE / 1994 —</p>
-<h1>点を、時間でつなぐ。</h1>
-<p class="lede">作品が生まれた年。バンドが変わった日。ひとつの流れで、活動を見渡す。</p>
+<h1>年ごとの活動記録</h1>
+<p class="lede">作品の発売、ライブ、メンバーの加入・脱退を年代順に表示します。</p>
 </header>
 <form class="filters" data-filter-form>
 <label>プロジェクト<select name="project">
@@ -72,7 +72,7 @@
 <option value="member">人の動き</option>
 </select>
 </label>
-<button type="reset" class="quiet">条件をクリア</button>
+<button type="reset" class="quiet">絞り込みを解除</button>
 </form>
 <p class="result-count" data-result-count role="status">
 </p>
@@ -199,9 +199,9 @@
 </div>
 </section>
 <div class="empty" data-empty hidden>
-<h2>該当する記録がありません</h2>
-<p>キーワードを短くするか、絞り込み条件を減らしてみてください。</p>
-<button type="button" data-clear>条件をすべてクリア</button>
+<h2>条件に一致する記録はありません</h2>
+<p>検索語を変えるか、絞り込み条件を減らしてください。</p>
+<button type="button" data-clear>すべての条件を解除</button>
 </div>
 </div>
 </div>
@@ -210,7 +210,7 @@
 <footer>
 <div>
 <a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
-<p>名義は変わっても、曲は旅を続ける。</p>
+<p>門田匡陽の音楽活動に関する記録をまとめています。</p>
 </div>
 <div>
 <a href="about.html">このサイトについて ↗</a>

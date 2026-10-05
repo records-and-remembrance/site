@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>検索 — 門田匡陽アーカイブ / UIモック</title>
+<title>記録を検索 — 門田匡陽アーカイブ</title>
 <link rel="stylesheet" href="styles.css">
 <script src="mock.js" defer>
 </script>
@@ -14,7 +14,7 @@
 <div class="mock-banner">
 <span>DESIGN STUDY / 01</span>
 <span>静的モック · データ・関係・期間は表示例</span>
-<a href="states.html">空状態を見る ↗</a>
+<a href="states.html">データ状態の例 ↗</a>
 </div>
 <header class="site-header">
 <div class="masthead">
@@ -28,7 +28,7 @@
 <input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
 <button aria-label="検索する">⌕</button>
 </form>
-<button data-dig class="dig-button">↗ <span>Dig</span>
+<button data-dig class="dig-button" aria-label="記録をランダムに表示">↗ <span>ランダム</span>
 </button>
 <button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
 </div>
@@ -54,8 +54,8 @@
 </nav>
 <header class="page-heading">
 <p class="eyebrow">SEARCH THE ARCHIVE</p>
-<h1>名前をひとつ、手がかりに。</h1>
-<p class="lede">曲、作品、人、場所をまとめて探す。</p>
+<h1>キーワードで記録を検索</h1>
+<p class="lede">楽曲、作品、人物、ライブ、会場を横断して検索できます。</p>
 </header>
 <form class="filters" data-filter-form>
 <label class="filter-search">キーワード<input name="q" type="search" placeholder="タイトルや名前で絞り込む">
@@ -70,18 +70,18 @@
 <option value="会場">会場</option>
 </select>
 </label>
-<button type="reset" class="quiet">条件をクリア</button>
+<button type="reset" class="quiet">絞り込みを解除</button>
 </form>
 <p class="result-count" data-result-count role="status">
 </p>
 <p class="note">このモック内の代表的な6件を検索できます。例：黄金、伊藤、GARAGE。</p>
 <div data-results>
-<article class="search-result" data-item data-kind="楽曲" data-search="黄金の鐘 5つのバージョンから辿る曲の旅">
+<article class="search-result" data-item data-kind="楽曲" data-search="黄金の鐘 収録版とライブでの演奏記録">
 <span class="eyebrow">楽曲</span>
 <h2>
 <a href="song.html" class="" >黄金の鐘</a>
 </h2>
-<p>5つのバージョンから辿る曲の旅</p>
+<p>収録版とライブでの演奏記録</p>
 </article>
 <article class="search-result" data-item data-kind="作品" data-search="Most beautiful in the world Good Dog Happy Men / CD">
 <span class="eyebrow">作品</span>
@@ -90,19 +90,19 @@
 </h2>
 <p>Good Dog Happy Men / CD</p>
 </article>
-<article class="search-result" data-item data-kind="プロジェクト" data-search="Good Dog Happy Men メンバー・作品・ライブを辿る">
+<article class="search-result" data-item data-kind="プロジェクト" data-search="Good Dog Happy Men メンバー、作品、ライブの記録">
 <span class="eyebrow">プロジェクト</span>
 <h2>
 <a href="project.html" class="" >Good Dog Happy Men</a>
 </h2>
-<p>メンバー・作品・ライブを辿る</p>
+<p>メンバー、作品、ライブの記録</p>
 </article>
-<article class="search-result" data-item data-kind="人物" data-search="伊藤大地 プロジェクトを跨ぐつながり">
+<article class="search-result" data-item data-kind="人物" data-search="伊藤大地 参加プロジェクトと関連記録">
 <span class="eyebrow">人物</span>
 <h2>
 <a href="person.html" class="" >伊藤大地</a>
 </h2>
-<p>プロジェクトを跨ぐつながり</p>
+<p>参加プロジェクトと関連記録</p>
 </article>
 <article class="search-result" data-item data-kind="ライブ" data-search="下北沢GARAGEでの公演 2006.12.10 / 表示例">
 <span class="eyebrow">ライブ</span>
@@ -120,15 +120,15 @@
 </article>
 </div>
 <div class="empty" data-empty hidden>
-<h2>該当する記録がありません</h2>
-<p>キーワードを短くするか、絞り込み条件を減らしてみてください。</p>
-<button type="button" data-clear>条件をすべてクリア</button>
+<h2>条件に一致する記録はありません</h2>
+<p>検索語を変えるか、絞り込み条件を減らしてください。</p>
+<button type="button" data-clear>すべての条件を解除</button>
 </div>
 </main>
 <footer>
 <div>
 <a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
-<p>名義は変わっても、曲は旅を続ける。</p>
+<p>門田匡陽の音楽活動に関する記録をまとめています。</p>
 </div>
 <div>
 <a href="about.html">このサイトについて ↗</a>

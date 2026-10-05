@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>入口 — 門田匡陽アーカイブ / UIモック</title>
+<title>門田匡陽の活動記録 — 門田匡陽アーカイブ</title>
 <link rel="stylesheet" href="styles.css">
 <script src="mock.js" defer>
 </script>
@@ -14,7 +14,7 @@
 <div class="mock-banner">
 <span>DESIGN STUDY / 01</span>
 <span>静的モック · データ・関係・期間は表示例</span>
-<a href="states.html">空状態を見る ↗</a>
+<a href="states.html">データ状態の例 ↗</a>
 </div>
 <header class="site-header">
 <div class="masthead">
@@ -28,7 +28,7 @@
 <input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
 <button aria-label="検索する">⌕</button>
 </form>
-<button data-dig class="dig-button">↗ <span>Dig</span>
+<button data-dig class="dig-button" aria-label="記録をランダムに表示">↗ <span>ランダム</span>
 </button>
 <button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
 </div>
@@ -50,29 +50,29 @@
 <header class="hero">
 <div>
 <p class="eyebrow">MONDEN MASAAKI / MUSIC ARCHIVE</p>
-<h1>名義は変わっても、<br>曲は旅を続ける。</h1>
-<p class="lede">音源、ライブ、そして人。<br>30年あまりの記録を、つながりから辿る。</p>
+<h1>門田匡陽の活動記録を、<br>名義ごとに調べる。</h1>
+<p class="lede">作品・ライブ・参加メンバーを名義ごとに整理。<br>1994年から現在までの記録を確認できます。</p>
 <div class="hero-actions">
-<a href="timeline.html" class="button primary" >年表から辿る <span>↗</span>
+<a href="timeline.html" class="button primary" >年表で活動を見る <span>↗</span>
 </a>
-<button data-dig>偶然のひとつへ ↗</button>
+<button data-dig>記録をランダムに見る ↗</button>
 </div>
 </div>
 <div class="hero-index">
 <span class="mono">1994 —</span>
-<p>ひとつの名前から、<br>いくつもの音楽へ。</p>
+<p>名義ごとの活動記録を<br>一覧できます。</p>
 <span class="vertical-type">門田匡陽の活動記録</span>
 </div>
 </header>
 <section class="section">
 <div class="section-heading">
 <div>
-<p class=eyebrow>THE CAREER RIVER</p>
-<h2>8つのプロジェクト、ひとつの流れ。</h2>
+<p class=eyebrow>プロジェクト別の活動期間</p>
+<h2>プロジェクトと活動期間</h2>
 </div>
 <a href="projects.html" class="" >プロジェクト一覧 ↗</a>
 </div>
-<div class="river" aria-label="プロジェクトごとの活動期間。期間はモック用の仮配置です">
+<div class="river" aria-label="プロジェクトごとの活動期間。期間は表示例です">
 <div class="river-scale">
 <span>1994</span>
 <span>2000</span>
@@ -145,7 +145,7 @@
 <span class="river-date">期間未確定</span>
 </a>
 </div>
-<p class="note">帯を選ぶと、その名義の記録へ。活動期間は配置確認用の仮データです。</p>
+<p class="note">プロジェクト名を選ぶと、メンバー・作品・ライブの記録を確認できます。期間は表示例です。</p>
 </section>
 <div class="stats">
 <a href="songs.html" class="" >
@@ -182,31 +182,31 @@
 <section class="section">
 <div class="section-heading">
 <div>
-<p class=eyebrow>THREE WAYS TO WANDER</p>
-<h2>今日の、寄り道。</h2>
+<p class=eyebrow>記録を見る / 3つの切り口</p>
+<h2>記録から探す</h2>
 </div>
-<button class="quiet" data-shuffle>↻ 順番を入れ替える</button>
+<button class="quiet" data-shuffle>↻ カードの並び順を変える</button>
 </div>
 <div class="discoveries" data-discoveries>
 <a href="song.html" class="discovery" >
-<span class="eyebrow">01 / 曲の線</span>
-<h3>ひとつの曲に、<br>いくつもの表情。</h3>
-<p>「黄金の鐘」の5つのバージョンを辿る。</p>
-<span class="card-bottom">曲の旅へ <b>↗</b>
+<span class="eyebrow">01 / 楽曲の記録</span>
+<h3>楽曲の収録・演奏記録</h3>
+<p>「黄金の鐘」の収録版と演奏記録を確認。</p>
+<span class="card-bottom">収録・演奏記録を見る <b>↗</b>
 </span>
 </a>
 <a href="person.html" class="discovery" >
-<span class="eyebrow">02 / 人の線</span>
-<h3>名前を変えても、<br>また同じステージで。</h3>
-<p>伊藤大地と、プロジェクトを跨ぐつながり。</p>
-<span class="card-bottom">人物の記録へ <b>↗</b>
+<span class="eyebrow">02 / 人物の記録</span>
+<h3>複数のプロジェクトに参加した人</h3>
+<p>伊藤大地の参加プロジェクトと活動記録を確認。</p>
+<span class="card-bottom">参加した人物を見る <b>↗</b>
 </span>
 </a>
 <a href="venue.html" class="discovery" >
-<span class="eyebrow">03 / 場所の線</span>
-<h3>ある場所に、<br>積み重なる夜。</h3>
-<p>下北沢GARAGEに残る、57公演の記録。</p>
-<span class="card-bottom">会場の歴史へ <b>↗</b>
+<span class="eyebrow">03 / 会場の記録</span>
+<h3>会場ごとのライブ記録</h3>
+<p>下北沢GARAGEで行われた公演を年順に確認。</p>
+<span class="card-bottom">会場の公演一覧を見る <b>↗</b>
 </span>
 </a>
 </div>
@@ -215,7 +215,7 @@
 <footer>
 <div>
 <a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
-<p>名義は変わっても、曲は旅を続ける。</p>
+<p>門田匡陽の音楽活動に関する記録をまとめています。</p>
 </div>
 <div>
 <a href="about.html">このサイトについて ↗</a>
