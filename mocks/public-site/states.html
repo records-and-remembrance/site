@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>情報が少ないとき — 門田匡陽アーカイブ / UIモック</title>
+<link rel="stylesheet" href="styles.css">
+<script src="mock.js" defer>
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へ移動</a>
+<div class="mock-banner">
+<span>DESIGN STUDY / 01</span>
+<span>静的モック · データ・関係・期間は表示例</span>
+<a href="states.html">空状態を見る ↗</a>
+</div>
+<header class="site-header">
+<div class="masthead">
+<a href="index.html" class="brand" >
+<span class="brand-jp">門田匡陽</span>
+<span class="brand-en">MUSIC ARCHIVE</span>
+</a>
+<div class="header-actions">
+<form action="search.html" class="header-search" role="search">
+<label class="sr-only" for="global-search">アーカイブを検索</label>
+<input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
+<button aria-label="検索する">⌕</button>
+</form>
+<button data-dig class="dig-button">↗ <span>Dig</span>
+</button>
+<button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
+</div>
+</div>
+<nav class="primary-nav" aria-label="メインナビゲーション">
+<a href="index.html" class="" >入口</a>
+<a href="timeline.html" class="" >年表</a>
+<a href="projects.html" class="" >プロジェクト</a>
+<a href="discography.html" class="" >作品</a>
+<a href="songs.html" class="" >楽曲</a>
+<a href="lives.html" class="" >ライブ</a>
+<a href="people.html" class="" >人物</a>
+<a href="venues.html" class="" >会場</a>
+<a href="network.html" class="" >人物相関</a>
+<a href="library.html" class="" >資料室</a>
+</nav>
+</header>
+<main id="main">
+<nav class="breadcrumbs" aria-label="パンくず">
+<a href="index.html" class="" >入口</a>
+<span>/</span>
+<span>情報が少ないとき</span>
+</nav>
+<header class="page-heading">
+<p class="eyebrow">REVIEW / EDGE STATES</p>
+<h1>記録の余白も、正しく。</h1>
+<p class="lede">不足した情報を推測で埋めず、次に辿れる道を残す。</p>
+</header>
+<div class="state-grid">
+<aside class="panel">
+<p class="eyebrow">SONG / NO VERSIONS</p>
+<h2>ライブでのみ演奏された曲</h2>
+<span class="chip">ライブ演奏のみ</span>
+<p>バージョン・収録作品の欄を出さず、演奏史を主役にします。</p>
+<a href="lives.html" class="" >演奏の記録へ ↗</a>
+</aside>
+<aside class="panel">
+<p class="eyebrow">WORK / NO TRACKS</p>
+<h2>収録曲情報未登録</h2>
+<p>作品・版の情報は読めるままに。空の曲リストは表示しません。</p>
+<a href="work.html" class="" >作品の表示例へ ↗</a>
+</aside>
+<aside class="panel">
+<p class="eyebrow">VENUE / NO EVENTS</p>
+<h2>記録上の公演なし</h2>
+<p>この会場の公演は、まだ登録されていません。</p>
+<a href="venues.html" class="" >ほかの会場を探す ↗</a>
+</aside>
+<aside class="panel">
+<p class="eyebrow">LIVE / UPCOMING</p>
+<h2>これからの公演</h2>
+<span class="chip">予定</span>
+<p>2026年12月1日（仮日付）。セットリストは公演後の記録です。</p>
+<a href="lives.html" class="" >ライブ一覧へ ↗</a>
+</aside>
+</div>
+<section class="section">
+<div class="section-heading">
+<div>
+<h2>日付の精度</h2>
+</div>
+</div>
+<div class="date-examples">
+<span>2006年</span>
+<span>2006年12月</span>
+<span>2006年12月10日</span>
+</div>
+<p class="note">分かっている単位で表示。年・月しか分からない記録を、1日として扱いません。</p>
+</section>
+<section class="section">
+<div class="section-heading">
+<div>
+<h2>検索結果なし</h2>
+</div>
+</div>
+<a href="search.html?q=該当なし">0件の検索画面を確認する ↗</a>
+</section>
+</main>
+<footer>
+<div>
+<a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
+<p>名義は変わっても、曲は旅を続ける。</p>
+</div>
+<div>
+<a href="about.html">このサイトについて ↗</a>
+<a href="README.md">モックの確認ガイド ↗</a>
+<p>非公式ファンアーカイブ / UI・UX 検討用</p>
+</div>
+</footer>
+</body>
+</html>

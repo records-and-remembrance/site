@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>資料室 — 門田匡陽アーカイブ / UIモック</title>
+<link rel="stylesheet" href="styles.css">
+<script src="mock.js" defer>
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へ移動</a>
+<div class="mock-banner">
+<span>DESIGN STUDY / 01</span>
+<span>静的モック · データ・関係・期間は表示例</span>
+<a href="states.html">空状態を見る ↗</a>
+</div>
+<header class="site-header">
+<div class="masthead">
+<a href="index.html" class="brand" >
+<span class="brand-jp">門田匡陽</span>
+<span class="brand-en">MUSIC ARCHIVE</span>
+</a>
+<div class="header-actions">
+<form action="search.html" class="header-search" role="search">
+<label class="sr-only" for="global-search">アーカイブを検索</label>
+<input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
+<button aria-label="検索する">⌕</button>
+</form>
+<button data-dig class="dig-button">↗ <span>Dig</span>
+</button>
+<button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
+</div>
+</div>
+<nav class="primary-nav" aria-label="メインナビゲーション">
+<a href="index.html" class="" >入口</a>
+<a href="timeline.html" class="" >年表</a>
+<a href="projects.html" class="" >プロジェクト</a>
+<a href="discography.html" class="" >作品</a>
+<a href="songs.html" class="" >楽曲</a>
+<a href="lives.html" class="" >ライブ</a>
+<a href="people.html" class="" >人物</a>
+<a href="venues.html" class="" >会場</a>
+<a href="network.html" class="" >人物相関</a>
+<a href="library.html" class="" aria-current="page">資料室</a>
+</nav>
+</header>
+<main id="main">
+<nav class="breadcrumbs" aria-label="パンくず">
+<a href="index.html" class="" >入口</a>
+<span>/</span>
+<span>資料室</span>
+</nav>
+<header class="page-heading">
+<p class="eyebrow">LIBRARY / TRACES IN PRINT</p>
+<h1>言葉として、残ったもの。</h1>
+<p class="lede">媒体から号へ、号から記事へ。当時の言葉を探す、小さな資料室。</p>
+</header>
+<form class="filters" data-filter-form>
+<label class="filter-search">キーワード<input name="q" type="search" placeholder="タイトルや名前で絞り込む">
+</label>
+<button type="reset" class="quiet">条件をクリア</button>
+</form>
+<p class="result-count" data-result-count role="status">
+</p>
+<div data-results>
+<article class="library-item" data-item data-search="音楽誌 インタビュー 2006">
+<span class="eyebrow">MAGAZINE / 表示例</span>
+<h2>音楽誌の記録</h2>
+<details open>
+<summary>2006年12月号 <span>記事1件</span>
+</summary>
+<h3>インタビュー（架空の見出し）</h3>
+<p>掲載記録のみ。記事本文は登録されていません。</p>
+</details>
+</article>
+<article class="library-item" data-item data-search="ラジオ 対談 2015">
+<span class="eyebrow">RADIO / 表示例</span>
+<h2>ラジオの記録</h2>
+<details>
+<summary>2015年放送分 <span>記事1件</span>
+</summary>
+<h3>対談の記録（架空の見出し）</h3>
+<p>収録されている情報から、当時の活動を読み解く。</p>
+</details>
+</article>
+</div>
+<div class="empty" data-empty hidden>
+<h2>該当する記録がありません</h2>
+<p>キーワードを短くするか、絞り込み条件を減らしてみてください。</p>
+<button type="button" data-clear>条件をすべてクリア</button>
+</div>
+<p class="note">資料室は独立したアーカイブです。人物・作品への関連づけは、データ整備後の拡張を想定しています。</p>
+</main>
+<footer>
+<div>
+<a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
+<p>名義は変わっても、曲は旅を続ける。</p>
+</div>
+<div>
+<a href="about.html">このサイトについて ↗</a>
+<a href="README.md">モックの確認ガイド ↗</a>
+<p>非公式ファンアーカイブ / UI・UX 検討用</p>
+</div>
+</footer>
+</body>
+</html>

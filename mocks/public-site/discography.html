@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>作品 — 門田匡陽アーカイブ / UIモック</title>
+<link rel="stylesheet" href="styles.css">
+<script src="mock.js" defer>
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へ移動</a>
+<div class="mock-banner">
+<span>DESIGN STUDY / 01</span>
+<span>静的モック · データ・関係・期間は表示例</span>
+<a href="states.html">空状態を見る ↗</a>
+</div>
+<header class="site-header">
+<div class="masthead">
+<a href="index.html" class="brand" >
+<span class="brand-jp">門田匡陽</span>
+<span class="brand-en">MUSIC ARCHIVE</span>
+</a>
+<div class="header-actions">
+<form action="search.html" class="header-search" role="search">
+<label class="sr-only" for="global-search">アーカイブを検索</label>
+<input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
+<button aria-label="検索する">⌕</button>
+</form>
+<button data-dig class="dig-button">↗ <span>Dig</span>
+</button>
+<button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
+</div>
+</div>
+<nav class="primary-nav" aria-label="メインナビゲーション">
+<a href="index.html" class="" >入口</a>
+<a href="timeline.html" class="" >年表</a>
+<a href="projects.html" class="" >プロジェクト</a>
+<a href="discography.html" class="" aria-current="page">作品</a>
+<a href="songs.html" class="" >楽曲</a>
+<a href="lives.html" class="" >ライブ</a>
+<a href="people.html" class="" >人物</a>
+<a href="venues.html" class="" >会場</a>
+<a href="network.html" class="" >人物相関</a>
+<a href="library.html" class="" >資料室</a>
+</nav>
+</header>
+<main id="main">
+<nav class="breadcrumbs" aria-label="パンくず">
+<a href="index.html" class="" >入口</a>
+<span>/</span>
+<span>作品</span>
+</nav>
+<header class="page-heading">
+<p class="eyebrow">DISCOGRAPHY / 64 WORKS</p>
+<h1>音楽を、作品から。</h1>
+<p class="lede">アルバムも、シングルも。ひとつの作品の中で、版の違いまで辿れます。</p>
+</header>
+<form class="filters" data-filter-form>
+<label class="filter-search">キーワード<input name="q" type="search" placeholder="タイトルや名前で絞り込む">
+</label>
+<label>プロジェクト<select name="project">
+<option value="">すべて</option>
+<option value="gd">Good Dog Happy Men</option>
+<option value="bn">BURGER NUDS</option>
+<option value="pt">Poet-type.M</option>
+</select>
+</label>
+<label>フォーマット<select name="format">
+<option value="">すべて</option>
+<option value="CD">CD</option>
+<option value="DIGITAL">配信</option>
+</select>
+</label>
+<label>年代<select name="decade">
+<option value="">すべて</option>
+<option value="2000">2000年代</option>
+<option value="2010">2010年代</option>
+</select>
+</label>
+<label>版<select name="edition">
+<option value="">すべて</option>
+<option value="original">初版</option>
+<option value="reissue">再発</option>
+<option value="digital">配信</option>
+</select>
+</label>
+<button type="reset" class="quiet">条件をクリア</button>
+</form>
+<p class="result-count" data-result-count role="status">
+</p>
+<p class="note">4件のサンプルを表示。ジャケット画像のない場合のタイポグラフィ表示を提案しています。</p>
+<div class="work-grid" data-results>
+<article class="work-card" data-item data-project="gd" data-format="CD" data-decade="2000" data-edition="original" data-search="Most beautiful in the world Good Dog Happy Men">
+<a href="work.html" class="" >
+<div class="cover gd" aria-label="ジャケット未登録の代替表示">
+<div class="cover-top">
+<span>ARCHIVE / 01</span>
+<span>CD</span>
+</div>
+<strong>Most beautiful<br>in the world</strong>
+<div class="cover-bottom">
+<span>JACKET NOT ARCHIVED</span>
+<span aria-hidden="true">＋</span>
+</div>
+</div>
+</a>
+<div class="work-meta">
+<span class="project-tag gd">Good Dog Happy Men</span>
+<span class="mono">2006</span>
+</div>
+<h2>
+<a href="work.html" class="" >Most beautiful<br>in the world</a>
+</h2>
+<p class="muted">CD · 初版・全国流通版</p>
+</article>
+<article class="work-card" data-item data-project="bn" data-format="CD" data-decade="2000" data-edition="reissue" data-search="ANALYZE BURGER NUDS">
+<div class="cover bn" aria-label="ジャケット未登録の代替表示">
+<div class="cover-top">
+<span>ARCHIVE / 02</span>
+<span>CD</span>
+</div>
+<strong>ANALYZE</strong>
+<div class="cover-bottom">
+<span>JACKET NOT ARCHIVED</span>
+<span aria-hidden="true">＋</span>
+</div>
+</div>
+<div class="work-meta">
+<span class="project-tag bn">BURGER NUDS</span>
+<span class="mono">2004</span>
+</div>
+<h2>ANALYZE</h2>
+<p class="muted">CD · 一覧の表示例 / 詳細省略</p>
+</article>
+<article class="work-card" data-item data-project="pt" data-format="DIGITAL" data-decade="2010" data-edition="digital" data-search="Lost Verse(s) Poet-type.M">
+<div class="cover pt" aria-label="ジャケット未登録の代替表示">
+<div class="cover-top">
+<span>ARCHIVE / 03</span>
+<span>DIGITAL</span>
+</div>
+<strong>Lost Verse(s)</strong>
+<div class="cover-bottom">
+<span>JACKET NOT ARCHIVED</span>
+<span aria-hidden="true">＋</span>
+</div>
+</div>
+<div class="work-meta">
+<span class="project-tag pt">Poet-type.M</span>
+<span class="mono">2015</span>
+</div>
+<h2>Lost Verse(s)</h2>
+<p class="muted">DIGITAL · 一覧の表示例 / 詳細省略</p>
+</article>
+<article class="work-card" data-item data-project="other" data-format="CD" data-decade="2010" data-edition="original" data-search="記録を待つ作品 その他の名義">
+<a href="states.html" class="" >
+<div class="cover other" aria-label="ジャケット未登録の代替表示">
+<div class="cover-top">
+<span>ARCHIVE / 04</span>
+<span>CD</span>
+</div>
+<strong>記録を待つ作品</strong>
+<div class="cover-bottom">
+<span>JACKET NOT ARCHIVED</span>
+<span aria-hidden="true">＋</span>
+</div>
+</div>
+</a>
+<div class="work-meta">
+<span class="project-tag other">その他の名義</span>
+<span class="mono">2010</span>
+</div>
+<h2>
+<a href="states.html" class="" >記録を待つ作品</a>
+</h2>
+<p class="muted">CD · 一覧の表示例 / 詳細省略</p>
+</article>
+</div>
+<div class="empty" data-empty hidden>
+<h2>該当する記録がありません</h2>
+<p>キーワードを短くするか、絞り込み条件を減らしてみてください。</p>
+<button type="button" data-clear>条件をすべてクリア</button>
+</div>
+</main>
+<footer>
+<div>
+<a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
+<p>名義は変わっても、曲は旅を続ける。</p>
+</div>
+<div>
+<a href="about.html">このサイトについて ↗</a>
+<a href="README.md">モックの確認ガイド ↗</a>
+<p>非公式ファンアーカイブ / UI・UX 検討用</p>
+</div>
+</footer>
+</body>
+</html>

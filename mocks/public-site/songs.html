@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>楽曲 — 門田匡陽アーカイブ / UIモック</title>
+<link rel="stylesheet" href="styles.css">
+<script src="mock.js" defer>
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へ移動</a>
+<div class="mock-banner">
+<span>DESIGN STUDY / 01</span>
+<span>静的モック · データ・関係・期間は表示例</span>
+<a href="states.html">空状態を見る ↗</a>
+</div>
+<header class="site-header">
+<div class="masthead">
+<a href="index.html" class="brand" >
+<span class="brand-jp">門田匡陽</span>
+<span class="brand-en">MUSIC ARCHIVE</span>
+</a>
+<div class="header-actions">
+<form action="search.html" class="header-search" role="search">
+<label class="sr-only" for="global-search">アーカイブを検索</label>
+<input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
+<button aria-label="検索する">⌕</button>
+</form>
+<button data-dig class="dig-button">↗ <span>Dig</span>
+</button>
+<button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
+</div>
+</div>
+<nav class="primary-nav" aria-label="メインナビゲーション">
+<a href="index.html" class="" >入口</a>
+<a href="timeline.html" class="" >年表</a>
+<a href="projects.html" class="" >プロジェクト</a>
+<a href="discography.html" class="" >作品</a>
+<a href="songs.html" class="" aria-current="page">楽曲</a>
+<a href="lives.html" class="" >ライブ</a>
+<a href="people.html" class="" >人物</a>
+<a href="venues.html" class="" >会場</a>
+<a href="network.html" class="" >人物相関</a>
+<a href="library.html" class="" >資料室</a>
+</nav>
+</header>
+<main id="main">
+<nav class="breadcrumbs" aria-label="パンくず">
+<a href="index.html" class="" >入口</a>
+<span>/</span>
+<span>楽曲</span>
+</nav>
+<header class="page-heading">
+<p class="eyebrow">SONGS / 218 COMPOSITIONS</p>
+<h1>曲は、名義を越えて。</h1>
+<p class="lede">同じ曲のバージョンと演奏の記録を、ひとつの場所に。</p>
+</header>
+<form class="filters" data-filter-form>
+<label class="filter-search">キーワード<input name="q" type="search" placeholder="タイトルや名前で絞り込む">
+</label>
+<label>プロジェクト<select name="project">
+<option value="">すべて</option>
+<option value="gd">Good Dog Happy Men</option>
+<option value="bn">BURGER NUDS</option>
+<option value="pt">Poet-type.M</option>
+</select>
+</label>
+<label>並び順<select name="sort">
+<option value="">登録順</option>
+<option value="plays">演奏回数が多い順</option>
+<option value="title">曲名順</option>
+</select>
+</label>
+<button type="reset" class="quiet">条件をクリア</button>
+</form>
+<p class="result-count" data-result-count role="status">
+</p>
+<p class="note">4曲のサンプル。件数は配置確認用です。詳細は「黄金の鐘」で確認できます。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="楽曲一覧、横スクロール可能">
+<table>
+<thead>
+<tr>
+<th>楽曲 / クレジット</th>
+<th>バージョン</th>
+<th>収録作品</th>
+<th>演奏回数</th>
+<th>初出</th>
+</tr>
+</thead>
+<tbody data-results>
+<tr data-item data-project="gd" data-search="黄金の鐘" data-plays="28" data-title="黄金の鐘">
+<td>
+<a href="song.html" class="" >黄金の鐘</a>
+<small>作詞・作曲：門田匡陽（表示例）</small>
+</td>
+<td>5</td>
+<td>4</td>
+<td>28</td>
+<td>2006</td>
+</tr>
+<tr data-item data-project="bn" data-search="ANALYZE" data-plays="54" data-title="ANALYZE">
+<td>ANALYZE<small>作詞・作曲：門田匡陽（表示例）</small>
+</td>
+<td>3</td>
+<td>7</td>
+<td>54</td>
+<td>2001</td>
+</tr>
+<tr data-item data-project="gd" data-search="ミナソコ" data-plays="21" data-title="ミナソコ">
+<td>ミナソコ<small>作詞・作曲：門田匡陽（表示例）</small>
+</td>
+<td>2</td>
+<td>3</td>
+<td>21</td>
+<td>2006</td>
+</tr>
+<tr data-item data-project="pt" data-search="ライブだけの曲" data-plays="2" data-title="ライブだけの曲">
+<td>
+<a href="states.html" class="" >ライブだけの曲</a>
+<small>ライブ演奏のみ</small>
+</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+<td>2015</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="empty" data-empty hidden>
+<h2>該当する記録がありません</h2>
+<p>キーワードを短くするか、絞り込み条件を減らしてみてください。</p>
+<button type="button" data-clear>条件をすべてクリア</button>
+</div>
+</main>
+<footer>
+<div>
+<a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
+<p>名義は変わっても、曲は旅を続ける。</p>
+</div>
+<div>
+<a href="about.html">このサイトについて ↗</a>
+<a href="README.md">モックの確認ガイド ↗</a>
+<p>非公式ファンアーカイブ / UI・UX 検討用</p>
+</div>
+</footer>
+</body>
+</html>

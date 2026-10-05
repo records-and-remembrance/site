@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>検索 — 門田匡陽アーカイブ / UIモック</title>
+<link rel="stylesheet" href="styles.css">
+<script src="mock.js" defer>
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へ移動</a>
+<div class="mock-banner">
+<span>DESIGN STUDY / 01</span>
+<span>静的モック · データ・関係・期間は表示例</span>
+<a href="states.html">空状態を見る ↗</a>
+</div>
+<header class="site-header">
+<div class="masthead">
+<a href="index.html" class="brand" >
+<span class="brand-jp">門田匡陽</span>
+<span class="brand-en">MUSIC ARCHIVE</span>
+</a>
+<div class="header-actions">
+<form action="search.html" class="header-search" role="search">
+<label class="sr-only" for="global-search">アーカイブを検索</label>
+<input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
+<button aria-label="検索する">⌕</button>
+</form>
+<button data-dig class="dig-button">↗ <span>Dig</span>
+</button>
+<button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
+</div>
+</div>
+<nav class="primary-nav" aria-label="メインナビゲーション">
+<a href="index.html" class="" >入口</a>
+<a href="timeline.html" class="" >年表</a>
+<a href="projects.html" class="" >プロジェクト</a>
+<a href="discography.html" class="" >作品</a>
+<a href="songs.html" class="" >楽曲</a>
+<a href="lives.html" class="" >ライブ</a>
+<a href="people.html" class="" >人物</a>
+<a href="venues.html" class="" >会場</a>
+<a href="network.html" class="" >人物相関</a>
+<a href="library.html" class="" >資料室</a>
+</nav>
+</header>
+<main id="main">
+<nav class="breadcrumbs" aria-label="パンくず">
+<a href="index.html" class="" >入口</a>
+<span>/</span>
+<span>検索</span>
+</nav>
+<header class="page-heading">
+<p class="eyebrow">SEARCH THE ARCHIVE</p>
+<h1>名前をひとつ、手がかりに。</h1>
+<p class="lede">曲、作品、人、場所をまとめて探す。</p>
+</header>
+<form class="filters" data-filter-form>
+<label class="filter-search">キーワード<input name="q" type="search" placeholder="タイトルや名前で絞り込む">
+</label>
+<label>記録の種類<select name="kind">
+<option value="">すべて</option>
+<option value="楽曲">楽曲</option>
+<option value="作品">作品</option>
+<option value="プロジェクト">プロジェクト</option>
+<option value="人物">人物</option>
+<option value="ライブ">ライブ</option>
+<option value="会場">会場</option>
+</select>
+</label>
+<button type="reset" class="quiet">条件をクリア</button>
+</form>
+<p class="result-count" data-result-count role="status">
+</p>
+<p class="note">このモック内の代表的な6件を検索できます。例：黄金、伊藤、GARAGE。</p>
+<div data-results>
+<article class="search-result" data-item data-kind="楽曲" data-search="黄金の鐘 5つのバージョンから辿る曲の旅">
+<span class="eyebrow">楽曲</span>
+<h2>
+<a href="song.html" class="" >黄金の鐘</a>
+</h2>
+<p>5つのバージョンから辿る曲の旅</p>
+</article>
+<article class="search-result" data-item data-kind="作品" data-search="Most beautiful in the world Good Dog Happy Men / CD">
+<span class="eyebrow">作品</span>
+<h2>
+<a href="work.html" class="" >Most beautiful in the world</a>
+</h2>
+<p>Good Dog Happy Men / CD</p>
+</article>
+<article class="search-result" data-item data-kind="プロジェクト" data-search="Good Dog Happy Men メンバー・作品・ライブを辿る">
+<span class="eyebrow">プロジェクト</span>
+<h2>
+<a href="project.html" class="" >Good Dog Happy Men</a>
+</h2>
+<p>メンバー・作品・ライブを辿る</p>
+</article>
+<article class="search-result" data-item data-kind="人物" data-search="伊藤大地 プロジェクトを跨ぐつながり">
+<span class="eyebrow">人物</span>
+<h2>
+<a href="person.html" class="" >伊藤大地</a>
+</h2>
+<p>プロジェクトを跨ぐつながり</p>
+</article>
+<article class="search-result" data-item data-kind="ライブ" data-search="下北沢GARAGEでの公演 2006.12.10 / 表示例">
+<span class="eyebrow">ライブ</span>
+<h2>
+<a href="live.html" class="" >下北沢GARAGEでの公演</a>
+</h2>
+<p>2006.12.10 / 表示例</p>
+</article>
+<article class="search-result" data-item data-kind="会場" data-search="下北沢GARAGE 57公演の記録 / 設計書の例">
+<span class="eyebrow">会場</span>
+<h2>
+<a href="venue.html" class="" >下北沢GARAGE</a>
+</h2>
+<p>57公演の記録 / 設計書の例</p>
+</article>
+</div>
+<div class="empty" data-empty hidden>
+<h2>該当する記録がありません</h2>
+<p>キーワードを短くするか、絞り込み条件を減らしてみてください。</p>
+<button type="button" data-clear>条件をすべてクリア</button>
+</div>
+</main>
+<footer>
+<div>
+<a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
+<p>名義は変わっても、曲は旅を続ける。</p>
+</div>
+<div>
+<a href="about.html">このサイトについて ↗</a>
+<a href="README.md">モックの確認ガイド ↗</a>
+<p>非公式ファンアーカイブ / UI・UX 検討用</p>
+</div>
+</footer>
+</body>
+</html>

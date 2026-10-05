@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>黄金の鐘 — 門田匡陽アーカイブ / UIモック</title>
+<link rel="stylesheet" href="styles.css">
+<script src="mock.js" defer>
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へ移動</a>
+<div class="mock-banner">
+<span>DESIGN STUDY / 01</span>
+<span>静的モック · データ・関係・期間は表示例</span>
+<a href="states.html">空状態を見る ↗</a>
+</div>
+<header class="site-header">
+<div class="masthead">
+<a href="index.html" class="brand" >
+<span class="brand-jp">門田匡陽</span>
+<span class="brand-en">MUSIC ARCHIVE</span>
+</a>
+<div class="header-actions">
+<form action="search.html" class="header-search" role="search">
+<label class="sr-only" for="global-search">アーカイブを検索</label>
+<input id="global-search" name="q" placeholder="曲・人・場所を探す" type="search">
+<button aria-label="検索する">⌕</button>
+</form>
+<button data-dig class="dig-button">↗ <span>Dig</span>
+</button>
+<button data-theme-toggle aria-label="テーマを切り替える" title="テーマを切り替える">◐</button>
+</div>
+</div>
+<nav class="primary-nav" aria-label="メインナビゲーション">
+<a href="index.html" class="" >入口</a>
+<a href="timeline.html" class="" >年表</a>
+<a href="projects.html" class="" >プロジェクト</a>
+<a href="discography.html" class="" >作品</a>
+<a href="songs.html" class="" aria-current="page">楽曲</a>
+<a href="lives.html" class="" >ライブ</a>
+<a href="people.html" class="" >人物</a>
+<a href="venues.html" class="" >会場</a>
+<a href="network.html" class="" >人物相関</a>
+<a href="library.html" class="" >資料室</a>
+</nav>
+</header>
+<main id="main">
+<nav class="breadcrumbs" aria-label="パンくず">
+<a href="index.html" class="" >入口</a>
+<span>/</span>
+<span>黄金の鐘</span>
+</nav>
+<header class="page-heading">
+<p class="eyebrow">SONG / A COMPOSITION, MANY LIVES</p>
+<h1>黄金の鐘</h1>
+<p class="lede">曲そのものを起点に、作品とステージを行き来する。</p>
+</header>
+<div class="credit-line">作詞・作曲 <a href="people.html" class="" >門田匡陽</a> <span class="muted">クレジットは表示例</span>
+</div>
+<div class="stats">
+<a href="#versions" class="" >
+<strong>5</strong>
+<span>バージョン <b aria-hidden="true">↗</b>
+</span>
+</a>
+<a href="discography.html" class="" >
+<strong>4</strong>
+<span>収録作品 <b aria-hidden="true">↗</b>
+</span>
+</a>
+<a href="lives.html" class="" >
+<strong>28</strong>
+<span>演奏の記録 <b aria-hidden="true">↗</b>
+</span>
+</a>
+</div>
+<nav class="section-nav" aria-label="楽曲内の移動">
+<a href="#journey">曲の旅</a>
+<a href="#versions">バージョン</a>
+<a href="#history">演奏史</a>
+</nav>
+<div class="detail-grid">
+<div>
+<section class="section" id="journey">
+<p class="eyebrow">A SONG’S JOURNEY</p>
+<h2>曲の旅 — 収録された場所</h2>
+<div class="journey">
+<article class="journey-stop gd">
+<span class="mono">2006</span>
+<span class="journey-dot">
+</span>
+<div>
+<span class="project-tag gd">Good Dog Happy Men</span>
+<h3>
+<a href="work.html#edition-first">Most beautiful in the world ↗</a>
+</h3>
+<p>スタジオ版 · 初出リリースに基づく年</p>
+</div>
+</article>
+<article class="journey-stop gd">
+<span class="mono">2006.12</span>
+<span class="journey-dot">
+</span>
+<div>
+<span class="project-tag gd">Good Dog Happy Men</span>
+<h3>
+<a href="work.html#edition-national">Most beautiful in the world ↗</a>
+</h3>
+<p>全国流通版 · 初出リリースに基づく年</p>
+</div>
+</article>
+</div>
+<p class="note">収録先の2例を抜粋。数字・年月・関係は設計確認用の仮データです。</p>
+</section>
+<section class="section" id="versions">
+<h2>異なる音で、残る。</h2>
+<details open>
+<summary>STUDIO <span>黄金の鐘</span>
+</summary>
+<p>初出：2006年（表示例）</p>
+<a href="work.html#edition-first">Most beautiful in the world · ハイライン版 ↗</a>
+</details>
+<details>
+<summary>LIVE <span>黄金の鐘（ライブ版・表示例）</span>
+</summary>
+<p>ライブ版の情報表示例。収録先は未登録。</p>
+</details>
+<details>
+<summary>DEMO <span>黄金の鐘（デモ版・表示例）</span>
+</summary>
+<p>初出年不明。年を推測して埋めず、確認できる情報のみ表示。</p>
+</details>
+</section>
+<section class="section" id="history">
+<p class="eyebrow">ON STAGE</p>
+<h2>ステージに戻ってきた日。</h2>
+<div class="heat-scroll" tabindex="0" role="region" aria-label="年別演奏回数、横スクロール可能">
+<div class="heat">
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2004</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2005</small>
+</div>
+<div>
+<span class="heat-cell level-3">3</span>
+<small>2006</small>
+</div>
+<div>
+<span class="heat-cell level-2">2</span>
+<small>2007</small>
+</div>
+<div>
+<span class="heat-cell level-1">1</span>
+<small>2008</small>
+</div>
+<div>
+<span class="heat-cell level-3">3</span>
+<small>2009</small>
+</div>
+<div>
+<span class="heat-cell level-1">1</span>
+<small>2010</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2011</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2012</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2013</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2014</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2015</small>
+</div>
+<div>
+<span class="heat-cell level-2">2</span>
+<small>2016</small>
+</div>
+<div>
+<span class="heat-cell level-1">1</span>
+<small>2017</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2018</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2019</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2020</small>
+</div>
+<div>
+<span class="heat-cell level-2">2</span>
+<small>2021</small>
+</div>
+<div>
+<span class="heat-cell level-1">1</span>
+<small>2022</small>
+</div>
+<div>
+<span class="heat-cell level-3">3</span>
+<small>2023</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2024</small>
+</div>
+<div>
+<span class="heat-cell level-0">0</span>
+<small>2025</small>
+</div>
+<div>
+<span class="heat-cell level-1">1</span>
+<small>2026</small>
+</div>
+</div>
+</div>
+<p class="note">年別演奏回数の表示例。薄 → 濃：0 → 3回。スマートフォンでは横にスクロールできます。</p>
+<div class="gap">
+<span class="eyebrow">AFTER A LONG SILENCE / 表示例</span>
+<h3>4年ぶりに、もう一度。</h3>
+<p>記録上の演奏間隔から、曲の再登場を見つける。</p>
+<a href="live.html" class="" >復活演奏のセットリストへ ↗</a>
+</div>
+<dl class="inline-facts">
+<div>
+<dt>最初の演奏記録</dt>
+<dd>2006年（表示例）</dd>
+</div>
+<div>
+<dt>最後の演奏記録</dt>
+<dd>2026年（表示例）</dd>
+</div>
+<div>
+<dt>アンコール率</dt>
+<dd>18%（表示例）</dd>
+</div>
+</dl>
+</section>
+</div>
+<aside class="panel">
+<p class="eyebrow">HOW TO READ</p>
+<h2>「曲」と<br>「バージョン」。</h2>
+<p>スタジオ、ライブ、デモ。同じ曲の異なる姿をまとめて辿れます。</p>
+<hr>
+<p>年はバージョンが初めて収録された作品の発売年を表示します。</p>
+</aside>
+</div>
+<section class="section">
+<div class="section-heading">
+<div>
+<p class=eyebrow>FOLLOW THE THREAD</p>
+<h2>ここから、もう少し。</h2>
+</div>
+</div>
+<div class="related">
+<a href="work.html" class="related-card" >
+<span class="eyebrow">WORK</span>
+<strong>Most beautiful in the world</strong>
+<span>収録曲を眺める <b aria-hidden="true">↗</b>
+</span>
+</a>
+<a href="live.html" class="related-card" >
+<span class="eyebrow">LIVE</span>
+<strong>ある夜のセットリスト</strong>
+<span>演奏の前後に並んだ曲へ <b aria-hidden="true">↗</b>
+</span>
+</a>
+</div>
+</section>
+</main>
+<footer>
+<div>
+<a href="index.html" class="footer-brand">MONDEN MASAAKI<br>MUSIC ARCHIVE</a>
+<p>名義は変わっても、曲は旅を続ける。</p>
+</div>
+<div>
+<a href="about.html">このサイトについて ↗</a>
+<a href="README.md">モックの確認ガイド ↗</a>
+<p>非公式ファンアーカイブ / UI・UX 検討用</p>
+</div>
+</footer>
+</body>
+</html>
