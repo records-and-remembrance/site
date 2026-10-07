@@ -11,7 +11,10 @@ const { currentPath = '/' } = Astro.props;
 
 <header class="site-header">
 	<div class="site-header__inner">
-		<a class="site-brand" href="/">門田匡陽アーカイブ</a>
+		<a class="site-brand" href="/">
+			<span>門田匡陽</span>
+			<small>MUSIC ARCHIVE</small>
+		</a>
 		<form class="site-header__search" role="search" method="get" action="/search">
 			<label class="sr-only" for="site-search">アーカイブを検索</label>
 			<input id="site-search" name="q" type="search" placeholder="曲・人・場所を検索" />

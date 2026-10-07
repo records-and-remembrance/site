@@ -22,6 +22,23 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 
 <SiteLayout currentPath="/">
 	<div class="home-page">
+		<section class="home-hero" aria-labelledby="page-title">
+			<div class="home-hero__main">
+				<p class="home-eyebrow">MONDEN MASAAKI / MUSIC ARCHIVE</p>
+				<h1 id="page-title">門田匡陽の活動記録を、<br />名義ごとに調べる。</h1>
+				<p class="home-hero__description">作品・ライブ・参加メンバーを名義ごとに整理。{home.career.startYear}年から現在までの記録を確認できます。</p>
+				<div class="home-hero__actions">
+					<a class="home-primary-action" href="/timeline">年表で活動を見る <span aria-hidden="true">→</span></a>
+					<a href="/#dig">記録をランダムに見る</a>
+				</div>
+			</div>
+			<aside class="home-hero__aside" aria-label="アーカイブの対象期間">
+				<span class="home-hero__aside-label">門田匡陽の活動記録</span>
+				<strong>{home.career.startYear} — {home.career.endYear}</strong>
+				<p>名義ごとの活動記録を一覧できます。</p>
+				<a href="/projects">プロジェクト一覧 <span aria-hidden="true">↗</span></a>
+			</aside>
+		</section>
 		{home.upcomingEvents.length > 0 && (
 			<aside class="home-upcoming" aria-label="予定">
 				<div>
@@ -49,17 +66,6 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			</aside>
 		)}
 
-		<section class="home-hero" aria-labelledby="page-title">
-			<p class="home-eyebrow">MONDEN KADOTA / ARCHIVE</p>
-			<h1 id="page-title">門田匡陽の活動記録を、<br />名義ごとに調べる。</h1>
-			<p class="home-hero__description">作品・ライブ・参加メンバーを名義ごとに整理。{home.career.startYear}年から現在までの記録を確認できます。</p>
-			<div class="home-hero__actions">
-				<a class="home-primary-action" href="/timeline">年表で活動を見る <span aria-hidden="true">→</span></a>
-				<a href="/#dig">記録をランダムに見る</a>
-			</div>
-			<p class="home-hero__featured">注目プロジェクト: <a href="/projects">{siteData.featuredProject}</a></p>
-		</section>
-
 		<section class="home-career" aria-labelledby="career-title">
 			<div class="home-section-heading">
 				<div>
@@ -84,6 +90,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 											<small>{project.periodLabel}</small>
 										</span>
 										<span class="career-river__track"><span class="career-river__bar" aria-hidden="true"></span></span>
+										<span class="career-river__period" aria-hidden="true">{project.periodLabel}</span>
 									</a>
 								) : (
 									<div class="career-river__link" aria-label={`${project.name}（公開URL未確定）`}>
@@ -92,6 +99,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 											<small>{project.periodLabel}</small>
 										</span>
 										<span class="career-river__track"><span class="career-river__bar" aria-hidden="true"></span></span>
+										<span class="career-river__period" aria-hidden="true">{project.periodLabel}</span>
 									</div>
 								)}
 							</li>
@@ -163,14 +171,18 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 
 	.home-eyebrow {
 		margin: 0;
-		color: var(--accent);
+		color: var(--ink-muted);
 		font-size: 12px;
 		font-weight: 700;
 		letter-spacing: 0.14em;
 	}
 
 	.home-hero {
-		max-width: 58rem;
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(250px, 0.65fr);
+		gap: clamp(28px, 6vw, 80px);
+		align-items: center;
+		max-width: none;
 	}
 
 	.home-hero h1 {
@@ -179,7 +191,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 	}
 
 	.home-hero__description,
-	.home-hero__featured {
+	.home-hero__aside p {
 		margin-block: 0;
 	}
 
@@ -188,9 +200,41 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		color: var(--ink-muted);
 	}
 
-	.home-hero__featured {
-		margin-block-start: var(--space-3);
+	.home-hero__aside {
+		display: grid;
+		grid-template-columns: 24px minmax(0, 1fr);
+		gap: 18px 24px;
+		align-items: start;
+		min-height: 240px;
+		padding-inline-start: clamp(24px, 4vw, 48px);
+		border-inline-start: 1px solid var(--rule);
+	}
+
+	.home-hero__aside-label {
+		grid-row: 1 / span 3;
+		writing-mode: vertical-rl;
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
 		font-size: 13px;
+		letter-spacing: 0.14em;
+	}
+
+	.home-hero__aside strong {
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: clamp(28px, 3vw, 40px);
+		font-weight: 500;
+		line-height: 1.2;
+		white-space: nowrap;
+	}
+
+	.home-hero__aside p,
+	.home-hero__aside a {
+		grid-column: 2;
+		font-size: 13px;
+	}
+
+	.home-hero__aside p {
+		align-self: end;
+		color: var(--ink-muted);
 	}
 
 	.home-upcoming {
@@ -198,8 +242,8 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		grid-template-columns: minmax(150px, 0.35fr) 1fr;
 		gap: var(--space-4);
 		padding: var(--space-4);
-		border: 1px solid var(--accent);
-		background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+		border: 1px solid var(--rule);
+		background: var(--surface);
 	}
 
 	.home-upcoming h2,
@@ -286,7 +330,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 
 	.career-river__scale {
 		display: grid;
-		grid-template-columns: 22% minmax(32rem, 1fr);
+		grid-template-columns: 22% minmax(0, 1fr) 8rem;
 		margin-block-end: var(--space-2);
 		color: var(--ink-muted);
 		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -295,14 +339,15 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 
 	.career-river__scale-track {
 		display: flex;
-		grid-column: 2;
+		grid-column: 2 / 3;
 		justify-content: space-between;
 	}
 
 	.career-river__list {
 		display: grid;
 		gap: var(--space-2);
-		min-width: 760px;
+		width: 100%;
+		max-width: none;
 	}
 
 	.career-river__item {
@@ -313,7 +358,7 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 
 	.career-river__link {
 		display: grid;
-		grid-template-columns: 22% minmax(32rem, 1fr);
+		grid-template-columns: 22% minmax(0, 1fr) 8rem;
 		align-items: center;
 		min-block-size: 52px;
 		color: var(--ink);
@@ -347,14 +392,32 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 	}
 
 	.career-river__label small {
+		display: none;
+	}
+
+	.career-river__period {
+		padding-inline-start: var(--space-2);
 		color: var(--ink-muted);
 		font-size: 12px;
+		text-align: end;
+		white-space: nowrap;
 	}
 
 	.home-counts__grid {
 		display: grid;
+		width: 100%;
+		max-width: none;
 		grid-template-columns: repeat(6, minmax(0, 1fr));
-		gap: var(--space-2);
+		gap: 0;
+		border-block: 1px solid var(--rule);
+	}
+
+	.home-counts__grid > li {
+		border-inline-end: 1px solid var(--rule);
+	}
+
+	.home-counts__grid > li:last-child {
+		border-inline-end: 0;
 	}
 
 	.home-count-tile {
@@ -362,14 +425,14 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		gap: var(--space-2);
 		min-block-size: 124px;
 		padding: var(--space-3);
-		border: 1px solid var(--rule);
-		background: var(--surface);
+		border: 0;
+		background: transparent;
 		color: var(--ink);
 		text-decoration: none;
 	}
 
 	.home-count-tile:hover {
-		border-color: var(--accent);
+		background: var(--surface);
 	}
 
 	.home-count-tile span {
@@ -401,10 +464,10 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 		align-items: baseline;
 	}
 
-		.home-dig {
-		padding: var(--space-5);
-		border: 1px dashed var(--rule);
-		background: var(--surface);
+	.home-dig {
+		padding: 0;
+		border: 0;
+		background: transparent;
 	}
 
 	.home-dig p:last-child {
@@ -421,6 +484,18 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 	@media (max-width: 640px) {
 		.home-page {
 			gap: var(--space-6);
+		}
+
+		.home-hero {
+			grid-template-columns: 1fr;
+		}
+
+		.home-hero__aside {
+			grid-template-columns: 20px minmax(0, 1fr);
+			min-height: 0;
+			padding: var(--space-3) 0 0;
+			border-block-start: 1px solid var(--rule);
+			border-inline-start: 0;
 		}
 
 		.home-upcoming {
@@ -466,25 +541,56 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			grid-column: 1;
 		}
 
+		.career-river__label small {
+			display: block;
+		}
+
 		.home-counts__grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
+
+		.home-counts__grid > li {
+			border-block-end: 1px solid var(--rule);
+		}
+
+		.home-counts__grid > li:nth-child(even) {
+			border-inline-end: 0;
+		}
+
+		.home-counts__grid > li:nth-last-child(-n + 2) {
+			border-block-end: 0;
+		}
+
+		.career-river__period {
+			display: none;
 		}
 
 		.home-dig__cards {
-			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: var(--space-3);
+			grid-template-columns: minmax(0, 1fr);
 		}
+	}
 
-		.home-dig__cards article {
-			display: grid;
-			gap: var(--space-1);
-			align-content: start;
-			padding: var(--space-3);
-			border: 1px solid var(--rule);
-			background: var(--surface);
-		}
+	.home-dig__cards {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		min-width: 0;
+		width: 100%;
+		border: 1px solid var(--rule);
+	}
+
+	.home-dig__cards article {
+		display: grid;
+		min-width: 0;
+		gap: var(--space-1);
+		align-content: start;
+		padding: var(--space-3);
+		border-inline-end: 1px solid var(--rule);
+		background: transparent;
+	}
+
+	.home-dig__cards article:last-child {
+		border-inline-end: 0;
+	}
 
 		.home-dig__cards h3 {
 			margin: 0;
@@ -513,17 +619,27 @@ const riverPosition = (project: HomeProject): { left: number; width: number } =>
 			font-variant-numeric: tabular-nums;
 		}
 
-		.home-today__year,
-		.home-today__kind {
-			color: var(--ink-muted);
-			font-size: 0.9rem;
+	.home-today__year,
+	.home-today__kind {
+		color: var(--ink-muted);
+		font-size: 0.9rem;
+	}
+
+	@media (max-width: 640px) {
+		.home-dig__cards {
+			grid-template-columns: 1fr;
 		}
 
-		@media (max-width: 640px) {
-			.home-dig__cards {
-				grid-template-columns: 1fr;
-			}
+		.home-dig__cards article {
+			border-inline-end: 0;
+			border-block-end: 1px solid var(--rule);
 		}
+
+		.home-dig__cards article:last-child {
+			border-block-end: 0;
+		}
+	}
+
 	</style>
 
 	<script>

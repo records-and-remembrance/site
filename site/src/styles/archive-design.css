@@ -52,8 +52,20 @@ h2 {
 }
 
 .site-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 14px;
 	font-size: 16px;
 	white-space: nowrap;
+}
+
+.site-brand small {
+	padding-inline-start: 14px;
+	border-inline-start: 1px solid var(--rule);
+	font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+	font-size: 9px;
+	font-weight: 500;
+	letter-spacing: 0.08em;
 }
 
 .site-header__search {
@@ -174,13 +186,16 @@ h2 {
 	gap: 24px;
 	padding: 8px 16px;
 	border: 1px solid var(--ink);
-	color: var(--ink);
+	background: var(--ink);
+	color: var(--ground);
 	font-size: 13px;
 	text-decoration: none;
 }
 
 .home-primary-action:hover {
 	border-color: var(--accent);
+	background: var(--accent);
+	color: var(--accent-ink);
 }
 
 .home-primary-action span {
@@ -252,6 +267,17 @@ h2 {
 	gap: 0;
 	border-block-start: 1px solid var(--rule);
 	border-inline-start: 1px solid var(--rule);
+}
+
+.home-counts__grid,
+.career-river__list,
+.home-upcoming__list,
+.home-today ul,
+.people-grid,
+.venue-list,
+.network-list {
+	width: 100%;
+	max-width: none;
 }
 
 .home-dig__cards article {
@@ -338,7 +364,7 @@ h2 {
 
 	.site-header__search {
 		grid-column: 1;
-	grid-row: 2;
+		grid-row: 2;
 		justify-self: stretch;
 		max-width: none;
 	}
@@ -356,6 +382,15 @@ h2 {
 @media (max-width: 639px) {
 	.site-header__inner {
 		padding-block-start: 12px;
+	}
+
+	.site-brand {
+		gap: 8px;
+	}
+
+	.site-brand small {
+		padding-inline-start: 8px;
+		font-size: 8px;
 	}
 
 	.site-header__random {
