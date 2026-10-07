@@ -1,6 +1,6 @@
 {
 	"$schema": "../node_modules/wrangler/config-schema.json",
-	"name": "site",
+	"name": "records-and-remembrance-site",
 	"compatibility_date": "2026-07-13",
 	"assets": {
 		"directory": "./dist",
