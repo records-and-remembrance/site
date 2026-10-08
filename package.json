@@ -17,6 +17,7 @@
 		"review:magazines:generate": "bun scripts/generate_magazine_review.ts",
 		"site:dev": "astro dev --root site",
 		"site:build": "astro build --root site",
+		"site:build:published": "SITE_REQUIRE_SNAPSHOT=1 bun run site:build && bun run site:search:index && bun run site:check",
 		"site:search:index": "pagefind --site site/dist",
 		"site:check": "bun scripts/site_check.ts",
 		"site:release": "bun scripts/site_release.ts",

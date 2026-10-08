@@ -2,6 +2,8 @@
 
 門田匡陽関連データを PostgreSQL に入れるための作業リポジトリです。
 
+公開サイトの Git と Cloudflare によるビルド手順は [guides/public-site-git-build.md](guides/public-site-git-build.md) を参照してください。
+
 ## Setup
 
 PostgreSQL の起動と Drizzle migration の適用をまとめて実行します。

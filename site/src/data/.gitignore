@@ -1,1 +1,1 @@
-site.generated.json
+# The public site snapshot is versioned so Cloudflare can build without PostgreSQL.

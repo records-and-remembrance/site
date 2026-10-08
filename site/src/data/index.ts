@@ -92,6 +92,11 @@ const loadGeneratedData = (): SiteSnapshot | undefined => {
 	return undefined;
 };
 
-export const siteData: SiteSnapshot = loadGeneratedData() ?? fixtureSnapshot();
+const generatedData = loadGeneratedData();
+if (!generatedData && process.env.SITE_REQUIRE_SNAPSHOT === '1') {
+	throw new Error('site.generated.json is required for a published site build');
+}
+
+export const siteData: SiteSnapshot = generatedData ?? fixtureSnapshot();
 
 export const siteTableRows = <TableName extends SiteTableName>(tableName: TableName): SiteDatabaseRows[TableName] => siteData.tables[tableName];
