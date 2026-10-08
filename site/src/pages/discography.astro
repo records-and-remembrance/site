@@ -6,6 +6,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 import { siteTableRows } from '../data';
 import { buildDiscographyCards } from '../lib/discography';
 import { matchesFilterValues, parseFilterQuery } from '../lib/url-filters';
+import { projectColorToken } from '../lib/home';
 
 const cards = buildDiscographyCards(siteTableRows('work'), siteTableRows('release'), siteTableRows('project'));
 const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean);
@@ -33,23 +34,42 @@ const filterGroups = [
 			<p>作品データはまだありません。</p>
 		) : (
 			<div class="discography-grid">
-					{cards.map((card) => (
+				{cards.map((card, index) => (
 						<article
 							class="discography-card"
+							style={`--project-color: ${projectColorToken(card.projectSlug)};`}
 							data-filter-item
 							data-filter-values={JSON.stringify(card.filterValues)}
 							hidden={!matchesFilterValues(card.filterValues, selected)}
 						>
-						<Artwork url={card.artworkUrl} width={card.artworkWidth} height={card.artworkHeight} alt={`${card.title}のジャケット`} allowedOrigins={artworkOrigins} />
+							{card.href ? (
+								<a class="discography-card__artwork-link" href={card.href} aria-label={`${card.title}の作品詳細`}>
+									{card.artworkUrl ? (
+										<div class="discography-card__artwork discography-card__artwork--image">
+											<Artwork url={card.artworkUrl} width={card.artworkWidth} height={card.artworkHeight} alt={`${card.title}のジャケット`} allowedOrigins={artworkOrigins} />
+										</div>
+									) : (
+										<div class="discography-card__artwork discography-card__artwork--placeholder" role="img" aria-label={`${card.title}のジャケット画像は未登録`}>
+											<div class="discography-card__artwork-top"><span>ARCHIVE / {String(index + 1).padStart(2, '0')}</span><span>{card.format ?? 'FORMAT UNKNOWN'}</span></div>
+											<strong>{card.title}</strong>
+											<div class="discography-card__artwork-bottom"><span>JACKET NOT ARCHIVED</span><span aria-hidden="true">＋</span></div>
+										</div>
+									)}
+								</a>
+							) : (
+								<div class="discography-card__artwork discography-card__artwork--placeholder" role="img" aria-label={`${card.title}のジャケット画像は未登録`}>
+									<div class="discography-card__artwork-top"><span>ARCHIVE / {String(index + 1).padStart(2, '0')}</span><span>{card.format ?? 'FORMAT UNKNOWN'}</span></div>
+									<strong>{card.title}</strong>
+									<div class="discography-card__artwork-bottom"><span>JACKET NOT ARCHIVED</span><span aria-hidden="true">＋</span></div>
+								</div>
+							)}
 						<div class="discography-card__body">
-							<h2>
-								{card.href ? <a href={card.href}>{card.title}</a> : <span>{card.title}</span>}
-							</h2>
-							{card.projectName && <p>{card.projectName}</p>}
-							<p>
-								{card.format && <span>{card.format}</span>}
-								{card.releaseDate && <DateText value={card.releaseDate} precision={card.releaseDatePrecision as 'year' | 'month' | 'day' | null} />}
-							</p>
+							<div class="discography-card__meta">
+								<span class="discography-card__project">{card.projectName ?? '名義未登録'}</span>
+								<span class="discography-card__date">{card.releaseDate ? <DateText value={card.releaseDate} precision={card.releaseDatePrecision as 'year' | 'month' | 'day' | null} /> : '発売日不明'}</span>
+							</div>
+							<h2>{card.href ? <a href={card.href}>{card.title}</a> : <span>{card.title}</span>}</h2>
+							<p class="discography-card__format">{card.format ?? 'フォーマット未登録'}</p>
 						</div>
 					</article>
 				))}
@@ -61,30 +81,178 @@ const filterGroups = [
 <style>
 	.discography-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-		gap: var(--space-5);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 36px);
+		margin-block-start: var(--space-5);
 	}
 
 	.discography-card {
-		border: 1px solid var(--rule);
-		background: var(--surface);
+		min-width: 0;
+		border: 0;
+		background: transparent;
 	}
 
-	.discography-card img,
-	.discography-card .artwork-fallback {
+	.discography-card__artwork-link {
 		display: block;
+		min-block-size: 0;
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.discography-card__artwork {
+		position: relative;
+		display: flex;
+		aspect-ratio: 1;
 		width: 100%;
-		height: auto;
-		aspect-ratio: auto;
+		flex-direction: column;
+		justify-content: space-between;
+		overflow: hidden;
+		border: 1px solid var(--rule);
+		border-block-start: 5px solid var(--project-color);
+		background: var(--surface);
+		color: var(--ink);
+	}
+
+	.discography-card__artwork--placeholder {
+		padding: clamp(16px, 2.3vw, 28px);
+	}
+
+	.discography-card__artwork--placeholder::before {
+		position: absolute;
+		inset-block: 21%;
+		left: 50%;
+		border-inline-start: 1px solid var(--rule);
+		content: '';
+		pointer-events: none;
+		transform: rotate(28deg);
+	}
+
+	.discography-card__artwork--image img {
+		width: 100%;
+		height: 100%;
 		object-fit: contain;
 	}
 
-	.discography-card__body {
-		padding: var(--space-3);
+	.discography-card__artwork--image .artwork-fallback {
+		display: grid;
+		width: 100%;
+		height: 100%;
+		place-items: center;
+		padding: var(--space-4);
+		color: var(--ink-muted);
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+		text-align: center;
 	}
 
-	.discography-card__body h2,
-	.discography-card__body p {
-		margin-block: 0 var(--space-2);
+	.discography-card__artwork-top,
+	.discography-card__artwork-bottom {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-2);
+		color: var(--ink-muted);
+		font: 10px ui-monospace, SFMono-Regular, Consolas, monospace;
+		letter-spacing: 0.04em;
+	}
+
+	.discography-card__artwork-top span:last-child {
+		max-width: 48%;
+		text-align: end;
+	}
+
+	.discography-card__artwork--placeholder strong {
+		position: relative;
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+		font-size: clamp(1.4rem, 2.7vw, 2.4rem);
+		font-weight: 600;
+		line-height: 1.3;
+		letter-spacing: -0.03em;
+		overflow-wrap: anywhere;
+	}
+
+	.discography-card__artwork-bottom {
+		align-items: end;
+	}
+
+	.discography-card__artwork-bottom span:last-child {
+		font: 32px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+	}
+
+	.discography-card__artwork-link:hover .discography-card__artwork {
+		border-color: var(--accent);
+	}
+
+	.discography-card__body {
+		padding-block: var(--space-3) var(--space-1);
+	}
+
+	.discography-card__meta {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-2);
+		align-items: baseline;
+		margin-block-end: var(--space-1);
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	.discography-card__project {
+		min-width: 0;
+	}
+
+	.discography-card__project::before {
+		display: inline-block;
+		width: 7px;
+		height: 7px;
+		margin-inline-end: var(--space-2);
+		background: var(--project-color);
+		content: '';
+	}
+
+	.discography-card__date {
+		flex-shrink: 0;
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.discography-card__body h2 {
+		margin: 0;
+		font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+	}
+
+	.discography-card__body h2 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.discography-card__body h2 a:hover {
+		color: var(--accent);
+	}
+
+	.discography-card__format {
+		margin-block: var(--space-1) 0;
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	@media (max-width: 900px) {
+		.discography-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 639px) {
+		.discography-grid {
+			grid-template-columns: 1fr;
+			gap: var(--space-5);
+		}
+
+		.discography-card__artwork--placeholder {
+			padding: 28px;
+		}
+
+		.discography-card__artwork--placeholder strong {
+			font-size: clamp(1.6rem, 10vw, 2.4rem);
+		}
 	}
 </style>
