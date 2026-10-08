@@ -9,6 +9,28 @@ import { matchesFilterValues, parseFilterQuery } from '../lib/url-filters';
 import { projectColorToken } from '../lib/home';
 
 const cards = buildDiscographyCards(siteTableRows('work'), siteTableRows('release'), siteTableRows('project'));
+const projectStartDates = new Map(
+	siteTableRows('project').map((project) => [
+		typeof project.slug === 'string' && project.slug ? project.slug : typeof project.name === 'string' ? project.name : '',
+		typeof project.startDate === 'string' ? project.startDate : null,
+	]),
+);
+const sortedCards = [...cards]
+	.sort((left, right) => (left.releaseDate ?? '9999-99-99').localeCompare(right.releaseDate ?? '9999-99-99') || left.title.localeCompare(right.title, 'ja') || left.id.localeCompare(right.id));
+const projectSections = sortedCards.reduce<{ key: string; name: string; color: string; startDate: string | null; cards: typeof sortedCards }[]>((sections, card) => {
+	const key = card.projectSlug ?? card.projectName ?? 'unassigned';
+	let section = sections.find((candidate) => candidate.key === key);
+	if (!section) {
+		section = { key, name: card.projectName ?? '名義未登録', color: projectColorToken(card.projectSlug), startDate: projectStartDates.get(key) ?? null, cards: [] };
+		sections.push(section);
+	}
+	section.cards.push(card);
+	return sections;
+}, []).sort((left, right) => {
+	if (left.startDate === null) return right.startDate === null ? left.name.localeCompare(right.name, 'ja') : 1;
+	if (right.startDate === null) return -1;
+	return left.startDate.localeCompare(right.startDate) || left.name.localeCompare(right.name, 'ja');
+});
 const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean);
 const filterSchema = {
 	project: [...new Set(cards.flatMap((card) => card.filterValues.project))].sort(),
@@ -17,6 +39,7 @@ const filterSchema = {
 	editionType: [...new Set(cards.flatMap((card) => card.filterValues.editionType))].sort(),
 };
 const selected = parseFilterQuery(Astro.url.searchParams, filterSchema);
+const selectedFilterCount = Object.values(selected).reduce((count, values) => count + (Array.isArray(values) ? values.length : 0), 0);
 const filterGroups = [
 	{ key: 'project', label: 'プロジェクト', options: filterSchema.project.map((value) => ({ value, label: siteTableRows('project').find((project) => project.slug === value)?.name ?? value })) },
 	{ key: 'format', label: 'フォーマット', options: filterSchema.format.map((value) => ({ value, label: value })) },
@@ -28,57 +51,158 @@ const filterGroups = [
 <SiteLayout title="作品" breadcrumbs={[{ label: '作品' }]}>
 	<section aria-labelledby="discography-title">
 			<h1 id="discography-title">作品</h1>
-			<p>アルバムやシングルを、発売日・名義・フォーマットで絞り込めます。</p>
-			<FilterControls path="/discography" groups={filterGroups} selected={selected} />
+			<p>名義は活動開始が早い順、各名義の作品は発売日の古い順に表示します。発売日・名義・フォーマットで絞り込めます。</p>
+			<details class="discography-filters">
+				<summary>絞り込み<span data-filter-count hidden={selectedFilterCount === 0}>{selectedFilterCount}条件適用中</span></summary>
+				<FilterControls path="/discography" groups={filterGroups} selected={selected} />
+			</details>
 			{cards.length === 0 ? (
-			<p>作品データはまだありません。</p>
-		) : (
-			<div class="discography-grid">
-				{cards.map((card, index) => (
-						<article
-							class="discography-card"
-							style={`--project-color: ${projectColorToken(card.projectSlug)};`}
-							data-filter-item
-							data-filter-values={JSON.stringify(card.filterValues)}
-							hidden={!matchesFilterValues(card.filterValues, selected)}
-						>
-							{card.href ? (
-								<a class="discography-card__artwork-link" href={card.href} aria-label={`${card.title}の作品詳細`}>
-									{card.artworkUrl ? (
-										<div class="discography-card__artwork discography-card__artwork--image">
-											<Artwork url={card.artworkUrl} width={card.artworkWidth} height={card.artworkHeight} alt={`${card.title}のジャケット`} allowedOrigins={artworkOrigins} />
+				<p>作品データはまだありません。</p>
+			) : (
+				<>
+					<div class="discography-sections">
+						{projectSections.map((section) => (
+							<section
+								class="discography-section"
+								data-filter-section
+								style={`--project-color: ${section.color};`}
+								hidden={section.cards.every((card) => !matchesFilterValues(card.filterValues, selected))}
+								aria-labelledby={`discography-project-${section.key}`}
+							>
+								<header class="discography-section__heading">
+									<h2 id={`discography-project-${section.key}`}>{section.name}</h2>
+									<p>
+										<span data-filter-section-count>{section.cards.filter((card) => matchesFilterValues(card.filterValues, selected)).length}</span>
+										作品
+									</p>
+								</header>
+								<div class="discography-grid">
+									{section.cards.map((card, index) => (
+										<article
+											class="discography-card"
+											style={`--project-color: ${projectColorToken(card.projectSlug)};`}
+											data-filter-item
+											data-filter-values={JSON.stringify(card.filterValues)}
+											hidden={!matchesFilterValues(card.filterValues, selected)}
+										>
+										{card.href ? (
+											<a class="discography-card__artwork-link" href={card.href} aria-label={`${card.title}の作品詳細`}>
+												{card.artworkUrl ? (
+													<div class="discography-card__artwork discography-card__artwork--image">
+														<Artwork url={card.artworkUrl} width={card.artworkWidth} height={card.artworkHeight} alt={`${card.title}のジャケット`} allowedOrigins={artworkOrigins} />
+													</div>
+												) : (
+													<div class="discography-card__artwork discography-card__artwork--placeholder" role="img" aria-label={`${card.title}のジャケット画像は未登録`}>
+														<div class="discography-card__artwork-top"><span>ARCHIVE / {String(index + 1).padStart(2, '0')}</span><span>{card.format ?? 'FORMAT UNKNOWN'}</span></div>
+														<strong>{card.title}</strong>
+														<div class="discography-card__artwork-bottom"><span>JACKET NOT ARCHIVED</span><span aria-hidden="true">＋</span></div>
+													</div>
+												)}
+											</a>
+										) : (
+											<div class="discography-card__artwork discography-card__artwork--placeholder" role="img" aria-label={`${card.title}のジャケット画像は未登録`}>
+												<div class="discography-card__artwork-top"><span>ARCHIVE / {String(index + 1).padStart(2, '0')}</span><span>{card.format ?? 'FORMAT UNKNOWN'}</span></div>
+												<strong>{card.title}</strong>
+												<div class="discography-card__artwork-bottom"><span>JACKET NOT ARCHIVED</span><span aria-hidden="true">＋</span></div>
+											</div>
+										)}
+										<div class="discography-card__body">
+											<div class="discography-card__meta">
+												<span class="discography-card__project">{card.projectName ?? '名義未登録'}</span>
+												<span class="discography-card__date">{card.releaseDate ? <DateText value={card.releaseDate} precision={card.releaseDatePrecision as 'year' | 'month' | 'day' | null} /> : '発売日不明'}</span>
+											</div>
+											<h2>{card.href ? <a href={card.href}>{card.title}</a> : <span>{card.title}</span>}</h2>
+											<p class="discography-card__format">{card.format ?? 'フォーマット未登録'}</p>
 										</div>
-									) : (
-										<div class="discography-card__artwork discography-card__artwork--placeholder" role="img" aria-label={`${card.title}のジャケット画像は未登録`}>
-											<div class="discography-card__artwork-top"><span>ARCHIVE / {String(index + 1).padStart(2, '0')}</span><span>{card.format ?? 'FORMAT UNKNOWN'}</span></div>
-											<strong>{card.title}</strong>
-											<div class="discography-card__artwork-bottom"><span>JACKET NOT ARCHIVED</span><span aria-hidden="true">＋</span></div>
-										</div>
-									)}
-								</a>
-							) : (
-								<div class="discography-card__artwork discography-card__artwork--placeholder" role="img" aria-label={`${card.title}のジャケット画像は未登録`}>
-									<div class="discography-card__artwork-top"><span>ARCHIVE / {String(index + 1).padStart(2, '0')}</span><span>{card.format ?? 'FORMAT UNKNOWN'}</span></div>
-									<strong>{card.title}</strong>
-									<div class="discography-card__artwork-bottom"><span>JACKET NOT ARCHIVED</span><span aria-hidden="true">＋</span></div>
+										</article>
+									))}
 								</div>
-							)}
-						<div class="discography-card__body">
-							<div class="discography-card__meta">
-								<span class="discography-card__project">{card.projectName ?? '名義未登録'}</span>
-								<span class="discography-card__date">{card.releaseDate ? <DateText value={card.releaseDate} precision={card.releaseDatePrecision as 'year' | 'month' | 'day' | null} /> : '発売日不明'}</span>
-							</div>
-							<h2>{card.href ? <a href={card.href}>{card.title}</a> : <span>{card.title}</span>}</h2>
-							<p class="discography-card__format">{card.format ?? 'フォーマット未登録'}</p>
-						</div>
-					</article>
-				))}
-			</div>
-		)}
+							</section>
+						))}
+					</div>
+					<p class="discography-empty" data-filter-empty hidden={sortedCards.some((card) => matchesFilterValues(card.filterValues, selected))}>
+						条件に一致する作品はありません。条件を変更するか、絞り込みを解除してください。
+					</p>
+				</>
+			)}
 	</section>
 </SiteLayout>
 
 <style>
+	.discography-filters {
+		margin-block: var(--space-4) var(--space-5);
+	}
+
+	.discography-filters > summary {
+		display: inline-flex;
+		min-block-size: 44px;
+		align-items: center;
+		gap: var(--space-3);
+		padding: 8px 16px;
+		border: 1px solid var(--rule);
+		background: var(--surface);
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.discography-filters > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.discography-filters > summary::after {
+		font: 18px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+		content: '+';
+	}
+
+	.discography-filters[open] > summary::after {
+		content: '−';
+	}
+
+	.discography-filters > summary span {
+		color: var(--ink-muted);
+		font-size: 12px;
+	}
+
+	.discography-filters > summary:hover {
+		border-color: var(--accent);
+	}
+
+	.discography-sections {
+		display: grid;
+		gap: clamp(40px, 6vw, 64px);
+	}
+
+	.discography-section__heading {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		align-items: baseline;
+		margin-block-end: var(--space-3);
+		padding-block-end: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.discography-section__heading h2 {
+		margin: 0;
+		font-size: clamp(1.25rem, 2vw, 1.6rem);
+	}
+
+	.discography-section__heading h2::before {
+		display: inline-block;
+		width: 9px;
+		height: 9px;
+		margin-inline-end: var(--space-2);
+		background: var(--project-color);
+		content: '';
+	}
+
+	.discography-section__heading p {
+		margin: 0;
+		color: var(--ink-muted);
+		font-size: 12px;
+		white-space: nowrap;
+	}
+
 	.discography-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -242,6 +366,10 @@ const filterGroups = [
 	}
 
 	@media (max-width: 639px) {
+		.discography-section__heading {
+			align-items: start;
+		}
+
 		.discography-grid {
 			grid-template-columns: 1fr;
 			gap: var(--space-5);

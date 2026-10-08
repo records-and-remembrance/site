@@ -43,6 +43,12 @@ const schema = Object.fromEntries(groups.map((group) => [group.key, group.option
 
 		const updateView = (url: string) => {
 			const state = parseFilterQuery(url, schema);
+			const activeFilterCount = Object.values(state).reduce((count, values) => count + (values?.length ?? 0), 0);
+			const filterCount = form.closest('details')?.querySelector<HTMLElement>('[data-filter-count]');
+			if (filterCount) {
+				filterCount.textContent = `${activeFilterCount}条件適用中`;
+				filterCount.hidden = activeFilterCount === 0;
+			}
 			for (const input of form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')) {
 				input.checked = state[input.name]?.includes(input.value) ?? false;
 			}
@@ -53,6 +59,16 @@ const schema = Object.fromEntries(groups.map((group) => [group.key, group.option
 					item.hidden = false;
 				}
 			}
+			for (const section of document.querySelectorAll<HTMLElement>('[data-filter-section]')) {
+				const items = [...section.querySelectorAll<HTMLElement>('[data-filter-item]')];
+				const visibleItemCount = items.filter((item) => !item.hidden).length;
+				section.hidden = items.length > 0 && visibleItemCount === 0;
+				const count = section.querySelector<HTMLElement>('[data-filter-section-count]');
+				if (count) count.textContent = String(visibleItemCount);
+			}
+			const filterItems = [...(form.closest('section')?.querySelectorAll<HTMLElement>('[data-filter-item]') ?? [])];
+			const emptyState = form.closest('section')?.querySelector<HTMLElement>('[data-filter-empty]');
+			if (emptyState) emptyState.hidden = filterItems.some((item) => !item.hidden);
 		};
 
 		form.addEventListener('submit', (event) => {
