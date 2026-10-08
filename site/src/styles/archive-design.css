@@ -357,6 +357,339 @@ h2 {
 	border: 0;
 }
 
+/* Shared page rhythm used by the public-site mock across every archive route. */
+.site-main > :where(section, article) > :where(header:first-child, .page-heading) {
+	margin-block-end: clamp(28px, 4vw, 44px);
+}
+
+.site-main > section > h1:first-child,
+.site-main > article > h1:first-child {
+	margin-block: 0 var(--space-3);
+}
+
+.page-heading {
+	padding-block: var(--space-2) var(--space-3);
+}
+
+.page-heading h1,
+.site-main > section > h1,
+.site-main > article > header h1 {
+	margin-block: var(--space-2) var(--space-3);
+	font-size: clamp(2rem, 4vw, 2.65rem);
+	letter-spacing: 0.02em;
+}
+
+.page-heading .lede,
+.site-main > section > p:not(.eyebrow),
+.site-main > article > header > p:not(.eyebrow) {
+	color: var(--ink-muted);
+}
+
+.site-main > section > :where(h2, .section-heading),
+.site-main > article > section > h2 {
+	margin-block: 0 var(--space-3);
+}
+
+.site-main > section > section,
+.site-main > article > section {
+	margin-block-start: clamp(40px, 6vw, 64px);
+	padding-block-start: var(--space-4);
+	border-block-start: 1px solid var(--rule);
+}
+
+.site-main :where(.empty-state, [class$='__empty']) {
+	margin-block: var(--space-4);
+	padding: var(--space-4);
+	border: 1px solid var(--rule);
+	color: var(--ink-muted);
+}
+
+.project-river {
+	margin-block: var(--space-5) var(--space-7);
+	border-block-start: 1px solid var(--rule);
+}
+
+.project-river__scale,
+.project-river__row {
+	display: grid;
+	grid-template-columns: minmax(150px, 0.34fr) minmax(0, 1fr) 9rem;
+	gap: var(--space-3);
+	align-items: center;
+}
+
+.project-river__scale {
+	padding-block: var(--space-2);
+	color: var(--ink-muted);
+	font: 12px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.project-river__scale span:last-child {
+	grid-column: 2;
+	justify-self: end;
+}
+
+.project-river__row {
+	min-block-size: 58px;
+	border-block-end: 1px solid var(--rule);
+	color: var(--ink);
+	text-decoration: none;
+}
+
+.project-river__row strong {
+	font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+	font-size: 1rem;
+}
+
+.project-river__track {
+	position: relative;
+	block-size: 34px;
+	border-block: 1px solid var(--rule);
+}
+
+.project-river__track i {
+	position: absolute;
+	inset-block: 6px;
+	left: var(--river-left);
+	width: var(--river-width);
+	background: var(--project-color);
+}
+
+.project-river__row small {
+	color: var(--ink-muted);
+	font-size: 12px;
+	text-align: end;
+}
+
+.project-river__row:hover strong {
+	color: var(--accent);
+}
+
+.site-main .project-list {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0 clamp(24px, 4vw, 48px);
+}
+
+.site-main .project-card {
+	padding: var(--space-4) 0;
+	border: 0;
+	border-block-start: 3px solid var(--project-color);
+	background: transparent;
+}
+
+.project-card__counts {
+	padding-block-start: var(--space-2);
+}
+
+.site-main :where(.people-grid, .venue-list, .network-list, .project-detail__list, .live-setlist) {
+	width: 100%;
+	max-width: none;
+}
+
+.site-main .people-grid,
+.site-main .venue-list {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0 clamp(24px, 4vw, 48px);
+	border-block-start: 1px solid var(--rule);
+}
+
+.site-main .person-card,
+.site-main .venue-card {
+	min-block-size: 0;
+	padding: var(--space-3) 0;
+	border: 0;
+	border-block-end: 1px solid var(--rule);
+	background: transparent;
+}
+
+.site-main .filter-controls {
+	margin-block: var(--space-4) var(--space-5);
+	padding: var(--space-3) 0;
+	border-inline: 0;
+	background: transparent;
+}
+
+.site-main .filter-controls fieldset + fieldset {
+	padding-block-start: var(--space-2);
+	border-block-start: 1px solid var(--rule);
+}
+
+.site-main .filter-controls legend {
+	margin-block-end: var(--space-1);
+	color: var(--ink-muted);
+	font-size: 12px;
+}
+
+.site-main .filter-controls__options {
+	gap: var(--space-1) var(--space-3);
+}
+
+.site-main .filter-controls__options label {
+	font-size: 13px;
+}
+
+.site-main .filter-controls__actions {
+	justify-content: flex-start;
+}
+
+.filter-controls button,
+.search-form button {
+	min-height: 44px;
+	padding-inline: var(--space-4);
+	border-color: var(--ink);
+	border-radius: 2px;
+	background: var(--ink);
+	color: var(--ground);
+}
+
+.site-main table {
+	width: 100%;
+	border-collapse: collapse;
+	background: transparent;
+}
+
+.site-main :where(th, td) {
+	padding: 12px 14px;
+	border-block-end: 1px solid var(--rule);
+	text-align: start;
+	vertical-align: top;
+}
+
+.site-main thead th {
+	border-block-start: 1px solid var(--rule);
+	color: var(--ink-muted);
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.site-main :where(.song-table, .project-membership-table) tbody th {
+	font-weight: 600;
+}
+
+.site-main .discography-grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0 clamp(20px, 3vw, 36px);
+}
+
+.site-main .discography-card {
+	border: 0;
+	border-block-start: 1px solid var(--rule);
+	background: transparent;
+}
+
+.site-main .discography-card__body {
+	padding: var(--space-2) 0 var(--space-3);
+}
+
+.site-main .discography-card__body h2 {
+	font-size: 1.1rem;
+}
+
+.site-main :where(.project-detail, .song-detail, .discography-detail, .live-detail) > header {
+	padding-block-end: var(--space-4);
+	border-block-end: 2px solid var(--rule);
+}
+
+.site-main :where(.project-detail, .song-detail, .discography-detail, .live-detail) > section > :where(h2, h3) {
+	margin-block-end: var(--space-3);
+}
+
+.site-main :where(.project-detail__list, .live-setlist) > li {
+	min-block-size: 56px;
+	padding-block: var(--space-2);
+	border-block-end: 1px solid var(--rule);
+}
+
+.library-publication,
+.library-issue {
+	padding-block: var(--space-3);
+	border-block-start: 1px solid var(--rule);
+}
+
+.library-article {
+	padding: var(--space-3) 0;
+	border: 0;
+	border-block-end: 1px solid var(--rule);
+	background: transparent;
+}
+
+.search-results article {
+	padding: var(--space-3) 0;
+	border: 0;
+	border-block-start: 1px solid var(--rule);
+	background: transparent;
+}
+
+.about-page {
+	max-width: 72ch;
+}
+
+.about-page > section {
+	margin-block-start: var(--space-6);
+	padding-block-start: var(--space-3);
+	border-block-start: 1px solid var(--rule);
+}
+
+@media (max-width: 700px) {
+	.project-river__scale,
+	.project-river__row {
+		grid-template-columns: minmax(0, 1fr) 7rem;
+		gap: var(--space-2);
+	}
+
+	.project-river__scale span:first-child {
+		display: none;
+	}
+
+	.project-river__scale span:last-child {
+		grid-column: 1 / -1;
+		justify-self: end;
+	}
+
+	.project-river__row {
+		grid-template-rows: auto 18px;
+		padding-block: var(--space-2);
+	}
+
+	.project-river__row strong {
+		grid-column: 1;
+	}
+
+	.project-river__row small {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	.project-river__track {
+		grid-column: 1 / -1;
+		grid-row: 2;
+		block-size: 18px;
+	}
+
+	.project-river__track i {
+		inset-block: 4px;
+	}
+
+	.site-main .project-list,
+	.site-main .people-grid,
+	.site-main .venue-list {
+		grid-template-columns: 1fr;
+	}
+
+	.site-main .discography-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.site-main :where(th, td) {
+		padding: 10px;
+	}
+}
+
+@media (max-width: 420px) {
+	.site-main .discography-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 @media (max-width: 1023px) {
 	.site-header__inner {
 		grid-template-columns: minmax(0, 1fr) auto;

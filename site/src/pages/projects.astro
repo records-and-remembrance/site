@@ -7,9 +7,23 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 
 const rows = selectProjectRows(siteTableRows);
 const projects = buildProjectList(rows);
+const currentYear = new Date().getFullYear();
+const projectStartYears = projects.map(({ project }) => Number(project.startDate?.slice(0, 4))).filter((year) => Number.isInteger(year) && year > 0);
+const careerStartYear = Math.min(currentYear, ...(projectStartYears.length > 0 ? projectStartYears : [currentYear]));
+const careerEndYear = Math.max(currentYear, ...projects.map(({ project }) => Number(project.endDate?.slice(0, 4)) || currentYear));
+
+const riverPosition = (startDate?: string, endDate?: string) => {
+	const range = Math.max(1, careerEndYear - careerStartYear);
+	if (!startDate && !endDate) return { left: 0, width: 2 };
+	const start = Number(startDate?.slice(0, 4)) || careerStartYear;
+	const end = Number(endDate?.slice(0, 4)) || careerEndYear;
+	const left = Math.max(0, Math.min(100, ((start - careerStartYear) / range) * 100));
+	return { left, width: Math.max(2, Math.min(100 - left, ((Math.max(start, end) - start) / range) * 100)) };
+};
 
 const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
-	const start = formatDateText(startDate, 'year') ?? '活動期間不明';
+	if (!startDate && !endDate) return '期間未確定';
+	const start = formatDateText(startDate, 'year') ?? '開始年不明';
 	const end = formatDateText(endDate, 'year') ?? '現在';
 	return `${start}〜${end}`;
 };
@@ -17,12 +31,27 @@ const formatProjectPeriod = (startDate?: string, endDate?: string): string => {
 
 <SiteLayout title="プロジェクト" currentPath="/projects" breadcrumbs={[{ label: 'プロジェクト' }]}>
 	<section aria-labelledby="projects-title">
-		<p class="eyebrow">PROJECTS</p>
-		<h1 id="projects-title">プロジェクト</h1>
-		<p>門田匡陽が参加したプロジェクトを、活動期間と作品・ライブの件数とあわせて確認できます。</p>
+		<header class="page-heading">
+			<p class="eyebrow">PROJECTS / PERIOD</p>
+			<h1 id="projects-title">活動したプロジェクト</h1>
+			<p class="lede">名義ごとに、活動期間と作品・ライブの記録を確認できます。</p>
+		</header>
+
+		{projects.length > 0 && (
+			<div class="project-river" aria-label={`プロジェクトごとの活動期間。${careerStartYear}年から${careerEndYear}年`}>
+				<div class="project-river__scale"><span>{careerStartYear}</span><span>{careerEndYear === new Date().getFullYear() ? '現在' : careerEndYear}</span></div>
+				{projects.map(({ project, href }) => {
+					const position = riverPosition(project.startDate, project.endDate);
+					const period = formatProjectPeriod(project.startDate, project.endDate);
+					return <a class="project-river__row" href={href ?? '/projects'} style={`--project-color: ${projectColorToken(project.slug)}; --river-left: ${position.left}%; --river-width: ${position.width}%;`}>
+						<strong>{project.name}</strong><span class="project-river__track"><i></i></span><small>{period}</small>
+					</a>;
+				})}
+			</div>
+		)}
 
 		{projects.length > 0 ? (
-			<div class="project-list">
+			<div class="project-list" id="project-list">
 				{projects.map((item) => (
 					<article class="project-card" style={`--project-color: ${projectColorToken(item.project.slug)};`}>
 						<div class="project-card__heading">
