@@ -73,7 +73,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 					{detail.work.releasedDate && <div><dt>Release date</dt><dd>{timelineHref(detail.work.releasedDate, detail.work.releasedDatePrecision) ? <a href={timelineHref(detail.work.releasedDate, detail.work.releasedDatePrecision) as string}><DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /></a> : <DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} />}</dd></div>}
 					{detail.work.type && <div><dt>Type</dt><dd>{workTypeLabel(detail.work.type)}</dd></div>}
 					{detail.representativeRelease.format && <div><dt>Format</dt><dd>{detail.representativeRelease.format}</dd></div>}
-					{detail.releases.length > 0 && <div><dt>Editions</dt><dd>{detail.releases.length}版</dd></div>}
 				</dl>
 				{shortDescription && <p class="discography-detail__description">{shortDescription}</p>}
 			</div>
@@ -82,7 +81,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		<nav class="discography-detail__section-nav" aria-label="作品内の移動">
 			<a href="#discography-tracks-title">収録曲</a>
 			{hasReview && <a href="#discography-review-title">レビュー</a>}
-			<a href="#discography-editions-title">版</a>
+			<a href="#discography-editions-title">Editions</a>
 			{detail.participants.length > 0 && <a href="#discography-participants-title">参加者</a>}
 			<a href="#connections-title">つながり</a>
 		</nav>
@@ -120,8 +119,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		</section>}
 
 		<section aria-labelledby="discography-editions-title" class="discography-detail__section">
-			<p class="eyebrow">EDITIONS / 02</p>
-			<h2 id="discography-editions-title">版</h2>
+			<h2 id="discography-editions-title">Editions</h2>
 			{detail.releases.length === 0 ? (
 				<p class="empty-state">版情報はまだありません。</p>
 			) : (
