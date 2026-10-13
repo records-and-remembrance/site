@@ -39,6 +39,7 @@ const precision = (value: string | null): 'year' | 'month' | 'day' | 'uncertain'
 	value === 'year' || value === 'month' || value === 'day' || value === 'uncertain' ? value : null;
 
 const releaseLabel = (release: DiscographyEdition): string => release.format ?? (release.editionType === 'reissue' ? '再発' : '版');
+const editionVersionLabel = (release: DiscographyEdition): string | null => release.editionType === 'reissue' ? '再発' : release.editionType === 'original' ? 'オリジナル' : null;
 const trackVersion = (track: DiscographyTrack): string | null => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || null;
 const workTypeLabel = (type: string | null): string => ({ original: 'オリジナル作品', compilation: 'コンピレーション', best: 'ベスト作品', live: 'ライブ作品' })[type ?? ''] ?? '作品';
 const description = detail.work.description?.trim() || null;
@@ -134,6 +135,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 									<p class="eyebrow">EDITION</p>
 									<dl class="edition-card__metadata">
 										{release.format && <div><dt>Format</dt><dd>{release.format}</dd></div>}
+										{editionVersionLabel(release) && <div><dt>バージョン</dt><dd>{editionVersionLabel(release)}</dd></div>}
 										{release.releaseDate && <div><dt>発売日</dt><dd><DateText value={release.releaseDate} precision={precision(release.releaseDatePrecision)} /></dd></div>}
 										{release.catalogNumber && <div><dt>カタログ番号</dt><dd>{release.catalogNumber}</dd></div>}
 										{release.labels.length > 0 && <div><dt>レーベル</dt><dd>{release.labels.map((label) => <span>{label.name}</span>)}</dd></div>}
@@ -143,12 +145,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 								</div>
 							</header>
 
-							{release.reissueOf && (
-								<p class="edition-card__relation"><a href={release.reissueOf.href}>再発元: {release.reissueOf.label}</a></p>
-							)}
-							{release.reissues.length > 0 && (
-								<p class="edition-card__relation">再発: {release.reissues.map((reissue) => <a href={reissue.href}>{reissue.label}</a>)}</p>
-							)}
 							{release.description && <p>{release.description}</p>}
 
 							{release.trackDiffs.length > 0 && (
@@ -376,8 +372,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	}
 
 	.track-list__version,
-	.track-list__note,
-	.edition-card__relation {
+	.track-list__note {
 		color: var(--ink-muted);
 		font-size: 0.9em;
 	}
@@ -494,12 +489,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 
 	.edition-card__metadata dd span + span::before {
 		content: '、';
-	}
-
-	.edition-card__relation {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-2);
 	}
 
 	.edition-card__diff {
