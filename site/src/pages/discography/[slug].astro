@@ -83,6 +83,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 			<a href="#discography-tracks-title">収録曲</a>
 			{hasReview && <a href="#discography-review-title">レビュー</a>}
 			<a href="#discography-editions-title">版</a>
+			{detail.participants.length > 0 && <a href="#discography-participants-title">参加者</a>}
 			<a href="#connections-title">つながり</a>
 		</nav>
 
@@ -111,9 +112,11 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		</section>
 
 		{hasReview && <section aria-labelledby="discography-review-title" class="discography-detail__section discography-detail__review">
-			<p class="eyebrow">REVIEW</p>
-			<h2 id="discography-review-title">レビュー</h2>
-			<p>{description}</p>
+			<div class="discography-detail__review-heading">
+				<p class="eyebrow">REVIEW</p>
+				<h2 id="discography-review-title">レビュー</h2>
+			</div>
+			<div class="discography-detail__review-copy"><p>{description}</p></div>
 		</section>}
 
 		<section aria-labelledby="discography-editions-title" class="discography-detail__section">
@@ -163,15 +166,19 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 								</section>
 							)}
 
-							{release.contributions.length > 0 && <section aria-labelledby={`edition-${release.editionKey}-contributions-title`} class="edition-card__contributions">
-								<h4 id={`edition-${release.editionKey}-contributions-title`}>参加者</h4>
-								<ul>{release.contributions.map((contribution) => <li>{contribution.person.href ? <a href={contribution.person.href}>{contribution.person.name}</a> : contribution.person.name}<span> — {contribution.role}</span>{contribution.instrument && <span>（{contribution.instrument}）</span>}</li>)}</ul>
-							</section>}
 						</article>
 					))}
 				</div>
 			)}
 		</section>
+
+		{detail.participants.length > 0 && <section aria-labelledby="discography-participants-title" class="discography-detail__section discography-detail__participants">
+			<p class="eyebrow">CREDITS</p>
+			<h2 id="discography-participants-title">参加者</h2>
+			<ul class="participants-list">
+				{detail.participants.map((contribution) => <li><span>{contribution.person.href ? <a href={contribution.person.href}>{contribution.person.name}</a> : contribution.person.name}</span><span>{contribution.role}{contribution.instrument && `（${contribution.instrument}）`}</span>{contribution.editionNote && <small>{contribution.editionNote}</small>}</li>)}
+			</ul>
+		</section>}
 		</div>
 
 		<div class="discography-detail__connections">
@@ -186,7 +193,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
 		gap: clamp(var(--space-5), 7vw, var(--space-7));
 		align-items: center;
-		width: min(100%, 52rem);
+		width: 100%;
 		margin-inline: auto;
 		margin-block-end: var(--space-6);
 		padding-block-end: var(--space-6);
@@ -257,7 +264,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		display: grid;
 		gap: var(--space-2);
 		margin: 0;
-		max-width: 34rem;
 	}
 
 	.discography-detail__meta div {
@@ -280,7 +286,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	}
 
 	.discography-detail__description {
-		max-width: 48rem;
 		margin-block-start: var(--space-5);
 		white-space: pre-wrap;
 	}
@@ -289,7 +294,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-4);
-		width: min(100%, 52rem);
+		width: 100%;
 		margin-inline: auto;
 		margin-block-end: var(--space-7);
 		border-block-end: 1px solid var(--rule);
@@ -307,7 +312,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 
 	.discography-detail__body {
 		display: block;
-		width: min(100%, 52rem);
+		width: 100%;
 		margin-inline: auto;
 	}
 
@@ -315,13 +320,26 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		margin-block: 0 var(--space-7);
 	}
 
+	.discography-detail p,
+	.discography-detail ul,
+	.discography-detail ol {
+		max-width: none;
+	}
+
 	.discography-detail__review {
+		display: grid;
+		grid-template-columns: minmax(12rem, 0.35fr) minmax(0, 1fr);
+		gap: clamp(var(--space-5), 6vw, var(--space-7));
 		padding-block-start: var(--space-5);
 		border-block-start: 1px solid var(--rule);
 	}
 
-	.discography-detail__review p {
-		max-width: 68ch;
+	.discography-detail__review-heading h2 {
+		margin-block-start: var(--space-1);
+	}
+
+	.discography-detail__review-copy p {
+		margin: 0;
 		white-space: pre-wrap;
 	}
 
@@ -380,7 +398,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	}
 
 	.discography-detail__connections {
-		width: min(100%, 52rem);
+		width: 100%;
 		margin-inline: auto;
 		margin-block-start: var(--space-7);
 	}
@@ -485,22 +503,57 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		gap: var(--space-2);
 	}
 
-	.edition-card__diff,
-	.edition-card__contributions {
+	.edition-card__diff {
 		margin-block-start: var(--space-5);
 		padding-block-start: var(--space-4);
 		border-block-start: 1px solid var(--rule);
 	}
 
-	.edition-card__diff h4,
-	.edition-card__contributions h4 {
+	.edition-card__diff h4 {
 		margin-block-start: 0;
+	}
+
+	.discography-detail__participants {
+		padding-block-start: var(--space-5);
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.participants-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+		gap: 0 var(--space-5);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.participants-list li {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: var(--space-1) var(--space-3);
+		padding-block: var(--space-3);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.participants-list li > span:nth-child(2),
+	.participants-list small {
+		color: var(--ink-muted);
+	}
+
+	.participants-list small {
+		grid-column: 1 / -1;
+		font-size: 0.85em;
 	}
 
 	@media (max-width: 40rem) {
 		.discography-detail__header,
 		.discography-detail__body {
 			grid-template-columns: 1fr;
+		}
+
+		.discography-detail__review {
+			grid-template-columns: 1fr;
+			gap: var(--space-3);
 		}
 
 		.discography-detail__artwork {
