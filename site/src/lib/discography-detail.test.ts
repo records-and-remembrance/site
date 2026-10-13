@@ -133,7 +133,7 @@ describe('PST-012 discography detail', () => {
 		});
 		expect(original.reissues).toEqual([{ label: '再発', href: '#edition-digital-2022-02-02' }]);
 		expect(reissue.trackDiffs).toEqual([expect.objectContaining({ kind: 'added', trackNumber: 2, title: 'Song Two', href: undefined })]);
-		expect(detail.relatedLinks).toEqual([{ label: 'Project One（主名義）', href: '/projects/project-one' }]);
+		expect(detail.relatedLinks).toEqual([{ label: 'Project One', relation: '主名義', href: '/projects/project-one' }]);
 	});
 
 	test('DB返却順に依存せずedition anchorを安定させ、track 0件は専用の空状態を返す', () => {
@@ -181,7 +181,8 @@ describe('PST-012 discography detail', () => {
 			expect(detailHtml).toContain('href="#edition-cd-2020-01-01-cat-001"');
 			expect(detailHtml).toContain('href="/songs/song-one"');
 			expect(detailHtml).toContain('href="/timeline#y2020-01"');
-			expect(detailHtml).toContain('Project One（主名義）');
+			expect(detailHtml).toContain('Project One');
+			expect(detailHtml).toContain('主名義');
 			expect(detailHtml).toContain('TRACKLIST');
 			expect(detailHtml).toContain('レビュー');
 			expect(detailHtml).toContain('配信版で追加収録');

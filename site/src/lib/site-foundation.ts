@@ -4,6 +4,7 @@ export type DatePrecision = 'year' | 'month' | 'day' | 'uncertain' | null | unde
 export type AdjacentLink = {
 	label: string;
 	href?: string;
+	relation?: string;
 };
 
 export type ArtworkInput = {
@@ -67,7 +68,7 @@ export const normalizeAdjacentLinks = (links: readonly AdjacentLink[]): Adjacent
 	for (const link of links) {
 		if (!link.href || seen.has(link.href)) continue;
 		seen.add(link.href);
-		result.push({ label: link.label, href: link.href });
+		result.push({ label: link.label, href: link.href, ...(link.relation ? { relation: link.relation } : {}) });
 	}
 	return result;
 };

@@ -174,16 +174,20 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		</section>
 		</div>
 
-		<ConnectionLinks links={detail.relatedLinks} />
+		<div class="discography-detail__connections">
+			<ConnectionLinks links={detail.relatedLinks} />
+		</div>
 	</article>
 </SiteLayout>
 
 <style>
 	.discography-detail__header {
 		display: grid;
-		grid-template-columns: minmax(14rem, 25rem) minmax(0, 1fr);
+		grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
 		gap: clamp(var(--space-5), 7vw, var(--space-7));
 		align-items: center;
+		width: min(100%, 52rem);
+		margin-inline: auto;
 		margin-block-end: var(--space-6);
 		padding-block-end: var(--space-6);
 		border-block-end: 3px solid var(--rule);
@@ -285,6 +289,8 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-4);
+		width: min(100%, 52rem);
+		margin-inline: auto;
 		margin-block-end: var(--space-7);
 		border-block-end: 1px solid var(--rule);
 	}
@@ -301,6 +307,8 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 
 	.discography-detail__body {
 		display: block;
+		width: min(100%, 52rem);
+		margin-inline: auto;
 	}
 
 	.discography-detail__section {
@@ -308,7 +316,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	}
 
 	.discography-detail__review {
-		max-width: 52rem;
 		padding-block-start: var(--space-5);
 		border-block-start: 1px solid var(--rule);
 	}
@@ -319,7 +326,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	}
 
 	.track-list {
-		max-width: 52rem;
+		max-width: none;
 		padding-inline-start: 0;
 		list-style: none;
 	}
@@ -370,6 +377,12 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	.edition-list {
 		display: grid;
 		gap: var(--space-5);
+	}
+
+	.discography-detail__connections {
+		width: min(100%, 52rem);
+		margin-inline: auto;
+		margin-block-start: var(--space-7);
 	}
 
 	.edition-card {

@@ -9,10 +9,109 @@ const links = normalizeAdjacentLinks(Astro.props.links);
 ---
 
 {links.length > 0 && (
-	<section aria-labelledby="connections-title">
+	<section class="connection-links-section" aria-labelledby="connections-title">
+		<p class="eyebrow">RELATIONS</p>
 		<h2 id="connections-title">つながり</h2>
-		<ul>
-			{links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+		<ul class="connection-links">
+			{links.map((link) => <li><a href={link.href}><span>{link.label}</span>{link.relation && <small>{link.relation}</small>}<b aria-hidden="true">↗</b></a></li>)}
 		</ul>
 	</section>
 )}
+
+<style>
+	.connection-links-section {
+		padding-block: var(--space-5) var(--space-6);
+		border-block-start: 2px solid var(--ink);
+	}
+
+	.connection-links-section h2 {
+		margin-block: var(--space-1) var(--space-4);
+		font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+	}
+
+	.connection-links {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		gap: var(--space-3);
+		max-width: none;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.connection-links li {
+		position: relative;
+		border: 1px solid var(--rule);
+		background: var(--surface);
+		box-shadow: 5px 5px 0 color-mix(in srgb, var(--rule) 45%, transparent);
+		transition: border-color var(--motion-duration) var(--motion-ease), box-shadow var(--motion-duration) var(--motion-ease), transform var(--motion-duration) var(--motion-ease);
+	}
+
+	.connection-links li::before {
+		position: absolute;
+		inset-block: var(--space-3);
+		left: -1px;
+		width: 3px;
+		background: var(--accent);
+		content: '';
+	}
+
+	.connection-links a {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: var(--space-1) var(--space-3);
+		align-items: center;
+		padding: var(--space-3) var(--space-4);
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.connection-links li:hover {
+		border-color: var(--accent);
+		box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent) 18%, transparent);
+		transform: translate(-2px, -2px);
+	}
+
+	.connection-links a:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: -3px;
+	}
+
+	.connection-links a:hover {
+		background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+	}
+
+	.connection-links a > span {
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+		font-weight: 700;
+	}
+
+	.connection-links small {
+		grid-column: 1;
+		color: var(--ink-muted);
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+	}
+
+	.connection-links b {
+		display: grid;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--rule));
+		border-radius: 50%;
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		color: var(--accent);
+		font-size: 1rem;
+		font-weight: 400;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.connection-links li {
+			transition: none;
+		}
+	}
+</style>
