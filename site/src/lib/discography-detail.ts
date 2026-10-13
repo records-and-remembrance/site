@@ -47,6 +47,7 @@ export type DiscographyContribution = {
 	person: DiscographyEntityLink;
 	role: string;
 	instrument: string | null;
+	editionNote?: string | null;
 };
 
 export type DiscographyEditionLink = {
@@ -90,6 +91,7 @@ export type DiscographyDetail = {
 	representativeRelease: DiscographyEdition;
 	trackList: DiscographyTrack[];
 	releases: DiscographyEdition[];
+	participants: DiscographyContribution[];
 	relatedLinks: AdjacentLink[];
 };
 
@@ -139,7 +141,10 @@ export const buildDiscographyDetail = (source: DiscographyDetailSource, slug: st
 
 	const representativeRelease = editions.find((edition) => edition.id === representativeId) ?? createEmptyEdition();
 	const representativeTracks = representativeRelease.tracks;
-	const trackList = buildTrackList(representativeTracks, editions.filter((edition) => edition.id !== representativeRelease.id));
+	const trackList = buildTrackList(
+		representativeTracks,
+		editions.filter((edition) => edition.id !== representativeRelease.id),
+	);
 	for (const edition of editions) {
 		edition.trackDiffs = edition.id === representativeRelease.id ? [] : buildTrackDiffs(representativeTracks, edition.tracks);
 	}
@@ -158,6 +163,7 @@ export const buildDiscographyDetail = (source: DiscographyDetailSource, slug: st
 		representativeRelease,
 		trackList,
 		releases: editions,
+		participants: mergeContributions(editions),
 		relatedLinks: buildRelatedLinks(source.workProject, projects, workId, projectLink),
 	};
 };
@@ -270,6 +276,37 @@ function buildContributions(rows: readonly SiteRow[], releaseId: string, people:
 			};
 		})
 		.sort((left, right) => `${left.role}:${left.person.name}`.localeCompare(`${right.role}:${right.person.name}`));
+}
+
+function mergeContributions(editions: readonly DiscographyEdition[]): DiscographyContribution[] {
+	const merged = new Map<string, { contribution: DiscographyContribution; editionIds: string[]; editionLabels: string[] }>();
+	for (const edition of editions) {
+		for (const contribution of edition.contributions) {
+			const key = `${contribution.person.href ?? contribution.person.name}:${contribution.role}:${contribution.instrument ?? ''}`;
+			const current = merged.get(key);
+			if (current) {
+				current.editionIds.push(edition.id);
+				current.editionLabels.push(editionParticipantLabel(edition));
+				continue;
+			}
+			merged.set(key, {
+				contribution: { ...contribution, editionNote: null },
+				editionIds: [edition.id],
+				editionLabels: [editionParticipantLabel(edition)],
+			});
+		}
+	}
+
+	return [...merged.values()]
+		.map(({ contribution, editionIds, editionLabels }) => ({
+			...contribution,
+			editionNote: editionIds.length < editions.length ? `（${editionLabels.join('、')}のみ）` : null,
+		}))
+		.sort((left, right) => `${left.role}:${left.person.name}`.localeCompare(`${right.role}:${right.person.name}`));
+}
+
+function editionParticipantLabel(edition: DiscographyEdition): string {
+	return edition.format ? `${edition.format}版` : edition.editionType === 'reissue' ? '再発版' : '別版';
 }
 
 function buildTrackDiffs(base: readonly DiscographyTrack[], current: readonly DiscographyTrack[]): DiscographyTrackDiff[] {

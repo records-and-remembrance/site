@@ -119,6 +119,14 @@ describe('PST-012 discography detail', () => {
 				instrument: 'Electric Guitar',
 			},
 		]);
+		expect(detail.participants).toEqual([
+			{
+				person: { name: 'Participant One', href: '/people/participant-one' },
+				role: 'guitar',
+				instrument: 'Electric Guitar',
+				editionNote: '（CD版のみ）',
+			},
+		]);
 
 		const [original, reissue] = detail.releases;
 		expect(original).toMatchObject({ editionKey: 'cd-2020-01-01-cat-001', anchor: 'edition-cd-2020-01-01-cat-001' });
@@ -189,6 +197,7 @@ describe('PST-012 discography detail', () => {
 			expect(detailHtml).not.toContain('代表版の収録曲');
 			expect(detailHtml).not.toContain('作品の記録');
 			expect(detailHtml).toContain('Participant One');
+			expect(detailHtml).toContain('（CD版のみ）');
 			expect(detailHtml).toContain('Example Label');
 			expect(detailHtml).toContain('Digital Distributor');
 			expect(detailHtml).toContain('600 × 600px');
