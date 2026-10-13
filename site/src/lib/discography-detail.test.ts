@@ -192,7 +192,7 @@ describe('PST-012 discography detail', () => {
 			expect(detailHtml).toContain('Project One');
 			expect(detailHtml).toContain('主名義');
 			expect(detailHtml).toContain('TRACKLIST');
-			expect(detailHtml).toContain('レビュー');
+			expect(detailHtml).toContain('作品ノート');
 			expect(detailHtml).toContain('配信版で追加収録');
 			expect(detailHtml).not.toContain('代表版の収録曲');
 			expect(detailHtml).not.toContain('作品の記録');
