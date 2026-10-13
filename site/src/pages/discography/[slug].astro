@@ -40,7 +40,7 @@ const precision = (value: string | null): 'year' | 'month' | 'day' | 'uncertain'
 
 const releaseLabel = (release: DiscographyEdition): string => release.format ?? (release.editionType === 'reissue' ? '再発' : '版');
 const editionVersionLabel = (release: DiscographyEdition): string | null => release.editionType === 'reissue' ? '再発' : release.editionType === 'original' ? 'オリジナル' : null;
-const trackVersion = (track: DiscographyTrack): string | null => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || null;
+const trackVersion = (track: DiscographyTrack): string | null => [track.recording.versionName, track.recording.type === 'studio' ? null : track.recording.type].filter(Boolean).join(' · ') || null;
 const workTypeLabel = (type: string | null): string => ({ original: 'オリジナル作品', compilation: 'コンピレーション', best: 'ベスト作品', live: 'ライブ作品' })[type ?? ''] ?? '作品';
 const description = detail.work.description?.trim() || null;
 const shortDescription = description?.split(/(?<=[。！？])/u, 1)[0] ?? null;
