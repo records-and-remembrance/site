@@ -253,7 +253,7 @@ const timelineHref = (
 										class="track-list__number"
 										aria-label={`${track.trackNumber}曲目`}
 									>
-										<span class="track-list__prefix" aria-hidden="true">#</span><span class="track-list__digits"><span class="track-list__leading-zero" aria-hidden="true">{track.trackNumber < 10 ? '0' : ''}</span>{track.trackNumber}</span>
+										<span class="track-list__prefix" aria-hidden="true">#</span><span class="track-list__leading-zero" aria-hidden="true">{track.trackNumber < 10 ? '0' : ''}</span>{track.trackNumber}
 									</span>
 									<div class="track-list__main">
 										<div class="track-list__title-row">
@@ -647,28 +647,17 @@ const timelineHref = (
 	}
 
 	.track-list__number {
-		position: relative;
 		align-self: start;
 		color: var(--ink-muted);
-		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-		font-size: 0.85rem;
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
 		font-variant-numeric: tabular-nums;
-		letter-spacing: 0.04em;
 		text-align: end;
 	}
 
 	.track-list__prefix {
-		position: absolute;
-		inset-block-start: -0.15em;
-		inset-inline-start: 0;
-		font-size: 0.7em;
-		letter-spacing: 0;
-	}
-
-	.track-list__digits {
 		display: inline-block;
-		font-size: 0.9em;
-		vertical-align: sub;
+		position: relative;
+		top: -0.18em;
 	}
 
 	.track-list__leading-zero {
