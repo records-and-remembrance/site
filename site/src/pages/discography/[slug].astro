@@ -40,26 +40,46 @@ const precision = (value: string | null): 'year' | 'month' | 'day' | 'uncertain'
 
 const releaseLabel = (release: DiscographyEdition): string => release.format ?? '形式未登録';
 const trackVersion = (track: DiscographyTrack): string => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || '録音情報未登録';
+const workTypeLabel = (type: string | null): string => ({ original: 'オリジナル作品', compilation: 'コンピレーション', best: 'ベスト作品', live: 'ライブ作品' })[type ?? ''] ?? '作品';
+const representativeArtwork = detail.representativeRelease.artwork;
 ---
 
 <SiteLayout title={detail.work.title} currentPath="/discography" breadcrumbs={[{ label: '作品', href: '/discography' }, { label: detail.work.title }]}>
 	<article class="discography-detail">
 		<header class="discography-detail__header" aria-labelledby="discography-detail-title">
-			<p class="eyebrow">DISCOGRAPHY</p>
-			<h1 id="discography-detail-title">{detail.work.title}</h1>
-			<div class="discography-detail__meta">
-				{detail.work.project && (
-					<EntityLink type="project" slug={detail.work.project.slug} label={detail.work.project.name} />
+			<div class="discography-detail__artwork" aria-label={`${detail.work.title}の代表ジャケット`}>
+				{representativeArtwork.url ? (
+					<Artwork url={representativeArtwork.url} width={representativeArtwork.width} height={representativeArtwork.height} alt={`${detail.work.title}の代表ジャケット`} allowedOrigins={artworkOrigins} loading="eager" />
+				) : (
+					<div class="discography-detail__artwork-placeholder" role="img" aria-label={`${detail.work.title}のジャケット画像は未登録`}>
+						<span>ARCHIVE / WORK</span>
+						<strong>{detail.work.title}</strong>
+						<span>JACKET NOT ARCHIVED</span>
+					</div>
 				)}
-				{detail.work.type && <span>{detail.work.type}</span>}
-				<span>
-					{detail.work.releasedDate ? <DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /> : '発表日不明'}
-				</span>
 			</div>
-			{detail.work.description && <p class="discography-detail__description">{detail.work.description}</p>}
+			<div class="discography-detail__intro">
+				<p class="eyebrow">WORK / {workTypeLabel(detail.work.type).toUpperCase()}</p>
+				<h1 id="discography-detail-title">{detail.work.title}</h1>
+				<div class="discography-detail__meta">
+					{detail.work.project && <EntityLink type="project" slug={detail.work.project.slug} label={detail.work.project.name} />}
+					{detail.work.releasedDate && <span><DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /></span>}
+					<span>{detail.releases.length > 0 ? `${detail.releases.length}版` : '版情報未登録'}</span>
+				</div>
+				{detail.work.description && <p class="discography-detail__description">{detail.work.description}</p>}
+			</div>
 		</header>
 
+		<nav class="discography-detail__section-nav" aria-label="作品内の移動">
+			<a href="#discography-tracks-title">収録曲</a>
+			<a href="#discography-editions-title">版を比べる</a>
+			<a href="#connections-title">つながり</a>
+		</nav>
+
+		<div class="discography-detail__body">
+			<div>
 		<section aria-labelledby="discography-tracks-title" class="discography-detail__section">
+			<p class="eyebrow">TRACKLIST / 01</p>
 			<h2 id="discography-tracks-title">代表版の収録曲</h2>
 			{detail.representativeRelease.hasTracks ? (
 				<ol class="track-list">
@@ -82,7 +102,8 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 		</section>
 
 		<section aria-labelledby="discography-editions-title" class="discography-detail__section">
-			<h2 id="discography-editions-title">版</h2>
+			<p class="eyebrow">EDITIONS / 02</p>
+			<h2 id="discography-editions-title">同じ作品、異なる版。</h2>
 			{detail.releases.length === 0 ? (
 				<p class="empty-state">版情報はまだありません。</p>
 			) : (
@@ -146,6 +167,14 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 				</div>
 			)}
 		</section>
+			</div>
+			<aside class="discography-detail__aside">
+				<p class="eyebrow">ARCHIVE NOTE</p>
+				<h2>作品の記録</h2>
+				<p>この作品に紐づく収録曲、版、参加者をまとめています。曲名から楽曲の収録・演奏記録へ移動できます。</p>
+				{detail.representativeRelease.releaseDate && <dl class="discography-detail__summary"><div><dt>代表版</dt><dd>{releaseLabel(detail.representativeRelease)}</dd></div><div><dt>発売</dt><dd><DateText value={detail.representativeRelease.releaseDate} precision={precision(detail.representativeRelease.releaseDatePrecision)} /></dd></div><div><dt>収録曲</dt><dd>{detail.representativeRelease.tracks.length}曲</dd></div></dl>}
+			</aside>
+		</div>
 
 		<ConnectionLinks links={detail.relatedLinks} />
 	</article>
@@ -153,8 +182,73 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 
 <style>
 	.discography-detail__header {
-		max-width: 58rem;
-		margin-block-end: var(--space-8);
+		display: grid;
+		grid-template-columns: minmax(14rem, 25rem) minmax(0, 1fr);
+		gap: clamp(var(--space-5), 7vw, var(--space-7));
+		align-items: center;
+		margin-block-end: var(--space-6);
+		padding-block-end: var(--space-6);
+		border-block-end: 3px solid var(--rule);
+	}
+
+	.discography-detail__artwork {
+		aspect-ratio: 1;
+		border-block-start: 5px solid var(--accent);
+		background: var(--surface);
+	}
+
+	.discography-detail__artwork img,
+	.discography-detail__artwork .artwork-fallback,
+	.discography-detail__artwork-placeholder {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.discography-detail__artwork-placeholder {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: clamp(var(--space-4), 4vw, var(--space-6));
+		border: 1px solid var(--rule);
+		color: var(--ink);
+	}
+
+	.discography-detail__artwork-placeholder::before {
+		position: absolute;
+		inset-block: 20%;
+		left: 50%;
+		border-inline-start: 1px solid var(--rule);
+		content: '';
+		transform: rotate(28deg);
+	}
+
+	.discography-detail__artwork-placeholder span {
+		position: relative;
+		color: var(--ink-muted);
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: 0.68rem;
+		letter-spacing: 0.06em;
+	}
+
+	.discography-detail__artwork-placeholder strong {
+		position: relative;
+		max-width: 100%;
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+		font-size: clamp(1.4rem, 3vw, 2.6rem);
+		line-height: 1.2;
+		overflow-wrap: anywhere;
+	}
+
+	.discography-detail__intro h1 {
+		margin-block: var(--space-2) var(--space-4);
+		font-size: clamp(2.25rem, 6vw, 5rem);
+		line-height: 1.1;
+	}
+
+	.discography-detail__intro {
+		min-width: 0;
 	}
 
 	.discography-detail__meta {
@@ -166,11 +260,37 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 
 	.discography-detail__description {
 		max-width: 48rem;
+		margin-block-start: var(--space-5);
 		white-space: pre-wrap;
 	}
 
+	.discography-detail__section-nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+		margin-block-end: var(--space-7);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.discography-detail__section-nav a {
+		padding-block: var(--space-3);
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.discography-detail__section-nav a:hover {
+		color: var(--accent);
+	}
+
+	.discography-detail__body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+		gap: clamp(var(--space-6), 8vw, var(--space-7));
+		align-items: start;
+	}
+
 	.discography-detail__section {
-		margin-block: var(--space-8);
+		margin-block: 0 var(--space-7);
 	}
 
 	.track-list {
@@ -185,6 +305,11 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 		gap: var(--space-3);
 		padding-block: var(--space-3);
 		border-block-end: 1px solid var(--rule);
+		transition: background-color var(--motion-duration) var(--motion-ease);
+	}
+
+	.track-list__item:hover {
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
 	}
 
 	.track-list__number {
@@ -225,8 +350,39 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 		padding: var(--space-5);
 		border: 1px solid var(--rule);
 		background: var(--surface);
+		box-shadow: 8px 8px 0 color-mix(in srgb, var(--rule) 45%, transparent);
 		scroll-margin-block-start: var(--space-5);
 	}
+
+	.discography-detail__aside {
+		position: sticky;
+		top: var(--space-4);
+		padding: var(--space-4);
+		border-block-start: 3px solid var(--accent);
+		background: var(--surface);
+	}
+
+	.discography-detail__aside h2 {
+		margin-block: var(--space-2) var(--space-3);
+		font-size: 1.25rem;
+	}
+
+	.discography-detail__summary {
+		display: grid;
+		gap: var(--space-2);
+		margin-block-start: var(--space-5);
+	}
+
+	.discography-detail__summary div {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.discography-detail__summary dt { color: var(--ink-muted); }
+	.discography-detail__summary dd { margin: 0; text-align: end; }
 
 	.edition-card__header {
 		display: grid;
@@ -288,6 +444,19 @@ const trackVersion = (track: DiscographyTrack): string => [track.recording.versi
 	}
 
 	@media (max-width: 40rem) {
+		.discography-detail__header,
+		.discography-detail__body {
+			grid-template-columns: 1fr;
+		}
+
+		.discography-detail__artwork {
+			max-width: 22rem;
+		}
+
+		.discography-detail__aside {
+			position: static;
+		}
+
 		.track-list__title-row {
 			grid-template-columns: 1fr;
 		}

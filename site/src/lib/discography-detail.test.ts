@@ -176,6 +176,9 @@ describe('PST-012 discography detail', () => {
 			expect(detailHtml).toContain('id="edition-cd-2020-01-01-cat-001"');
 			expect(detailHtml).toContain('href="#edition-cd-2020-01-01-cat-001"');
 			expect(detailHtml).toContain('href="/songs/song-one"');
+			expect(detailHtml).toContain('TRACKLIST / 01');
+			expect(detailHtml).toContain('同じ作品、異なる版。');
+			expect(detailHtml).toContain('作品の記録');
 			expect(detailHtml).toContain('Participant One');
 			expect(detailHtml).toContain('Example Label');
 			expect(detailHtml).toContain('Digital Distributor');
