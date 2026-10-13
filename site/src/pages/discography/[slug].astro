@@ -649,24 +649,18 @@ const timelineHref = (
 	.track-list__number {
 		align-self: start;
 		color: var(--ink-muted);
-		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
 		font-variant-numeric: tabular-nums;
 		text-align: end;
 	}
 
 	.track-list__prefix {
-		display: grid;
-		position: absolute;
-		inset-block-start: -0.35em;
-		inset-inline-start: 0;
-		place-items: center;
-		width: 1.35em;
-		height: 1.35em;
-		border: 1px solid var(--accent);
-		border-radius: 50%;
-		color: var(--accent);
-		font-size: 0.58em;
-		line-height: 1;
+		display: inline-block;
+		position: relative;
+		top: -0.18em;
+		font-family: 'Yuji Syuku', 'Klee One', 'Hiragino Mincho ProN', serif;
+		font-size: 0.9em;
+		font-weight: 700;
+		transform: rotate(-10deg);
 	}
 
 	.track-list__leading-zero {
