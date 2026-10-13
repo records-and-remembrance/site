@@ -137,7 +137,7 @@ describe('PST-012 discography detail', () => {
 			releaseDatePrecision: 'month',
 			distributor: { name: 'Digital Distributor' },
 			labels: [],
-			reissueOf: { label: '初版', href: '#edition-cd-2020-01-01-cat-001' },
+			reissueOf: { label: '元の版', href: '#edition-cd-2020-01-01-cat-001' },
 		});
 		expect(original.reissues).toEqual([{ label: '再発', href: '#edition-digital-2022-02-02' }]);
 		expect(reissue.trackDiffs).toEqual([expect.objectContaining({ kind: 'added', trackNumber: 2, title: 'Song Two', href: undefined })]);
@@ -201,7 +201,7 @@ describe('PST-012 discography detail', () => {
 			expect(detailHtml).toContain('Example Label');
 			expect(detailHtml).toContain('Digital Distributor');
 			expect(detailHtml).toContain('600 × 600px');
-			expect(detailHtml).toContain('初版との差分');
+			expect(detailHtml).toContain('収録曲の差分');
 
 			const emptyHtml = await readFile(join(siteRoot, 'dist/discography/empty-work/index.html'), 'utf8');
 			expect(emptyHtml).toContain('収録曲情報未登録');

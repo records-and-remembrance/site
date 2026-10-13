@@ -134,7 +134,7 @@ export const buildDiscographyDetail = (source: DiscographyDetailSource, slug: st
 		const release = releases.find((row) => row.id === edition.id);
 		const sourceEdition = release?.reissueOfReleaseId ? editionsById.get(stringValue(release.reissueOfReleaseId)) : undefined;
 		if (sourceEdition?.anchor) {
-			edition.reissueOf = { label: '初版', href: `#${sourceEdition.anchor}` };
+			edition.reissueOf = { label: '元の版', href: `#${sourceEdition.anchor}` };
 			sourceEdition.reissues.push({ label: '再発', href: `#${edition.anchor}` });
 		}
 	}
@@ -259,7 +259,7 @@ function trackIdentity(track: DiscographyTrack): string {
 }
 
 function editionLabel(edition: DiscographyEdition): string {
-	return edition.format ? `${edition.format}版` : edition.editionType === 'reissue' ? '再発版' : '別版';
+	return edition.format ? `${edition.format}版` : edition.editionType === 'reissue' ? '再発版' : '版';
 }
 
 function buildContributions(rows: readonly SiteRow[], releaseId: string, people: Map<string, SiteRow>, roles: Map<string, SiteRow>, instruments: Map<string, SiteRow>): DiscographyContribution[] {

@@ -38,7 +38,7 @@ const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',')
 const precision = (value: string | null): 'year' | 'month' | 'day' | 'uncertain' | null =>
 	value === 'year' || value === 'month' || value === 'day' || value === 'uncertain' ? value : null;
 
-const releaseLabel = (release: DiscographyEdition): string => release.format ?? (release.editionType === 'reissue' ? '再発' : release.editionType === 'original' ? '初版' : '版');
+const releaseLabel = (release: DiscographyEdition): string => release.format ?? (release.editionType === 'reissue' ? '再発' : '版');
 const trackVersion = (track: DiscographyTrack): string | null => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || null;
 const workTypeLabel = (type: string | null): string => ({ original: 'オリジナル作品', compilation: 'コンピレーション', best: 'ベスト作品', live: 'ライブ作品' })[type ?? ''] ?? '作品';
 const description = detail.work.description?.trim() || null;
@@ -127,23 +127,21 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 					{detail.releases.map((release) => (
 						<article class="edition-card" id={release.anchor ?? undefined}>
 							<header class="edition-card__header">
-								<div>
-									<p class="eyebrow">EDITION</p>
-									<h3>{releaseLabel(release)}</h3>
-									{release.editionType && <p class="edition-card__type">{release.editionType === 'reissue' ? '再発' : '初版'}</p>}
-								</div>
 								<div class="edition-card__artwork">
 									{release.artwork.url ? <Artwork url={release.artwork.url} width={release.artwork.width} height={release.artwork.height} alt={`${detail.work.title} ${releaseLabel(release)}のジャケット`} allowedOrigins={artworkOrigins} /> : <div class="edition-card__artwork-placeholder" role="img" aria-label={`${detail.work.title} ${releaseLabel(release)}のジャケット`}><span>{releaseLabel(release)}</span><strong>{detail.work.title}</strong></div>}
 								</div>
+								<div class="edition-card__summary">
+									<p class="eyebrow">EDITION</p>
+									<dl class="edition-card__metadata">
+										{release.format && <div><dt>Format</dt><dd>{release.format}</dd></div>}
+										{release.releaseDate && <div><dt>発売日</dt><dd><DateText value={release.releaseDate} precision={precision(release.releaseDatePrecision)} /></dd></div>}
+										{release.catalogNumber && <div><dt>カタログ番号</dt><dd>{release.catalogNumber}</dd></div>}
+										{release.labels.length > 0 && <div><dt>レーベル</dt><dd>{release.labels.map((label) => <span>{label.name}</span>)}</dd></div>}
+										{release.distributor && <div><dt>ディストリビューター</dt><dd>{release.distributor.name}</dd></div>}
+										{release.artwork.width && release.artwork.height && <div><dt>画像サイズ</dt><dd>{release.artwork.width} × {release.artwork.height}px</dd></div>}
+									</dl>
+								</div>
 							</header>
-
-							<dl class="edition-card__metadata">
-								{release.releaseDate && <div><dt>発売日</dt><dd><DateText value={release.releaseDate} precision={precision(release.releaseDatePrecision)} /></dd></div>}
-								{release.catalogNumber && <div><dt>カタログ番号</dt><dd>{release.catalogNumber}</dd></div>}
-								{release.labels.length > 0 && <div><dt>レーベル</dt><dd>{release.labels.map((label) => <span>{label.name}</span>)}</dd></div>}
-								{release.distributor && <div><dt>ディストリビューター</dt><dd>{release.distributor.name}</dd></div>}
-								{release.artwork.width && release.artwork.height && <div><dt>画像サイズ</dt><dd>{release.artwork.width} × {release.artwork.height}px</dd></div>}
-							</dl>
 
 							{release.reissueOf && (
 								<p class="edition-card__relation"><a href={release.reissueOf.href}>再発元: {release.reissueOf.label}</a></p>
@@ -155,7 +153,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 
 							{release.trackDiffs.length > 0 && (
 								<section aria-labelledby={`edition-${release.editionKey}-diff-title`} class="edition-card__diff">
-									<h4 id={`edition-${release.editionKey}-diff-title`}>初版との差分</h4>
+									<h4 id={`edition-${release.editionKey}-diff-title`}>収録曲の差分</h4>
 									<ul>
 										{release.trackDiffs.map((diff) => (
 											<li>{diff.kind === 'added' ? '追加' : diff.kind === 'removed' ? '削除' : '変更'}: {diff.trackNumber}. {diff.href ? <a href={diff.href}>{diff.title}</a> : diff.title}</li>
@@ -379,7 +377,6 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 
 	.track-list__version,
 	.track-list__note,
-	.edition-card__type,
 	.edition-card__relation {
 		color: var(--ink-muted);
 		font-size: 0.9em;
@@ -411,15 +408,19 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 
 	.edition-card__header {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+		grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
 		gap: var(--space-5);
 		align-items: start;
 	}
 
 	.edition-card__artwork {
 		width: 100%;
-		max-width: 9rem;
-		justify-self: end;
+		max-width: 12rem;
+		justify-self: start;
+	}
+
+	.edition-card__summary {
+		min-width: 0;
 	}
 
 	.edition-card__artwork .artwork-fallback,
@@ -472,7 +473,7 @@ const timelineHref = (value: string | null, datePrecision: string | null): strin
 	.edition-card__metadata {
 		display: grid;
 		gap: var(--space-2);
-		margin-block: var(--space-5);
+		margin-block: var(--space-4) 0;
 	}
 
 	.edition-card__metadata > div {
