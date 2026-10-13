@@ -38,18 +38,20 @@ const artworkOrigins = (import.meta.env.PUBLIC_ARTWORK_ORIGINS ?? '').split(',')
 const precision = (value: string | null): 'year' | 'month' | 'day' | 'uncertain' | null =>
 	value === 'year' || value === 'month' || value === 'day' || value === 'uncertain' ? value : null;
 
-const releaseLabel = (release: DiscographyEdition): string => release.format ?? '形式未登録';
-const trackVersion = (track: DiscographyTrack): string => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || '録音情報未登録';
+const releaseLabel = (release: DiscographyEdition): string => release.format ?? (release.editionType === 'reissue' ? '再発' : release.editionType === 'original' ? '初版' : '版');
+const trackVersion = (track: DiscographyTrack): string | null => [track.recording.versionName, track.recording.type].filter(Boolean).join(' · ') || null;
 const workTypeLabel = (type: string | null): string => ({ original: 'オリジナル作品', compilation: 'コンピレーション', best: 'ベスト作品', live: 'ライブ作品' })[type ?? ''] ?? '作品';
-const representativeArtwork = detail.representativeRelease.artwork;
+const description = detail.work.description?.trim() || null;
+const shortDescription = description?.split(/(?<=[。！？])/u, 1)[0] ?? null;
+const hasReview = Boolean(description);
 ---
 
 <SiteLayout title={detail.work.title} currentPath="/discography" breadcrumbs={[{ label: '作品', href: '/discography' }, { label: detail.work.title }]}>
 	<article class="discography-detail">
 		<header class="discography-detail__header" aria-labelledby="discography-detail-title">
-			<div class="discography-detail__artwork" aria-label={`${detail.work.title}の代表ジャケット`}>
-				{representativeArtwork.url ? (
-					<Artwork url={representativeArtwork.url} width={representativeArtwork.width} height={representativeArtwork.height} alt={`${detail.work.title}の代表ジャケット`} allowedOrigins={artworkOrigins} loading="eager" />
+			<div class="discography-detail__artwork" aria-label={`${detail.work.title}のジャケット`}>
+				{detail.representativeRelease.artwork.url ? (
+					<Artwork url={detail.representativeRelease.artwork.url} width={detail.representativeRelease.artwork.width} height={detail.representativeRelease.artwork.height} alt={`${detail.work.title}のジャケット`} allowedOrigins={artworkOrigins} loading="eager" />
 				) : (
 					<div class="discography-detail__artwork-placeholder" role="img" aria-label={`${detail.work.title}のジャケット画像は未登録`}>
 						<span>ARCHIVE / WORK</span>
@@ -59,39 +61,40 @@ const representativeArtwork = detail.representativeRelease.artwork;
 				)}
 			</div>
 			<div class="discography-detail__intro">
-				<p class="eyebrow">WORK / {workTypeLabel(detail.work.type).toUpperCase()}</p>
+				<p class="eyebrow">WORK</p>
 				<h1 id="discography-detail-title">{detail.work.title}</h1>
-				<div class="discography-detail__meta">
-					{detail.work.project && <EntityLink type="project" slug={detail.work.project.slug} label={detail.work.project.name} />}
-					{detail.work.releasedDate && <span><DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /></span>}
-					<span>{detail.releases.length > 0 ? `${detail.releases.length}版` : '版情報未登録'}</span>
-				</div>
-				{detail.work.description && <p class="discography-detail__description">{detail.work.description}</p>}
+				<dl class="discography-detail__meta">
+					{detail.work.project && <div><dt>Project</dt><dd><EntityLink type="project" slug={detail.work.project.slug} label={detail.work.project.name} /></dd></div>}
+					{detail.work.releasedDate && <div><dt>Release date</dt><dd><DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /></dd></div>}
+					{detail.work.type && <div><dt>Type</dt><dd>{workTypeLabel(detail.work.type)}</dd></div>}
+					{detail.representativeRelease.format && <div><dt>Format</dt><dd>{detail.representativeRelease.format}</dd></div>}
+					{detail.releases.length > 0 && <div><dt>Editions</dt><dd>{detail.releases.length}版</dd></div>}
+				</dl>
 			</div>
 		</header>
 
 		<nav class="discography-detail__section-nav" aria-label="作品内の移動">
 			<a href="#discography-tracks-title">収録曲</a>
-			<a href="#discography-editions-title">版を比べる</a>
+			{hasReview && <a href="#discography-review-title">レビュー</a>}
+			<a href="#discography-editions-title">版</a>
 			<a href="#connections-title">つながり</a>
 		</nav>
 
 		<div class="discography-detail__body">
-			<div>
 		<section aria-labelledby="discography-tracks-title" class="discography-detail__section">
-			<p class="eyebrow">TRACKLIST / 01</p>
-			<h2 id="discography-tracks-title">代表版の収録曲</h2>
-			{detail.representativeRelease.hasTracks ? (
+			<p class="eyebrow">TRACKLIST</p>
+			<h2 id="discography-tracks-title">収録曲</h2>
+			{detail.trackList.length > 0 ? (
 				<ol class="track-list">
-					{detail.representativeRelease.tracks.map((track) => (
+					{detail.trackList.map((track) => (
 						<li class="track-list__item">
 							<span class="track-list__number" aria-label={`${track.trackNumber}曲目`}>{track.trackNumber}</span>
 							<div class="track-list__main">
 								<div class="track-list__title-row">
 									<span>{track.href ? <a href={track.href}>{track.title}</a> : track.title}</span>
-									<span class="track-list__leader" aria-hidden="true"></span>
-									<span class="track-list__version">{trackVersion(track)}</span>
+									{trackVersion(track) && <span class="track-list__version">{trackVersion(track)}</span>}
 								</div>
+								{track.note && <small class="track-list__note">{track.note}</small>}
 							</div>
 						</li>
 					))}
@@ -101,9 +104,21 @@ const representativeArtwork = detail.representativeRelease.artwork;
 			)}
 		</section>
 
+		<section aria-labelledby="discography-introduction-title" class="discography-detail__section discography-detail__introduction">
+			<p class="eyebrow">ABOUT</p>
+			<h2 id="discography-introduction-title">作品紹介</h2>
+			{shortDescription ? <p>{shortDescription}</p> : null}
+		</section>
+
+		{hasReview && <section aria-labelledby="discography-review-title" class="discography-detail__section discography-detail__review">
+			<p class="eyebrow">REVIEW</p>
+			<h2 id="discography-review-title">レビュー</h2>
+			<p>{description}</p>
+		</section>}
+
 		<section aria-labelledby="discography-editions-title" class="discography-detail__section">
 			<p class="eyebrow">EDITIONS / 02</p>
-			<h2 id="discography-editions-title">同じ作品、異なる版。</h2>
+			<h2 id="discography-editions-title">版</h2>
 			{detail.releases.length === 0 ? (
 				<p class="empty-state">版情報はまだありません。</p>
 			) : (
@@ -116,15 +131,17 @@ const representativeArtwork = detail.representativeRelease.artwork;
 									<h3>{releaseLabel(release)}</h3>
 									{release.editionType && <p class="edition-card__type">{release.editionType === 'reissue' ? '再発' : '初版'}</p>}
 								</div>
-								<Artwork url={release.artwork.url} width={release.artwork.width} height={release.artwork.height} alt={`${detail.work.title} ${releaseLabel(release)}のジャケット`} allowedOrigins={artworkOrigins} />
+								<div class="edition-card__artwork">
+									{release.artwork.url ? <Artwork url={release.artwork.url} width={release.artwork.width} height={release.artwork.height} alt={`${detail.work.title} ${releaseLabel(release)}のジャケット`} allowedOrigins={artworkOrigins} /> : <div class="edition-card__artwork-placeholder" role="img" aria-label={`${detail.work.title} ${releaseLabel(release)}のジャケット`}><span>{releaseLabel(release)}</span><strong>{detail.work.title}</strong></div>}
+								</div>
 							</header>
 
 							<dl class="edition-card__metadata">
-								<div><dt>発売日</dt><dd>{release.releaseDate ? <DateText value={release.releaseDate} precision={precision(release.releaseDatePrecision)} /> : '発売日不明'}</dd></div>
+								{release.releaseDate && <div><dt>発売日</dt><dd><DateText value={release.releaseDate} precision={precision(release.releaseDatePrecision)} /></dd></div>}
 								{release.catalogNumber && <div><dt>カタログ番号</dt><dd>{release.catalogNumber}</dd></div>}
 								{release.labels.length > 0 && <div><dt>レーベル</dt><dd>{release.labels.map((label) => <span>{label.name}</span>)}</dd></div>}
 								{release.distributor && <div><dt>ディストリビューター</dt><dd>{release.distributor.name}</dd></div>}
-								<div><dt>画像メタデータ</dt><dd>{release.artwork.width && release.artwork.height ? `${release.artwork.width} × ${release.artwork.height}px` : '未登録'}</dd></div>
+								{release.artwork.width && release.artwork.height && <div><dt>画像サイズ</dt><dd>{release.artwork.width} × {release.artwork.height}px</dd></div>}
 							</dl>
 
 							{release.reissueOf && (
@@ -146,34 +163,15 @@ const representativeArtwork = detail.representativeRelease.artwork;
 								</section>
 							)}
 
-							<section aria-labelledby={`edition-${release.editionKey}-contributions-title`} class="edition-card__contributions">
+							{release.contributions.length > 0 && <section aria-labelledby={`edition-${release.editionKey}-contributions-title`} class="edition-card__contributions">
 								<h4 id={`edition-${release.editionKey}-contributions-title`}>参加者</h4>
-								{release.contributions.length > 0 ? (
-									<ul>
-										{release.contributions.map((contribution) => (
-											<li>
-												{contribution.person.href ? <a href={contribution.person.href}>{contribution.person.name}</a> : contribution.person.name}
-												<span> — {contribution.role}</span>
-												{contribution.instrument && <span>（{contribution.instrument}）</span>}
-											</li>
-										))}
-									</ul>
-								) : (
-									<p class="empty-state">参加者情報未登録</p>
-								)}
-							</section>
+								<ul>{release.contributions.map((contribution) => <li>{contribution.person.href ? <a href={contribution.person.href}>{contribution.person.name}</a> : contribution.person.name}<span> — {contribution.role}</span>{contribution.instrument && <span>（{contribution.instrument}）</span>}</li>)}</ul>
+							</section>}
 						</article>
 					))}
 				</div>
 			)}
 		</section>
-			</div>
-			<aside class="discography-detail__aside">
-				<p class="eyebrow">ARCHIVE NOTE</p>
-				<h2>作品の記録</h2>
-				<p>この作品に紐づく収録曲、版、参加者をまとめています。曲名から楽曲の収録・演奏記録へ移動できます。</p>
-				{detail.representativeRelease.releaseDate && <dl class="discography-detail__summary"><div><dt>代表版</dt><dd>{releaseLabel(detail.representativeRelease)}</dd></div><div><dt>発売</dt><dd><DateText value={detail.representativeRelease.releaseDate} precision={precision(detail.representativeRelease.releaseDatePrecision)} /></dd></div><div><dt>収録曲</dt><dd>{detail.representativeRelease.tracks.length}曲</dd></div></dl>}
-			</aside>
 		</div>
 
 		<ConnectionLinks links={detail.relatedLinks} />
@@ -252,10 +250,29 @@ const representativeArtwork = detail.representativeRelease.artwork;
 	}
 
 	.discography-detail__meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-2) var(--space-4);
+		display: grid;
+		gap: var(--space-2);
+		margin: 0;
+		max-width: 34rem;
+	}
+
+	.discography-detail__meta div {
+		display: grid;
+		grid-template-columns: 8rem minmax(0, 1fr);
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		border-block-end: 1px solid var(--rule);
+	}
+
+	.discography-detail__meta dt {
 		color: var(--ink-muted);
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+	}
+
+	.discography-detail__meta dd {
+		margin: 0;
 	}
 
 	.discography-detail__description {
@@ -283,14 +300,23 @@ const representativeArtwork = detail.representativeRelease.artwork;
 	}
 
 	.discography-detail__body {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
-		gap: clamp(var(--space-6), 8vw, var(--space-7));
-		align-items: start;
+		display: block;
 	}
 
 	.discography-detail__section {
 		margin-block: 0 var(--space-7);
+	}
+
+	.discography-detail__introduction,
+	.discography-detail__review {
+		max-width: 52rem;
+		padding-block-start: var(--space-5);
+		border-block-start: 1px solid var(--rule);
+	}
+
+	.discography-detail__review p {
+		max-width: 68ch;
+		white-space: pre-wrap;
 	}
 
 	.track-list {
@@ -323,22 +349,23 @@ const representativeArtwork = detail.representativeRelease.artwork;
 	}
 
 	.track-list__title-row {
-		display: grid;
-		grid-template-columns: auto minmax(2rem, 1fr) auto;
-		gap: var(--space-2);
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
 		align-items: baseline;
 	}
 
-	.track-list__leader {
-		min-width: 2rem;
-		border-block-end: 1px dotted var(--rule);
-	}
-
 	.track-list__version,
+	.track-list__note,
 	.edition-card__type,
 	.edition-card__relation {
 		color: var(--ink-muted);
 		font-size: 0.9em;
+	}
+
+	.track-list__note {
+		display: block;
+		margin-block-start: var(--space-1);
 	}
 
 	.edition-list {
@@ -347,42 +374,12 @@ const representativeArtwork = detail.representativeRelease.artwork;
 	}
 
 	.edition-card {
-		padding: var(--space-5);
+		padding: var(--space-4);
 		border: 1px solid var(--rule);
 		background: var(--surface);
 		box-shadow: 8px 8px 0 color-mix(in srgb, var(--rule) 45%, transparent);
 		scroll-margin-block-start: var(--space-5);
 	}
-
-	.discography-detail__aside {
-		position: sticky;
-		top: var(--space-4);
-		padding: var(--space-4);
-		border-block-start: 3px solid var(--accent);
-		background: var(--surface);
-	}
-
-	.discography-detail__aside h2 {
-		margin-block: var(--space-2) var(--space-3);
-		font-size: 1.25rem;
-	}
-
-	.discography-detail__summary {
-		display: grid;
-		gap: var(--space-2);
-		margin-block-start: var(--space-5);
-	}
-
-	.discography-detail__summary div {
-		display: flex;
-		justify-content: space-between;
-		gap: var(--space-3);
-		padding-block: var(--space-2);
-		border-block-end: 1px solid var(--rule);
-	}
-
-	.discography-detail__summary dt { color: var(--ink-muted); }
-	.discography-detail__summary dd { margin: 0; text-align: end; }
 
 	.edition-card__header {
 		display: grid;
@@ -391,12 +388,57 @@ const representativeArtwork = detail.representativeRelease.artwork;
 		align-items: start;
 	}
 
-	.edition-card__header .artwork-fallback,
-	.edition-card__header img {
+	.edition-card__artwork {
+		width: 100%;
+		max-width: 9rem;
+		justify-self: end;
+	}
+
+	.edition-card__artwork .artwork-fallback,
+	.edition-card__artwork img {
 		width: 100%;
 		height: auto;
 		aspect-ratio: 1;
 		object-fit: contain;
+	}
+
+	.edition-card__artwork-placeholder {
+		position: relative;
+		display: flex;
+		aspect-ratio: 1;
+		flex-direction: column;
+		justify-content: space-between;
+		overflow: hidden;
+		padding: var(--space-3);
+		border: 1px solid var(--rule);
+		background: var(--ground);
+	}
+
+	.edition-card__artwork-placeholder::before {
+		position: absolute;
+		inset-block: 18%;
+		left: 50%;
+		border-inline-start: 1px solid var(--rule);
+		content: '';
+		transform: rotate(28deg);
+	}
+
+	.edition-card__artwork-placeholder span,
+	.edition-card__artwork-placeholder strong {
+		position: relative;
+	}
+
+	.edition-card__artwork-placeholder span {
+		color: var(--ink-muted);
+		font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: 0.6rem;
+	}
+
+	.edition-card__artwork-placeholder strong {
+		font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+		font-size: 1rem;
+		line-height: 1.2;
+		overflow-wrap: anywhere;
 	}
 
 	.edition-card__metadata {
@@ -453,32 +495,26 @@ const representativeArtwork = detail.representativeRelease.artwork;
 			max-width: 22rem;
 		}
 
-		.discography-detail__aside {
-			position: static;
-		}
-
 		.track-list__title-row {
-			grid-template-columns: 1fr;
-		}
-
-		.track-list__leader {
-			display: none;
-		}
-
-		.edition-card {
-			padding: var(--space-4);
+			align-items: start;
+			flex-direction: column;
 		}
 
 		.edition-card__header {
 			grid-template-columns: 1fr;
 		}
 
-		.edition-card__header .artwork-fallback,
-		.edition-card__header img {
+		.edition-card__artwork {
+			justify-self: start;
 			max-width: 12rem;
 		}
 
 		.edition-card__metadata > div {
+			grid-template-columns: 1fr;
+			gap: var(--space-1);
+		}
+
+		.discography-detail__meta div {
 			grid-template-columns: 1fr;
 			gap: var(--space-1);
 		}

@@ -31,6 +31,7 @@ export type DiscographyTrack = {
 	href?: string;
 	composition: { title: string; href?: string };
 	recording: { versionName: string | null; type: string | null };
+	note: string | null;
 };
 
 export type DiscographyTrackDiff = {
@@ -87,6 +88,7 @@ export type DiscographyDetail = {
 		project: DiscographyEntityLink | null;
 	};
 	representativeRelease: DiscographyEdition;
+	trackList: DiscographyTrack[];
 	releases: DiscographyEdition[];
 	relatedLinks: AdjacentLink[];
 };
@@ -137,6 +139,7 @@ export const buildDiscographyDetail = (source: DiscographyDetailSource, slug: st
 
 	const representativeRelease = editions.find((edition) => edition.id === representativeId) ?? createEmptyEdition();
 	const representativeTracks = representativeRelease.tracks;
+	const trackList = buildTrackList(representativeTracks, editions.filter((edition) => edition.id !== representativeRelease.id));
 	for (const edition of editions) {
 		edition.trackDiffs = edition.id === representativeRelease.id ? [] : buildTrackDiffs(representativeTracks, edition.tracks);
 	}
@@ -153,6 +156,7 @@ export const buildDiscographyDetail = (source: DiscographyDetailSource, slug: st
 			project: projectLink,
 		},
 		representativeRelease,
+		trackList,
 		releases: editions,
 		relatedLinks: buildRelatedLinks(source.workProject, projects, workId, projectLink),
 	};
@@ -226,7 +230,30 @@ function buildTrack(track: SiteRow, recordings: Map<string, SiteRow>, compositio
 			versionName: nullableString(recording?.versionName),
 			type: nullableString(recording?.type),
 		},
+		note: null,
 	};
+}
+
+function buildTrackList(baseTracks: readonly DiscographyTrack[], additionalEditions: readonly DiscographyEdition[]): DiscographyTrack[] {
+	const tracks = baseTracks.map((track) => ({ ...track }));
+	const seen = new Set(baseTracks.map(trackIdentity));
+	for (const edition of additionalEditions) {
+		for (const track of edition.tracks) {
+			const identity = trackIdentity(track);
+			if (seen.has(identity)) continue;
+			seen.add(identity);
+			tracks.push({ ...track, note: `${editionLabel(edition)}で追加収録` });
+		}
+	}
+	return tracks.sort(compareTracks);
+}
+
+function trackIdentity(track: DiscographyTrack): string {
+	return `${track.title}:${track.recording.versionName ?? ''}:${track.recording.type ?? ''}`;
+}
+
+function editionLabel(edition: DiscographyEdition): string {
+	return edition.format ? `${edition.format}版` : edition.editionType === 'reissue' ? '再発版' : '別版';
 }
 
 function buildContributions(rows: readonly SiteRow[], releaseId: string, people: Map<string, SiteRow>, roles: Map<string, SiteRow>, instruments: Map<string, SiteRow>): DiscographyContribution[] {
