@@ -44,6 +44,11 @@ const workTypeLabel = (type: string | null): string => ({ original: 'オリジ�
 const description = detail.work.description?.trim() || null;
 const shortDescription = description?.split(/(?<=[。！？])/u, 1)[0] ?? null;
 const hasReview = Boolean(description);
+const timelineHref = (value: string | null, datePrecision: string | null): string | null => {
+	if (!value) return null;
+	const year = value.slice(0, 4);
+	return datePrecision === 'year' || value.length < 7 ? `/timeline#y${year}` : `/timeline#y${value.slice(0, 7)}`;
+};
 ---
 
 <SiteLayout title={detail.work.title} currentPath="/discography" breadcrumbs={[{ label: '作品', href: '/discography' }, { label: detail.work.title }]}>
@@ -65,11 +70,12 @@ const hasReview = Boolean(description);
 				<h1 id="discography-detail-title">{detail.work.title}</h1>
 				<dl class="discography-detail__meta">
 					{detail.work.project && <div><dt>Project</dt><dd><EntityLink type="project" slug={detail.work.project.slug} label={detail.work.project.name} /></dd></div>}
-					{detail.work.releasedDate && <div><dt>Release date</dt><dd><DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /></dd></div>}
+					{detail.work.releasedDate && <div><dt>Release date</dt><dd>{timelineHref(detail.work.releasedDate, detail.work.releasedDatePrecision) ? <a href={timelineHref(detail.work.releasedDate, detail.work.releasedDatePrecision) as string}><DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} /></a> : <DateText value={detail.work.releasedDate} precision={precision(detail.work.releasedDatePrecision)} />}</dd></div>}
 					{detail.work.type && <div><dt>Type</dt><dd>{workTypeLabel(detail.work.type)}</dd></div>}
 					{detail.representativeRelease.format && <div><dt>Format</dt><dd>{detail.representativeRelease.format}</dd></div>}
 					{detail.releases.length > 0 && <div><dt>Editions</dt><dd>{detail.releases.length}版</dd></div>}
 				</dl>
+				{shortDescription && <p class="discography-detail__description">{shortDescription}</p>}
 			</div>
 		</header>
 
@@ -102,12 +108,6 @@ const hasReview = Boolean(description);
 			) : (
 				<p class="empty-state">収録曲情報未登録</p>
 			)}
-		</section>
-
-		<section aria-labelledby="discography-introduction-title" class="discography-detail__section discography-detail__introduction">
-			<p class="eyebrow">ABOUT</p>
-			<h2 id="discography-introduction-title">作品紹介</h2>
-			{shortDescription ? <p>{shortDescription}</p> : null}
 		</section>
 
 		{hasReview && <section aria-labelledby="discography-review-title" class="discography-detail__section discography-detail__review">
@@ -307,7 +307,6 @@ const hasReview = Boolean(description);
 		margin-block: 0 var(--space-7);
 	}
 
-	.discography-detail__introduction,
 	.discography-detail__review {
 		max-width: 52rem;
 		padding-block-start: var(--space-5);

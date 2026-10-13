@@ -315,11 +315,15 @@ function buildRelatedLinks(workProjects: readonly SiteRow[], projects: Map<strin
 		const link = project ? entityLink('project', project) : null;
 		if (link?.href && !seen.has(link.href)) {
 			seen.add(link.href);
-			links.push({ label: link.name, href: link.href });
+			links.push({ label: `${link.name}（${relationLabel(stringValue(row.relationType))}）`, href: link.href });
 		}
 	}
-	if (fallback?.href && !seen.has(fallback.href)) links.push({ label: fallback.name, href: fallback.href });
+	if (fallback?.href && !seen.has(fallback.href)) links.push({ label: `${fallback.name}（主名義）`, href: fallback.href });
 	return links;
+}
+
+function relationLabel(relationType: string): string {
+	return relationType === 'participant' ? '参加名義' : relationType === 'primary' ? '主名義' : '関連名義';
 }
 
 function prepareReleases(rows: readonly SiteRow[]): PreparedRelease[] {
